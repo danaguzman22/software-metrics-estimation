@@ -127,7 +127,7 @@ La aplicación deberá generar un reporte de un proyecto o Sprint incluyendo:
 
 ---
 
-## 🛠️ Tecnologías y metodologías
+## Tecnologías y metodologías
 
 El proyecto deberá desarrollarse utilizando:
 
@@ -222,8 +222,8 @@ Actualmente el proyecto se encuentra en la etapa inicial de configuración.
 
 - [x] Formación del equipo.
 - [x] Asignación de roles.
-- [ ] Creación y configuración del repositorio.
-- [ ] Configuración de GitHub Projects.
+- [x] Creación y configuración del repositorio.
+- [x] Configuración de GitHub Projects.
 - [ ] Elaboración del Product Backlog inicial.
 - [ ] Reunión inicial con los Product Architects.
 
@@ -259,7 +259,7 @@ El proyecto deberá contemplar:
 
 ---
 
-## 📍 Institución
+## Institución
 
 **Universidad Tecnológica Nacional — Facultad Regional San Rafael**
 
