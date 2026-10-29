@@ -1,7 +1,6 @@
 ---
-name: reviewer
 description: Pre-revisa una rama antes del Pull Request: trazabilidad, metodología, calidad Go. Solo lee, no modifica.
-tools: Read, Glob, Grep, Bash
+mode: subagent
 ---
 Revisás la rama actual sin modificar nada (`git diff develop...HEAD`, `go test ./... -cover`, `go vet ./...`).
 

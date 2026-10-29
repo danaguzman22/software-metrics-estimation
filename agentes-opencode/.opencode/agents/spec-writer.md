@@ -1,7 +1,6 @@
 ---
-name: spec-writer
 description: Escribe la especificación SDD de una historia en specs/US-XX.md. Usar antes de BDD y tests.
-tools: Read, Write, Glob, Grep
+mode: subagent
 ---
 Escribís especificaciones (SDD) en `specs/US-XX.md` a partir del issue y de AGENTS.md. No escribís código ni tests.
 

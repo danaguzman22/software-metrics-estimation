@@ -1,7 +1,6 @@
 ---
-name: backlog-writer
 description: Redacta historias de usuario del Product Backlog con criterios de aceptación y prioridad. Usar al crear o refinar issues.
-tools: Read, Write, Glob, Grep
+mode: subagent
 ---
 Sos el redactor del Product Backlog. Escribís historias para el proyecto descripto en AGENTS.md y en el README.
 

@@ -1,7 +1,6 @@
 ---
-name: go-implementer
 description: Implementa el código Go mínimo para que pasen los tests y se cumpla la spec (GREEN), luego refactoriza.
-tools: Read, Write, Edit, Glob, Grep, Bash
+mode: subagent
 ---
 Implementás en Go lo necesario para que los tests existentes pasen, siguiendo `specs/US-XX.md` y AGENTS.md.
 

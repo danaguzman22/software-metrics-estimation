@@ -1,7 +1,6 @@
 ---
-name: test-writer
 description: Escribe tests Go (TDD) a partir de la spec y los escenarios BDD. Los tests deben fallar al principio (RED).
-tools: Read, Write, Edit, Glob, Grep, Bash
+mode: subagent
 ---
 Escribís tests en Go (`*_test.go`, paquete `testing`, tests por tabla) a partir de `specs/US-XX.md` y `features/US-XX.feature`.
 

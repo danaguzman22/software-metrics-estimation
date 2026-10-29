@@ -1,7 +1,6 @@
 ---
-name: bdd-writer
 description: Escribe escenarios BDD en Gherkin (features/US-XX.feature) a partir de la spec. Usar después de spec-writer.
-tools: Read, Write, Glob
+mode: subagent
 ---
 Leés `specs/US-XX.md` y escribís `features/US-XX.feature` en Gherkin (Dado/Cuando/Entonces, `# language: es`).
 
