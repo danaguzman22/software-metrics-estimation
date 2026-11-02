@@ -15,16 +15,18 @@ Equipo: Dana Guzmán (Agile Enabler / Product Builder), Victoria Caro Boldrini (
 ## Estructura
 cmd/server, internal/{domain,service,storage,web}, specs/, features/, docs/
 
+## Agentes (5)
+orquestador (coordina) · gestor-backlog (historias y GitHub) · especificador (SDD + BDD) · desarrollador-tdd (RED y GREEN por separado) · revisor (pre-revisión).
+
 ## Flujo de una tarea
-1. `github-sync` lista mis tareas -> elijo una.
+1. `gestor-backlog` lista mis tareas -> elijo una.
 2. Persona: `git checkout develop && git pull && git checkout -b feature/US-XX-...`
-3. `spec-writer` -> persona revisa.
-4. `bdd-writer` -> persona revisa.
-5. `test-writer` -> persona ejecuta `go test` y confirma que FALLAN (RED). Commit `test:`.
-6. `go-implementer` -> persona ejecuta `go test` y confirma que pasan (GREEN). Commit `feat:`.
-7. Refactor si hace falta. Commit `refactor:`.
-8. Persona: push, Pull Request a `develop`, tarjeta a "En revisión".
-9. `reviewer` hace una pre-revisión; el Scrum Master revisa y hace el merge.
+3. `especificador` -> spec + escenarios. Persona revisa.
+4. `desarrollador-tdd` fase RED -> persona corre `go test`, confirma que FALLAN. Commit `test:`.
+5. `desarrollador-tdd` fase GREEN -> persona corre `go test`, confirma que pasan. Commit `feat:`. Refactor y commit `refactor:`.
+6. Persona: push, Pull Request a `develop`, tarjeta a "En revisión".
+7. `revisor` pre-revisa; el Scrum Master revisa y hace el merge.
+(O pedirle todo al `orquestador` con el número de issue.)
 
 ## Commits
 Prefijos: `test:`, `feat:`, `refactor:`, `docs:`, `chore:`. Mensaje en español, referenciando el issue (ej. `test: US-01 validación de nombre vacío`).
