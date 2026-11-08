@@ -20,6 +20,13 @@ Característica: Crear proyecto
     Entonces se devuelve un error de validación
     Y la creación del proyecto no se completa exitosamente
 
+  @CA2
+  Escenario: Nombre compuesto únicamente por espacios devuelve error de validación
+    Dado un integrante que quiere crear un proyecto
+    Cuando ingresa el nombre "   ", la fecha de inicio "1 de marzo de 2026" y la fecha de fin "30 de junio de 2026"
+    Entonces se devuelve un error de validación
+    Y la creación del proyecto no se completa exitosamente
+
   @CA3
   Escenario: Fecha de fin anterior a la fecha de inicio devuelve error
     Dado un integrante que quiere crear un proyecto

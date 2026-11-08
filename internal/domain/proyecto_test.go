@@ -1,6 +1,7 @@
 package domain_test
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -11,27 +12,46 @@ func fechaUS01(anio int, mes time.Month, dia int) time.Time {
 	return time.Date(anio, mes, dia, 0, 0, 0, 0, time.UTC)
 }
 
+// verificarProyectoVacio comprueba que un error de validación devuelve el
+// valor cero de domain.Proyecto.
+func verificarProyectoVacio(t *testing.T, proyecto domain.Proyecto) {
+	t.Helper()
+	if proyecto != (domain.Proyecto{}) {
+		t.Errorf("se esperaba domain.Proyecto{} ante un error, se obtuvo %+v", proyecto)
+	}
+}
+
 // CA1 / R1: el proyecto se crea con los tres datos y los conserva.
 func TestUS01_CreacionExitosa(t *testing.T) {
 	casos := []struct {
+		descripcion string
 		nombre      string
 		fechaInicio time.Time
 		fechaFin    time.Time
 	}{
 		{
+			descripcion: "datos válidos",
 			nombre:      "Sistema de Métricas",
 			fechaInicio: fechaUS01(2026, time.March, 1),
 			fechaFin:    fechaUS01(2026, time.June, 30),
 		},
 		{
+			descripcion: "otro proyecto",
 			nombre:      "Otro proyecto",
 			fechaInicio: fechaUS01(2026, time.January, 15),
 			fechaFin:    fechaUS01(2026, time.December, 31),
 		},
+		{
+			// D2: un nombre válido conserva los espacios externos tal como se ingresó.
+			descripcion: "nombre con espacios externos se conserva",
+			nombre:      "  Proyecto con espacios  ",
+			fechaInicio: fechaUS01(2026, time.March, 1),
+			fechaFin:    fechaUS01(2026, time.June, 30),
+		},
 	}
 
 	for _, caso := range casos {
-		t.Run(caso.nombre, func(t *testing.T) {
+		t.Run(caso.descripcion, func(t *testing.T) {
 			proyecto, err := domain.NuevoProyecto(caso.nombre, caso.fechaInicio, caso.fechaFin)
 			if err != nil {
 				t.Fatalf("NuevoProyecto() devolvió un error inesperado: %v", err)
@@ -49,7 +69,7 @@ func TestUS01_CreacionExitosa(t *testing.T) {
 	}
 }
 
-// CA2 / R2 / V1: un nombre vacío devuelve un error de validación.
+// CA2 / R2 / V1: un nombre vacío o compuesto solo por espacios devuelve ErrNombreVacio.
 func TestUS01_NombreVacio(t *testing.T) {
 	casos := []struct {
 		descripcion string
@@ -59,19 +79,28 @@ func TestUS01_NombreVacio(t *testing.T) {
 			descripcion: "nombre vacío",
 			nombre:      "",
 		},
+		{
+			// D2: un nombre compuesto únicamente por espacios se considera vacío.
+			descripcion: "nombre compuesto solo por espacios",
+			nombre:      "   ",
+		},
 	}
 
 	for _, caso := range casos {
 		t.Run(caso.descripcion, func(t *testing.T) {
-			_, err := domain.NuevoProyecto(caso.nombre, fechaUS01(2026, time.March, 1), fechaUS01(2026, time.June, 30))
+			proyecto, err := domain.NuevoProyecto(caso.nombre, fechaUS01(2026, time.March, 1), fechaUS01(2026, time.June, 30))
 			if err == nil {
-				t.Fatal("NuevoProyecto() con nombre vacío debería devolver un error de validación")
+				t.Fatal("NuevoProyecto() con nombre vacío o solo espacios debería devolver un error de validación")
 			}
+			if !errors.Is(err, domain.ErrNombreVacio) {
+				t.Errorf("err = %v, se esperaba %v", err, domain.ErrNombreVacio)
+			}
+			verificarProyectoVacio(t, proyecto)
 		})
 	}
 }
 
-// CA3 / R3 / V2: una fecha de fin anterior a la de inicio devuelve un error.
+// CA3 / R3 / V2: una fecha de fin anterior a la de inicio devuelve ErrFechaFinAnteriorAInicio.
 func TestUS01_FechaFinAnteriorAInicio(t *testing.T) {
 	casos := []struct {
 		descripcion string
@@ -89,10 +118,14 @@ func TestUS01_FechaFinAnteriorAInicio(t *testing.T) {
 
 	for _, caso := range casos {
 		t.Run(caso.descripcion, func(t *testing.T) {
-			_, err := domain.NuevoProyecto(caso.nombre, caso.fechaInicio, caso.fechaFin)
+			proyecto, err := domain.NuevoProyecto(caso.nombre, caso.fechaInicio, caso.fechaFin)
 			if err == nil {
 				t.Fatal("NuevoProyecto() con fecha de fin anterior al inicio debería devolver un error")
 			}
+			if !errors.Is(err, domain.ErrFechaFinAnteriorAInicio) {
+				t.Errorf("err = %v, se esperaba %v", err, domain.ErrFechaFinAnteriorAInicio)
+			}
+			verificarProyectoVacio(t, proyecto)
 		})
 	}
 }
@@ -126,7 +159,7 @@ func TestUS01_EstadoInicialPlanificado(t *testing.T) {
 	}
 }
 
-// CA1 / CA3: fecha de fin igual a la de inicio es válida (confirmado por la persona).
+// CA1 / CA3: fecha de fin igual a la de inicio es válida (D1 confirmada por la persona).
 func TestUS01_FechasIgualesValidas(t *testing.T) {
 	casos := []struct {
 		descripcion string
