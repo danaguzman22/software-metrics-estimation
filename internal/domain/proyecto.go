@@ -54,3 +54,30 @@ func NuevoProyecto(nombre string, fechaInicio, fechaFin time.Time) (Proyecto, er
 		Estado:      EstadoPlanificado,
 	}, nil
 }
+
+// ModificarProyecto devuelve una copia del proyecto existente con el nombre y
+// las fechas indicados, conservando su estado actual.
+//
+// Reutiliza las validaciones de NuevoProyecto: el nombre no puede estar vacío
+// ni compuesto únicamente por espacios, y la fecha de fin no puede ser anterior
+// a la de inicio. El nombre se valida antes que las fechas. Si el nombre es
+// válido se conserva tal como se ingresó, sin recortar espacios externos.
+//
+// Ante cualquier error se devuelve Proyecto{} y el proyecto recibido no se
+// muta. El estado nunca se modifica.
+//
+// Limitación: el tratamiento de fechas cero o faltantes queda fuera del
+// alcance de US-02. La función recibe time.Time y no valida fechas cero.
+func ModificarProyecto(
+	proyecto Proyecto,
+	nombre string,
+	fechaInicio, fechaFin time.Time,
+) (Proyecto, error) {
+	modificado, err := NuevoProyecto(nombre, fechaInicio, fechaFin)
+	if err != nil {
+		return Proyecto{}, err
+	}
+
+	modificado.Estado = proyecto.Estado
+	return modificado, nil
+}
