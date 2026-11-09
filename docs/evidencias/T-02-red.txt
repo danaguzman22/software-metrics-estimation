@@ -1,0 +1,13 @@
+# github.com/danaguzman22/software-metrics-estimation/internal/storage [github.com/danaguzman22/software-metrics-estimation/internal/storage.test]
+internal\storage\storage_test.go:15:35: undefined: JSONStore
+internal\storage\storage_test.go:18:12: undefined: NewJSONStore
+internal\storage\storage_test.go:43:57: undefined: ErrNotFound
+internal\storage\storage_test.go:54:50: undefined: ErrCorrupt
+internal\storage\storage_test.go:65:34: undefined: ErrCorrupt
+internal\storage\storage_test.go:74:57: undefined: ErrInvalidName
+internal\storage\storage_test.go:78:50: undefined: ErrInvalidName
+internal\storage\storage_test.go:91:15: undefined: NewJSONStore
+internal\storage\storage_test.go:100:15: undefined: NewJSONStore
+note: module requires Go 1.24
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage [build failed]
+FAIL
