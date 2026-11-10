@@ -1,6 +1,9 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 // Errores de dominio de integrantes (D6).
 var (
@@ -28,19 +31,30 @@ type Integrante struct {
 // y el rol tampoco (C4); el nombre se valida antes que el rol (C7). Ambos se
 // guardan sin espacios al inicio y al final, respetando mayúsculas (C6).
 // Ante cualquier error se devuelve Integrante{}.
-//
-// Stub de la fase RED de US-03: sin lógica; devuelve Integrante{} y un error
-// "no implementado" para que los tests fallen por separado.
 func NuevoIntegrante(nombre, rol string) (Integrante, error) {
-	return Integrante{}, errors.New("no implementado")
+	nombre = strings.TrimSpace(nombre)
+	rol = strings.TrimSpace(rol)
+
+	if nombre == "" {
+		return Integrante{}, ErrNombreIntegranteVacio
+	}
+	if rol == "" {
+		return Integrante{}, ErrRolIntegranteVacio
+	}
+
+	return Integrante{Nombre: nombre, Rol: rol}, nil
 }
 
 // EsDuplicado indica si el nombre ya está entre los integrantes existentes
 // de un mismo proyecto, ignorando mayúsculas y espacios al inicio y al final
 // (C2). El rol no participa en la comparación y los espacios internos sí
 // distinguen (C8).
-//
-// Stub de la fase RED de US-03: sin lógica; devuelve siempre false.
 func EsDuplicado(existentes []Integrante, nombre string) bool {
+	nombre = strings.TrimSpace(nombre)
+	for _, existente := range existentes {
+		if strings.EqualFold(strings.TrimSpace(existente.Nombre), nombre) {
+			return true
+		}
+	}
 	return false
 }
