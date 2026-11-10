@@ -19,6 +19,8 @@ var (
 	ErrNombreVacio = errors.New("el nombre del proyecto no puede estar vacío")
 	// ErrFechaFinAnteriorAInicio indica que la fecha de fin es anterior a la de inicio.
 	ErrFechaFinAnteriorAInicio = errors.New("la fecha de fin no puede ser anterior a la fecha de inicio")
+	// ErrProyectoNoEncontrado indica que no existe un proyecto con el ID indicado.
+	ErrProyectoNoEncontrado = errors.New("no se encontró el proyecto")
 )
 
 // Proyecto representa un proyecto con nombre, fechas y estado.
