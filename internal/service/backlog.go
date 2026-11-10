@@ -48,24 +48,8 @@ func NuevoServicioBacklog(almacen almacen) *ServicioBacklog {
 func (s *ServicioBacklog) CrearItem(
 	proyectoID, titulo, descripcion, prioridad string, criterios []string,
 ) (domain.ItemBacklog, error) {
-	var proyectos []proyectoRegistrado
-	if err := s.almacen.Load("proyectos", &proyectos); err != nil {
-		if !errors.Is(err, storage.ErrNotFound) {
-			return domain.ItemBacklog{}, fmt.Errorf("service: cargar proyectos: %w", err)
-		}
-		// D2: un archivo inexistente se interpreta como colección vacía.
-		proyectos = nil
-	}
-
-	encontrado := false
-	for _, registro := range proyectos {
-		if registro.ID == proyectoID {
-			encontrado = true
-			break
-		}
-	}
-	if !encontrado {
-		return domain.ItemBacklog{}, domain.ErrProyectoNoEncontrado
+	if err := verificarProyectoExistente(s.almacen, proyectoID); err != nil {
+		return domain.ItemBacklog{}, err
 	}
 
 	nuevo, err := domain.NuevoItemBacklog(titulo, descripcion, prioridad, criterios)
