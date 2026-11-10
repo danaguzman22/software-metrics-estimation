@@ -1,5 +1,5 @@
 # language: es
-# US-05 pendiente de implementación: solo spec (specs/US-05.md) y estos escenarios.
+# Estado: Implementada
 # Los escenarios describen el comportamiento acordado para CA1–CA4 y las decisiones
 # confirmadas: ítem en un proyecto existente identificado por ID; ID automático "HU-01",
 # "HU-02", ... único dentro del proyecto y siguiente al mayor existente; título no vacío
