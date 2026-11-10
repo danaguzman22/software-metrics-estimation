@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"testing"
@@ -194,4 +195,268 @@ func TestUS03_AgregarIntegrante_MismoNombreEnOtroProyecto(t *testing.T) {
 		domain.Integrante{Nombre: "Dana Guzmán", Rol: "Desarrollador"})
 	verificarIntegrante(t, buscarRegistroIntegrante(t, coleccion, "p2", "Dana Guzmán").Integrante,
 		domain.Integrante{Nombre: "Dana Guzmán", Rol: "Tester"})
+}
+
+// CA2 / R2 / C2: un duplicado exacto devuelve ErrIntegranteDuplicado y no se
+// registra (D6).
+func TestUS03_AgregarIntegrante_DuplicadoExacto(t *testing.T) {
+	almacen, _ := nuevoAlmacenServicio(t)
+	existente := domain.Integrante{Nombre: "Dana Guzmán", Rol: "Desarrollador"}
+	sembrarProyectos(t, almacen, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+	})
+	sembrarIntegrantes(t, almacen, []integranteRegistrado{
+		{ProyectoID: "p1", Integrante: existente},
+	})
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Tester")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con un duplicado exacto debería devolver un error")
+	}
+	if !errors.Is(err, domain.ErrIntegranteDuplicado) {
+		t.Errorf("err = %v, se esperaba %v", err, domain.ErrIntegranteDuplicado)
+	}
+	verificarIntegranteVacio(t, agregado)
+
+	coleccion := cargarIntegrantes(t, almacen)
+	if len(coleccion) != 1 {
+		t.Fatalf("se esperaba 1 integrante persistido, hay %d", len(coleccion))
+	}
+	verificarIntegrante(t, buscarRegistroIntegrante(t, coleccion, "p1", "Dana Guzmán").Integrante, existente)
+}
+
+// CA4 / R7 / R6: un rol vacío o compuesto solo por espacios devuelve
+// ErrRolIntegranteVacio, no agrega y conserva lo persistido (D6).
+func TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste(t *testing.T) {
+	casos := []struct {
+		descripcion string
+		rol         string
+	}{
+		{descripcion: "rol vacío", rol: ""},
+		{descripcion: "rol compuesto solo por espacios", rol: "   "},
+	}
+
+	for _, caso := range casos {
+		t.Run(caso.descripcion, func(t *testing.T) {
+			almacenReal, _ := nuevoAlmacenServicio(t)
+			existente := domain.Integrante{Nombre: "Dana Guzmán", Rol: "Desarrollador"}
+			sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+			})
+			sembrarIntegrantes(t, almacenReal, []integranteRegistrado{
+				{ProyectoID: "p1", Integrante: existente},
+			})
+			almacen := &almacenCuentaSaves{real: almacenReal}
+			servicio := NuevoServicioProyectos(almacen)
+
+			agregado, err := servicio.AgregarIntegrante("p1", "Victoria Caro Boldrini", caso.rol)
+			if err == nil {
+				t.Fatal("AgregarIntegrante() con rol vacío debería devolver un error")
+			}
+			if !errors.Is(err, domain.ErrRolIntegranteVacio) {
+				t.Errorf("err = %v, se esperaba %v", err, domain.ErrRolIntegranteVacio)
+			}
+			verificarIntegranteVacio(t, agregado)
+
+			if almacen.llamadasASave != 0 {
+				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
+			}
+
+			coleccion := cargarIntegrantes(t, almacenReal)
+			if len(coleccion) != 1 {
+				t.Fatalf("se esperaba 1 integrante persistido, hay %d", len(coleccion))
+			}
+			verificarIntegrante(t, buscarRegistroIntegrante(t, coleccion, "p1", "Dana Guzmán").Integrante, existente)
+		})
+	}
+}
+
+// CA2 / CA3 / CA4 / R6: ningún camino de error escribe la colección
+// "integrantes" ni altera lo ya persistido.
+func TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste(t *testing.T) {
+	casos := []struct {
+		descripcion   string
+		nombre        string
+		rol           string
+		errorEsperado error
+	}{
+		{
+			descripcion:   "nombre vacío",
+			nombre:        "",
+			rol:           "Desarrollador",
+			errorEsperado: domain.ErrNombreIntegranteVacio,
+		},
+		{
+			descripcion:   "rol vacío",
+			nombre:        "Victoria Caro Boldrini",
+			rol:           "",
+			errorEsperado: domain.ErrRolIntegranteVacio,
+		},
+		{
+			descripcion:   "duplicado exacto",
+			nombre:        "Dana Guzmán",
+			rol:           "Desarrollador",
+			errorEsperado: domain.ErrIntegranteDuplicado,
+		},
+	}
+
+	for _, caso := range casos {
+		t.Run(caso.descripcion, func(t *testing.T) {
+			almacenReal, _ := nuevoAlmacenServicio(t)
+			existente := domain.Integrante{Nombre: "Dana Guzmán", Rol: "Desarrollador"}
+			sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+			})
+			sembrarIntegrantes(t, almacenReal, []integranteRegistrado{
+				{ProyectoID: "p1", Integrante: existente},
+			})
+			almacen := &almacenCuentaSaves{real: almacenReal}
+			servicio := NuevoServicioProyectos(almacen)
+
+			agregado, err := servicio.AgregarIntegrante("p1", caso.nombre, caso.rol)
+			if err == nil {
+				t.Fatal("AgregarIntegrante() con datos inválidos debería devolver un error")
+			}
+			if !errors.Is(err, caso.errorEsperado) {
+				t.Errorf("err = %v, se esperaba %v", err, caso.errorEsperado)
+			}
+			verificarIntegranteVacio(t, agregado)
+
+			// En ningún camino de error se escribe "integrantes".
+			if almacen.llamadasASave != 0 {
+				t.Errorf("Save fue invocado %d veces ante un error; no debía escribirse nada", almacen.llamadasASave)
+			}
+
+			coleccion := cargarIntegrantes(t, almacenReal)
+			if len(coleccion) != 1 {
+				t.Fatalf("se esperaba 1 integrante persistido, hay %d", len(coleccion))
+			}
+			verificarIntegrante(t, buscarRegistroIntegrante(t, coleccion, "p1", "Dana Guzmán").Integrante, existente)
+		})
+	}
+}
+
+// CA1 / R5 / C1: un ID ausente en una colección con otros proyectos devuelve
+// ErrProyectoNoEncontrado y no escribe nada.
+func TestUS03_AgregarIntegrante_ProyectoNoEncontrado(t *testing.T) {
+	almacenReal, dir := nuevoAlmacenServicio(t)
+	sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+		{ID: "p2", Proyecto: proyectoUS02Servicio("Otro proyecto", domain.EstadoPlanificado)},
+	})
+	almacen := &almacenCuentaSaves{real: almacenReal}
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("ausente", "Dana Guzmán", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con un ID inexistente debería devolver un error")
+	}
+	if !errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
+	}
+	verificarIntegranteVacio(t, agregado)
+
+	if almacen.llamadasASave != 0 {
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
+	}
+	if _, err := os.Stat(filepath.Join(dir, "integrantes.json")); !os.IsNotExist(err) {
+		t.Fatalf("integrantes.json no debería existir ante un proyecto inexistente: err = %v", err)
+	}
+}
+
+// CA1 / R5 / R4 / C7: la existencia del proyecto se verifica antes que el
+// nombre vacío.
+func TestUS03_AgregarIntegrante_ProyectoInexistenteAntesQueNombreVacio(t *testing.T) {
+	almacen, _ := nuevoAlmacenServicio(t)
+	sembrarProyectos(t, almacen, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+	})
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("ausente", "", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con un ID inexistente debería devolver un error")
+	}
+	if !errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
+	}
+	if errors.Is(err, domain.ErrNombreIntegranteVacio) {
+		t.Errorf("err = %v, no debería devolverse ErrNombreIntegranteVacio si el proyecto no existe", err)
+	}
+	verificarIntegranteVacio(t, agregado)
+}
+
+// CA1 / R5 / D1: sin archivo de la colección "proyectos" se interpreta como
+// colección vacía, el proyecto no se encuentra y no se crea nada.
+func TestUS03_AgregarIntegrante_ArchivoProyectosInexistente(t *testing.T) {
+	almacen, dir := nuevoAlmacenServicio(t)
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() sin archivo de proyectos debería devolver un error")
+	}
+	if !errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
+	}
+	verificarIntegranteVacio(t, agregado)
+
+	entradas, err := os.ReadDir(dir)
+	if err != nil {
+		t.Fatalf("ReadDir(%q): %v", dir, err)
+	}
+	if len(entradas) != 0 {
+		t.Errorf("en ningún camino de error se crea el archivo, hay %d entradas", len(entradas))
+	}
+}
+
+// E5 / D1: un JSON corrupto propaga storage.ErrCorrupt y no se mapea a
+// ErrProyectoNoEncontrado.
+func TestUS03_AgregarIntegrante_JSONCorruptoNoEsNoEncontrado(t *testing.T) {
+	almacen, dir := nuevoAlmacenServicio(t)
+	if err := os.WriteFile(filepath.Join(dir, "proyectos.json"), []byte("{no es json"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con JSON corrupto debería devolver un error")
+	}
+	if !errors.Is(err, storage.ErrCorrupt) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
+	}
+	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
+	}
+	verificarIntegranteVacio(t, agregado)
+}
+
+// E5 / D1: un fallo de escritura se propaga envuelto y no se informa un alta
+// exitosa.
+func TestUS03_AgregarIntegrante_FalloDeEscrituraNoInformaExito(t *testing.T) {
+	almacen, _ := nuevoAlmacenServicio(t)
+	sembrarProyectos(t, almacen, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+	})
+
+	errSimulado := errors.New("fallo simulado de escritura")
+	servicio := NuevoServicioProyectos(almacenFalloEscritura{real: almacen, err: errSimulado})
+
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con fallo de escritura debería devolver un error")
+	}
+	if !errors.Is(err, errSimulado) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, errSimulado)
+	}
+	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, no debería ser ErrProyectoNoEncontrado", err)
+	}
+	if errors.Is(err, domain.ErrNombreIntegranteVacio) || errors.Is(err, domain.ErrRolIntegranteVacio) ||
+		errors.Is(err, domain.ErrIntegranteDuplicado) {
+		t.Errorf("err = %v, no debería ser un error de validación de dominio", err)
+	}
+	verificarIntegranteVacio(t, agregado)
 }
