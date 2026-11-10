@@ -1,6 +1,9 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 // Errores de dominio de ítems del backlog (D10).
 var (
@@ -27,7 +30,30 @@ type ItemBacklog struct {
 // NuevoItemBacklog crea un ítem del backlog a partir de su título, descripción,
 // prioridad y criterios de aceptación (D10).
 //
-// Stub de la fase RED: la lógica real se implementa en la fase GREEN.
+// Recorta los espacios externos del título y la prioridad. Devuelve
+// ErrTituloItemVacio si el título queda vacío y ErrPrioridadInvalida si la
+// prioridad no es exactamente "Alta", "Media" o "Baja" (D4, D5). El estado
+// inicial es siempre "Pendiente" (D6) y los story points quedan en 0 (D7). La
+// descripción y los criterios se guardan tal como se reciben (D8).
 func NuevoItemBacklog(titulo, descripcion, prioridad string, criterios []string) (ItemBacklog, error) {
-	return ItemBacklog{}, errors.New("no implementado")
+	titulo = strings.TrimSpace(titulo)
+	if titulo == "" {
+		return ItemBacklog{}, ErrTituloItemVacio
+	}
+
+	prioridad = strings.TrimSpace(prioridad)
+	switch prioridad {
+	case "Alta", "Media", "Baja":
+	default:
+		return ItemBacklog{}, ErrPrioridadInvalida
+	}
+
+	return ItemBacklog{
+		Titulo:      titulo,
+		Descripcion: descripcion,
+		Prioridad:   prioridad,
+		Estado:      "Pendiente",
+		StoryPoints: 0,
+		Criterios:   criterios,
+	}, nil
 }
