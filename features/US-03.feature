@@ -1,5 +1,9 @@
 # language: es
-# US-03 sin implementar: los escenarios describen el comportamiento acordado para CA1–CA4
+# US-03 implementada: dominio en internal/domain/integrante.go, servicio en
+# internal/service/integrantes.go, tests en internal/domain/integrante_test.go e
+# internal/service/integrantes_test.go; evidencias en docs/evidencias/US-03-red.txt y
+# docs/evidencias/US-03-green.txt. Los escenarios describen el comportamiento acordado
+# para CA1–CA4
 # y las decisiones confirmadas (proyecto existente identificado por ID; duplicado por nombre
 # ignorando mayúsculas y espacios al inicio y al final, sin que el rol participe y con los
 # espacios internos como distintos; mismo nombre en otro proyecto permitido; nombre o rol
@@ -125,7 +129,8 @@ Característica: Registrar integrantes del proyecto
     Dado un proyecto existente identificado por su ID, con nombre "Sistema de Métricas", fecha de inicio "1 de marzo de 2026", fecha de fin "30 de junio de 2026" y estado "En curso"
     Cuando se registra en ese proyecto la integrante "  Ana Paz  " con el rol "Revisor"
     Entonces el registro se realiza exitosamente
-    Y la integrante queda registrada en el proyecto "Sistema de Métricas" con el rol "Revisor"    Y su nombre queda almacenado como "Ana Paz" (sin espacios al inicio y al final)
+    Y la integrante queda registrada en el proyecto "Sistema de Métricas" con el rol "Revisor"
+    Y su nombre queda almacenado como "Ana Paz" (sin espacios al inicio y al final)
 
   @CA1
   Escenario: Proyecto inexistente devuelve error
