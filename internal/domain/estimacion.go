@@ -8,9 +8,18 @@ var (
 )
 
 func EsStoryPointsValido(storyPoints int) bool {
-	return false
+	switch storyPoints {
+	case 1, 2, 3, 5, 8, 13, 21:
+		return true
+	default:
+		return false
+	}
 }
 
 func (i ItemBacklog) Estimar(storyPoints int) (ItemBacklog, error) {
-	return ItemBacklog{}, errors.New("no implementado")
+	if !EsStoryPointsValido(storyPoints) {
+		return ItemBacklog{}, ErrStoryPointsInvalidos
+	}
+	i.StoryPoints = storyPoints
+	return i, nil
 }
