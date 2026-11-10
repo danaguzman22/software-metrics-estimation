@@ -1,0 +1,94 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+--- FAIL: TestUS11_Estimar_AsignaStoryPoints (0.00s)
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/1 (0.00s)
+        estimacion_test.go:66: Estimar(1) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/2 (0.00s)
+        estimacion_test.go:66: Estimar(2) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/3 (0.00s)
+        estimacion_test.go:66: Estimar(3) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/5 (0.00s)
+        estimacion_test.go:66: Estimar(5) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/8 (0.00s)
+        estimacion_test.go:66: Estimar(8) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/13 (0.00s)
+        estimacion_test.go:66: Estimar(13) devolvió un error inesperado: no implementado
+    --- FAIL: TestUS11_Estimar_AsignaStoryPoints/21 (0.00s)
+        estimacion_test.go:66: Estimar(21) devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_Estimar_PreservaRestoDelItem (0.00s)
+    estimacion_test.go:84: Estimar(5) devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_Estimar_NoModificaElItemOriginal (0.00s)
+    estimacion_test.go:97: Estimar(8) devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EsStoryPointsValido_EscalaValida (0.00s)
+    estimacion_test.go:106: EsStoryPointsValido(1) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(2) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(3) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(5) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(8) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(13) = false, se esperaba true
+    estimacion_test.go:106: EsStoryPointsValido(21) = false, se esperaba true
+--- FAIL: TestUS11_Estimar_ValorInvalidoDevuelveError (0.00s)
+    --- FAIL: TestUS11_Estimar_ValorInvalidoDevuelveError/0 (0.00s)
+        estimacion_test.go:127: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_Estimar_ValorInvalidoDevuelveError/-1 (0.00s)
+        estimacion_test.go:127: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_Estimar_ValorInvalidoDevuelveError/4 (0.00s)
+        estimacion_test.go:127: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_Estimar_ValorInvalidoDevuelveError/22 (0.00s)
+        estimacion_test.go:127: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_Estimar_ReestimacionReemplazaValor (0.00s)
+    estimacion_test.go:142: Estimar(8) devolvió un error inesperado: no implementado
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.804s
+--- FAIL: TestUS11_EstimarItem_Exitoso (0.00s)
+    estimacion_test.go:42: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ConservaRestoDeCampos (0.00s)
+    estimacion_test.go:74: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_Reestimacion (0.00s)
+    estimacion_test.go:94: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ItemSinEstimar (0.00s)
+    estimacion_test.go:119: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ProyectoNoEncontrado (0.00s)
+    estimacion_test.go:142: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ArchivoProyectosInexistente (0.00s)
+    estimacion_test.go:159: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ItemNoEncontrado (0.01s)
+    estimacion_test.go:186: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_BacklogSinArchivo (0.00s)
+    estimacion_test.go:207: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.00s)
+    estimacion_test.go:233: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste (0.02s)
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/0 (0.01s)
+        estimacion_test.go:258: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/-1 (0.01s)
+        estimacion_test.go:258: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/4 (0.00s)
+        estimacion_test.go:258: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/22 (0.00s)
+        estimacion_test.go:258: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio (0.01s)
+    estimacion_test.go:283: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido (0.00s)
+    estimacion_test.go:304: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido (0.00s)
+    estimacion_test.go:328: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_ConservaOtrosItemsYOrden (0.00s)
+    estimacion_test.go:365: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos (0.00s)
+    estimacion_test.go:403: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ErrorNoEscribe (0.02s)
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/proyecto_inexistente (0.00s)
+        estimacion_test.go:459: err = no implementado, se esperaba no se encontró el proyecto
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/ítem_inexistente (0.00s)
+        estimacion_test.go:459: err = no implementado, se esperaba el ítem no existe en el proyecto
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/story_points_inválidos (0.01s)
+        estimacion_test.go:459: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_JSONCorruptoPropagaError (0.00s)
+    estimacion_test.go:485: err = no implementado, se esperaba un error que envuelva contenido JSON inválido
+--- FAIL: TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito (0.01s)
+    estimacion_test.go:514: err = no implementado, se esperaba un error que envuelva fallo simulado de escritura
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	1.397s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+FAIL

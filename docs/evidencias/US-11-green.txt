@@ -1,0 +1,5 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.020s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.806s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.106s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
