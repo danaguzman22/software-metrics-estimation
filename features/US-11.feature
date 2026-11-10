@@ -1,5 +1,5 @@
 # language: es
-# Estado: Pendiente de implementación
+# Estado: Implementada
 # Los escenarios describen el comportamiento acordado para CA1–CA2 y las decisiones
 # confirmadas: la estimación se hace sobre un ítem existente de un proyecto existente,
 # identificado por proyectoID e itemID exacto; solo se aceptan los valores de la escala
