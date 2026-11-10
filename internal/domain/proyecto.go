@@ -12,7 +12,7 @@ type Estado string
 // EstadoPlanificado es el estado inicial de todo proyecto creado.
 const EstadoPlanificado Estado = "Planificado"
 
-// Errores de validación de un proyecto.
+// Errores de dominio de proyectos.
 var (
 	// ErrNombreVacio indica que el nombre del proyecto está vacío o compuesto
 	// únicamente por espacios.
