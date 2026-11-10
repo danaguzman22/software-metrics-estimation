@@ -1,13 +1,11 @@
 package service
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
-	"github.com/danaguzman22/software-metrics-estimation/internal/storage"
 )
 
 // itemRegistrado es el registro persistido de un ítem del backlog: el ID del
@@ -57,13 +55,9 @@ func (s *ServicioBacklog) CrearItem(
 		return domain.ItemBacklog{}, err
 	}
 
-	var backlog []itemRegistrado
-	if err := s.almacen.Load("backlog", &backlog); err != nil {
-		if !errors.Is(err, storage.ErrNotFound) {
-			return domain.ItemBacklog{}, fmt.Errorf("service: cargar backlog: %w", err)
-		}
-		// D2: un archivo inexistente se interpreta como backlog vacío.
-		backlog = nil
+	backlog, err := cargarColeccionBacklog(s.almacen)
+	if err != nil {
+		return domain.ItemBacklog{}, err
 	}
 
 	maximo := 0

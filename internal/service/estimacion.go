@@ -1,11 +1,9 @@
 package service
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
-	"github.com/danaguzman22/software-metrics-estimation/internal/storage"
 )
 
 func (s *ServicioBacklog) EstimarItem(proyectoID, itemID string, storyPoints int) (domain.ItemBacklog, error) {
@@ -13,12 +11,9 @@ func (s *ServicioBacklog) EstimarItem(proyectoID, itemID string, storyPoints int
 		return domain.ItemBacklog{}, err
 	}
 
-	var backlog []itemRegistrado
-	if err := s.almacen.Load("backlog", &backlog); err != nil {
-		if !errors.Is(err, storage.ErrNotFound) {
-			return domain.ItemBacklog{}, fmt.Errorf("service: cargar backlog: %w", err)
-		}
-		backlog = nil
+	backlog, err := cargarColeccionBacklog(s.almacen)
+	if err != nil {
+		return domain.ItemBacklog{}, err
 	}
 
 	indice := -1
