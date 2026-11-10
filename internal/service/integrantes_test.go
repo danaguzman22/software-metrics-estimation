@@ -210,7 +210,7 @@ func TestUS03_AgregarIntegrante_DuplicadoExacto(t *testing.T) {
 	})
 	servicio := NuevoServicioProyectos(almacen)
 
-	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Tester")
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Desarrollador")
 	if err == nil {
 		t.Fatal("AgregarIntegrante() con un duplicado exacto debería devolver un error")
 	}
@@ -297,6 +297,12 @@ func TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste(t *testing.T) {
 			descripcion:   "duplicado exacto",
 			nombre:        "Dana Guzmán",
 			rol:           "Desarrollador",
+			errorEsperado: domain.ErrIntegranteDuplicado,
+		},
+		{
+			descripcion:   "mismo nombre con distinto rol",
+			nombre:        "Dana Guzmán",
+			rol:           "Tester",
 			errorEsperado: domain.ErrIntegranteDuplicado,
 		},
 	}
@@ -459,4 +465,38 @@ func TestUS03_AgregarIntegrante_FalloDeEscrituraNoInformaExito(t *testing.T) {
 		t.Errorf("err = %v, no debería ser un error de validación de dominio", err)
 	}
 	verificarIntegranteVacio(t, agregado)
+}
+
+// E5 / D1: un JSON corrupto en integrantes.json propaga storage.ErrCorrupt,
+// no se mapea a ErrProyectoNoEncontrado ni se interpreta como colección
+// vacía, y el archivo no se sobrescribe.
+func TestUS03_AgregarIntegrante_JSONCorruptoIntegrantes(t *testing.T) {
+	almacen, dir := nuevoAlmacenServicio(t)
+	sembrarProyectos(t, almacen, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+	})
+	if err := os.WriteFile(filepath.Join(dir, "integrantes.json"), []byte("{no es json"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	servicio := NuevoServicioProyectos(almacen)
+
+	agregado, err := servicio.AgregarIntegrante("p1", "Dana Guzmán", "Desarrollador")
+	if err == nil {
+		t.Fatal("AgregarIntegrante() con integrantes.json corrupto debería devolver un error")
+	}
+	if !errors.Is(err, storage.ErrCorrupt) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
+	}
+	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
+	}
+	verificarIntegranteVacio(t, agregado)
+
+	contenido, err := os.ReadFile(filepath.Join(dir, "integrantes.json"))
+	if err != nil {
+		t.Fatalf("ReadFile(integrantes.json): %v", err)
+	}
+	if string(contenido) != "{no es json" {
+		t.Errorf("integrantes.json no debía sobrescribirse; contenido = %q", string(contenido))
+	}
 }
