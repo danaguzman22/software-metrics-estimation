@@ -701,6 +701,36 @@ func TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado(t *testing.T) {
 	verificarItemBacklogVacio(t, creado)
 }
 
+// E5 / D2: un backlog.json corrupto propaga storage.ErrCorrupt y no se mapea a
+// ErrProyectoNoEncontrado.
+func TestUS05_CrearItem_BacklogCorruptoNoEsNoEncontrado(t *testing.T) {
+	almacenReal, dir := nuevoAlmacenServicio(t)
+	sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
+	})
+	if err := os.WriteFile(filepath.Join(dir, "backlog.json"), []byte("{no es json"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	almacen := &almacenCuentaSaves{real: almacenReal}
+	servicio := NuevoServicioBacklog(almacen)
+
+	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
+	if err == nil {
+		t.Fatal("CrearItem() con backlog corrupto debería devolver un error")
+	}
+	if !errors.Is(err, storage.ErrCorrupt) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
+	}
+	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
+		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
+	}
+	verificarItemBacklogVacio(t, creado)
+
+	if almacen.llamadasASave != 0 {
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
+	}
+}
+
 // E5 / D2: un fallo de escritura se propaga envuelto y no se informa un alta
 // exitosa.
 func TestUS05_CrearItem_FalloDeEscrituraNoInformaExito(t *testing.T) {
