@@ -4,13 +4,47 @@ import (
 	"encoding/json"
 	"go/parser"
 	"go/token"
+	"os"
+	"path/filepath"
 	"reflect"
+	"runtime"
 	"strconv"
 	"strings"
 	"testing"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
+
+func TestT09_ServiceNoImportaStorage(t *testing.T) {
+	_, archivo, _, ok := runtime.Caller(0)
+	if !ok {
+		t.Fatal("no se pudo localizar el archivo de tests")
+	}
+	directorio := filepath.Dir(archivo)
+	entradas, err := os.ReadDir(directorio)
+	if err != nil {
+		t.Fatalf("ReadDir(%q): %v", directorio, err)
+	}
+
+	for _, entrada := range entradas {
+		if entrada.IsDir() || filepath.Ext(entrada.Name()) != ".go" ||
+			strings.HasSuffix(entrada.Name(), "_test.go") {
+			continue
+		}
+		ruta := filepath.Join(directorio, entrada.Name())
+		arbol, err := parser.ParseFile(token.NewFileSet(), ruta, nil, parser.ImportsOnly)
+		if err != nil {
+			t.Fatalf("ParseFile(%q): %v", ruta, err)
+		}
+		for _, importSpec := range arbol.Imports {
+			importPath := strings.Trim(importSpec.Path.Value, `"`)
+			if importPath == "github.com/danaguzman22/software-metrics-estimation/internal/storage" ||
+				strings.Contains(importPath, "/internal/storage/") {
+				t.Errorf("%s importa internal/storage", entrada.Name())
+			}
+		}
+	}
+}
 
 func verificarFirmaT06(t *testing.T, contrato reflect.Type, nombre string, firma reflect.Type) {
 	t.Helper()
