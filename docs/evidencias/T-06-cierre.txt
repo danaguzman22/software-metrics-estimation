@@ -1,0 +1,25 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.704s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.731s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.737s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+T-06 - evidencia de cierre
+Fecha: 2026-11-11
+
+RED:
+- docs/evidencias/T-06-red.txt
+- Los tests estructurales fallaban porque faltaban las interfaces y ProyectoRegistrado.
+
+GREEN:
+- docs/evidencias/T-06-green.txt
+- go test ./... -count=1
+- Todos los paquetes pasan.
+
+REFACTOR:
+- Sin cambios adicionales: el contrato permanece compuesto únicamente por interfaces y tipos.
+
+Test agregado:
+- internal/service/repositorios_test.go
+- TestT06_SinDependenciasDePersistencia
+
+Estado: T-06 implementada y cerrada.

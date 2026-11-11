@@ -2,7 +2,11 @@ package service
 
 import (
 	"encoding/json"
+	"go/parser"
+	"go/token"
 	"reflect"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
@@ -115,4 +119,53 @@ func TestT06_ProyectoRegistrado_CamposYTagsJSON(t *testing.T) {
 	if vuelta.Proyecto.Nombre != "Round" {
 		t.Errorf("round-trip Proyecto.Nombre = %q, se esperaba %q", vuelta.Proyecto.Nombre, "Round")
 	}
+}
+
+// TestT06_SinDependenciasDePersistencia es un test de caracterización: el
+// contrato de repositorios define interfaces puras y hoy YA cumple esta regla,
+// por lo que pasa de entrada. Su objetivo es congelar la independencia de
+// internal/service frente a la persistencia concreta (D11 de US-02): los
+// contratos solo pueden apoyarse en internal/domain y en la librería estándar.
+func TestT06_SinDependenciasDePersistencia(t *testing.T) {
+	const ruta = "repositorios.go"
+	const importDominio = "github.com/danaguzman22/software-metrics-estimation/internal/domain"
+
+	archivo, err := parser.ParseFile(token.NewFileSet(), ruta, nil, parser.ImportsOnly)
+	if err != nil {
+		t.Fatalf("parser.ParseFile(%q): %v", ruta, err)
+	}
+
+	prohibidos := []string{
+		"internal/storage",
+		"pgx",
+		"database/sql",
+		"github.com/jackc",
+	}
+
+	for _, espec := range archivo.Imports {
+		rutaImport, err := strconv.Unquote(espec.Path.Value)
+		if err != nil {
+			t.Fatalf("import con ruta inválida %s: %v", espec.Path.Value, err)
+		}
+
+		for _, prohibido := range prohibidos {
+			if strings.Contains(rutaImport, prohibido) {
+				t.Errorf("%s importa %q, prohibido por depender de la persistencia concreta", ruta, rutaImport)
+			}
+		}
+
+		if rutaImport == importDominio || esLibreriaEstandar(rutaImport) {
+			continue
+		}
+
+		t.Errorf("%s importa %q, solo se permite internal/domain y la librería estándar", ruta, rutaImport)
+	}
+}
+
+func esLibreriaEstandar(rutaImport string) bool {
+	primero := rutaImport
+	if i := strings.Index(rutaImport, "/"); i >= 0 {
+		primero = rutaImport[:i]
+	}
+	return !strings.Contains(primero, ".")
 }
