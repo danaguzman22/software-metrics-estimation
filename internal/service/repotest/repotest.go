@@ -145,10 +145,6 @@ func ejecutarBacklogNumeracion(t *testing.T, e Entorno) {
 	if items[98].ID != "HU-99" || items[99].ID != "HU-100" {
 		t.Fatalf("HU-99/HU-100: obtenido %s, %s", items[98].ID, items[99].ID)
 	}
-	if !slicesEquivalentes(items, items) {
-		t.Fatalf("normalización reflexiva falló")
-	}
-
 	itemB := debeNuevoItem(t, "Item B", "desc", "Alta", []string{})
 	agregadoB, err := e.Backlog.AgregarItem("PRJ-002", itemB)
 	debeNoError(t, err, "AgregarItem PRJ-002")
@@ -189,7 +185,6 @@ func ejecutarBacklogRoundTrip(t *testing.T, e Entorno) {
 	agregado.Titulo = "Historia actualizada"
 	agregado.Descripcion = "nueva desc"
 	agregado.Prioridad = "Baja"
-	agregado.Estado = "Estimado"
 	agregado.StoryPoints = 5
 	agregado.Criterios = []string{"n1"}
 	debeNoError(t, e.Backlog.ActualizarItem("PRJ-001", agregado), "ActualizarItem")

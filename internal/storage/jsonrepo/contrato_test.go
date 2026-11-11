@@ -1,4 +1,4 @@
-﻿package jsonrepo
+package jsonrepo
 
 import (
 	"errors"
@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 	"github.com/danaguzman22/software-metrics-estimation/internal/service"
 	"github.com/danaguzman22/software-metrics-estimation/internal/service/repotest"
 	"github.com/danaguzman22/software-metrics-estimation/internal/storage"
@@ -64,5 +63,3 @@ func cargarProyectosParaSemilla(store *storage.JSONStore) ([]registroProyecto, e
 	}
 	return proyectos, nil
 }
-
-var _ = domain.NuevoProyecto
