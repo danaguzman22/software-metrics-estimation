@@ -19,14 +19,18 @@ var (
 	_ service.RepositorioBacklog     = (*Backlog)(nil)
 )
 
+// Proyectos implementa el repositorio PostgreSQL de proyectos.
 type Proyectos struct {
 	pool *pgxpool.Pool
 }
 
+// NuevoProyectos crea un repositorio de proyectos sobre el pool indicado.
 func NuevoProyectos(pool *pgxpool.Pool) *Proyectos {
 	return &Proyectos{pool: pool}
 }
 
+// Obtener devuelve el proyecto identificado por id.
+// Devuelve domain.ErrProyectoNoEncontrado si no existe.
 func (r *Proyectos) Obtener(id string) (service.ProyectoRegistrado, error) {
 	proyecto, err := scanProyecto(r.pool.QueryRow(context.Background(), `
 		SELECT id, nombre, fecha_inicio, fecha_fin, estado
@@ -42,6 +46,7 @@ func (r *Proyectos) Obtener(id string) (service.ProyectoRegistrado, error) {
 	return proyecto, nil
 }
 
+// Existe informa si hay un proyecto con el ID indicado.
 func (r *Proyectos) Existe(id string) (bool, error) {
 	var existe bool
 	if err := r.pool.QueryRow(context.Background(),
@@ -52,6 +57,7 @@ func (r *Proyectos) Existe(id string) (bool, error) {
 	return existe, nil
 }
 
+// Listar devuelve todos los proyectos ordenados por ID.
 func (r *Proyectos) Listar() ([]service.ProyectoRegistrado, error) {
 	rows, err := r.pool.Query(context.Background(), `
 		SELECT id, nombre, fecha_inicio, fecha_fin, estado
@@ -77,6 +83,8 @@ func (r *Proyectos) Listar() ([]service.ProyectoRegistrado, error) {
 	return proyectos, nil
 }
 
+// Actualizar reemplaza los datos del proyecto identificado por id.
+// Devuelve domain.ErrProyectoNoEncontrado si no existe.
 func (r *Proyectos) Actualizar(id string, proyecto domain.Proyecto) error {
 	tag, err := r.pool.Exec(context.Background(), `
 		UPDATE proyectos
@@ -93,14 +101,17 @@ func (r *Proyectos) Actualizar(id string, proyecto domain.Proyecto) error {
 	return nil
 }
 
+// Integrantes implementa el repositorio PostgreSQL de integrantes.
 type Integrantes struct {
 	pool *pgxpool.Pool
 }
 
+// NuevoIntegrantes crea un repositorio de integrantes sobre el pool indicado.
 func NuevoIntegrantes(pool *pgxpool.Pool) *Integrantes {
 	return &Integrantes{pool: pool}
 }
 
+// ListarPorProyecto devuelve los integrantes del proyecto en orden de inserción.
 func (r *Integrantes) ListarPorProyecto(proyectoID string) ([]domain.Integrante, error) {
 	rows, err := r.pool.Query(context.Background(), `
 		SELECT nombre, rol
@@ -127,6 +138,8 @@ func (r *Integrantes) ListarPorProyecto(proyectoID string) ([]domain.Integrante,
 	return integrantes, nil
 }
 
+// Agregar registra un integrante en el proyecto.
+// Una violación de unicidad se traduce a domain.ErrIntegranteDuplicado.
 func (r *Integrantes) Agregar(proyectoID string, integrante domain.Integrante) error {
 	_, err := r.pool.Exec(context.Background(), `
 		INSERT INTO integrantes (proyecto_id, nombre, rol)
@@ -142,14 +155,18 @@ func (r *Integrantes) Agregar(proyectoID string, integrante domain.Integrante) e
 	return nil
 }
 
+// Backlog implementa el repositorio PostgreSQL de ítems de backlog.
 type Backlog struct {
 	pool *pgxpool.Pool
 }
 
+// NuevoBacklog crea un repositorio de backlog sobre el pool indicado.
 func NuevoBacklog(pool *pgxpool.Pool) *Backlog {
 	return &Backlog{pool: pool}
 }
 
+// AgregarItem asigna el siguiente ID del proyecto y persiste el ítem de forma
+// atómica. Devuelve domain.ErrProyectoNoEncontrado si el proyecto no existe.
 func (r *Backlog) AgregarItem(proyectoID string, item domain.ItemBacklog) (domain.ItemBacklog, error) {
 	ctx := context.Background()
 	tx, err := r.pool.Begin(ctx)
@@ -167,6 +184,9 @@ func (r *Backlog) AgregarItem(proyectoID string, item domain.ItemBacklog) (domai
 		WHERE id = $1
 		FOR UPDATE
 	`, proyectoID).Scan(&lockedProjectID); err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return domain.ItemBacklog{}, domain.ErrProyectoNoEncontrado
+		}
 		return domain.ItemBacklog{}, fmt.Errorf("bloquear proyecto para agregar ítem: %w", err)
 	}
 
@@ -220,6 +240,8 @@ func (r *Backlog) AgregarItem(proyectoID string, item domain.ItemBacklog) (domai
 	return item, nil
 }
 
+// ObtenerItem devuelve el ítem identificado por itemID dentro del proyecto.
+// Devuelve domain.ErrItemNoEncontrado si no existe.
 func (r *Backlog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, error) {
 	numero, ok := domain.NumeroDeItem(itemID)
 	if !ok {
@@ -239,6 +261,7 @@ func (r *Backlog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, er
 	return item, nil
 }
 
+// ListarPorProyecto devuelve los ítems del proyecto en orden numérico.
 func (r *Backlog) ListarPorProyecto(proyectoID string) ([]domain.ItemBacklog, error) {
 	rows, err := r.pool.Query(context.Background(), `
 		SELECT numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion
@@ -265,6 +288,8 @@ func (r *Backlog) ListarPorProyecto(proyectoID string) ([]domain.ItemBacklog, er
 	return items, nil
 }
 
+// ActualizarItem reemplaza el ítem identificado por item.ID dentro del proyecto.
+// Devuelve domain.ErrItemNoEncontrado si no existe.
 func (r *Backlog) ActualizarItem(proyectoID string, item domain.ItemBacklog) error {
 	numero, ok := domain.NumeroDeItem(item.ID)
 	if !ok {

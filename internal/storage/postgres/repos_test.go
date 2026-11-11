@@ -84,6 +84,20 @@ func TestPostgresRepo_DuplicadoIntegranteTraduceError(t *testing.T) {
 	}
 }
 
+func TestPostgresRepo_AgregarItemProyectoInexistente(t *testing.T) {
+	pool := nuevoPoolPostgres(t)
+	repo := postgres.NuevoBacklog(pool)
+	item, err := domain.NuevoItemBacklog("Historia", "", "Media", nil)
+	if err != nil {
+		t.Fatalf("crear ítem: %v", err)
+	}
+
+	_, err = repo.AgregarItem("PRJ-INEXISTENTE", item)
+	if err != domain.ErrProyectoNoEncontrado {
+		t.Fatalf("error = %v, se esperaba exactamente %v", err, domain.ErrProyectoNoEncontrado)
+	}
+}
+
 func TestPostgresRepo_UnicidadIntegrantesYClaveBacklog(t *testing.T) {
 	pool := nuevoPoolPostgres(t)
 	seedProject(t, pool, "PRJ-001")
