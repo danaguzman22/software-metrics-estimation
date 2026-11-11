@@ -1,0 +1,75 @@
+T-08 Fase REFACTOR - Evidencia
+
+Refactorizaciones realizadas (sin cambios de comportamiento):
+- `internal/service/repotest/repotest.go`: `Ejecutar` simplificado con tabla de casos para reducir duplicación de `t.Run`.
+- Helpers agregados para claridad y menos repetición: `debeNoError`, `debeNuevoIntegrante`, `debeNuevoItem`.
+- Casos de suite actualizados para usar helpers comunes (proyectos, integrantes, backlog, US-11 D10) manteniendo mismas aserciones/semántica (vacíos, dominio sin envolver, numeración/orden, aislamiento, fechas Y/M/D, slices nil/vacíos, `InyectarFallo` omitible).
+- `Entorno` y separación suite/wiring se mantuvieron: suite depende solo de `service`/`domain`/std; wiring `jsonrepo` intacto en `internal/storage/jsonrepo/contrato_test.go`.
+- No se agregaron casos nuevos ni se modificaron tests existentes fuera de la mejora interna permitida.
+
+Archivos modificados:
+- internal/service/repotest/repotest.go
+- docs/evidencias/T-08-refactor.txt
+
+(No se modificaron: specs/T-06.md, specs/T-07.md, specs/T-08.md, internal/storage/jsonrepo/repos.go, internal/service fuera de internal/service/repotest, tests existentes de T-07 ni US-11, ni archivos de producción.)
+
+Comandos ejecutados y resultados:
+
+$ gofmt -w internal/service/repotest/repotest.go internal/service/repotest/contrato_test.go
+EXIT: 0 (sin salida)
+
+$ go test ./internal/storage/jsonrepo -run TestJSONRepo_Contrato -v -count=1
+=== RUN   TestJSONRepo_Contrato
+=== RUN   TestJSONRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip
+=== RUN   TestJSONRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento
+=== RUN   TestJSONRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento
+=== RUN   TestJSONRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado
+=== RUN   TestJSONRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW
+=== RUN   TestJSONRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo
+=== RUN   TestJSONRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto
+--- PASS: TestJSONRepo_Contrato (1.72s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip (0.03s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento (0.09s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento (1.53s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado (0.03s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW (0.01s)
+    --- PASS: TestJSONRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo (0.01s)
+    --- PASS: TestJSONRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.03s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	3.480s
+EXIT: 0
+
+$ go test ./... -count=1
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.070s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	3.099s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	1.591s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	2.061s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	3.796s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+EXIT: 0
+
+$ go test ./... -cover
+	github.com/danaguzman22/software-metrics-estimation/cmd/server		
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	(cached)	coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	(cached)	coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	1.378s	coverage: 0.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)	coverage: 76.7% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.897s	coverage: 97.8% of statements
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+EXIT: 0
+
+$ go vet ./...
+EXIT: 0 (sin salida)
+
+$ git diff --check
+warning: in the working copy of 'internal/service/repotest/repotest.go', LF will be replaced by CRLF the next time Git touches it
+EXIT: 0 (solo advertencia de fin de línea)
+
+Confirmaciones:
+- Los tests contractuales siguen ejecutándose: `TestJSONRepo_Contrato` ejecuta `repotest.Ejecutar` con todos los subtests T-08 y D10 en PASS.
+- No se modificaron producción ni tests RED (sin cambios en `internal/storage/jsonrepo/repos.go`, `internal/service` fuera de `repotest`, specs, ni tests de T-07/US-11).
+
+Limitaciones del entorno:
+- Advertencia de fin de línea (LF/CRLF) en working copy al ejecutar `git diff --check` (sin error de whitespace).
+- `internal/service/repotest` reporta 0.0% de coverage directo (suite ejecutada desde `internal/storage/jsonrepo`), comportamiento esperado.

@@ -23,42 +23,34 @@ type Entorno struct {
 // Ejecutar ejecuta la suite de contrato compartida para un adaptador.
 func Ejecutar(t *testing.T, nuevo func(t *testing.T) Entorno) {
 	t.Helper()
-	t.Run("TestT08_Proyectos_RepositorioVacioYRoundTrip", func(t *testing.T) {
-		ejecutarProyectos(t, nuevo(t))
-	})
-	t.Run("TestT08_Integrantes_OrdenYAislamiento", func(t *testing.T) {
-		ejecutarIntegrantes(t, nuevo(t))
-	})
-	t.Run("TestT08_Backlog_NumeracionOrdenYAislamiento", func(t *testing.T) {
-		ejecutarBacklogNumeracion(t, nuevo(t))
-	})
-	t.Run("TestT08_Backlog_RoundTripYNoEncontrado", func(t *testing.T) {
-		ejecutarBacklogRoundTrip(t, nuevo(t))
-	})
-	t.Run("TestT08_ErroresInfraestructura_EnvuelvenConW", func(t *testing.T) {
-		ejecutarErroresInfra(t, nuevo(t))
-	})
-	t.Run("TestUS11_EstimarItem_BacklogSinArchivo", func(t *testing.T) {
-		ejecutarUS11BacklogSinArchivo(t, nuevo(t))
-	})
-	t.Run("TestUS11_EstimarItem_MismoIDEnOtroProyecto", func(t *testing.T) {
-		ejecutarUS11MismoIDEnOtroProyecto(t, nuevo(t))
-	})
+	casos := []struct {
+		nombre string
+		fn     func(*testing.T, Entorno)
+	}{
+		{"TestT08_Proyectos_RepositorioVacioYRoundTrip", ejecutarProyectos},
+		{"TestT08_Integrantes_OrdenYAislamiento", ejecutarIntegrantes},
+		{"TestT08_Backlog_NumeracionOrdenYAislamiento", ejecutarBacklogNumeracion},
+		{"TestT08_Backlog_RoundTripYNoEncontrado", ejecutarBacklogRoundTrip},
+		{"TestT08_ErroresInfraestructura_EnvuelvenConW", ejecutarErroresInfra},
+		{"TestUS11_EstimarItem_BacklogSinArchivo", ejecutarUS11BacklogSinArchivo},
+		{"TestUS11_EstimarItem_MismoIDEnOtroProyecto", ejecutarUS11MismoIDEnOtroProyecto},
+	}
+	for _, c := range casos {
+		t.Run(c.nombre, func(t *testing.T) {
+			c.fn(t, nuevo(t))
+		})
+	}
 }
 
 func ejecutarProyectos(t *testing.T, e Entorno) {
 	t.Helper()
 	existe, err := e.Proyectos.Existe("PRJ-001")
-	if err != nil {
-		t.Fatalf("Existe vacío: %v", err)
-	}
+	debeNoError(t, err, "Existe vacío")
 	if existe {
 		t.Fatalf("Existe vacío: esperado false")
 	}
 	lista, err := e.Proyectos.Listar()
-	if err != nil {
-		t.Fatalf("Listar vacío: %v", err)
-	}
+	debeNoError(t, err, "Listar vacío")
 	verificarVacio(t, "Listar proyectos", lista)
 	_, err = e.Proyectos.Obtener("PRJ-001")
 	verificarErrDominio(t, err, domain.ErrProyectoNoEncontrado, "Obtener inexistente")
@@ -68,37 +60,27 @@ func ejecutarProyectos(t *testing.T, e Entorno) {
 
 	e.SembrarProyecto(t, service.ProyectoRegistrado{ID: "PRJ-001", Proyecto: p1})
 	existe, err = e.Proyectos.Existe("PRJ-001")
-	if err != nil {
-		t.Fatalf("Existe tras siembra: %v", err)
-	}
+	debeNoError(t, err, "Existe tras siembra")
 	if !existe {
 		t.Fatalf("Existe tras siembra: esperado true")
 	}
 	obtenido, err := e.Proyectos.Obtener("PRJ-001")
-	if err != nil {
-		t.Fatalf("Obtener tras siembra: %v", err)
-	}
+	debeNoError(t, err, "Obtener tras siembra")
 	if obtenido.ID != "PRJ-001" {
 		t.Fatalf("ID: esperado PRJ-001, obtenido %q", obtenido.ID)
 	}
 	verificarProyectoFechas(t, p1, obtenido.Proyecto)
 
 	p2 := nuevoProyecto(t, "Proyecto Uno Actualizado", time.Date(2026, 4, 1, 8, 0, 0, 0, time.FixedZone("X", -3*3600)), time.Date(2026, 7, 1, 18, 0, 0, 0, time.FixedZone("X", -3*3600)))
-	if err := e.Proyectos.Actualizar("PRJ-001", p2); err != nil {
-		t.Fatalf("Actualizar: %v", err)
-	}
+	debeNoError(t, e.Proyectos.Actualizar("PRJ-001", p2), "Actualizar")
 	actualizado, err := e.Proyectos.Obtener("PRJ-001")
-	if err != nil {
-		t.Fatalf("Obtener actualizado: %v", err)
-	}
+	debeNoError(t, err, "Obtener actualizado")
 	if actualizado.ID != "PRJ-001" {
 		t.Fatalf("ID tras actualizar: esperado PRJ-001, obtenido %q", actualizado.ID)
 	}
 	verificarProyectoFechas(t, p2, actualizado.Proyecto)
 	lista, err = e.Proyectos.Listar()
-	if err != nil {
-		t.Fatalf("Listar tras actualizar: %v", err)
-	}
+	debeNoError(t, err, "Listar tras actualizar")
 	if len(lista) != 1 {
 		t.Fatalf("Listar: esperado 1, obtenido %d", len(lista))
 	}
@@ -111,44 +93,24 @@ func ejecutarIntegrantes(t *testing.T, e Entorno) {
 	e.SembrarProyecto(t, nuevoRegistroProyecto(t, "PRJ-002", "Proyecto B"))
 
 	lista, err := e.Integrantes.ListarPorProyecto("PRJ-001")
-	if err != nil {
-		t.Fatalf("ListarPorProyecto vacío: %v", err)
-	}
+	debeNoError(t, err, "ListarPorProyecto vacío")
 	verificarVacio(t, "ListarPorProyecto integrantes", lista)
 
-	i1, err := domain.NuevoIntegrante("Ana", "Dev")
-	if err != nil {
-		t.Fatalf("NuevoIntegrante i1: %v", err)
-	}
-	i2, err := domain.NuevoIntegrante("Beto", "QA")
-	if err != nil {
-		t.Fatalf("NuevoIntegrante i2: %v", err)
-	}
-	i3, err := domain.NuevoIntegrante("Caro", "PM")
-	if err != nil {
-		t.Fatalf("NuevoIntegrante i3: %v", err)
-	}
-	if err := e.Integrantes.Agregar("PRJ-001", i1); err != nil {
-		t.Fatalf("Agregar i1: %v", err)
-	}
-	if err := e.Integrantes.Agregar("PRJ-001", i2); err != nil {
-		t.Fatalf("Agregar i2: %v", err)
-	}
-	if err := e.Integrantes.Agregar("PRJ-002", i3); err != nil {
-		t.Fatalf("Agregar i3: %v", err)
-	}
+	i1 := debeNuevoIntegrante(t, "Ana", "Dev")
+	i2 := debeNuevoIntegrante(t, "Beto", "QA")
+	i3 := debeNuevoIntegrante(t, "Caro", "PM")
+	debeNoError(t, e.Integrantes.Agregar("PRJ-001", i1), "Agregar i1")
+	debeNoError(t, e.Integrantes.Agregar("PRJ-001", i2), "Agregar i2")
+	debeNoError(t, e.Integrantes.Agregar("PRJ-002", i3), "Agregar i3")
+
 	got1, err := e.Integrantes.ListarPorProyecto("PRJ-001")
-	if err != nil {
-		t.Fatalf("Listar PRJ-001: %v", err)
-	}
+	debeNoError(t, err, "Listar PRJ-001")
 	esperado1 := []domain.Integrante{i1, i2}
 	if !slicesEquivalentes(got1, esperado1) {
 		t.Fatalf("orden/aislamiento PRJ-001: esperado %#v, obtenido %#v", esperado1, got1)
 	}
 	got2, err := e.Integrantes.ListarPorProyecto("PRJ-002")
-	if err != nil {
-		t.Fatalf("Listar PRJ-002: %v", err)
-	}
+	debeNoError(t, err, "Listar PRJ-002")
 	esperado2 := []domain.Integrante{i3}
 	if !slicesEquivalentes(got2, esperado2) {
 		t.Fatalf("aislamiento PRJ-002: esperado %#v, obtenido %#v", esperado2, got2)
@@ -161,23 +123,16 @@ func ejecutarBacklogNumeracion(t *testing.T, e Entorno) {
 	e.SembrarProyecto(t, nuevoRegistroProyecto(t, "PRJ-002", "Proyecto B"))
 
 	for i := 1; i <= 100; i++ {
-		item, err := domain.NuevoItemBacklog(fmt.Sprintf("Item %d", i), "desc", "Media", nil)
-		if err != nil {
-			t.Fatalf("NuevoItemBacklog %d: %v", i, err)
-		}
+		item := debeNuevoItem(t, fmt.Sprintf("Item %d", i), "desc", "Media", nil)
 		agregado, err := e.Backlog.AgregarItem("PRJ-001", item)
-		if err != nil {
-			t.Fatalf("AgregarItem %d: %v", i, err)
-		}
+		debeNoError(t, err, fmt.Sprintf("AgregarItem %d", i))
 		esperadoID := fmt.Sprintf("HU-%02d", i)
 		if agregado.ID != esperadoID {
 			t.Fatalf("ID item %d: esperado %s, obtenido %s", i, esperadoID, agregado.ID)
 		}
 	}
 	items, err := e.Backlog.ListarPorProyecto("PRJ-001")
-	if err != nil {
-		t.Fatalf("ListarPorProyecto PRJ-001: %v", err)
-	}
+	debeNoError(t, err, "ListarPorProyecto PRJ-001")
 	if len(items) != 100 {
 		t.Fatalf("cantidad: esperado 100, obtenido %d", len(items))
 	}
@@ -194,21 +149,14 @@ func ejecutarBacklogNumeracion(t *testing.T, e Entorno) {
 		t.Fatalf("normalización reflexiva falló")
 	}
 
-	itemB, err := domain.NuevoItemBacklog("Item B", "desc", "Alta", []string{})
-	if err != nil {
-		t.Fatalf("NuevoItemBacklog B: %v", err)
-	}
+	itemB := debeNuevoItem(t, "Item B", "desc", "Alta", []string{})
 	agregadoB, err := e.Backlog.AgregarItem("PRJ-002", itemB)
-	if err != nil {
-		t.Fatalf("AgregarItem PRJ-002: %v", err)
-	}
+	debeNoError(t, err, "AgregarItem PRJ-002")
 	if agregadoB.ID != "HU-01" {
 		t.Fatalf("numeración independiente: esperado HU-01 en PRJ-002, obtenido %s", agregadoB.ID)
 	}
 	itemsB, err := e.Backlog.ListarPorProyecto("PRJ-002")
-	if err != nil {
-		t.Fatalf("ListarPorProyecto PRJ-002: %v", err)
-	}
+	debeNoError(t, err, "ListarPorProyecto PRJ-002")
 	if len(itemsB) != 1 || itemsB[0].ID != "HU-01" {
 		t.Fatalf("aislamiento PRJ-002: %#v", itemsB)
 	}
@@ -223,26 +171,17 @@ func ejecutarBacklogRoundTrip(t *testing.T, e Entorno) {
 	verificarErrDominio(t, err, domain.ErrItemNoEncontrado, "ObtenerItem vacío")
 
 	vacio, err := e.Backlog.ListarPorProyecto("PRJ-001")
-	if err != nil {
-		t.Fatalf("ListarPorProyecto vacío: %v", err)
-	}
+	debeNoError(t, err, "ListarPorProyecto vacío")
 	verificarVacio(t, "ListarPorProyecto backlog", vacio)
 
-	item, err := domain.NuevoItemBacklog("Historia", "desc", "Alta", []string{"c1", "c2"})
-	if err != nil {
-		t.Fatalf("NuevoItemBacklog: %v", err)
-	}
+	item := debeNuevoItem(t, "Historia", "desc", "Alta", []string{"c1", "c2"})
 	agregado, err := e.Backlog.AgregarItem("PRJ-001", item)
-	if err != nil {
-		t.Fatalf("AgregarItem: %v", err)
-	}
+	debeNoError(t, err, "AgregarItem")
 	if agregado.ID == "" {
 		t.Fatalf("AgregarItem debe asignar ID")
 	}
 	obtenido, err := e.Backlog.ObtenerItem("PRJ-001", agregado.ID)
-	if err != nil {
-		t.Fatalf("ObtenerItem: %v", err)
-	}
+	debeNoError(t, err, "ObtenerItem")
 	if !itemsEquivalentes(agregado, obtenido) {
 		t.Fatalf("round-trip agregar/obtener: esperado %#v, obtenido %#v", agregado, obtenido)
 	}
@@ -253,18 +192,14 @@ func ejecutarBacklogRoundTrip(t *testing.T, e Entorno) {
 	agregado.Estado = "Estimado"
 	agregado.StoryPoints = 5
 	agregado.Criterios = []string{"n1"}
-	if err := e.Backlog.ActualizarItem("PRJ-001", agregado); err != nil {
-		t.Fatalf("ActualizarItem: %v", err)
-	}
+	debeNoError(t, e.Backlog.ActualizarItem("PRJ-001", agregado), "ActualizarItem")
 	actualizado, err := e.Backlog.ObtenerItem("PRJ-001", agregado.ID)
-	if err != nil {
-		t.Fatalf("ObtenerItem actualizado: %v", err)
-	}
+	debeNoError(t, err, "ObtenerItem actualizado")
 	if !itemsEquivalentes(agregado, actualizado) {
 		t.Fatalf("round-trip actualizar: esperado %#v, obtenido %#v", agregado, actualizado)
 	}
 
-	itemInexistente, _ := domain.NuevoItemBacklog("X", "", "Media", nil)
+	itemInexistente := debeNuevoItem(t, "X", "", "Media", nil)
 	itemInexistente.ID = "HU-99"
 	err = e.Backlog.ActualizarItem("PRJ-001", itemInexistente)
 	verificarErrDominio(t, err, domain.ErrItemNoEncontrado, "ActualizarItem inexistente")
@@ -306,36 +241,24 @@ func ejecutarUS11MismoIDEnOtroProyecto(t *testing.T, e Entorno) {
 	t.Helper()
 	e.SembrarProyecto(t, nuevoRegistroProyecto(t, "PRJ-001", "Proyecto A"))
 	e.SembrarProyecto(t, nuevoRegistroProyecto(t, "PRJ-002", "Proyecto B"))
-	item1, err := domain.NuevoItemBacklog("Uno", "", "Alta", nil)
-	if err != nil {
-		t.Fatalf("item1: %v", err)
-	}
-	item2, err := domain.NuevoItemBacklog("Dos", "", "Media", nil)
-	if err != nil {
-		t.Fatalf("item2: %v", err)
-	}
-	if _, err := e.Backlog.AgregarItem("PRJ-001", item1); err != nil {
-		t.Fatalf("agregar PRJ-001: %v", err)
-	}
-	if _, err := e.Backlog.AgregarItem("PRJ-002", item2); err != nil {
-		t.Fatalf("agregar PRJ-002: %v", err)
-	}
+	item1 := debeNuevoItem(t, "Uno", "", "Alta", nil)
+	item2 := debeNuevoItem(t, "Dos", "", "Media", nil)
+	_, err := e.Backlog.AgregarItem("PRJ-001", item1)
+	debeNoError(t, err, "agregar PRJ-001")
+	_, err = e.Backlog.AgregarItem("PRJ-002", item2)
+	debeNoError(t, err, "agregar PRJ-002")
+
 	_, err = e.Backlog.ObtenerItem("PRJ-001", "HU-99")
 	verificarErrDominio(t, err, domain.ErrItemNoEncontrado, "HU-99 no existe en PRJ-001")
 	_, err = e.Backlog.ObtenerItem("PRJ-002", "HU-01")
-	if err != nil {
-		t.Fatalf("HU-01 debe existir en PRJ-002: %v", err)
-	}
+	debeNoError(t, err, "HU-01 debe existir en PRJ-002")
 	_, err = e.Backlog.ObtenerItem("PRJ-001", "HU-02")
 	verificarErrDominio(t, err, domain.ErrItemNoEncontrado, "HU-02 no existe en PRJ-001")
+
 	items1, err := e.Backlog.ListarPorProyecto("PRJ-001")
-	if err != nil {
-		t.Fatalf("listar PRJ-001: %v", err)
-	}
+	debeNoError(t, err, "listar PRJ-001")
 	items2, err := e.Backlog.ListarPorProyecto("PRJ-002")
-	if err != nil {
-		t.Fatalf("listar PRJ-002: %v", err)
-	}
+	debeNoError(t, err, "listar PRJ-002")
 	if len(items1) != 1 || items1[0].ID != "HU-01" || items1[0].Titulo != "Uno" {
 		t.Fatalf("aislamiento PRJ-001: %#v", items1)
 	}
@@ -359,6 +282,31 @@ func nuevoProyecto(t *testing.T, nombre string, inicio, fin time.Time) domain.Pr
 		t.Fatalf("NuevoProyecto(%q): %v", nombre, err)
 	}
 	return p
+}
+
+func debeNoError(t *testing.T, err error, ctx string) {
+	t.Helper()
+	if err != nil {
+		t.Fatalf("%s: %v", ctx, err)
+	}
+}
+
+func debeNuevoIntegrante(t *testing.T, nombre, rol string) domain.Integrante {
+	t.Helper()
+	i, err := domain.NuevoIntegrante(nombre, rol)
+	if err != nil {
+		t.Fatalf("NuevoIntegrante(%q): %v", nombre, err)
+	}
+	return i
+}
+
+func debeNuevoItem(t *testing.T, titulo, descripcion, prioridad string, criterios []string) domain.ItemBacklog {
+	t.Helper()
+	item, err := domain.NuevoItemBacklog(titulo, descripcion, prioridad, criterios)
+	if err != nil {
+		t.Fatalf("NuevoItemBacklog(%q): %v", titulo, err)
+	}
+	return item
 }
 
 func verificarErrDominio(t *testing.T, err, esperado error, ctx string) {
