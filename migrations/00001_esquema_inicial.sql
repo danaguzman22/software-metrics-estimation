@@ -29,8 +29,6 @@ CREATE TABLE items_backlog (
     PRIMARY KEY (proyecto_id, numero)
 );
 
-CREATE INDEX items_backlog_proyecto_idx ON items_backlog (proyecto_id, numero);
-
 -- +goose Down
 DROP TABLE items_backlog;
 DROP TABLE integrantes;

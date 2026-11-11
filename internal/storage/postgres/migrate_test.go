@@ -36,6 +36,7 @@ func TestMigrateOnEmptyDatabase(t *testing.T) {
 	if serverVersion < 130000 {
 		t.Fatalf("PostgreSQL %d no está soportado; se requiere 13 o superior", serverVersion)
 	}
+	t.Logf("PostgreSQL server_version_num=%d", serverVersion)
 
 	schema := fmt.Sprintf("t12_%d", time.Now().UnixNano())
 	if _, err := adminPool.Exec(ctx, "CREATE SCHEMA "+pgx.Identifier{schema}.Sanitize()); err != nil {

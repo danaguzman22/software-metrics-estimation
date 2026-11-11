@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"
 )
@@ -31,7 +32,10 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	pool, err := postgres.ConnectAndMigrate(ctx, databaseURL)
+	bootstrapCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+
+	pool, err := postgres.ConnectAndMigrate(bootstrapCtx, databaseURL)
 	if err != nil {
 		return fmt.Errorf("inicializar PostgreSQL: %w", err)
 	}
