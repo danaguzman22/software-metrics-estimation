@@ -1,3 +1,45 @@
 package main
 
-func main() {}
+import (
+	"context"
+	"errors"
+	"fmt"
+	"log"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"
+)
+
+func main() {
+	if err := run(context.Background()); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func requiredDatabaseURL() (string, error) {
+	databaseURL := strings.TrimSpace(os.Getenv("DATABASE_URL"))
+	if databaseURL == "" {
+		return "", errors.New("la variable DATABASE_URL es obligatoria")
+	}
+	return databaseURL, nil
+}
+
+func run(ctx context.Context) error {
+	databaseURL, err := requiredDatabaseURL()
+	if err != nil {
+		return err
+	}
+
+	bootstrapCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+
+	pool, err := postgres.ConnectAndMigrate(bootstrapCtx, databaseURL)
+	if err != nil {
+		return fmt.Errorf("inicializar PostgreSQL: %w", err)
+	}
+	defer pool.Close()
+
+	return nil
+}
