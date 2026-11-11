@@ -199,7 +199,6 @@ CREATE TABLE items_backlog (
     PRIMARY KEY (proyecto_id, numero)
 );
 
-CREATE INDEX items_backlog_proyecto_idx ON items_backlog (proyecto_id, numero);
 ```
 
 Justificación de cada decisión del DDL:
@@ -208,6 +207,7 @@ Justificación de cada decisión del DDL:
 - **`integrantes`: unicidad por proyecto y nombre.** El dominio compara con `strings.EqualFold` sobre nombres ya recortados (`internal/domain/integrante.go:52-59`). Diferencias con `lower()` de PostgreSQL: (1) `EqualFold` hace case-folding Unicode completo (caracteres fuera del ASCII, p. ej. el signo Kelvin U+212A se pliega con "k"), mientras que `lower()` depende del collation de la base; (2) `lower()` no recorta espacios, y el dominio sí recorta antes de comparar. Por eso **el dominio sigue siendo la validación autoritativa** (el servicio ejecuta `domain.EsDuplicado` antes de llamar a `Agregar`, conservando el comportamiento observable exacto; los adaptadores no repiten la regla) y el índice único es **defensa en profundidad**: cubre la carrera de dos `Agregar` simultáneos que superan el chequeo con el mismo nombre, y su violación se traduce a `domain.ErrIntegranteDuplicado` (D3).
 - **`integrantes.id` IDENTITY.** Da el orden de inserción exigido por D7 (`ListarPorProyecto` ordena por `id`).
 - **`items_backlog.numero` como fuente de verdad.** El ID observable se deriva: al cargar, el adaptador reconstruye `ID = fmt.Sprintf("HU-%02d", numero)` (mismo formato que `internal/service/backlog.go:72`: ancho mínimo 2, sin truncar números mayores). La PK compuesta `(proyecto_id, numero)` hace que la numeración sea por proyecto y da el orden de D7. No se persiste el string `HU-NN` para evitar dos fuentes de verdad.
+- **Sin índice adicional en `items_backlog`.** La clave primaria `(proyecto_id, numero)` ya crea el índice que sirve a los listados por proyecto ordenados por número; un índice extra duplicaría el costo de escritura sin beneficio.
 - **`story_points` CHECK IN (0, 1, 2, 3, 5, 8, 13, 21).** La serie de Fibonacci válida del dominio más el `0` inicial de `NuevoItemBacklog` (la validación estricta para estimar —`1, 2, 3, 5, 8, 13, 21`, `internal/domain/estimacion.go:10-17`— sigue en el dominio; el CHECK admite el 0 inicial).
 - **`prioridad` y `estado` CHECK.** Reflejan los valores exactos del dominio (`internal/domain/item_backlog.go:45-49`): mayúscula inicial exacta, sin variantes.
 - **`criterios_aceptacion` como `text[] NOT NULL DEFAULT '{}'`.** `[]string` de Go. Decidido (revisión 2026-11-11; pendiente 8 cerrado): el adaptador convierte `nil` en lista vacía al guardar y al leer; la distinción `null`/`[]` del JSON actual no se preserva. Consecuencia: si algún test dependiera de esa distinción tras un round-trip, se ajusta su expectativa (edición mecánica en T-09); la auditoría de tests no reporta casos.
@@ -425,6 +425,8 @@ Revisión y aceptación del 2026-11-11: las correcciones 1–7 de la revisión y
 9. **Numeración de issues:** T-03 (servidor web mínimo) y T-04 (Dockerfile, Docker Compose y despliegue) no son el adaptador PostgreSQL; este se reparte en T-12 (infraestructura, en paralelo a T-05 a T-09) y T-13 (repositorios), con T-10 (CI) y T-11 (agentes) según la sección 9.
 
 No quedan pendientes abiertos.
+
+**Enmienda (2026-11-11, revisión de T-12 y T-08).** (a) Se elimina `items_backlog_proyecto_idx` del DDL de referencia por redundante con la PK; la migración aún no estaba aplicada en ningún entorno, por lo que se corrigió en la primera migración (D8 prohíbe editar migraciones ya aplicadas). (b) La suite de contrato de D10 quedó en `internal/service/repotest` (funciones `Entorno` y `Ejecutar`, ejecutadas desde `jsonrepo` y `postgres`) en lugar de un paquete bajo `internal/storage`.
 
 ## Criterios sin escenario / verificación
 
