@@ -2,8 +2,6 @@ package service
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
@@ -33,10 +31,11 @@ func NuevoServicioBacklog(almacen almacen) *ServicioBacklog {
 // colección vacía (D2). Busca el proyecto por ID: si no existe devuelve
 // domain.ErrProyectoNoEncontrado antes de validar título y prioridad (D1, D9).
 // Delega las validaciones en domain.NuevoItemBacklog; si falla, devuelve ese
-// error sin escribir nada. Carga la colección "backlog" (D2), calcula el
-// siguiente ID del proyecto según R2 ("HU-01" si no hay ítems; si no, el mayor
-// existente más uno), agrega el registro {ProyectoID, Item} y guarda la
-// colección completa.
+// error sin escribir nada. Carga la colección "backlog" (D2), delega en
+// domain.SiguienteIDItem el cálculo del siguiente ID del proyecto según R2
+// ("HU-01" si no hay ítems; si no, el mayor existente más uno), pasándole solo
+// los IDs de los ítems del mismo proyecto, agrega el registro {ProyectoID,
+// Item} y guarda la colección completa.
 //
 // Ante cualquier error devuelve domain.ItemBacklog{} sin invocar Save. Si la
 // persistencia falla durante Save, también devuelve domain.ItemBacklog{} junto
@@ -60,16 +59,13 @@ func (s *ServicioBacklog) CrearItem(
 		return domain.ItemBacklog{}, err
 	}
 
-	maximo := 0
+	idsDelProyecto := make([]string, 0, len(backlog))
 	for _, registro := range backlog {
-		if registro.ProyectoID != proyectoID {
-			continue
-		}
-		if numero, ok := numeroDeItem(registro.Item.ID); ok && numero > maximo {
-			maximo = numero
+		if registro.ProyectoID == proyectoID {
+			idsDelProyecto = append(idsDelProyecto, registro.Item.ID)
 		}
 	}
-	nuevo.ID = fmt.Sprintf("HU-%02d", maximo+1)
+	nuevo.ID = domain.SiguienteIDItem(idsDelProyecto)
 
 	backlog = append(backlog, itemRegistrado{
 		ProyectoID: proyectoID,
@@ -82,16 +78,3 @@ func (s *ServicioBacklog) CrearItem(
 	return nuevo, nil
 }
 
-// numeroDeItem extrae el número de un ID con el patrón "HU-NN". Devuelve false
-// si el ID no tiene ese patrón.
-func numeroDeItem(id string) (int, bool) {
-	const prefijo = "HU-"
-	if !strings.HasPrefix(id, prefijo) {
-		return 0, false
-	}
-	numero, err := strconv.Atoi(strings.TrimPrefix(id, prefijo))
-	if err != nil {
-		return 0, false
-	}
-	return numero, true
-}
