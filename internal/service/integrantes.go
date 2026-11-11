@@ -38,24 +38,8 @@ type integranteRegistrado struct {
 func (s *ServicioProyectos) AgregarIntegrante(
 	proyectoID, nombre, rol string,
 ) (domain.Integrante, error) {
-	var proyectos []proyectoRegistrado
-	if err := s.almacen.Load("proyectos", &proyectos); err != nil {
-		if !errors.Is(err, storage.ErrNotFound) {
-			return domain.Integrante{}, fmt.Errorf("service: cargar proyectos: %w", err)
-		}
-		// D1: un archivo inexistente se interpreta como colección vacía.
-		proyectos = nil
-	}
-
-	encontrado := false
-	for _, registro := range proyectos {
-		if registro.ID == proyectoID {
-			encontrado = true
-			break
-		}
-	}
-	if !encontrado {
-		return domain.Integrante{}, domain.ErrProyectoNoEncontrado
+	if err := verificarProyectoExistente(s.almacen, proyectoID); err != nil {
+		return domain.Integrante{}, err
 	}
 
 	nuevo, err := domain.NuevoIntegrante(nombre, rol)
