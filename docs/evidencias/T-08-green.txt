@@ -1,0 +1,56 @@
+﻿
+===== go test ./internal/service/repotest -count=1 =====
+CMD: go test ./internal/service/repotest -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	0.584s
+
+EXIT: 0
+
+===== go test ./internal/storage/jsonrepo -run TestJSONRepo_Contrato -count=1 =====
+CMD: go test ./internal/storage/jsonrepo -run TestJSONRepo_Contrato -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.122s
+
+EXIT: 0
+
+===== go test ./... -count=1 =====
+CMD: go test ./... -count=1
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.882s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	2.016s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	0.695s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.933s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.344s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+
+EXIT: 0
+
+===== go test ./... -cover =====
+CMD: go test ./... -cover
+	github.com/danaguzman22/software-metrics-estimation/cmd/server		ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	(cached)	coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	(cached)	coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	0.801s	coverage: 0.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)	coverage: 76.7% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.337s	coverage: 97.8% of statements
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+
+EXIT: 0
+
+===== go vet ./... =====
+CMD: go vet ./...
+
+EXIT: 0
+
+===== git diff --check =====
+CMD: git diff --check
+powershell.exe : warning: in the working copy of 'internal/service/repotest/contrato_test.go', LF will be replaced by 
+CRLF the next time Git touches it
+En línea: 1 Carácter: 229
++ ... g utf8 $ev; $out = & powershell -NoProfile -Command $cmd 2>&1 | Out-S ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'internal/service/repotest/repotest.go', LF will be replaced by CRLF the next time Git 
+touches it
+
+EXIT: 0
+

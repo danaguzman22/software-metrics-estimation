@@ -1,0 +1,44 @@
+﻿Comando ejecutado (1):
+go test ./internal/service/repotest -count=1
+
+Salida:
+--- FAIL: TestT08_Proyectos_RepositorioVacioYRoundTrip (0.00s)
+    contrato_test.go:9: T-08 RED: caso de contrato pendiente de implementar
+--- FAIL: TestT08_Integrantes_OrdenYAislamiento (0.00s)
+    contrato_test.go:13: T-08 RED: caso de contrato pendiente de implementar
+--- FAIL: TestT08_Backlog_NumeracionOrdenYAislamiento (0.00s)
+    contrato_test.go:17: T-08 RED: caso de contrato pendiente de implementar
+--- FAIL: TestT08_Backlog_RoundTripYNoEncontrado (0.00s)
+    contrato_test.go:21: T-08 RED: caso de contrato pendiente de implementar
+--- FAIL: TestT08_ErroresInfraestructura_EnvuelvenConW (0.00s)
+    contrato_test.go:25: T-08 RED: caso de contrato pendiente de implementar
+--- FAIL: TestUS11_EstimarItem_BacklogSinArchivo (0.00s)
+    contrato_test.go:30: T-08 RED: subtest contractual pendiente de implementar
+--- FAIL: TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.00s)
+    contrato_test.go:34: T-08 RED: subtest contractual pendiente de implementar
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	0.562s
+FAIL
+
+Comando ejecutado (2):
+go test ./internal/storage/jsonrepo -run TestJSONRepo_Contrato -count=1
+
+Salida:
+--- FAIL: TestJSONRepo_Contrato (0.00s)
+    contrato_test.go:16: T-08 RED: implementaci├│n de la suite de contrato repotest pendiente
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.516s
+FAIL
+
+Resultado RED real:
+- (1) RED esperado por implementación pendiente de los casos de contrato (fallos con t.Fatal en tests con firma válida). No hay errores de compilación ni firmas inválidas.
+- (2) RED esperado por ausencia de implementación de la suite: repotest.Ejecutar falla con t.Fatal("T-08 RED: implementación de la suite de contrato repotest pendiente"). No hay símbolos indefinidos ni errores de compilación del wiring.
+
+Motivo esperado del RED:
+La API mínima Entorno/Ejecutar está declarada en archivo normal de internal/service/repotest para permitir el wiring desde internal/storage/jsonrepo, pero Ejecutar y los casos TestT08_*/subtests contractuales permanecen sin implementar (solo marcan fallo RED explícito). No se implementó lógica de contrato ni producción.
+
+Confirmación de que no se modificó código de producción:
+- Sin cambios en internal/service (excepto nuevo paquete repotest de tests/contrato), internal/storage/jsonrepo/repos.go, internal/storage, internal/domain.
+
+Confirmación de que los tests de T-07 no fueron modificados:
+- internal/storage/jsonrepo/repos_test.go sin cambios. Tests US-11 existentes en internal/service sin cambios.
