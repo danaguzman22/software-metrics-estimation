@@ -162,14 +162,11 @@ func (r *Integrantes) ListarPorProyecto(proyectoID string) ([]domain.Integrante,
 	if err != nil {
 		return nil, err
 	}
-	var resultado []domain.Integrante
+	resultado := make([]domain.Integrante, 0)
 	for _, reg := range registros {
 		if reg.ProyectoID == proyectoID {
 			resultado = append(resultado, reg.Integrante)
 		}
-	}
-	if resultado == nil {
-		resultado = []domain.Integrante{}
 	}
 	return resultado, nil
 }
@@ -258,14 +255,11 @@ func (r *Backlog) ListarPorProyecto(proyectoID string) ([]domain.ItemBacklog, er
 	if err != nil {
 		return nil, err
 	}
-	var resultado []domain.ItemBacklog
+	resultado := make([]domain.ItemBacklog, 0)
 	for _, reg := range registros {
 		if reg.ProyectoID == proyectoID {
 			resultado = append(resultado, reg.Item)
 		}
-	}
-	if resultado == nil {
-		resultado = []domain.ItemBacklog{}
 	}
 	sort.Slice(resultado, func(i, j int) bool {
 		ni, _ := domain.NumeroDeItem(resultado[i].ID)
