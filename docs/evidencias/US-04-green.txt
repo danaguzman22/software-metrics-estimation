@@ -1,0 +1,1 @@
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.325s
