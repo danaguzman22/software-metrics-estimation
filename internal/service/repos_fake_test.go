@@ -85,32 +85,81 @@ func (f *fakeRepositorioIntegrantes) Agregar(proyectoID string, integrante domai
 }
 
 type fakeRepositorioBacklog struct {
-	agregarErr      error
-	obtenerErr      error
-	listarErr       error
-	actualizarErr   error
-	agregados       int
-	obtenerLlamadas int
-	actualizaciones int
+	items            map[string][]domain.ItemBacklog
+	agregarErr       error
+	obtenerErr       error
+	listarErr        error
+	actualizarErr    error
+	agregados        int
+	obtenerLlamadas  int
+	actualizaciones  int
+	idAsignado       string
+	ultimoProyectoID string
+	ultimoItemID     string
 }
 
-func (f *fakeRepositorioBacklog) AgregarItem(string, domain.ItemBacklog) (domain.ItemBacklog, error) {
+func (f *fakeRepositorioBacklog) AgregarItem(proyectoID string, item domain.ItemBacklog) (domain.ItemBacklog, error) {
 	f.agregados++
-	return domain.ItemBacklog{}, f.agregarErr
+	f.ultimoProyectoID = proyectoID
+	if f.agregarErr != nil {
+		return domain.ItemBacklog{}, f.agregarErr
+	}
+
+	persistido := item
+	if f.idAsignado != "" {
+		persistido.ID = f.idAsignado
+	} else {
+		ids := make([]string, 0, len(f.items[proyectoID]))
+		for _, existente := range f.items[proyectoID] {
+			ids = append(ids, existente.ID)
+		}
+		persistido.ID = domain.SiguienteIDItem(ids)
+	}
+
+	f.items[proyectoID] = append(f.items[proyectoID], persistido)
+	return persistido, nil
 }
 
-func (f *fakeRepositorioBacklog) ObtenerItem(string, string) (domain.ItemBacklog, error) {
+func (f *fakeRepositorioBacklog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, error) {
 	f.obtenerLlamadas++
-	return domain.ItemBacklog{}, f.obtenerErr
+	f.ultimoProyectoID = proyectoID
+	f.ultimoItemID = itemID
+	if f.obtenerErr != nil {
+		return domain.ItemBacklog{}, f.obtenerErr
+	}
+
+	for _, item := range f.items[proyectoID] {
+		if item.ID == itemID {
+			return item, nil
+		}
+	}
+	return domain.ItemBacklog{}, domain.ErrItemNoEncontrado
 }
 
-func (f *fakeRepositorioBacklog) ListarPorProyecto(string) ([]domain.ItemBacklog, error) {
-	return nil, f.listarErr
+func (f *fakeRepositorioBacklog) ListarPorProyecto(proyectoID string) ([]domain.ItemBacklog, error) {
+	if f.listarErr != nil {
+		return nil, f.listarErr
+	}
+	return append([]domain.ItemBacklog(nil), f.items[proyectoID]...), nil
 }
 
-func (f *fakeRepositorioBacklog) ActualizarItem(string, domain.ItemBacklog) error {
+func (f *fakeRepositorioBacklog) ActualizarItem(proyectoID string, item domain.ItemBacklog) error {
 	f.actualizaciones++
-	return f.actualizarErr
+	f.ultimoProyectoID = proyectoID
+	f.ultimoItemID = item.ID
+	if f.actualizarErr != nil {
+		return f.actualizarErr
+	}
+
+	items := f.items[proyectoID]
+	for i := range items {
+		if items[i].ID == item.ID {
+			items[i] = item
+			f.items[proyectoID] = items
+			return nil
+		}
+	}
+	return domain.ErrItemNoEncontrado
 }
 
 func nuevoFakeProyectos() *fakeRepositorioProyectos {
@@ -119,6 +168,10 @@ func nuevoFakeProyectos() *fakeRepositorioProyectos {
 
 func nuevoFakeIntegrantes() *fakeRepositorioIntegrantes {
 	return &fakeRepositorioIntegrantes{integrantes: map[string][]domain.Integrante{}}
+}
+
+func nuevoFakeBacklog() *fakeRepositorioBacklog {
+	return &fakeRepositorioBacklog{items: map[string][]domain.ItemBacklog{}}
 }
 
 func proyectoFakeValido() domain.Proyecto {

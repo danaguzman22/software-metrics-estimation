@@ -1,0 +1,154 @@
+--- FAIL: TestT09_CrearItem_PropagaErrorRepositorioConWrap (0.00s)
+    --- FAIL: TestT09_CrearItem_PropagaErrorRepositorioConWrap/Existe (0.00s)
+        backlog_t09_test.go:27: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestT09_CrearItem_PropagaErrorRepositorioConWrap/AgregarItem (0.00s)
+        backlog_t09_test.go:48: errors.Is(err, causa) = false; err = no implementado
+--- FAIL: TestT09_CrearItem_ConservaIDDevueltoPorRepositorio (0.00s)
+    backlog_t09_test.go:67: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestT09_CrearItem_NoEscribeSiProyectoNoExiste (0.00s)
+    backlog_t09_test.go:88: error = no implementado; se esperaba ErrProyectoNoEncontrado
+--- FAIL: TestT09_CrearItem_NoEscribeSiValidacionFalla (0.00s)
+    --- FAIL: TestT09_CrearItem_NoEscribeSiValidacionFalla/título_vacío (0.00s)
+        backlog_t09_test.go:114: error = no implementado; se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestT09_CrearItem_NoEscribeSiValidacionFalla/prioridad_inválida (0.00s)
+        backlog_t09_test.go:114: error = no implementado; se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestT09_CrearItem_ErrorDominioSinEnvolver (0.00s)
+    --- FAIL: TestT09_CrearItem_ErrorDominioSinEnvolver/proyecto_inexistente (0.00s)
+        backlog_t09_test.go:144: error = no implementado; se esperaba no se encontró el proyecto
+    --- FAIL: TestT09_CrearItem_ErrorDominioSinEnvolver/título_vacío (0.00s)
+        backlog_t09_test.go:144: error = no implementado; se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestT09_CrearItem_ErrorDominioSinEnvolver/prioridad_inválida (0.00s)
+        backlog_t09_test.go:144: error = no implementado; se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_CrearItem_Exitoso (0.00s)
+    backlog_test.go:125: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_SegundoItemEnMismoProyecto (0.00s)
+    backlog_test.go:175: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_PrimerAltaSinArchivoBacklog (0.00s)
+    backlog_test.go:212: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_PrimerItemIDHU01 (0.00s)
+    backlog_test.go:234: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_IDConsecutivoAlMayor (0.00s)
+    backlog_test.go:255: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_IDUnicoEnProyecto (0.00s)
+    backlog_test.go:280: CrearItem() del primer ítem devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_MismoIDEnOtroProyecto (0.00s)
+    backlog_test.go:314: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste (0.00s)
+    --- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_vacío (0.00s)
+        backlog_test.go:359: err = no implementado, se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_compuesto_solo_por_espacios (0.00s)
+        backlog_test.go:359: err = no implementado, se esperaba el título del ítem no puede estar vacío
+--- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste (0.00s)
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_no_permitida (0.00s)
+        backlog_test.go:407: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_minúsculas (0.00s)
+        backlog_test.go:407: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_mayúsculas (0.00s)
+        backlog_test.go:407: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_compuesta_solo_por_espacios (0.00s)
+        backlog_test.go:407: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_CrearItem_EstadoInicialPendiente (0.00s)
+    backlog_test.go:434: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_StoryPointsCero (0.00s)
+    backlog_test.go:457: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_DescripcionYCriteriosOpcionales (0.00s)
+    backlog_test.go:480: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_DescripcionYCriteriosSinValidar (0.00s)
+    backlog_test.go:512: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_ProyectoNoEncontrado (0.00s)
+    backlog_test.go:545: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_ArchivoProyectosInexistente (0.00s)
+    backlog_test.go:565: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio (0.00s)
+    backlog_test.go:588: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_TituloVacioAntesQuePrioridadInvalida (0.00s)
+    backlog_test.go:610: err = no implementado, se esperaba el título del ítem no puede estar vacío
+--- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste (0.00s)
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/proyecto_inexistente (0.00s)
+        backlog_test.go:669: err = no implementado, se esperaba no se encontró el proyecto
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/título_vacío (0.00s)
+        backlog_test.go:669: err = no implementado, se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/prioridad_inválida (0.00s)
+        backlog_test.go:669: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado (0.00s)
+    backlog_test.go:699: err = no implementado, se esperaba un error que envuelva contenido inválido
+--- FAIL: TestUS05_CrearItem_BacklogCorruptoNoEsNoEncontrado (0.00s)
+    backlog_test.go:724: err = no implementado, se esperaba un error que envuelva contenido inválido
+--- FAIL: TestUS05_CrearItem_FalloDeEscrituraNoInformaExito (0.00s)
+    backlog_test.go:749: err = no implementado, se esperaba un error que envuelva fallo simulado de escritura
+--- FAIL: TestT09_EstimarItem_PropagaErrorRepositorioConWrap (0.00s)
+    --- FAIL: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/Existe (0.00s)
+        estimacion_t09_test.go:29: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ObtenerItem (0.00s)
+        estimacion_t09_test.go:50: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ActualizarItem (0.00s)
+        estimacion_t09_test.go:71: errors.Is(err, causa) = false; err = no implementado
+--- FAIL: TestT09_EstimarItem_NoEscribeSiProyectoNoExiste (0.00s)
+    estimacion_t09_test.go:89: error = no implementado; se esperaba ErrProyectoNoEncontrado
+--- FAIL: TestT09_EstimarItem_NoEscribeSiItemNoExiste (0.00s)
+    estimacion_t09_test.go:104: error = no implementado; se esperaba ErrItemNoEncontrado
+--- FAIL: TestT09_EstimarItem_NoEscribeSiValidacionFalla (0.00s)
+    --- FAIL: TestT09_EstimarItem_NoEscribeSiValidacionFalla/0 (0.00s)
+        estimacion_t09_test.go:120: error = no implementado; se esperaba ErrStoryPointsInvalidos
+    --- FAIL: TestT09_EstimarItem_NoEscribeSiValidacionFalla/-1 (0.00s)
+        estimacion_t09_test.go:120: error = no implementado; se esperaba ErrStoryPointsInvalidos
+    --- FAIL: TestT09_EstimarItem_NoEscribeSiValidacionFalla/4 (0.00s)
+        estimacion_t09_test.go:120: error = no implementado; se esperaba ErrStoryPointsInvalidos
+    --- FAIL: TestT09_EstimarItem_NoEscribeSiValidacionFalla/22 (0.00s)
+        estimacion_t09_test.go:120: error = no implementado; se esperaba ErrStoryPointsInvalidos
+--- FAIL: TestT09_EstimarItem_ErrorDominioSinEnvolver (0.00s)
+    --- FAIL: TestT09_EstimarItem_ErrorDominioSinEnvolver/proyecto_inexistente (0.00s)
+        estimacion_t09_test.go:175: error = no implementado; se esperaba no se encontró el proyecto
+    --- FAIL: TestT09_EstimarItem_ErrorDominioSinEnvolver/ítem_inexistente (0.00s)
+        estimacion_t09_test.go:175: error = no implementado; se esperaba el ítem no existe en el proyecto
+    --- FAIL: TestT09_EstimarItem_ErrorDominioSinEnvolver/story_points_inválidos (0.00s)
+        estimacion_t09_test.go:175: error = no implementado; se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_Exitoso (0.00s)
+    estimacion_test.go:39: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ConservaRestoDeCampos (0.00s)
+    estimacion_test.go:71: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_Reestimacion (0.00s)
+    estimacion_test.go:91: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ItemSinEstimar (0.00s)
+    estimacion_test.go:116: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ProyectoNoEncontrado (0.00s)
+    estimacion_test.go:139: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ArchivoProyectosInexistente (0.00s)
+    estimacion_test.go:156: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ItemNoEncontrado (0.00s)
+    estimacion_test.go:179: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.00s)
+    estimacion_test.go:208: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste (0.00s)
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/0 (0.00s)
+        estimacion_test.go:237: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/-1 (0.00s)
+        estimacion_test.go:237: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/4 (0.00s)
+        estimacion_test.go:237: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+    --- FAIL: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/22 (0.00s)
+        estimacion_test.go:237: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio (0.00s)
+    estimacion_test.go:262: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido (0.00s)
+    estimacion_test.go:283: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido (0.00s)
+    estimacion_test.go:307: err = no implementado, se esperaba el ítem no existe en el proyecto
+--- FAIL: TestUS11_EstimarItem_ConservaOtrosItemsYOrden (0.00s)
+    estimacion_test.go:344: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos (0.00s)
+    estimacion_test.go:382: EstimarItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS11_EstimarItem_ErrorNoEscribe (0.00s)
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/proyecto_inexistente (0.00s)
+        estimacion_test.go:438: err = no implementado, se esperaba no se encontró el proyecto
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/ítem_inexistente (0.00s)
+        estimacion_test.go:438: err = no implementado, se esperaba el ítem no existe en el proyecto
+    --- FAIL: TestUS11_EstimarItem_ErrorNoEscribe/story_points_inválidos (0.00s)
+        estimacion_test.go:438: err = no implementado, se esperaba los story points no son válidos: deben ser 1, 2, 3, 5, 8, 13 o 21
+--- FAIL: TestUS11_EstimarItem_JSONCorruptoPropagaError (0.00s)
+    estimacion_test.go:463: err = no implementado, se esperaba un error que envuelva contenido inválido
+--- FAIL: TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito (0.00s)
+    estimacion_test.go:493: err = no implementado, se esperaba un error que envuelva fallo simulado de escritura
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	0.959s
+FAIL

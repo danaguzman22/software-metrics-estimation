@@ -1,58 +1,14 @@
 package service
 
-// Compatibilidad temporal de Fase 1: ServicioBacklog/EstimarItem aún usan el
-// contrato "almacen" sobre storage.JSONStore; estos helpers permiten que los
-// tests existentes sigan armándose igual hasta su migración en Fase 2.
-// Archivo solo de tests (_test.go), sin lógica productiva.
+// Helpers de armado de los tests de servicio sobre los fakes en memoria de
+// repos_fake_test.go. La antigua compatibilidad con storage.JSONStore se retiró
+// al migrar ServicioBacklog en la Fase 2 de T-09.
 
-import (
-	"testing"
+import "testing"
 
-	"github.com/danaguzman22/software-metrics-estimation/internal/storage"
-)
-
-func nuevoAlmacenServicio(t *testing.T) (*storage.JSONStore, string) {
+func sembrarProyectos(t *testing.T, entorno *entornoBacklog, registros []ProyectoRegistrado) {
 	t.Helper()
-	dir := t.TempDir()
-	almacen, err := storage.NewJSONStore(dir)
-	if err != nil {
-		t.Fatalf("NewJSONStore: %v", err)
+	for _, registro := range registros {
+		entorno.proyectos[registro.ID] = registro.Proyecto
 	}
-	return almacen, dir
-}
-
-func sembrarProyectos(t *testing.T, a interface {
-	Save(name string, v any) error
-}, registros []ProyectoRegistrado) {
-	t.Helper()
-	if err := a.Save("proyectos", registros); err != nil {
-		t.Fatalf("Save(\"proyectos\"): %v", err)
-	}
-}
-
-type almacenCuentaSaves struct {
-	real          *storage.JSONStore
-	llamadasASave int
-}
-
-func (a *almacenCuentaSaves) Save(name string, v any) error {
-	a.llamadasASave++
-	return a.real.Save(name, v)
-}
-
-func (a *almacenCuentaSaves) Load(name string, v any) error {
-	return a.real.Load(name, v)
-}
-
-type almacenFalloEscritura struct {
-	real *storage.JSONStore
-	err  error
-}
-
-func (a almacenFalloEscritura) Save(name string, v any) error {
-	return a.err
-}
-
-func (a almacenFalloEscritura) Load(name string, v any) error {
-	return a.real.Load(name, v)
 }
