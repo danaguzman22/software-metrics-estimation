@@ -7,6 +7,13 @@ import (
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
 
+// itemConProyecto asocia un ítem con el proyecto al que pertenece para sembrar
+// y verificar los fakes de backlog en los tests.
+type itemConProyecto struct {
+	ProyectoID string
+	Item       domain.ItemBacklog
+}
+
 // entornoBacklog agrupa los fakes de proyectos y backlog para sembrar datos y
 // verificar el estado sin depender de internal/storage.
 type entornoBacklog struct {
@@ -25,8 +32,16 @@ func (e *entornoBacklog) servicio() *ServicioBacklog {
 	return NuevoServicioBacklog(e.fakeRepositorioProyectos, e.fakeRepositorioBacklog)
 }
 
+// sembrarProyectos carga los proyectos indicados en el fake de proyectos.
+func sembrarProyectos(t *testing.T, entorno *entornoBacklog, registros []ProyectoRegistrado) {
+	t.Helper()
+	for _, registro := range registros {
+		entorno.proyectos[registro.ID] = registro.Proyecto
+	}
+}
+
 // sembrarBacklog carga los ítems indicados en el fake de backlog.
-func sembrarBacklog(t *testing.T, entorno *entornoBacklog, registros []itemRegistrado) {
+func sembrarBacklog(t *testing.T, entorno *entornoBacklog, registros []itemConProyecto) {
 	t.Helper()
 	for _, registro := range registros {
 		entorno.items[registro.ProyectoID] = append(entorno.items[registro.ProyectoID], registro.Item)
@@ -34,19 +49,19 @@ func sembrarBacklog(t *testing.T, entorno *entornoBacklog, registros []itemRegis
 }
 
 // cargarBacklog devuelve una copia de los ítems persistidos en el fake.
-func cargarBacklog(t *testing.T, entorno *entornoBacklog) []itemRegistrado {
+func cargarBacklog(t *testing.T, entorno *entornoBacklog) []itemConProyecto {
 	t.Helper()
-	var registros []itemRegistrado
+	var registros []itemConProyecto
 	for proyectoID, items := range entorno.items {
 		for _, item := range items {
-			registros = append(registros, itemRegistrado{ProyectoID: proyectoID, Item: item})
+			registros = append(registros, itemConProyecto{ProyectoID: proyectoID, Item: item})
 		}
 	}
 	return registros
 }
 
 // buscarRegistroItem devuelve el registro del proyecto e ID indicados.
-func buscarRegistroItem(t *testing.T, registros []itemRegistrado, proyectoID, id string) itemRegistrado {
+func buscarRegistroItem(t *testing.T, registros []itemConProyecto, proyectoID, id string) itemConProyecto {
 	t.Helper()
 	for _, registro := range registros {
 		if registro.ProyectoID == proyectoID && registro.Item.ID == id {
@@ -54,7 +69,7 @@ func buscarRegistroItem(t *testing.T, registros []itemRegistrado, proyectoID, id
 		}
 	}
 	t.Fatalf("no se encontró el ítem %q del proyecto %q", id, proyectoID)
-	return itemRegistrado{}
+	return itemConProyecto{}
 }
 
 // verificarItemBacklog compara campo por campo un ítem del backlog. Los
@@ -155,7 +170,7 @@ func TestUS05_CrearItem_SegundoItemEnMismoProyecto(t *testing.T) {
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{
 			ProyectoID: "p1",
 			Item: domain.ItemBacklog{
@@ -244,7 +259,7 @@ func TestUS05_CrearItem_IDConsecutivoAlMayor(t *testing.T) {
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}},
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-03", Titulo: "Consultar proyecto", Prioridad: "Media", Estado: "Pendiente"}},
 	})
@@ -304,7 +319,7 @@ func TestUS05_CrearItem_MismoIDEnOtroProyecto(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}},
 	})
 	servicio := almacen.servicio()
@@ -345,7 +360,7 @@ func TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste(t *testing.T) {
 			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
 			almacen := almacenReal
@@ -393,7 +408,7 @@ func TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste(t *testing.T) {
 			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
 			almacen := almacenReal
@@ -655,7 +670,7 @@ func TestUS05_CrearItem_ErrorNoAgregaNiPersiste(t *testing.T) {
 			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
 			almacen := almacenReal

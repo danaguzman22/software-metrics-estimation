@@ -31,7 +31,7 @@ func TestUS11_EstimarItem_Exitoso(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
-	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacen, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	servicio := almacen.servicio()
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 5)
@@ -63,7 +63,7 @@ func TestUS11_EstimarItem_ConservaRestoDeCampos(t *testing.T) {
 			"Cada métrica tiene una descripción",
 		},
 	}
-	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacen, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	servicio := almacen.servicio()
 
 	estimado, err := servicio.EstimarItem("p1", "HU-07", 8)
@@ -83,7 +83,7 @@ func TestUS11_EstimarItem_Reestimacion(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(3)
-	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacen, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	servicio := almacen.servicio()
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 8)
@@ -108,7 +108,7 @@ func TestUS11_EstimarItem_ItemSinEstimar(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
-	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacen, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	servicio := almacen.servicio()
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 5)
@@ -130,7 +130,7 @@ func TestUS11_EstimarItem_ProyectoNoEncontrado(t *testing.T) {
 		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
 	original := itemUS11Backlog(2)
-	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	almacen := almacenReal
 	servicio := almacen.servicio()
 
@@ -170,7 +170,7 @@ func TestUS11_EstimarItem_ItemNoEncontrado(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(2)
-	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	almacen := almacenReal
 	servicio := almacen.servicio()
 
@@ -196,7 +196,7 @@ func TestUS11_EstimarItem_MismoIDEnOtroProyecto(t *testing.T) {
 	})
 	originalP1 := itemUS11Backlog(2)
 	originalP2 := itemUS11Backlog(2)
-	sembrarBacklog(t, almacenReal, []itemRegistrado{
+	sembrarBacklog(t, almacenReal, []itemConProyecto{
 		{ProyectoID: "p1", Item: originalP1},
 		{ProyectoID: "p2", Item: originalP2},
 	})
@@ -228,7 +228,7 @@ func TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste(t *testing.T) {
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 			})
 			original := itemUS11Backlog(3)
-			sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+			sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 			almacen := almacenReal
 			servicio := almacen.servicio()
 
@@ -253,7 +253,7 @@ func TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(3)
-	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	almacen := almacenReal
 	servicio := almacen.servicio()
 
@@ -298,7 +298,7 @@ func TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(2)
-	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 	almacen := almacenReal
 	servicio := almacen.servicio()
 
@@ -332,7 +332,7 @@ func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 	hu03 := itemUS11Backlog(5)
 	hu03.ID = "HU-03"
 	hu03.Titulo = "Consultar métricas"
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: hu01},
 		{ProyectoID: "p1", Item: hu02},
 		{ProyectoID: "p1", Item: hu03},
@@ -371,7 +371,7 @@ func TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos(t *testing.T) {
 	})
 	p1Item := itemUS11Backlog(0)
 	p2Item := itemUS11Backlog(2)
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: p1Item},
 		{ProyectoID: "p2", Item: p2Item},
 	})
@@ -429,7 +429,7 @@ func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 			})
 			original := itemUS11Backlog(3)
-			sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+			sembrarBacklog(t, almacenReal, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 			almacen := almacenReal
 			servicio := almacen.servicio()
 
@@ -482,7 +482,7 @@ func TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito(t *testing.T) {
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
-	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
+	sembrarBacklog(t, almacen, []itemConProyecto{{ProyectoID: "p1", Item: original}})
 
 	errSimulado := errors.New("fallo simulado de escritura")
 	almacen.fakeRepositorioBacklog.actualizarErr = errSimulado

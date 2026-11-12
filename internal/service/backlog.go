@@ -4,16 +4,6 @@ import (
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
 
-// itemRegistrado es el registro persistido de un ítem del backlog: el ID del
-// proyecto junto al ítem del dominio (D2).
-//
-// Se conserva temporalmente durante la Fase 2 para el armado de los tests de
-// servicio; se elimina en la Fase 3 de limpieza.
-type itemRegistrado struct {
-	ProyectoID string             `json:"proyecto_id"`
-	Item       domain.ItemBacklog `json:"item"`
-}
-
 // ServicioBacklog orquesta los casos de uso del Product Backlog sobre el
 // dominio (D11).
 type ServicioBacklog struct {

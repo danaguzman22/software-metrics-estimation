@@ -1,0 +1,92 @@
+T-09 Fase 2 — REFACTOR
+Issue: #43
+Rama: feature/T-09-servicios-repositorios
+
+Cambios aplicados:
+- Eliminado el código muerto de internal/service: interfaz almacen,
+  verificarProyectoExistente, cargarColeccionBacklog e itemRegistrado.
+- Eliminados los archivos internal/service/backlog_coleccion.go y
+  internal/service/compat_storage_test.go.
+- TestT09_ServiceNoImportaStorage ahora recorre todos los archivos .go no-test
+  de internal/service (no una lista fija) y verifica que ninguno importe
+  internal/storage ni sus subpaquetes.
+- El helper de tests sembrarProyectos y el tipo de apoyo itemConProyecto se
+  conservan solo en tests (backlog_test.go); no hay identificadores obsoletos
+  en código productivo.
+- Sin cambios de comportamiento ni de aserciones de negocio.
+
+=== gofmt -l . ===
+cmd\server\main.go
+cmd\server\main_test.go
+internal\domain\doc.go
+internal\domain\estado.go
+internal\domain\estado_test.go
+internal\domain\estimacion.go
+internal\domain\estimacion_test.go
+internal\domain\integrante.go
+internal\domain\integrante_test.go
+internal\domain\item_backlog.go
+internal\domain\item_backlog_test.go
+internal\domain\numeracion_item.go
+internal\domain\numeracion_item_test.go
+internal\domain\proyecto.go
+internal\domain\proyecto_modificar_test.go
+internal\domain\proyecto_test.go
+internal\storage\doc.go
+internal\storage\jsonrepo\contrato_test.go
+internal\storage\jsonrepo\repos.go
+internal\storage\jsonrepo\repos_test.go
+internal\storage\postgres\migrate_test.go
+internal\storage\postgres\postgres.go
+internal\storage\postgres\repos.go
+internal\storage\postgres\repos_test.go
+internal\storage\storage.go
+internal\storage\storage_test.go
+internal\web\doc.go
+migrations\embed.go
+migrations\embed_test.go
+exit_code=0
+
+Nota: los archivos listados ya tenían finales de línea CRLF en el repositorio
+antes de esta tarea y están fuera del alcance de T-09. `gofmt -l internal/service`
+no devuelve archivos: el paquete tocado queda formateado.
+
+=== go vet ./... ===
+exit_code=0
+(sin salida)
+
+=== go test ./... -count=1 ===
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	1.375s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.798s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.479s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.989s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.483s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.179s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.648s
+exit_code=0
+
+=== Cobertura internal/service ===
+go test ./internal/service -cover -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.905s	coverage: 100.0% of statements
+exit_code=0
+
+=== Independencia de internal/storage ===
+Archivos .go no-test revisados por TestT09_ServiceNoImportaStorage:
+- backlog.go
+- doc.go
+- errores_repositorio.go
+- estimacion.go
+- integrantes.go
+- proyectos.go
+- repositorios.go
+
+Ninguno importa internal/storage ni internal/storage/jsonrepo ni
+internal/storage/postgres. La dependencia solo aparece en archivos _test.go
+del guard de independencia, como corresponde.
+
+Alcance:
+- No se modificaron specs, features, internal/domain, internal/storage,
+  internal/web, cmd/server, migraciones ni repotest.
+- No se realizó commit, push ni merge.
