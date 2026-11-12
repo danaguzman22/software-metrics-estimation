@@ -1,8 +1,6 @@
 package service
 
 import (
-	"errors"
-
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
 
@@ -30,11 +28,26 @@ func NuevoServicioBacklog(proyectos RepositorioProyectos, backlog RepositorioBac
 
 // CrearItem registra un ítem del backlog en el proyecto identificado por
 // proyectoID (D11).
-//
-// Fase RED de T-09: la firma pública se conserva y la implementación se
-// completa en la fase GREEN.
 func (s *ServicioBacklog) CrearItem(
 	proyectoID, titulo, descripcion, prioridad string, criterios []string,
 ) (domain.ItemBacklog, error) {
-	return domain.ItemBacklog{}, errors.New("no implementado")
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return domain.ItemBacklog{}, domain.ErrProyectoNoEncontrado
+	}
+
+	item, err := domain.NuevoItemBacklog(titulo, descripcion, prioridad, criterios)
+	if err != nil {
+		return domain.ItemBacklog{}, err
+	}
+
+	creado, err := s.backlog.AgregarItem(proyectoID, item)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("agregar ítem al backlog", err)
+	}
+
+	return creado, nil
 }
