@@ -25,6 +25,8 @@ func (p *pingFalso) Ping(context.Context) error {
 	return p.err
 }
 
+var _ web.Pinger = (*pingFalso)(nil)
+
 // servidorApagableFalso registra las llamadas a Shutdown y el deadline que
 // recibió, sin abrir un servidor real.
 type servidorApagableFalso struct {
