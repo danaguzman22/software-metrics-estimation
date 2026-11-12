@@ -1,6 +1,7 @@
 Fecha: 2026-11-12T04:02:48
 Rama: feature/T-03-servidor-web
 Commit base: 840d558
+Commit RED: 19c3456
 Go: go version go1.27.3 windows/amd64
 Comando: go test ./cmd/server ./internal/web -run '^TestT03_' -count=1
 Nota: RED, sin código de producción; falla por símbolos inexistentes.

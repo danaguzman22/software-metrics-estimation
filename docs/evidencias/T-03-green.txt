@@ -2,6 +2,9 @@ Evidencia de la fase GREEN - Historia T-03 (servidor web / healthz)
 
 Fecha: 2026-11-12 11:20:45 -03:00
 Rama: feature/T-03-servidor-web
+Commit GREEN: ef48a11
+Corrección posterior: 4123660 (cableado de repositorios/servicios y saneamiento del error de conexión)
+Go: go version go1.27.3 windows/amd64
 Resultado: TODOS los comandos pasaron (build, vet y ambos tests).
 
 ================================================================================
