@@ -13,23 +13,27 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/danaguzman22/software-metrics-estimation/internal/service"
 	"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"
 	"github.com/danaguzman22/software-metrics-estimation/internal/web"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
-	deps := dependenciasArranque{
+	if err := arrancar(context.Background(), dependenciasPorDefecto()); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func dependenciasPorDefecto() dependenciasArranque {
+	return dependenciasArranque{
 		conectar: func(ctx context.Context, databaseURL string) (*pgxpool.Pool, error) {
 			bootstrapCtx, cancelar := context.WithTimeout(ctx, 30*time.Second)
 			defer cancelar()
 			return postgres.ConnectAndMigrate(bootstrapCtx, databaseURL)
 		},
-		escuchar: net.Listen,
-	}
-
-	if err := arrancar(context.Background(), deps); err != nil {
-		log.Fatal(err)
+		escuchar:           net.Listen,
+		construirServicios: construirServiciosPostgres,
 	}
 }
 
@@ -53,9 +57,22 @@ func direccionHTTP() string {
 // dependenciasArranque agrupa las funciones y dependencias inyectables del
 // arranque para poder probarlo sin PostgreSQL real.
 type dependenciasArranque struct {
-	conectar func(context.Context, string) (*pgxpool.Pool, error)
-	escuchar func(string, string) (net.Listener, error)
-	ping     web.Pinger
+	conectar           func(context.Context, string) (*pgxpool.Pool, error)
+	escuchar           func(string, string) (net.Listener, error)
+	construirServicios func(*pgxpool.Pool)
+	ping               web.Pinger
+}
+
+type errorConexionPostgres struct {
+	err error
+}
+
+func (e errorConexionPostgres) Error() string {
+	return "conectar con PostgreSQL"
+}
+
+func (e errorConexionPostgres) Unwrap() error {
+	return e.err
 }
 
 // servidorApagable es la parte del servidor que usa el apagado ordenado.
@@ -75,6 +92,15 @@ func construirServidor(_ *pgxpool.Pool, ping web.Pinger, addr string) *http.Serv
 	return web.NuevoServidor(addr, web.NuevoHandler(ping))
 }
 
+func construirServiciosPostgres(pool *pgxpool.Pool) {
+	proyectos := postgres.NuevoProyectos(pool)
+	integrantes := postgres.NuevoIntegrantes(pool)
+	backlog := postgres.NuevoBacklog(pool)
+
+	_ = service.NuevoServicioProyectos(proyectos, integrantes)
+	_ = service.NuevoServicioBacklog(proyectos, backlog)
+}
+
 // arrancar conecta con la base, levanta el servidor y espera una señal o un
 // error de escucha. El pool se cierra siempre al terminar.
 func arrancar(ctx context.Context, deps dependenciasArranque) error {
@@ -85,8 +111,14 @@ func arrancar(ctx context.Context, deps dependenciasArranque) error {
 
 	pool, err := deps.conectar(ctx, databaseURL)
 	if err != nil {
-		return fmt.Errorf("conectar con PostgreSQL: %w", err)
+		return errorConexionPostgres{err: err}
 	}
+
+	construirServicios := deps.construirServicios
+	if construirServicios == nil {
+		construirServicios = construirServiciosPostgres
+	}
+	construirServicios(pool)
 
 	ping := deps.ping
 	if ping == nil {
