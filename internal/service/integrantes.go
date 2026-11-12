@@ -1,9 +1,6 @@
 package service
 
 import (
-	"errors"
-	"fmt"
-
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
 
@@ -14,10 +11,7 @@ func (s *ServicioProyectos) AgregarIntegrante(
 ) (domain.Integrante, error) {
 	existe, err := s.proyectos.Existe(proyectoID)
 	if err != nil {
-		if errors.Is(err, domain.ErrProyectoNoEncontrado) || errors.Unwrap(err) == nil {
-			return domain.Integrante{}, err
-		}
-		return domain.Integrante{}, fmt.Errorf("service: verificar proyecto: %w", err)
+		return domain.Integrante{}, envolverErrorRepositorio("verificar proyecto", err)
 	}
 	if !existe {
 		return domain.Integrante{}, domain.ErrProyectoNoEncontrado
@@ -30,20 +24,14 @@ func (s *ServicioProyectos) AgregarIntegrante(
 
 	existentes, err := s.integrantes.ListarPorProyecto(proyectoID)
 	if err != nil {
-		if errors.Is(err, domain.ErrProyectoNoEncontrado) || errors.Unwrap(err) == nil {
-			return domain.Integrante{}, err
-		}
-		return domain.Integrante{}, fmt.Errorf("service: listar integrantes: %w", err)
+		return domain.Integrante{}, envolverErrorRepositorio("listar integrantes", err)
 	}
 	if domain.EsDuplicado(existentes, nuevo.Nombre) {
 		return domain.Integrante{}, domain.ErrIntegranteDuplicado
 	}
 
 	if err := s.integrantes.Agregar(proyectoID, nuevo); err != nil {
-		if errors.Is(err, domain.ErrProyectoNoEncontrado) || errors.Is(err, domain.ErrIntegranteDuplicado) || errors.Unwrap(err) == nil {
-			return domain.Integrante{}, err
-		}
-		return domain.Integrante{}, fmt.Errorf("service: agregar integrante: %w", err)
+		return domain.Integrante{}, envolverErrorRepositorio("agregar integrante", err)
 	}
 
 	return nuevo, nil

@@ -1,8 +1,6 @@
 package service
 
 import (
-	"errors"
-	"fmt"
 	"time"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
@@ -27,10 +25,7 @@ func (s *ServicioProyectos) ModificarProyecto(
 ) (domain.Proyecto, error) {
 	registro, err := s.proyectos.Obtener(id)
 	if err != nil {
-		if errors.Is(err, domain.ErrProyectoNoEncontrado) || errors.Unwrap(err) == nil {
-			return domain.Proyecto{}, err
-		}
-		return domain.Proyecto{}, fmt.Errorf("service: obtener proyecto: %w", err)
+		return domain.Proyecto{}, envolverErrorRepositorio("obtener proyecto", err)
 	}
 
 	modificado, err := domain.ModificarProyecto(registro.Proyecto, nombre, fechaInicio, fechaFin)
@@ -39,10 +34,7 @@ func (s *ServicioProyectos) ModificarProyecto(
 	}
 
 	if err := s.proyectos.Actualizar(id, modificado); err != nil {
-		if errors.Is(err, domain.ErrProyectoNoEncontrado) || errors.Unwrap(err) == nil {
-			return domain.Proyecto{}, err
-		}
-		return domain.Proyecto{}, fmt.Errorf("service: actualizar proyecto: %w", err)
+		return domain.Proyecto{}, envolverErrorRepositorio("actualizar proyecto", err)
 	}
 
 	return modificado, nil

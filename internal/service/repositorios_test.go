@@ -13,7 +13,7 @@ import (
 )
 
 func TestT09_ServiceNoImportaStorage(t *testing.T) {
-	archivosMigrados := []string{"proyectos.go", "integrantes.go"}
+	archivosMigrados := []string{"proyectos.go", "integrantes.go", "errores_repositorio.go"}
 	// La lista se amplía en la Fase 2 y se generaliza al paquete completo en la Fase 3.
 	for _, archivo := range archivosMigrados {
 		arbol, err := parser.ParseFile(token.NewFileSet(), archivo, nil, parser.ImportsOnly)
