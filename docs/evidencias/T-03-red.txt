@@ -1,0 +1,30 @@
+Fecha: 2026-11-12T04:02:48
+Rama: feature/T-03-servidor-web
+Commit base: 840d558
+Go: go version go1.27.3 windows/amd64
+Comando: go test ./cmd/server ./internal/web -run '^TestT03_' -count=1
+Nota: RED, sin código de producción; falla por símbolos inexistentes.
+
+# github.com/danaguzman22/software-metrics-estimation/cmd/server [github.com/danaguzman22/software-metrics-estimation/cmd/server.test]
+cmd\server\main_t03_test.go:96:14: undefined: direccionHTTP
+cmd\server\main_t03_test.go:106:12: undefined: direccionHTTP
+cmd\server\main_t03_test.go:114:14: undefined: construirServidor
+cmd\server\main_t03_test.go:149:10: undefined: dependenciasArranque
+cmd\server\main_t03_test.go:156:27: undefined: arrancar
+cmd\server\main_t03_test.go:189:12: undefined: apagar
+cmd\server\main_t03_test.go:216:9: undefined: apagar
+cmd\server\main_t03_test.go:239:10: undefined: dependenciasArranque
+cmd\server\main_t03_test.go:246:27: undefined: arrancar
+cmd\server\main_t03_test.go:268:10: undefined: dependenciasArranque
+cmd\server\main_t03_test.go:268:10: too many errors
+FAIL	github.com/danaguzman22/software-metrics-estimation/cmd/server [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test [github.com/danaguzman22/software-metrics-estimation/internal/web.test]
+internal\web\handler_test.go:42:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:64:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:86:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:105:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:120:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:136:17: undefined: web.NuevoHandler
+internal\web\handler_test.go:137:18: undefined: web.NuevoServidor
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web [build failed]
+FAIL
