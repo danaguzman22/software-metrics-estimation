@@ -427,6 +427,7 @@ Revisión y aceptación del 2026-11-11: las correcciones 1–7 de la revisión y
 No quedan pendientes abiertos.
 
 **Enmienda (2026-11-11, revisión de T-12 y T-08).** (a) Se elimina `items_backlog_proyecto_idx` del DDL de referencia por redundante con la PK; la migración aún no estaba aplicada en ningún entorno, por lo que se corrigió en la primera migración (D8 prohíbe editar migraciones ya aplicadas). (b) La suite de contrato de D10 quedó en `internal/service/repotest` (funciones `Entorno` y `Ejecutar`, ejecutadas desde `jsonrepo` y `postgres`) en lugar de un paquete bajo `internal/storage`.
+**Enmienda (2026-11-12, T-09).** (c) En T-09, `TestUS11_EstimarItem_BacklogSinArchivo` se elimina del servicio, porque su escenario (colección inexistente) queda cubierto por la suite de contrato. `TestUS11_EstimarItem_MismoIDEnOtroProyecto` se retargetea para ejecutarse contra los repositorios en lugar del almacén JSON.
 
 ## Criterios sin escenario / verificación
 
