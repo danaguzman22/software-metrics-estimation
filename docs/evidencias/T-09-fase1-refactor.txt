@@ -1,0 +1,24 @@
+T-09 Fase 1 — REFACTOR corregido
+Fecha: 2026-11-11
+Rama: feature/T-09-servicios-repositorios
+
+Correcciones:
+- Eliminados los helpers duplicados de repos_fake_test.go.
+- Conservados los helpers existentes en proyectos_test.go e integrantes_test.go.
+- Eliminado el BOM de repos_fake_test.go.
+- Restaurado el texto UTF-8 "Sistema de Métricas".
+- Sin cambios en ServicioBacklog ni en la lógica de la Fase 2.
+
+Validaciones:
+- gofmt -w internal/service/repos_fake_test.go: OK
+- go test ./... -count=1: PASS
+- go test ./internal/service -cover: PASS
+  Cobertura: 94.4% (el 100% corresponde a la limpieza de Fase 3).
+- go vet ./...: PASS
+- git diff --check: sin errores; solo advertencia normal de LF/CRLF de Windows.
+
+Alcance:
+- El refactor mantiene los fakes en package service.
+- No importa jsonrepo ni repotest.
+- No modifica código productivo adicional.
+- No se realizó commit, push ni merge.
