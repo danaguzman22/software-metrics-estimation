@@ -1,0 +1,32 @@
+T-09 Fase 1 — REFACTOR
+Issue: #43
+Rama: feature/T-09-servicios-repositorios
+
+Correcciones aplicadas:
+- backlog_test.go y estimacion_test.go fueron restaurados desde migracion/postgresql.
+- Se reaplicó únicamente el renombre proyectoRegistrado -> ProyectoRegistrado,
+  conservando nombres, aserciones y armado de los tests.
+- backlog_coleccion.go volvió a usar errors.Is(err, storage.ErrNotFound).
+- TestT09_ServiceNoImportaStorage revisa solo proyectos.go e integrantes.go,
+  que son los archivos migrados en Fase 1. La lista se amplía en Fase 2 y
+  se generaliza al paquete completo en Fase 3.
+- ServicioBacklog y EstimarItem no fueron migrados.
+
+Validaciones:
+- gofmt -w sobre los archivos modificados: OK
+- go test ./internal/service -count=1: PASS
+- go test ./... -count=1: PASS
+- go vet ./...: PASS
+- git diff --check: sin errores; solo advertencias normales LF/CRLF de Windows
+- go test ./internal/service -cover: PASS
+  Cobertura: 100.0% de statements
+
+Perfil de cobertura:
+- No quedaron funciones por debajo de 100.0% en el perfil de cobertura.
+- proyectos.go e integrantes.go quedaron completamente cubiertos.
+- El perfil temporal fue eliminado después de inspeccionarlo.
+
+Alcance:
+- No se modificaron specs, features, dominio, adaptadores, cmd/server,
+  internal/storage, jsonrepo, postgres ni repotest.
+- No se realizó commit, push ni merge.

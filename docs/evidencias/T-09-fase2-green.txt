@@ -1,0 +1,9 @@
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	1.222s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.627s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.218s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.803s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.105s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.174s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.728s

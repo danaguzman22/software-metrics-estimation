@@ -1,0 +1,67 @@
+﻿T-09 Fase 1 - GREEN
+Fecha: 2026-11-11 20:38:12
+
+===== gofmt -w (archivos modificados fase 1) =====
+$ gofmt -w internal/service/proyectos.go internal/service/integrantes.go internal/service/backlog_coleccion.go internal/service/proyectos_test.go internal/service/integrantes_test.go internal/service/compat_storage_test.go internal/service/backlog_test.go internal/service/estimacion_test.go
+(sin salida)
+exit: 0
+
+===== go test ./internal/service -run 'TestT09_' -count=1 =====
+$ go test ./internal/service -run 'TestT09_' -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.827s
+exit: 0
+
+===== go test ./... -count=1 =====
+$ go test ./... -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	1.075s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.631s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.574s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.802s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.147s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.186s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.582s
+exit: 0
+
+===== go test ./internal/service -cover =====
+$ go test ./internal/service -cover
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	(cached)	coverage: 94.4% of statements
+exit: 0
+
+===== go vet ./... =====
+$ go vet ./...
+(sin salida)
+exit: 0
+
+===== git diff --check =====
+$ git diff --check
+(sin salida)
+exit: 0
+
+===== git diff --stat =====
+$ git diff --stat
+ internal/service/backlog_coleccion.go  |  45 +++-
+ internal/service/backlog_test.go       | 256 +++++++++++-----------
+ internal/service/estimacion_test.go    | 168 +++++++--------
+ internal/service/integrantes.go        |  68 ++----
+ internal/service/integrantes_test.go   | 349 ++++++++----------------------
+ internal/service/proyecto_existente.go |  35 ---
+ internal/service/proyectos.go          |  71 ++----
+ internal/service/proyectos_test.go     | 380 +++++++--------------------------
+ 8 files changed, 452 insertions(+), 920 deletions(-)
+exit: 0
+
+===== git status --short =====
+$ git status --short
+ M internal/service/backlog_coleccion.go
+ M internal/service/backlog_test.go
+ M internal/service/estimacion_test.go
+ M internal/service/integrantes.go
+ M internal/service/integrantes_test.go
+ D internal/service/proyecto_existente.go
+ M internal/service/proyectos.go
+ M internal/service/proyectos_test.go
+?? internal/service/compat_storage_test.go
+exit: 0
+

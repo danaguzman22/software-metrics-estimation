@@ -2,36 +2,66 @@ package service
 
 import (
 	"errors"
-	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
-	"github.com/danaguzman22/software-metrics-estimation/internal/storage"
 )
 
-// sembrarBacklog persiste la colección completa bajo el nombre lógico
-// "backlog" (D2).
-func sembrarBacklog(t *testing.T, almacen *storage.JSONStore, registros []itemRegistrado) {
-	t.Helper()
-	if err := almacen.Save("backlog", registros); err != nil {
-		t.Fatalf("Save(\"backlog\"): %v", err)
+// itemConProyecto asocia un ítem con el proyecto al que pertenece para sembrar
+// y verificar los fakes de backlog en los tests.
+type itemConProyecto struct {
+	ProyectoID string
+	Item       domain.ItemBacklog
+}
+
+// entornoBacklog agrupa los fakes de proyectos y backlog para sembrar datos y
+// verificar el estado sin depender de internal/storage.
+type entornoBacklog struct {
+	*fakeRepositorioProyectos
+	*fakeRepositorioBacklog
+}
+
+func nuevoEntornoBacklog() *entornoBacklog {
+	return &entornoBacklog{
+		fakeRepositorioProyectos: nuevoFakeProyectos(),
+		fakeRepositorioBacklog:   nuevoFakeBacklog(),
 	}
 }
 
-// cargarBacklog recarga la colección desde disco usando el nombre lógico
-// "backlog" (D2), para verificar la persistencia real.
-func cargarBacklog(t *testing.T, almacen *storage.JSONStore) []itemRegistrado {
+func (e *entornoBacklog) servicio() *ServicioBacklog {
+	return NuevoServicioBacklog(e.fakeRepositorioProyectos, e.fakeRepositorioBacklog)
+}
+
+// sembrarProyectos carga los proyectos indicados en el fake de proyectos.
+func sembrarProyectos(t *testing.T, entorno *entornoBacklog, registros []ProyectoRegistrado) {
 	t.Helper()
-	var registros []itemRegistrado
-	if err := almacen.Load("backlog", &registros); err != nil {
-		t.Fatalf("Load(\"backlog\"): %v", err)
+	for _, registro := range registros {
+		entorno.proyectos[registro.ID] = registro.Proyecto
+	}
+}
+
+// sembrarBacklog carga los ítems indicados en el fake de backlog.
+func sembrarBacklog(t *testing.T, entorno *entornoBacklog, registros []itemConProyecto) {
+	t.Helper()
+	for _, registro := range registros {
+		entorno.items[registro.ProyectoID] = append(entorno.items[registro.ProyectoID], registro.Item)
+	}
+}
+
+// cargarBacklog devuelve una copia de los ítems persistidos en el fake.
+func cargarBacklog(t *testing.T, entorno *entornoBacklog) []itemConProyecto {
+	t.Helper()
+	var registros []itemConProyecto
+	for proyectoID, items := range entorno.items {
+		for _, item := range items {
+			registros = append(registros, itemConProyecto{ProyectoID: proyectoID, Item: item})
+		}
 	}
 	return registros
 }
 
 // buscarRegistroItem devuelve el registro del proyecto e ID indicados.
-func buscarRegistroItem(t *testing.T, registros []itemRegistrado, proyectoID, id string) itemRegistrado {
+func buscarRegistroItem(t *testing.T, registros []itemConProyecto, proyectoID, id string) itemConProyecto {
 	t.Helper()
 	for _, registro := range registros {
 		if registro.ProyectoID == proyectoID && registro.Item.ID == id {
@@ -39,7 +69,7 @@ func buscarRegistroItem(t *testing.T, registros []itemRegistrado, proyectoID, id
 		}
 	}
 	t.Fatalf("no se encontró el ítem %q del proyecto %q", id, proyectoID)
-	return itemRegistrado{}
+	return itemConProyecto{}
 }
 
 // verificarItemBacklog compara campo por campo un ítem del backlog. Los
@@ -90,11 +120,11 @@ func verificarItemBacklogVacio(t *testing.T, item domain.ItemBacklog) {
 // CA1 / R1: crear un ítem válido en un proyecto existente lo devuelve y lo
 // persiste en la colección "backlog" (D2, D11).
 func TestUS05_CrearItem_Exitoso(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem(
 		"p1",
@@ -136,11 +166,11 @@ func TestUS05_CrearItem_Exitoso(t *testing.T) {
 
 // CA1 / R1: un segundo ítem se agrega junto al que ya estaba (D2).
 func TestUS05_CrearItem_SegundoItemEnMismoProyecto(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{
 			ProyectoID: "p1",
 			Item: domain.ItemBacklog{
@@ -153,7 +183,7 @@ func TestUS05_CrearItem_SegundoItemEnMismoProyecto(t *testing.T) {
 			},
 		},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Modificar proyecto", "Permitir cambiar los datos de un proyecto", "Media", nil)
 	if err != nil {
@@ -182,15 +212,14 @@ func TestUS05_CrearItem_SegundoItemEnMismoProyecto(t *testing.T) {
 // CA1 / R1 / R10: sin backlog.json la primera alta es exitosa y crea el
 // archivo.
 func TestUS05_CrearItem_PrimerAltaSinArchivoBacklog(t *testing.T) {
-	almacen, dir := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
-	ruta := filepath.Join(dir, "backlog.json")
-	if _, err := os.Stat(ruta); !os.IsNotExist(err) {
-		t.Fatalf("backlog.json no debería existir antes del alta: err = %v", err)
+	if len(almacen.items["p1"]) != 0 {
+		t.Fatalf("no debería haber ítems antes del alta, hay %d", len(almacen.items["p1"]))
 	}
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
@@ -201,9 +230,6 @@ func TestUS05_CrearItem_PrimerAltaSinArchivoBacklog(t *testing.T) {
 		t.Errorf("ID = %q, se esperaba %q", creado.ID, "HU-01")
 	}
 
-	if _, err := os.Stat(ruta); err != nil {
-		t.Fatalf("backlog.json debería existir después del alta: %v", err)
-	}
 	coleccion := cargarBacklog(t, almacen)
 	if len(coleccion) != 1 {
 		t.Fatalf("se esperaba 1 ítem persistido, hay %d", len(coleccion))
@@ -212,11 +238,11 @@ func TestUS05_CrearItem_PrimerAltaSinArchivoBacklog(t *testing.T) {
 
 // CA2 / R2: el primer ítem de un proyecto recibe el ID "HU-01".
 func TestUS05_CrearItem_PrimerItemIDHU01(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err != nil {
@@ -229,15 +255,15 @@ func TestUS05_CrearItem_PrimerItemIDHU01(t *testing.T) {
 
 // CA2 / R2: el ID es el siguiente al mayor existente, sin rellenar huecos.
 func TestUS05_CrearItem_IDConsecutivoAlMayor(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}},
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-03", Titulo: "Consultar proyecto", Prioridad: "Media", Estado: "Pendiente"}},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Consultar métricas", "Consultar las métricas del proyecto", "Baja", nil)
 	if err != nil {
@@ -258,11 +284,11 @@ func TestUS05_CrearItem_IDConsecutivoAlMayor(t *testing.T) {
 
 // CA2 / R2: dos altas en el mismo proyecto generan IDs distintos.
 func TestUS05_CrearItem_IDUnicoEnProyecto(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	primero, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err != nil {
@@ -288,15 +314,15 @@ func TestUS05_CrearItem_IDUnicoEnProyecto(t *testing.T) {
 // CA2 / R2: la numeración es independiente por proyecto; el mismo ID puede
 // repetirse en proyectos distintos.
 func TestUS05_CrearItem_MismoIDEnOtroProyecto(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
-	sembrarBacklog(t, almacen, []itemRegistrado{
+	sembrarBacklog(t, almacen, []itemConProyecto{
 		{ProyectoID: "p1", Item: domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p2", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err != nil {
@@ -329,16 +355,16 @@ func TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste(t *testing.T) {
 
 	for _, caso := range casos {
 		t.Run(caso.descripcion, func(t *testing.T) {
-			almacenReal, _ := nuevoAlmacenServicio(t)
+			almacenReal := nuevoEntornoBacklog()
 			existente := domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}
-			sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
-			almacen := &almacenCuentaSaves{real: almacenReal}
-			servicio := NuevoServicioBacklog(almacen)
+			almacen := almacenReal
+			servicio := almacen.servicio()
 
 			creado, err := servicio.CrearItem("p1", caso.titulo, "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 			if err == nil {
@@ -349,8 +375,8 @@ func TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste(t *testing.T) {
 			}
 			verificarItemBacklogVacio(t, creado)
 
-			if almacen.llamadasASave != 0 {
-				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
+			if almacen.agregados != 0 {
+				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.agregados)
 			}
 
 			coleccion := cargarBacklog(t, almacenReal)
@@ -377,16 +403,16 @@ func TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste(t *testing.T) {
 
 	for _, caso := range casos {
 		t.Run(caso.descripcion, func(t *testing.T) {
-			almacenReal, _ := nuevoAlmacenServicio(t)
+			almacenReal := nuevoEntornoBacklog()
 			existente := domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}
-			sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
-			almacen := &almacenCuentaSaves{real: almacenReal}
-			servicio := NuevoServicioBacklog(almacen)
+			almacen := almacenReal
+			servicio := almacen.servicio()
 
 			creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", caso.prioridad, nil)
 			if err == nil {
@@ -397,8 +423,8 @@ func TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste(t *testing.T) {
 			}
 			verificarItemBacklogVacio(t, creado)
 
-			if almacen.llamadasASave != 0 {
-				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
+			if almacen.agregados != 0 {
+				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.agregados)
 			}
 
 			coleccion := cargarBacklog(t, almacenReal)
@@ -412,11 +438,11 @@ func TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste(t *testing.T) {
 
 // CA4 / R6: el estado inicial del ítem devuelto y persistido es "Pendiente".
 func TestUS05_CrearItem_EstadoInicialPendiente(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err != nil {
@@ -435,11 +461,11 @@ func TestUS05_CrearItem_EstadoInicialPendiente(t *testing.T) {
 
 // CA1 / R7: los story points del ítem devuelto y persistido quedan en 0.
 func TestUS05_CrearItem_StoryPointsCero(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err != nil {
@@ -458,11 +484,11 @@ func TestUS05_CrearItem_StoryPointsCero(t *testing.T) {
 
 // CA1 / R8: descripción vacía y criterios ausentes son válidos.
 func TestUS05_CrearItem_DescripcionYCriteriosOpcionales(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Revisar métricas", "", "Baja", nil)
 	if err != nil {
@@ -488,11 +514,11 @@ func TestUS05_CrearItem_DescripcionYCriteriosOpcionales(t *testing.T) {
 // CA1 / R8: descripción y criterios admiten texto libre y se guardan sin
 // cambios.
 func TestUS05_CrearItem_DescripcionYCriteriosSinValidar(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	descripcion := "¿Qué métricas se van a calcular? Aún no está definido."
 	criterios := []string{"Se listan las métricas", "Cada métrica tiene una descripción"}
@@ -518,13 +544,13 @@ func TestUS05_CrearItem_DescripcionYCriteriosSinValidar(t *testing.T) {
 // CA1 / R5: un ID ausente en una colección con otros proyectos devuelve
 // ErrProyectoNoEncontrado y no escribe nada.
 func TestUS05_CrearItem_ProyectoNoEncontrado(t *testing.T) {
-	almacenReal, dir := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+	almacenReal := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 		{ID: "p2", Proyecto: proyectoUS02Servicio("Otro proyecto", domain.EstadoPlanificado)},
 	})
-	almacen := &almacenCuentaSaves{real: almacenReal}
-	servicio := NuevoServicioBacklog(almacen)
+	almacen := almacenReal
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("ausente", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
@@ -535,19 +561,16 @@ func TestUS05_CrearItem_ProyectoNoEncontrado(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, creado)
 
-	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
-	}
-	if _, err := os.Stat(filepath.Join(dir, "backlog.json")); !os.IsNotExist(err) {
-		t.Fatalf("backlog.json no debería existir ante un proyecto inexistente: err = %v", err)
+	if almacen.agregados != 0 {
+		t.Errorf("AgregarItem fue invocado %d veces; no debía escribirse nada", almacen.agregados)
 	}
 }
 
 // CA1 / R5 / D2: sin archivo de la colección "proyectos" se interpreta como
 // colección vacía, el proyecto no se encuentra y no se crea nada.
 func TestUS05_CrearItem_ArchivoProyectosInexistente(t *testing.T) {
-	almacen, dir := nuevoAlmacenServicio(t)
-	servicio := NuevoServicioBacklog(almacen)
+	almacen := nuevoEntornoBacklog()
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
@@ -558,23 +581,19 @@ func TestUS05_CrearItem_ArchivoProyectosInexistente(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, creado)
 
-	entradas, err := os.ReadDir(dir)
-	if err != nil {
-		t.Fatalf("ReadDir(%q): %v", dir, err)
-	}
-	if len(entradas) != 0 {
-		t.Errorf("en ningún camino de error se crea el archivo, hay %d entradas", len(entradas))
+	if almacen.agregados != 0 {
+		t.Errorf("en ningún camino de error se debe escribir; agregados = %d", almacen.agregados)
 	}
 }
 
 // CA1 / CA3 / R5 / R3 / D9: la existencia del proyecto se verifica antes que
 // el título vacío.
 func TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("ausente", "", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
@@ -592,11 +611,11 @@ func TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio(t *testing.T) {
 // CA3 / R3 / R4 / D9: el título vacío se verifica antes que la prioridad
 // inválida.
 func TestUS05_CrearItem_TituloVacioAntesQuePrioridadInvalida(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	servicio := NuevoServicioBacklog(almacen)
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "", "Permitir dar de alta proyectos en el sistema", "Urgente", nil)
 	if err == nil {
@@ -646,16 +665,16 @@ func TestUS05_CrearItem_ErrorNoAgregaNiPersiste(t *testing.T) {
 
 	for _, caso := range casos {
 		t.Run(caso.descripcion, func(t *testing.T) {
-			almacenReal, _ := nuevoAlmacenServicio(t)
+			almacenReal := nuevoEntornoBacklog()
 			existente := domain.ItemBacklog{ID: "HU-01", Titulo: "Registrar proyecto", Prioridad: "Alta", Estado: "Pendiente"}
-			sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 			})
-			sembrarBacklog(t, almacenReal, []itemRegistrado{
+			sembrarBacklog(t, almacenReal, []itemConProyecto{
 				{ProyectoID: "p1", Item: existente},
 			})
-			almacen := &almacenCuentaSaves{real: almacenReal}
-			servicio := NuevoServicioBacklog(almacen)
+			almacen := almacenReal
+			servicio := almacen.servicio()
 
 			creado, err := servicio.CrearItem(caso.proyectoID, caso.titulo, "Permitir dar de alta proyectos en el sistema", caso.prioridad, nil)
 			if err == nil {
@@ -666,8 +685,8 @@ func TestUS05_CrearItem_ErrorNoAgregaNiPersiste(t *testing.T) {
 			}
 			verificarItemBacklogVacio(t, creado)
 
-			if almacen.llamadasASave != 0 {
-				t.Errorf("Save fue invocado %d veces ante un error; no debía escribirse nada", almacen.llamadasASave)
+			if almacen.agregados != 0 {
+				t.Errorf("Save fue invocado %d veces ante un error; no debía escribirse nada", almacen.agregados)
 			}
 
 			coleccion := cargarBacklog(t, almacenReal)
@@ -682,18 +701,17 @@ func TestUS05_CrearItem_ErrorNoAgregaNiPersiste(t *testing.T) {
 // E5 / D2: un JSON corrupto propaga storage.ErrCorrupt y no se mapea a
 // ErrProyectoNoEncontrado.
 func TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado(t *testing.T) {
-	almacen, dir := nuevoAlmacenServicio(t)
-	if err := os.WriteFile(filepath.Join(dir, "proyectos.json"), []byte("{no es json"), 0o644); err != nil {
-		t.Fatal(err)
-	}
-	servicio := NuevoServicioBacklog(almacen)
+	errCorrupto := errors.New("contenido inválido")
+	almacen := nuevoEntornoBacklog()
+	almacen.existeErr = errCorrupto
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
 		t.Fatal("CrearItem() con JSON corrupto debería devolver un error")
 	}
-	if !errors.Is(err, storage.ErrCorrupt) {
-		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
+	if !errors.Is(err, errCorrupto) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, errCorrupto)
 	}
 	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
 		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
@@ -704,43 +722,39 @@ func TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado(t *testing.T) {
 // E5 / D2: un backlog.json corrupto propaga storage.ErrCorrupt y no se mapea a
 // ErrProyectoNoEncontrado.
 func TestUS05_CrearItem_BacklogCorruptoNoEsNoEncontrado(t *testing.T) {
-	almacenReal, dir := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacenReal, []proyectoRegistrado{
+	errCorrupto := errors.New("contenido inválido")
+	almacenReal := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
-	if err := os.WriteFile(filepath.Join(dir, "backlog.json"), []byte("{no es json"), 0o644); err != nil {
-		t.Fatal(err)
-	}
-	almacen := &almacenCuentaSaves{real: almacenReal}
-	servicio := NuevoServicioBacklog(almacen)
+	almacenReal.agregarErr = errCorrupto
+	almacen := almacenReal
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
 		t.Fatal("CrearItem() con backlog corrupto debería devolver un error")
 	}
-	if !errors.Is(err, storage.ErrCorrupt) {
-		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
+	if !errors.Is(err, errCorrupto) {
+		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, errCorrupto)
 	}
 	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
 		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
 	}
 	verificarItemBacklogVacio(t, creado)
-
-	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
-	}
 }
 
 // E5 / D2: un fallo de escritura se propaga envuelto y no se informa un alta
 // exitosa.
 func TestUS05_CrearItem_FalloDeEscrituraNoInformaExito(t *testing.T) {
-	almacen, _ := nuevoAlmacenServicio(t)
-	sembrarProyectos(t, almacen, []proyectoRegistrado{
+	almacen := nuevoEntornoBacklog()
+	sembrarProyectos(t, almacen, []ProyectoRegistrado{
 		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.EstadoPlanificado)},
 	})
 
 	errSimulado := errors.New("fallo simulado de escritura")
-	servicio := NuevoServicioBacklog(almacenFalloEscritura{real: almacen, err: errSimulado})
+	almacen.agregarErr = errSimulado
+	servicio := almacen.servicio()
 
 	creado, err := servicio.CrearItem("p1", "Registrar proyecto", "Permitir dar de alta proyectos en el sistema", "Alta", nil)
 	if err == nil {
