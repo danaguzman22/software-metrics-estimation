@@ -19,8 +19,14 @@ type Pinger interface {
 // GET /healthz, que T-04 usará como healthcheck.
 func NuevoHandler(ping Pinger) http.Handler {
 	mux := http.NewServeMux()
+	mux.HandleFunc("GET /healthz", manejadorSalud(ping))
+	return mux
+}
 
-	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+// manejadorSalud responde 200 "ok" si la base responde al ping y 503
+// "unavailable" en caso contrario, siempre dentro de tiempoEsperaPing.
+func manejadorSalud(ping Pinger) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancelar := context.WithTimeout(r.Context(), tiempoEsperaPing)
 		defer cancelar()
 
@@ -33,9 +39,7 @@ func NuevoHandler(ping Pinger) http.Handler {
 		}
 
 		_, _ = io.WriteString(w, "ok")
-	})
-
-	return mux
+	}
 }
 
 // NuevoServidor construye el servidor HTTP con timeouts explícitos.

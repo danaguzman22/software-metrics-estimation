@@ -26,7 +26,6 @@ func main() {
 			return postgres.ConnectAndMigrate(bootstrapCtx, databaseURL)
 		},
 		escuchar: net.Listen,
-		ping:     nil,
 	}
 
 	if err := arrancar(context.Background(), deps); err != nil {
@@ -69,11 +68,10 @@ type poolCerrable interface {
 	Close()
 }
 
-// construirServidor arma el servidor HTTP con el handler de salud.
-func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.Server {
-	// El pool quedará disponible para las rutas de negocio de historias
-	// posteriores; en T-03 solo se usa para el ping y el cierre.
-	_ = pool
+// construirServidor arma el servidor HTTP con el handler de salud. El pool se
+// reserva para las rutas de negocio de historias posteriores; en T-03 el ping
+// ya llega resuelto por separado.
+func construirServidor(_ *pgxpool.Pool, ping web.Pinger, addr string) *http.Server {
 	return web.NuevoServidor(addr, web.NuevoHandler(ping))
 }
 
