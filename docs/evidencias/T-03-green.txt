@@ -1,0 +1,37 @@
+Evidencia de la fase GREEN - Historia T-03 (servidor web / healthz)
+
+Fecha: 2026-11-12 11:20:45 -03:00
+Rama: feature/T-03-servidor-web
+Resultado: TODOS los comandos pasaron (build, vet y ambos tests).
+
+================================================================================
+Comando: go build ./...
+Salida:
+(sin salida; exit code 0)
+
+================================================================================
+Comando: go vet ./...
+Salida:
+(sin salida; exit code 0)
+
+================================================================================
+Comando: go test ./cmd/server ./internal/web -run '^TestT03_' -count=1
+Salida:
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.269s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.806s
+
+================================================================================
+Comando: go test ./... -count=1
+Salida:
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.459s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.158s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.684s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.100s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.466s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.271s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.985s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.810s
+
+================================================================================
+Conclusión: los 4 comandos (build, vet y ambos tests) finalizaron exitosamente.
