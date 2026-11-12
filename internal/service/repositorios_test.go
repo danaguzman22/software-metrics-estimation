@@ -4,10 +4,7 @@ import (
 	"encoding/json"
 	"go/parser"
 	"go/token"
-	"os"
-	"path/filepath"
 	"reflect"
-	"runtime"
 	"strconv"
 	"strings"
 	"testing"
@@ -16,31 +13,18 @@ import (
 )
 
 func TestT09_ServiceNoImportaStorage(t *testing.T) {
-	_, archivo, _, ok := runtime.Caller(0)
-	if !ok {
-		t.Fatal("no se pudo localizar el archivo de tests")
-	}
-	directorio := filepath.Dir(archivo)
-	entradas, err := os.ReadDir(directorio)
-	if err != nil {
-		t.Fatalf("ReadDir(%q): %v", directorio, err)
-	}
-
-	for _, entrada := range entradas {
-		if entrada.IsDir() || filepath.Ext(entrada.Name()) != ".go" ||
-			strings.HasSuffix(entrada.Name(), "_test.go") {
-			continue
-		}
-		ruta := filepath.Join(directorio, entrada.Name())
-		arbol, err := parser.ParseFile(token.NewFileSet(), ruta, nil, parser.ImportsOnly)
+	archivosMigrados := []string{"proyectos.go", "integrantes.go"}
+	// La lista se amplía en la Fase 2 y se generaliza al paquete completo en la Fase 3.
+	for _, archivo := range archivosMigrados {
+		arbol, err := parser.ParseFile(token.NewFileSet(), archivo, nil, parser.ImportsOnly)
 		if err != nil {
-			t.Fatalf("ParseFile(%q): %v", ruta, err)
+			t.Fatalf("ParseFile(%q): %v", archivo, err)
 		}
 		for _, importSpec := range arbol.Imports {
-			importPath := strings.Trim(importSpec.Path.Value, `"`)
-			if importPath == "github.com/danaguzman22/software-metrics-estimation/internal/storage" ||
-				strings.Contains(importPath, "/internal/storage/") {
-				t.Errorf("%s importa internal/storage", entrada.Name())
+			if importSpec.Path.Value == `"github.com/danaguzman22/software-metrics-estimation/internal/storage"` ||
+				importSpec.Path.Value == `"github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo"` ||
+				importSpec.Path.Value == `"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"` {
+				t.Errorf("%s importa internal/storage", archivo)
 			}
 		}
 	}

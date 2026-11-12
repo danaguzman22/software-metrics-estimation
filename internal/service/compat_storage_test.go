@@ -1,5 +1,10 @@
 package service
 
+// Compatibilidad temporal de Fase 1: ServicioBacklog/EstimarItem aún usan el
+// contrato "almacen" sobre storage.JSONStore; estos helpers permiten que los
+// tests existentes sigan armándose igual hasta su migración en Fase 2.
+// Archivo solo de tests (_test.go), sin lógica productiva.
+
 import (
 	"testing"
 

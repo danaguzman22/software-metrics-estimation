@@ -20,18 +20,18 @@ func itemUS11Backlog(storyPoints int) domain.ItemBacklog {
 		Estado:      "Pendiente",
 		StoryPoints: storyPoints,
 		Criterios: []string{
-			"El nombre del proyecto no puede estar vacÃ­o",
+			"El nombre del proyecto no puede estar vacío",
 			"El proyecto queda disponible para asignar integrantes",
 		},
 	}
 }
 
-// CA1 / R1: estimar un Ã­tem existente con 5 actualiza el valor devuelto y
+// CA1 / R1: estimar un ítem existente con 5 actualiza el valor devuelto y
 // persistido.
 func TestUS11_EstimarItem_Exitoso(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
 	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -39,7 +39,7 @@ func TestUS11_EstimarItem_Exitoso(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 5)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperado := original
 	esperado.StoryPoints = 5
@@ -47,23 +47,23 @@ func TestUS11_EstimarItem_Exitoso(t *testing.T) {
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacen), "p1", "HU-01").Item, esperado)
 }
 
-// CA1 / R1: la estimaciÃ³n conserva ID, tÃ­tulo, descripciÃ³n, prioridad, estado y
-// criterios del Ã­tem.
+// CA1 / R1: la estimación conserva ID, título, descripción, prioridad, estado y
+// criterios del ítem.
 func TestUS11_EstimarItem_ConservaRestoDeCampos(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := domain.ItemBacklog{
 		ID:          "HU-07",
-		Titulo:      "Consultar mÃ©tricas",
-		Descripcion: "Consultar las mÃ©tricas del proyecto",
+		Titulo:      "Consultar métricas",
+		Descripcion: "Consultar las métricas del proyecto",
 		Prioridad:   "Media",
 		Estado:      "En curso",
 		StoryPoints: 0,
 		Criterios: []string{
-			"Se listan las mÃ©tricas",
-			"Cada mÃ©trica tiene una descripciÃ³n",
+			"Se listan las métricas",
+			"Cada métrica tiene una descripción",
 		},
 	}
 	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -71,7 +71,7 @@ func TestUS11_EstimarItem_ConservaRestoDeCampos(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-07", 8)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperado := original
 	esperado.StoryPoints = 8
@@ -83,7 +83,7 @@ func TestUS11_EstimarItem_ConservaRestoDeCampos(t *testing.T) {
 func TestUS11_EstimarItem_Reestimacion(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(3)
 	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -91,7 +91,7 @@ func TestUS11_EstimarItem_Reestimacion(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 8)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperado := original
 	esperado.StoryPoints = 8
@@ -104,11 +104,11 @@ func TestUS11_EstimarItem_Reestimacion(t *testing.T) {
 	verificarItemBacklog(t, buscarRegistroItem(t, coleccion, "p1", "HU-01").Item, esperado)
 }
 
-// CA1 / R4: un Ã­tem sin estimar (0) pasa a estar estimado con 5.
+// CA1 / R4: un ítem sin estimar (0) pasa a estar estimado con 5.
 func TestUS11_EstimarItem_ItemSinEstimar(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
 	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -116,7 +116,7 @@ func TestUS11_EstimarItem_ItemSinEstimar(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 5)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperado := original
 	esperado.StoryPoints = 5
@@ -129,8 +129,8 @@ func TestUS11_EstimarItem_ItemSinEstimar(t *testing.T) {
 func TestUS11_EstimarItem_ProyectoNoEncontrado(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
-		{ID: "p2", Proyecto: proyectoUS02Servicio("App MÃ³vil", domain.EstadoPlanificado)},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
+		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
 	original := itemUS11Backlog(2)
 	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -143,13 +143,13 @@ func TestUS11_EstimarItem_ProyectoNoEncontrado(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 }
 
-// CA1 / CA2 / R5 / D4: sin archivo de proyectos se interpreta como colecciÃ³n
-// vacÃ­a, devuelve ErrProyectoNoEncontrado y no crea archivos.
+// CA1 / CA2 / R5 / D4: sin archivo de proyectos se interpreta como colección
+// vacía, devuelve ErrProyectoNoEncontrado y no crea archivos.
 func TestUS11_EstimarItem_ArchivoProyectosInexistente(t *testing.T) {
 	almacen, dir := nuevoAlmacenServicio(t)
 	servicio := NuevoServicioBacklog(almacen)
@@ -165,16 +165,16 @@ func TestUS11_EstimarItem_ArchivoProyectosInexistente(t *testing.T) {
 		t.Fatalf("ReadDir(%q): %v", dir, err)
 	}
 	if len(entradas) != 0 {
-		t.Errorf("en ningÃºn camino de error se crea el archivo, hay %d entradas", len(entradas))
+		t.Errorf("en ningún camino de error se crea el archivo, hay %d entradas", len(entradas))
 	}
 }
 
-// CA1 / CA2 / R6: un Ã­tem ausente en un proyecto con otros Ã­tems devuelve
+// CA1 / CA2 / R6: un ítem ausente en un proyecto con otros ítems devuelve
 // ErrItemNoEncontrado y no escribe nada.
 func TestUS11_EstimarItem_ItemNoEncontrado(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(2)
 	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -187,17 +187,17 @@ func TestUS11_EstimarItem_ItemNoEncontrado(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 }
 
-// CA1 / CA2 / R6 / D4: sin backlog.json se interpreta como backlog vacÃ­o,
+// CA1 / CA2 / R6 / D4: sin backlog.json se interpreta como backlog vacío,
 // devuelve ErrItemNoEncontrado y no crea el archivo.
 func TestUS11_EstimarItem_BacklogSinArchivo(t *testing.T) {
 	almacenReal, dir := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	almacen := &almacenCuentaSaves{real: almacenReal}
 	servicio := NuevoServicioBacklog(almacen)
@@ -208,20 +208,20 @@ func TestUS11_EstimarItem_BacklogSinArchivo(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	if _, err := os.Stat(filepath.Join(dir, "backlog.json")); !os.IsNotExist(err) {
-		t.Errorf("backlog.json no deberÃ­a crearse ante un Ã­tem inexistente: err = %v", err)
+		t.Errorf("backlog.json no debería crearse ante un ítem inexistente: err = %v", err)
 	}
 }
 
-// CA1 / CA2 / R6 / R9: el mismo ID en otro proyecto no se encuentra y el Ã­tem
+// CA1 / CA2 / R6 / R9: el mismo ID en otro proyecto no se encuentra y el ítem
 // del otro proyecto no se modifica.
 func TestUS11_EstimarItem_MismoIDEnOtroProyecto(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
-		{ID: "p2", Proyecto: proyectoUS02Servicio("App MÃ³vil", domain.EstadoPlanificado)},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
+		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
 	original := itemUS11Backlog(2)
 	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p2", Item: original}})
@@ -234,7 +234,7 @@ func TestUS11_EstimarItem_MismoIDEnOtroProyecto(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p2", "HU-01").Item, original)
 }
@@ -246,7 +246,7 @@ func TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste(t *testing.T) {
 		t.Run(strconv.Itoa(storyPoints), func(t *testing.T) {
 			almacenReal, _ := nuevoAlmacenServicio(t)
 			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 			})
 			original := itemUS11Backlog(3)
 			sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -259,19 +259,19 @@ func TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste(t *testing.T) {
 			}
 			verificarItemBacklogVacio(t, estimado)
 			if almacen.llamadasASave != 0 {
-				t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+				t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 			}
 			verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 		})
 	}
 }
 
-// CA2 / R7: un valor invÃ¡lido sobre un Ã­tem ya estimado conserva el valor
+// CA2 / R7: un valor inválido sobre un ítem ya estimado conserva el valor
 // anterior.
 func TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(3)
 	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -284,17 +284,17 @@ func TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio(t *testing.T) {
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 }
 
 // CA1 / CA2 / R5 / R6 / R7: prevalece el error de proyecto sobre el valor
-// invÃ¡lido.
+// inválido.
 func TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	almacen := &almacenCuentaSaves{real: almacenReal}
 	servicio := NuevoServicioBacklog(almacen)
@@ -304,19 +304,19 @@ func TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido(t *testing.T)
 		t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
 	}
 	if errors.Is(err, domain.ErrStoryPointsInvalidos) {
-		t.Errorf("err = %v, no deberÃ­a devolverse ErrStoryPointsInvalidos si el proyecto no existe", err)
+		t.Errorf("err = %v, no debería devolverse ErrStoryPointsInvalidos si el proyecto no existe", err)
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 }
 
-// CA1 / CA2 / R6 / R7: prevalece el error de Ã­tem sobre el valor invÃ¡lido.
+// CA1 / CA2 / R6 / R7: prevalece el error de ítem sobre el valor inválido.
 func TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido(t *testing.T) {
 	almacenReal, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(2)
 	sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -328,21 +328,21 @@ func TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido(t *testing.T) {
 		t.Errorf("err = %v, se esperaba %v", err, domain.ErrItemNoEncontrado)
 	}
 	if errors.Is(err, domain.ErrStoryPointsInvalidos) {
-		t.Errorf("err = %v, no deberÃ­a devolverse ErrStoryPointsInvalidos si el Ã­tem no existe", err)
+		t.Errorf("err = %v, no debería devolverse ErrStoryPointsInvalidos si el ítem no existe", err)
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 }
 
-// CA1 / R8 / R9: solo cambia el Ã­tem objetivo y se conservan los demÃ¡s Ã­tems
+// CA1 / R8 / R9: solo cambia el ítem objetivo y se conservan los demás ítems
 // con su orden.
 func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	hu01 := itemUS11Backlog(2)
 	hu01.ID = "HU-01"
@@ -352,7 +352,7 @@ func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 	hu02.Titulo = "Modificar proyecto"
 	hu03 := itemUS11Backlog(5)
 	hu03.ID = "HU-03"
-	hu03.Titulo = "Consultar mÃ©tricas"
+	hu03.Titulo = "Consultar métricas"
 	sembrarBacklog(t, almacen, []itemRegistrado{
 		{ProyectoID: "p1", Item: hu01},
 		{ProyectoID: "p1", Item: hu02},
@@ -362,7 +362,7 @@ func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-02", 13)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperadoHu02 := hu02
 	esperadoHu02.StoryPoints = 13
@@ -375,7 +375,7 @@ func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 	idsEsperados := []string{"HU-01", "HU-02", "HU-03"}
 	for i, idEsperado := range idsEsperados {
 		if coleccion[i].Item.ID != idEsperado {
-			t.Errorf("ID en posiciÃ³n %d = %q, se esperaba %q", i, coleccion[i].Item.ID, idEsperado)
+			t.Errorf("ID en posición %d = %q, se esperaba %q", i, coleccion[i].Item.ID, idEsperado)
 		}
 	}
 	verificarItemBacklog(t, coleccion[0].Item, hu01)
@@ -387,8 +387,8 @@ func TestUS11_EstimarItem_ConservaOtrosItemsYOrden(t *testing.T) {
 func TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
-		{ID: "p2", Proyecto: proyectoUS02Servicio("App MÃ³vil", domain.EstadoPlanificado)},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
+		{ID: "p2", Proyecto: proyectoUS02Servicio("App Móvil", domain.EstadoPlanificado)},
 	})
 	p1Item := itemUS11Backlog(0)
 	p2Item := itemUS11Backlog(2)
@@ -400,7 +400,7 @@ func TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos(t *testing.T) {
 
 	estimado, err := servicio.EstimarItem("p1", "HU-01", 8)
 	if err != nil {
-		t.Fatalf("EstimarItem() devolviÃ³ un error inesperado: %v", err)
+		t.Fatalf("EstimarItem() devolvió un error inesperado: %v", err)
 	}
 	esperadoP1 := p1Item
 	esperadoP1.StoryPoints = 8
@@ -411,7 +411,7 @@ func TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos(t *testing.T) {
 	verificarItemBacklog(t, buscarRegistroItem(t, coleccion, "p2", "HU-01").Item, p2Item)
 }
 
-// CA1 / CA2 / R7: ningÃºn camino de error invoca Save ni altera lo persistido.
+// CA1 / CA2 / R7: ningún camino de error invoca Save ni altera lo persistido.
 func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 	casos := []struct {
 		descripcion   string
@@ -428,14 +428,14 @@ func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 			errorEsperado: domain.ErrProyectoNoEncontrado,
 		},
 		{
-			descripcion:   "Ã­tem inexistente",
+			descripcion:   "ítem inexistente",
 			proyectoID:    "p1",
 			itemID:        "HU-02",
 			storyPoints:   5,
 			errorEsperado: domain.ErrItemNoEncontrado,
 		},
 		{
-			descripcion:   "story points invÃ¡lidos",
+			descripcion:   "story points inválidos",
 			proyectoID:    "p1",
 			itemID:        "HU-01",
 			storyPoints:   4,
@@ -447,7 +447,7 @@ func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 		t.Run(caso.descripcion, func(t *testing.T) {
 			almacenReal, _ := nuevoAlmacenServicio(t)
 			sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+				{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 			})
 			original := itemUS11Backlog(3)
 			sembrarBacklog(t, almacenReal, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -460,7 +460,7 @@ func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 			}
 			verificarItemBacklogVacio(t, estimado)
 			if almacen.llamadasASave != 0 {
-				t.Errorf("Save fue invocado %d veces ante un error; no debÃ­a escribirse nada", almacen.llamadasASave)
+				t.Errorf("Save fue invocado %d veces ante un error; no debía escribirse nada", almacen.llamadasASave)
 			}
 			verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacenReal), "p1", "HU-01").Item, original)
 		})
@@ -472,7 +472,7 @@ func TestUS11_EstimarItem_ErrorNoEscribe(t *testing.T) {
 func TestUS11_EstimarItem_JSONCorruptoPropagaError(t *testing.T) {
 	almacenReal, dir := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacenReal, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	if err := os.WriteFile(filepath.Join(dir, "backlog.json"), []byte("{no es json"), 0o644); err != nil {
 		t.Fatal(err)
@@ -485,23 +485,23 @@ func TestUS11_EstimarItem_JSONCorruptoPropagaError(t *testing.T) {
 		t.Errorf("err = %v, se esperaba un error que envuelva %v", err, storage.ErrCorrupt)
 	}
 	if errors.Is(err, domain.ErrItemNoEncontrado) {
-		t.Errorf("err = %v, no deberÃ­a mapearse a ErrItemNoEncontrado", err)
+		t.Errorf("err = %v, no debería mapearse a ErrItemNoEncontrado", err)
 	}
 	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
-		t.Errorf("err = %v, no deberÃ­a mapearse a ErrProyectoNoEncontrado", err)
+		t.Errorf("err = %v, no debería mapearse a ErrProyectoNoEncontrado", err)
 	}
 	verificarItemBacklogVacio(t, estimado)
 	if almacen.llamadasASave != 0 {
-		t.Errorf("Save fue invocado %d veces; no debÃ­a escribirse nada", almacen.llamadasASave)
+		t.Errorf("Save fue invocado %d veces; no debía escribirse nada", almacen.llamadasASave)
 	}
 }
 
-// E5 / D4: un fallo de Save se propaga envuelto y no se informa una estimaciÃ³n
+// E5 / D4: un fallo de Save se propaga envuelto y no se informa una estimación
 // exitosa.
 func TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito(t *testing.T) {
 	almacen, _ := nuevoAlmacenServicio(t)
 	sembrarProyectos(t, almacen, []ProyectoRegistrado{
-		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de MÃ©tricas", domain.Estado("En curso"))},
+		{ID: "p1", Proyecto: proyectoUS02Servicio("Sistema de Métricas", domain.Estado("En curso"))},
 	})
 	original := itemUS11Backlog(0)
 	sembrarBacklog(t, almacen, []itemRegistrado{{ProyectoID: "p1", Item: original}})
@@ -516,7 +516,7 @@ func TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito(t *testing.T) {
 	if errors.Is(err, domain.ErrProyectoNoEncontrado) ||
 		errors.Is(err, domain.ErrItemNoEncontrado) ||
 		errors.Is(err, domain.ErrStoryPointsInvalidos) {
-		t.Errorf("err = %v, no deberÃ­a ser un error de dominio de no encontrado o de valor invÃ¡lido", err)
+		t.Errorf("err = %v, no debería ser un error de dominio de no encontrado o de valor inválido", err)
 	}
 	verificarItemBacklogVacio(t, estimado)
 	verificarItemBacklog(t, buscarRegistroItem(t, cargarBacklog(t, almacen), "p1", "HU-01").Item, original)
