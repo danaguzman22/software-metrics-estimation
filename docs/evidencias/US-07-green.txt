@@ -1,0 +1,48 @@
+US-07 GREEN
+
+Rama: feature/US-07-crear-sprint
+Commit base RED: 3708790
+Version de Go local: go1.27.3 windows/amd64
+
+$ go test ./... -count=1 (sin TEST_DATABASE_URL)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.322s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.681s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.467s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.827s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.335s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.242s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.325s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.637s
+
+$ docker run ... go test ./... -count=1 (con TEST_DATABASE_URL, PostgreSQL real)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.172s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.046s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.092s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.063s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.235s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	1.896s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.014s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
+
+$ docker run ... go test ./internal/storage/postgres -run TestUS07_RepositorioSprints -count=2 -v
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.493s
+
+$ docker run ... go vet ./...
+(sin salida; exit 0)
+
+Resultado: todas las verificaciones en verde. PostgreSQL real fue ejecutado en Docker; los tests no se saltearon.

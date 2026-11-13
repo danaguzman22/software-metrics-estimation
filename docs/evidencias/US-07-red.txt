@@ -1,0 +1,105 @@
+US-07 RED
+Fecha: 2026-11-13
+Rama: feature/US-07-crear-sprint
+Commit base: 39adb3f83c3a131eec34e51ad3fcf40a1fd94bf3
+Go: go1.27.3 windows/amd64
+Resultado esperado: compilación fallida por API de Sprint aún inexistente; no se modificó producción.
+
+$ go vet ./internal/domain ./internal/service ./internal/storage/postgres
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/domain_test]
+vet.exe: internal\domain\sprint_test.go:18:59: undefined: domain.Sprint
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet.exe: internal\service\sprints_test.go:16:43: undefined: domain.Sprint
+# github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres_test]
+vet.exe: internal\storage\postgres\sprints_test.go:15:44: undefined: domain.Sprint
+
+$ go test ./internal/domain ./internal/service ./internal/storage/postgres -gcflags=-e -count=1
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test [github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+internal\domain\sprint_test.go:18:59: undefined: domain.Sprint
+internal\domain\sprint_test.go:28:66: undefined: domain.Sprint
+internal\domain\sprint_test.go:52:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:56:40: undefined: domain.Sprint
+internal\domain\sprint_test.go:61:23: undefined: domain.EstadoSprintActivo
+internal\domain\sprint_test.go:67:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:79:29: undefined: domain.EstadoSprintActivo
+internal\domain\sprint_test.go:80:93: undefined: domain.EstadoSprintActivo
+internal\domain\sprint_test.go:86:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:102:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:108:28: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:109:52: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:116:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:122:28: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:123:52: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:130:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:136:28: undefined: domain.ErrFechasSprintInvalidas
+internal\domain\sprint_test.go:137:52: undefined: domain.ErrFechasSprintInvalidas
+internal\domain\sprint_test.go:145:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:160:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:174:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:180:28: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:181:52: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:189:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:195:28: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:196:52: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:204:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:210:28: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:211:52: undefined: domain.ErrNumeroSprintInvalido
+internal\domain\sprint_test.go:213:27: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:222:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:228:28: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:229:52: undefined: domain.ErrObjetivoSprintVacio
+internal\domain\sprint_test.go:231:27: undefined: domain.ErrFechasSprintInvalidas
+internal\domain\sprint_test.go:247:24: undefined: domain.NuevoSprint
+internal\domain\sprint_test.go:264:40: undefined: domain.Sprint
+internal\domain\sprint_test.go:269:23: undefined: domain.EstadoSprintActivo
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal\service\sprints_test.go:16:43: undefined: domain.Sprint
+internal\service\sprints_test.go:24:30: undefined: domain.Sprint
+internal\service\sprints_test.go:27:75: undefined: domain.Sprint
+internal\service\sprints_test.go:57:30: undefined: domain.EstadoSprintActivo
+internal\service\sprints_test.go:65:62: undefined: domain.Sprint
+internal\service\sprints_test.go:82:38: undefined: ServicioSprints
+internal\service\sprints_test.go:83:9: undefined: NuevoServicioSprints
+internal\service\sprints_test.go:100:59: undefined: domain.Sprint
+internal\service\sprints_test.go:101:16: undefined: domain.Sprint
+internal\service\sprints_test.go:111:74: undefined: domain.Sprint
+internal\service\sprints_test.go:132:67: undefined: domain.Sprint
+internal\service\sprints_test.go:154:21: undefined: domain.Sprint
+internal\service\sprints_test.go:213:30: undefined: domain.ErrNumeroSprintInvalido
+internal\service\sprints_test.go:214:54: undefined: domain.ErrNumeroSprintInvalido
+internal\service\sprints_test.go:243:28: undefined: domain.ErrSprintDuplicado
+internal\service\sprints_test.go:244:52: undefined: domain.ErrSprintDuplicado
+internal\service\sprints_test.go:301:28: undefined: domain.ErrFechasSprintInvalidas
+internal\service\sprints_test.go:302:52: undefined: domain.ErrFechasSprintInvalidas
+internal\service\sprints_test.go:425:30: undefined: domain.ErrObjetivoSprintVacio
+internal\service\sprints_test.go:426:54: undefined: domain.ErrObjetivoSprintVacio
+internal\service\sprints_test.go:455:28: undefined: domain.ErrSprintActivoExistente
+internal\service\sprints_test.go:456:52: undefined: domain.ErrSprintActivoExistente
+internal\service\sprints_test.go:513:27: undefined: domain.ErrNumeroSprintInvalido
+internal\service\sprints_test.go:535:28: undefined: domain.ErrNumeroSprintInvalido
+internal\service\sprints_test.go:536:52: undefined: domain.ErrNumeroSprintInvalido
+internal\service\sprints_test.go:538:27: undefined: domain.ErrObjetivoSprintVacio
+internal\service\sprints_test.go:560:28: undefined: domain.ErrObjetivoSprintVacio
+internal\service\sprints_test.go:561:52: undefined: domain.ErrObjetivoSprintVacio
+internal\service\sprints_test.go:563:27: undefined: domain.ErrFechasSprintInvalidas
+internal\service\sprints_test.go:588:28: undefined: domain.ErrSprintActivoExistente
+internal\service\sprints_test.go:589:52: undefined: domain.ErrSprintActivoExistente
+internal\service\sprints_test.go:591:27: undefined: domain.ErrSprintDuplicado
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres_test [github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres.test]
+internal\storage\postgres\sprints_test.go:15:44: undefined: domain.Sprint
+internal\storage\postgres\sprints_test.go:16:16: undefined: domain.Sprint
+internal\storage\postgres\sprints_test.go:21:23: undefined: domain.EstadoSprintActivo
+internal\storage\postgres\sprints_test.go:30:19: undefined: postgres.NuevoSprints
+internal\storage\postgres\sprints_test.go:38:28: undefined: domain.ErrSprintDuplicado
+internal\storage\postgres\sprints_test.go:39:67: undefined: domain.ErrSprintDuplicado
+internal\storage\postgres\sprints_test.go:48:19: undefined: postgres.NuevoSprints
+internal\storage\postgres\sprints_test.go:55:28: undefined: domain.ErrSprintActivoExistente
+internal\storage\postgres\sprints_test.go:56:71: undefined: domain.ErrSprintActivoExistente
+internal\storage\postgres\sprints_test.go:66:19: undefined: postgres.NuevoSprints
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+FAIL
