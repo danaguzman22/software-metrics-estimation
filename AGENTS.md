@@ -15,6 +15,8 @@ Equipo: Dana Guzmán (Agile Enabler / Product Builder), Victoria Caro Boldrini (
 9. Las migraciones ya aplicadas nunca se editan: cualquier cambio de esquema requiere una migración nueva.
 10. Los adaptadores JSON y PostgreSQL se verifican con la suite de contrato compartida. Consultá [ADR-001](docs/adr/ADR-001-persistencia-postgresql.md) para las decisiones vigentes de persistencia.
 11. Frontera de issues: solo T-10 modifica `.github/workflows/ci.yml`; el `compose.yml` pertenece a T-04.
+12. Nombres: identificadores de dominio y de servicios en español; nombres técnicos de infraestructura (conexión, migraciones, servidor) en inglés. Comentarios, mensajes de error y de commit en español.
+13. Archivos en UTF-8 sin BOM, conservando tildes. Los agentes editan solo lo necesario: no reescriben archivos completos.
 
 ## Estructura
 cmd/server, internal/{domain,service,web}, internal/storage/{jsonrepo,postgres}, migrations/, specs/, features/, docs/
