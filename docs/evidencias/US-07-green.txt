@@ -1,0 +1,56 @@
+US-07 GREEN
+
+$ go test ./... -count=1 (sin TEST_DATABASE_URL)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.443s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.887s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.609s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.280s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.601s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.288s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.993s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.666s
+
+$ go test ./... -count=1 (con TEST_DATABASE_URL, PostgreSQL real)
+docker : go: downloading github.com/jackc/pgx/v5 v5.7.4
+En línea: 6 Carácter: 10
++ $conBd = docker run --rm --network "container:$pg" --mount "type=bind ...
++          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (go: downloading...c/pgx/v5 v5.7.4:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+go: downloading github.com/pressly/goose/v3 v3.24.3
+go: downloading github.com/sethvargo/go-retry v0.3.0
+go: downloading go.uber.org/multierr v1.11.0
+go: downloading github.com/jackc/pgpassfile v1.0.0
+go: downloading golang.org/x/sync v0.14.0
+go: downloading github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761
+go: downloading golang.org/x/crypto v0.38.0
+go: downloading github.com/mfridman/interpolate v0.0.2
+go: downloading golang.org/x/text v0.25.0
+go: downloading github.com/jackc/puddle/v2 v2.2.2
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.137s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.013s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.085s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.043s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.220s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	1.917s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.015s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.006s
+
+$ go test ./internal/storage/postgres -run TestUS07_RepositorioSprints -count=2 -v (PostgreSQL real)
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado (0.11s)
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo (0.09s)
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto (0.14s)
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado (0.09s)
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo (0.10s)
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto (0.10s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.646s
