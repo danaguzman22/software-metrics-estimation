@@ -1,28 +1,5 @@
-﻿T-10 GREEN — PostgreSQL 16 local aislado
-== initdb ==
-Los archivos de este cluster ser�n de propiedad del usuario �Victoria�.
-Este usuario tambi�n debe ser quien ejecute el proceso servidor.
-
-El cluster ser� inicializado con configuraci�n regional �Spanish_Argentina.1252�.
-La configuraci�n de b�squeda en texto ha sido definida a �spanish�.
-
-Las sumas de verificaci�n en p�ginas de datos han sido desactivadas.
-
-creando el directorio C:/nvm-temp/software-metrics-estimation-t10-postgres ... hecho
-creando subdirectorios ... hecho
-seleccionando implementaci�n de memoria compartida din�mica ... windows
-seleccionando el valor para max_connections ... 100
-seleccionando el valor para shared_buffers ... 128MB
-seleccionando el huso horario por omisi�n ... America/Buenos_Aires
-creando archivos de configuraci�n ... hecho
-ejecutando script de inicio (bootstrap) ... hecho
-realizando inicializaci�n post-bootstrap ... hecho
-sincronizando los datos a disco ... hecho
-
-Completado. Ahora puede iniciar el servidor de bases de datos usando:
-
-    ^"C^:^\Program^ Files^\PostgreSQL^\16^\bin^\pg^_ctl^" -D ^"C^:^\nvm^-temp^\software^-metrics^-estimation^-t10^-postgres^" -l archivo_de_registro start
-
+T-10 GREEN — PostgreSQL 16 local aislado
+== initdb == (salida omitida: codificación local de Windows; cluster PostgreSQL 16.2 inicializado en directorio temporal)
 == iniciar servidor PostgreSQL 16 en 127.0.0.1:55432 ==
 servidor listo en 127.0.0.1:55432
 == versión del servidor ==
