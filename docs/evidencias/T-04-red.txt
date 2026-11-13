@@ -1,6 +1,7 @@
 Evidencia RED - T-04 Dockerfile, Compose y despliegue
 
 Fecha de validación: 2026-11-12
+Rama: feature/T-04-docker
 Checkout de verificación: commit base 38d5f48
 Go: go version go1.27.3 windows/amd64
 Docker: 27.1.1
@@ -15,7 +16,7 @@ Resultado esperado: FAIL
 Salida relevante: failed to read dockerfile: open Dockerfile: no such file or directory
 
 ================================================================================
-Comando: docker compose up --build
+Comando: docker compose up --build -d --wait
 Resultado esperado: FAIL
 Salida: no configuration file provided: not found
 
