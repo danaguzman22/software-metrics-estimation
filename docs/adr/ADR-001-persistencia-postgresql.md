@@ -3,7 +3,7 @@
 - **Estado:** Aceptado — 2026-11-11. Las correcciones 1 a 7 de la revisión y las decisiones de la aceptación están incorporadas (ver sección 11); no quedan pendientes abiertos.
 - **Fecha:** 2026-11-11.
 - **Alcance:** capas `internal/service` y `internal/storage` (nuevos paquetes `internal/storage/jsonrepo` e `internal/storage/postgres`), migraciones SQL en `migrations/`, conexión de `cmd/server` y estrategia de tests. **Restricción global: los requisitos funcionales no cambian.** Los criterios de aceptación, las reglas y los escenarios BDD de US-01 a US-05 y US-11 se conservan tal como están. `internal/domain` se conserva íntegro (solo recibe adiciones puras, ver D4) y las firmas públicas de los **métodos** de servicio se conservan; los **constructores** cambian de parámetro (de `almacen` a repositorios): única excepción a las firmas públicas, aceptada como excepción documentada en la revisión del 2026-11-11 (D1; pendiente 1 cerrado).
-- **Fuera de alcance:** `internal/web`, nuevas historias de usuario, cambios de requisitos, y los agregados sprints, votos, esfuerzo y defectos (D11).
+- **Fuera de alcance:** `internal/web`, nuevas historias de usuario, cambios de requisitos, y los agregados votos, esfuerzo y defectos (D11). **Excepción posterior (enmienda 2026-11-13):** el agregado `sprints` quedó implementado por US-07 exclusivamente sobre PostgreSQL, sin adaptador `jsonrepo` (ver D11 y la enmienda de la sección 11); las decisiones de este ADR para los agregados originales no cambian.
 
 ---
 
@@ -282,6 +282,8 @@ Nota sobre los 4 tests de fallo de escritura con `almacenFalloEscritura` (`TestU
 
 Solo los agregados actuales: `proyectos`, `integrantes` e `items_backlog`. Sprints, votos, esfuerzo y defectos traen su propia migración con su propia historia. Fuera de alcance: web, nuevas historias, cambios de requisitos.
 
+**Actualización (enmienda 2026-11-13, US-07):** el agregado `sprints` ya trae su propia migración (`migrations/00003_sprints.sql`) y su contrato `RepositorioSprints`, con una excepción: **solo se implementa el adaptador PostgreSQL; no se crea adaptador `jsonrepo` para Sprint**. Votos, esfuerzo y defectos siguen fuera de alcance. Las decisiones D1–D10 para `proyectos`, `integrantes` e `items_backlog` no cambian.
+
 ## 4. Alternativas descartadas
 
 | Alternativa | Motivo del descarte |
@@ -428,6 +430,7 @@ No quedan pendientes abiertos.
 
 **Enmienda (2026-11-11, revisión de T-12 y T-08).** (a) Se elimina `items_backlog_proyecto_idx` del DDL de referencia por redundante con la PK; la migración aún no estaba aplicada en ningún entorno, por lo que se corrigió en la primera migración (D8 prohíbe editar migraciones ya aplicadas). (b) La suite de contrato de D10 quedó en `internal/service/repotest` (funciones `Entorno` y `Ejecutar`, ejecutadas desde `jsonrepo` y `postgres`) en lugar de un paquete bajo `internal/storage`.
 **Enmienda (2026-11-12, T-09).** (c) En T-09, `TestUS11_EstimarItem_BacklogSinArchivo` se elimina del servicio, porque su escenario (colección inexistente) queda cubierto por la suite de contrato. `TestUS11_EstimarItem_MismoIDEnOtroProyecto` se retargetea para ejecutarse contra los repositorios en lugar del almacén JSON.
+**Enmienda (2026-11-13, US-07).** (d) La historia US-07 (Crear Sprint) incorpora el agregado `sprints` como excepción a D11: **se implementa exclusivamente el adaptador PostgreSQL** (`internal/storage/postgres.Sprints`) y **no se crea adaptador `jsonrepo` para Sprint**. El contrato `RepositorioSprints` se define en `internal/service` (D1); el esquema se materializa en `migrations/00003_sprints.sql` (migración nueva, no se editan las anteriores, D8); los tests de servicio usan un doble en memoria y la suite de contrato/integración de Sprint corre solo contra PostgreSQL y se saltea sin `TEST_DATABASE_URL` (D9). Consecuencia: la paridad JSON/PostgreSQL de la suite de contrato no cubre Sprints; la cobertura de Sprint contra PostgreSQL queda supeditada a la validación real con `TEST_DATABASE_URL`. Las decisiones de este ADR para `proyectos`, `integrantes` e `items_backlog` no cambian.
 
 ## Criterios sin escenario / verificación
 
