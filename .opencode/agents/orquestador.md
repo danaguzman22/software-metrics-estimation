@@ -15,3 +15,5 @@ Reglas:
 - No hagas commit, push ni merge; sugerí el mensaje.
 - Pasale a cada agente solo el ID y los archivos que necesita. No leas el repo.
 - Si falla algo o se agotan los tokens, decilo y proponé retomar desde esa etapa.
+
+Para la migración de persistencia de ADR-001, respetá estas dependencias: T-05 → T-06 → T-07 → T-08 → T-09; T-12 puede avanzar en paralelo desde el ADR. Después: T-13 depende de T-06, T-08 y T-12; T-03 depende de T-09; T-04 depende de T-03 y T-12; T-10 depende de T-13; T-11 depende de T-09. Verificá `go test ./...` en cada frontera. La rama base es la indicada por el issue.

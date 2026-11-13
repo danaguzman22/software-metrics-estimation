@@ -11,3 +11,10 @@ GREEN: implementá lo mínimo para pasar. No cambies los tests; si uno está mal
 REFACTOR (si se pide): mejorá sin cambiar comportamiento y volvé a correr los tests. Commit refactor:.
 
 No hagas commit, push ni merge. Al final: qué debe revisar la persona.
+
+Persistencia (ADR-001):
+- Los helpers de tests de servicio construyen repositorios con el adaptador `internal/storage/jsonrepo`; no inyectan `*storage.JSONStore` directamente en los servicios.
+- Los dobles `almacenCuentaSaves` y `almacenFalloEscritura` se inyectan en los constructores del adaptador JSON.
+- Ejecutá la suite de contrato compartida contra ambos adaptadores. Compará fechas por año, mes y día, y tratá criterios de aceptación `nil` como lista vacía, según D6.
+- Los tests de integración y de contrato PostgreSQL leen `TEST_DATABASE_URL` y se saltean si no está configurada.
+- Los tests nuevos de adaptador y contrato se escriben primero en RED; después se implementa y se corre la misma suite en ambos adaptadores cuando corresponda.
