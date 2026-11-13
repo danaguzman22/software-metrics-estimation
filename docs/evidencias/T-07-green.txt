@@ -1,0 +1,35 @@
+Fecha: 2026-11-11 14:32:36
+
+Comandos ejecutados:
+1. gofmt -w internal/storage/jsonrepo/repos.go
+   Resultado: exitoso (sin salida).
+
+2. go test ./internal/storage/jsonrepo -count=1
+   Resultado: exitoso
+   ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	1.120s
+
+3. go test ./... -count=1
+   Resultado: exitoso
+   ?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+   ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.707s
+   ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.827s
+   ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.706s
+   ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	1.054s
+   ?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+
+4. go test -race ./internal/storage/jsonrepo -count=1
+   Resultado: no ejecutado por limitación del entorno (no es fallo del código)
+   go: -race requires cgo; enable cgo by setting CGO_ENABLED=1
+
+Confirmaciones:
+- Implementación realizada en: internal/storage/jsonrepo/repos.go
+- No se modificaron los tests RED: internal/storage/jsonrepo/repos_test.go permanece sin cambios.
+- No se modificaron specs/T-07.md, specs/T-06.md, internal/service, internal/storage/storage.go, internal/domain, internal/web ni cmd.
+
+Resumen de los adaptadores implementados:
+- Almacen (interfaz exportada): Load/Save.
+- Proyectos (NuevoProyectos): carga/guarda colección "proyectos" con registro propio {id, proyecto}; ErrNotFound => colección vacía; errores no-NotFound y Save propagados con %w. Obtener devuelve ErrProyectoNoEncontrado si no existe; Existe false,nil si ausente; Listar conserva orden almacenado; Actualizar reemplaza Proyecto conservando ID o devuelve ErrProyectoNoEncontrado.
+- Integrantes (NuevoIntegrantes): colección "integrantes" {proyecto_id, integrante}; Agregar al final sin validar duplicados/proyecto; ListarPorProyecto filtra por proyectoID conservando orden de inserción.
+- Backlog (NuevoBacklog): colección "backlog" {proyecto_id, item}; AgregarItem calcula ID con domain.SiguienteIDItem solo sobre IDs del proyecto, numera por proyecto, persiste y devuelve ítem; operación completa (cargar/calcular/agregar/guardar) protegida con sync.Mutex. ListarPorProyecto filtra y ordena numéricamente con domain.NumeroDeItem. ObtenerItem/ActualizarItem buscan por (proyectoID,itemID) y devuelven ErrItemNoEncontrado si no existe. ActualizarItem y operaciones RMW protegidas con mutex. Errores propagados con %w.
+- Aserciones de compilación incluidas para los tres contratos de service.
+- Formato JSON compatible con tags actuales; tipos de registro propios del paquete jsonrepo (no reutiliza tipos no exportados de service).

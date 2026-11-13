@@ -1,0 +1,72 @@
+US-06 RED (reproducida sobre el commit 17f2ee2: solo tests, sin implementación)
+
+$ go test ./internal/domain ./internal/service -gcflags=-e -count=1
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test [github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+internal\domain\edicion_item_test.go:82:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:98:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:138:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:159:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:175:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:192:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:207:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:222:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:272:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:297:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:312:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:338:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:357:29: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:372:27: undefined: domain.EstadoCompletada
+internal\domain\edicion_item_test.go:374:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:384:28: undefined: domain.ErrItemCompletadoNoEditable
+internal\domain\edicion_item_test.go:385:52: undefined: domain.ErrItemCompletadoNoEditable
+internal\domain\edicion_item_test.go:394:27: undefined: domain.EstadoCompletada
+internal\domain\edicion_item_test.go:396:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\edicion_item_test.go:400:28: undefined: domain.ErrItemCompletadoNoEditable
+internal\domain\edicion_item_test.go:401:52: undefined: domain.ErrItemCompletadoNoEditable
+internal\domain\edicion_item_test.go:416:27: original.Editar undefined (type domain.ItemBacklog has no field or method Editar)
+internal\domain\orden_backlog_test.go:40:21: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:52:21: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:64:21: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:79:21: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:94:21: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:110:23: undefined: domain.OrdenarBacklog
+internal\domain\orden_backlog_test.go:127:21: undefined: domain.OrdenarBacklog
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal\service\edicion_backlog_test.go:70:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:95:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:120:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:151:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:178:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:206:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:232:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:258:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:296:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:345:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:394:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:430:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:461:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:498:28: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:531:28: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:557:27: undefined: domain.EstadoCompletada
+internal\service\edicion_backlog_test.go:561:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:573:28: undefined: domain.ErrItemCompletadoNoEditable
+internal\service\edicion_backlog_test.go:574:52: undefined: domain.ErrItemCompletadoNoEditable
+internal\service\edicion_backlog_test.go:587:27: undefined: domain.EstadoCompletada
+internal\service\edicion_backlog_test.go:591:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:603:28: undefined: domain.ErrItemCompletadoNoEditable
+internal\service\edicion_backlog_test.go:604:52: undefined: domain.ErrItemCompletadoNoEditable
+internal\service\edicion_backlog_test.go:627:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:650:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:666:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:678:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:693:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:740:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:796:30: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+internal\service\edicion_backlog_test.go:828:27: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:867:33: undefined: domain.EstadoCompletada
+internal\service\edicion_backlog_test.go:937:26: undefined: domain.ErrItemCompletadoNoEditable
+internal\service\edicion_backlog_test.go:946:29: servicio.EditarItem undefined (type *ServicioBacklog has no field or method EditarItem)
+internal\service\edicion_backlog_test.go:980:28: servicio.ListarBacklog undefined (type *ServicioBacklog has no field or method ListarBacklog)
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+FAIL

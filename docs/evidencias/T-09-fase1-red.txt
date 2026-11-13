@@ -1,0 +1,36 @@
+T-09 Fase 1 — RED
+Fecha: 2026-11-11
+Rama: feature/T-09-servicios-repositorios
+
+Alcance:
+- Fakes en memoria en internal/service/repos_fake_test.go.
+- Tests RED de ServicioProyectos en proyectos_t09_test.go.
+- Tests RED de AgregarIntegrante en integrantes_t09_test.go.
+- Test estructural TestT09_ServiceNoImportaStorage en repositorios_test.go.
+- Sin cambios en código productivo.
+
+Comando:
+go test ./internal/service -run 'TestT09_' -count=1
+
+Resultado: RED esperado (fallo de compilación por implementación pendiente).
+
+Errores relevantes:
+- NuevoServicioProyectos recibe dos repositorios en los tests:
+  (*fakeRepositorioProyectos, *fakeRepositorioIntegrantes).
+- La implementación actual todavía declara:
+  NuevoServicioProyectos(almacen almacen).
+
+El fallo confirma que la Fase 1 aún no migró el constructor ni las operaciones
+de ServicioProyectos a los repositorios. No se detectaron errores de sintaxis
+ni símbolos faltantes en los fakes o en los tests nuevos.
+
+Cobertura de casos RED:
+- Propagación de errores de repositorio con errors.Is/%w.
+- No llamar a Actualizar ante validación inválida.
+- Errores de dominio sin envolver.
+- No escribir si el proyecto no existe.
+- No escribir ante integrante duplicado.
+- No escribir ante validación inválida de integrante.
+- Fakes con contadores de escrituras e inyección de errores.
+- Detección de imports productivos de internal/storage mediante go/parser
+  (queda ejecutable luego de que la suite compile).

@@ -259,6 +259,55 @@ El proyecto deberá contemplar:
 
 ---
 
+## Ejecución con Docker
+
+La aplicación y PostgreSQL se levantan con Docker Compose. Solo se publica el puerto 8080;
+la base de datos queda accesible únicamente dentro de la red de Compose.
+
+### Levantar todo
+
+```powershell
+docker compose up --build -d --wait
+```
+
+`--build` construye la imagen de la app, `--wait` espera a que los healthchecks de
+`postgres` y `app` queden en `healthy` y `-d` deja los contenedores en segundo plano.
+Verificar el estado:
+
+```powershell
+docker compose ps
+curl.exe -s -o - -w "%{http_code}" http://localhost:8080/healthz
+```
+
+### Configuración por entorno
+
+`compose.yml` funciona sin archivo `.env` porque usa valores por defecto de desarrollo
+(`POSTGRES_USER=postgres`, `POSTGRES_DB=metricas`). Para personalizarlos, copiar
+`.env.example` a `.env` y ajustar las variables. `.env` no se versiona y no debe contener
+credenciales reales.
+
+### Persistencia de datos
+
+Los datos viven en el volumen nombrado `datos_postgres`, que no se borra al detener los
+contenedores. Para reiniciar conservando los datos:
+
+```powershell
+docker compose down
+docker compose up -d --wait
+```
+
+### Limpieza
+
+Para detener y eliminar el volumen con los datos de la base:
+
+```powershell
+docker compose down -v
+```
+
+El siguiente `docker compose up` arranca con la base vacía y las migraciones se reaplican.
+
+---
+
 ## Institución
 
 **Universidad Tecnológica Nacional — Facultad Regional San Rafael**
