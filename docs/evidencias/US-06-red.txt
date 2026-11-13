@@ -1,0 +1,5 @@
+US-06 RED (implementación retirada temporalmente para reproducir la fase RED)
+
+$ go test ./internal/domain ./internal/service -gcflags=-e -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.636s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.786s
