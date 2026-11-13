@@ -1,0 +1,26 @@
+Fecha: 2026-11-12T22:09:31
+Rama: feature/T-04-docker
+Commit base: 38d5f48
+Go: go version go1.27.3 windows/amd64
+Nota: RED: sin Dockerfile ni compose.yml, la app no se puede construir ni levantar en contenedor.
+
+$ docker --version
+Docker version 27.1.1, build 6312585
+
+$ docker compose version
+Docker Compose version v2.29.1-desktop.1
+
+$ go version
+go version go1.27.3 windows/amd64
+
+$ docker build -t software-metrics-estimation:dev .
+ERROR: error during connect: Head "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/_ping": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+
+$ docker compose up --build
+no configuration file provided: not found
+
+$ docker image ls software-metrics-estimation
+error during connect: Head "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/_ping": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+
+$ curl.exe -sS http://localhost:8080/healthz
+curl: (7) Failed to connect to localhost:8080 after 2223 ms: Could not connect to server
