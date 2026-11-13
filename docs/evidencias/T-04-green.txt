@@ -1,0 +1,226 @@
+Fecha: 2026-11-12T22:27:48
+Rama: feature/T-04-docker
+Commit base: 476d1ce
+Go: go version go1.27.3 windows/amd64
+Nota: GREEN: Dockerfile, Compose y persistencia PostgreSQL verificados correctamente.
+
+$ docker compose config
+name: software-metrics-estimation
+services:
+  app:
+    build:
+      context: C:\Users\Dana\OneDrive\Documentos\Facultad\4to año\Ingenieria y calidad de software\software-metrics-estimation
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgres://postgres:dev_password@postgres:5432/metricas?sslmode=disable
+      HTTP_ADDR: :8080
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - -O
+        - /dev/null
+        - http://127.0.0.1:8080/healthz
+      timeout: 5s
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: on-failure
+  postgres:
+    environment:
+      POSTGRES_DB: metricas
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_USER: postgres
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres -d metricas
+      timeout: 5s
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    image: postgres:16
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: datos_postgres
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  default:
+    name: software-metrics-estimation_default
+volumes:
+  datos_postgres:
+    name: software-metrics-estimation_datos_postgres
+
+$ docker compose up --build -d --wait
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [app internal] load build definition from Dockerfile
+#1 transferring dockerfile: 846B 0.0s done
+#1 DONE 0.0s
+
+#2 [app internal] load metadata for docker.io/library/alpine:3.20
+#2 DONE 1.3s
+
+#3 [app internal] load metadata for docker.io/library/golang:1.24-alpine
+#3 DONE 1.5s
+
+#4 [app internal] load .dockerignore
+#4 transferring context: 418B 0.0s done
+#4 DONE 0.0s
+
+#5 [app build 1/6] FROM docker.io/library/golang:1.24-alpine@sha256:8bee1901f1e530bfb4a7850aa7a479d17ae3a18beb6e09064ed54cfd245b7191
+#5 DONE 0.0s
+
+#6 [app stage-1 1/4] FROM docker.io/library/alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc
+#6 DONE 0.0s
+
+#7 [app internal] load build context
+#7 transferring context: 4.64kB 0.0s done
+#7 DONE 0.0s
+
+#8 [app build 2/6] WORKDIR /src
+#8 CACHED
+
+#9 [app build 3/6] COPY go.mod go.sum ./
+#9 CACHED
+
+#10 [app build 6/6] RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/server ./cmd/server
+#10 CACHED
+
+#11 [app build 4/6] RUN go mod download
+#11 CACHED
+
+#12 [app stage-1 2/4] RUN addgroup -S -g 10001 app     && adduser -S -D -H -u 10001 -G app app
+#12 CACHED
+
+#13 [app build 5/6] COPY . .
+#13 CACHED
+
+#14 [app stage-1 3/4] COPY --from=build /out/server /app/server
+#14 CACHED
+
+#15 [app stage-1 4/4] WORKDIR /app
+#15 CACHED
+
+#16 [app] exporting to image
+#16 exporting layers done
+#16 writing image sha256:cedb416449b3b2e0efe53044f74e2083ef537c13d83bb20363ee2bd28450e279 done
+#16 naming to docker.io/library/software-metrics-estimation-app done
+#16 DONE 0.0s
+
+#17 [app] resolving provenance for metadata file
+#17 DONE 0.0s
+ Container software-metrics-estimation-postgres-1  Running
+ Container software-metrics-estimation-app-1  Running
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-app-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-app-1  Healthy
+
+$ docker compose ps
+NAME                                     IMAGE                             COMMAND                  SERVICE    CREATED              STATUS                        PORTS
+software-metrics-estimation-app-1        software-metrics-estimation-app   "/app/server"            app        About a minute ago   Up About a minute (healthy)   0.0.0.0:8080->8080/tcp
+software-metrics-estimation-postgres-1   postgres:16                       "docker-entrypoint.s…"   postgres   About a minute ago   Up About a minute (healthy)   5432/tcp
+
+$ curl.exe -s -o - -w "%{http_code}" http://localhost:8080/healthz
+ok200
+$ docker compose exec -T postgres psql -U postgres -d metricas -t -A -c "SELECT count(*) FROM proyectos;"
+0
+
+$ docker compose down
+ Container software-metrics-estimation-app-1  Stopping
+ Container software-metrics-estimation-app-1  Stopped
+ Container software-metrics-estimation-app-1  Removing
+ Container software-metrics-estimation-app-1  Removed
+ Container software-metrics-estimation-postgres-1  Stopping
+ Container software-metrics-estimation-postgres-1  Stopped
+ Container software-metrics-estimation-postgres-1  Removing
+ Container software-metrics-estimation-postgres-1  Removed
+ Network software-metrics-estimation_default  Removing
+ Network software-metrics-estimation_default  Removed
+
+$ docker compose up -d --wait
+ Network software-metrics-estimation_default  Creating
+ Network software-metrics-estimation_default  Created
+ Container software-metrics-estimation-postgres-1  Creating
+ Container software-metrics-estimation-postgres-1  Created
+ Container software-metrics-estimation-app-1  Creating
+ Container software-metrics-estimation-app-1  Created
+ Container software-metrics-estimation-postgres-1  Starting
+ Container software-metrics-estimation-postgres-1  Started
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-app-1  Starting
+ Container software-metrics-estimation-app-1  Started
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-app-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-app-1  Healthy
+
+$ docker compose exec -T postgres psql -U postgres -d metricas -t -A -c "SELECT count(*) FROM proyectos;"
+0
+
+$ docker compose down -v
+ Container software-metrics-estimation-app-1  Stopping
+ Container software-metrics-estimation-app-1  Stopped
+ Container software-metrics-estimation-app-1  Removing
+ Container software-metrics-estimation-app-1  Removed
+ Container software-metrics-estimation-postgres-1  Stopping
+ Container software-metrics-estimation-postgres-1  Stopped
+ Container software-metrics-estimation-postgres-1  Removing
+ Container software-metrics-estimation-postgres-1  Removed
+ Volume software-metrics-estimation_datos_postgres  Removing
+ Network software-metrics-estimation_default  Removing
+ Volume software-metrics-estimation_datos_postgres  Removed
+ Network software-metrics-estimation_default  Removed
+
+$ docker compose up -d --wait
+ Network software-metrics-estimation_default  Creating
+ Network software-metrics-estimation_default  Created
+ Volume "software-metrics-estimation_datos_postgres"  Creating
+ Volume "software-metrics-estimation_datos_postgres"  Created
+ Container software-metrics-estimation-postgres-1  Creating
+ Container software-metrics-estimation-postgres-1  Created
+ Container software-metrics-estimation-app-1  Creating
+ Container software-metrics-estimation-app-1  Created
+ Container software-metrics-estimation-postgres-1  Starting
+ Container software-metrics-estimation-postgres-1  Started
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-app-1  Starting
+ Container software-metrics-estimation-app-1  Started
+ Container software-metrics-estimation-app-1  Waiting
+ Container software-metrics-estimation-postgres-1  Waiting
+ Container software-metrics-estimation-postgres-1  Healthy
+ Container software-metrics-estimation-app-1  Healthy
+
+$ docker compose exec -T postgres psql -U postgres -d metricas -t -A -c "SELECT count(*) FROM proyectos;"
+0
+
+$ go test ./... -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.328s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.894s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.024s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.078s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.329s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.218s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.391s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.645s
