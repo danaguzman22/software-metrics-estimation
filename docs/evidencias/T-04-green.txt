@@ -1,0 +1,62 @@
+Evidencia GREEN - T-04 Dockerfile, Compose y despliegue
+
+Fecha de validación: 2026-11-12
+Rama: feature/T-04-docker
+Commit de implementación: 4d65663
+Go: go version go1.27.3 windows/amd64
+Docker: 27.1.1
+Docker Compose: v2.29.1-desktop.1
+
+================================================================================
+Comando: docker compose config
+Resultado: PASS
+Servicios postgres y app configurados; app depende de postgres saludable,
+publica 8080:8080 y no se publica el puerto 5432.
+
+================================================================================
+Comando: docker compose up --build -d --wait
+Resultado: PASS
+La imagen se construyó con golang:1.24-alpine3.22 y alpine:3.22.
+Los contenedores postgres y app quedaron healthy.
+
+================================================================================
+Comando: docker compose ps
+Resultado: PASS
+software-metrics-estimation-app-1       Up (healthy)  0.0.0.0:8080->8080/tcp
+software-metrics-estimation-postgres-1  Up (healthy)  5432/tcp
+
+================================================================================
+Comando: curl.exe -s -o - -w "%{http_code}" http://localhost:8080/healthz
+Salida: ok
+HTTP 200
+
+================================================================================
+CA1 - Inspección de imagen
+Usuario: 10001:10001
+Contenido de /app: únicamente server
+Go en la imagen final: ausente
+Archivos .sql en la imagen final: ausentes
+
+================================================================================
+CA3 - Configuración
+git check-ignore .env: .env
+git ls-files --error-unmatch .env.example: .env.example
+
+================================================================================
+CA4 - Healthcheck
+docker inspect: Status=healthy
+Sonda: wget -q -O /dev/null http://127.0.0.1:8080/healthz
+
+================================================================================
+CA6 - Persistencia y limpieza
+INSERT de prueba: INSERT 0 1
+SELECT antes de down: 1
+SELECT después de down + up: 1
+SELECT después de down -v + up: 0
+
+================================================================================
+Comando: go test ./... -count=1
+Resultado: PASS (todos los paquetes)
+
+Conclusión: Dockerfile, Compose, healthchecks, persistencia, limpieza y suite Go
+verificados correctamente.

@@ -1,0 +1,26 @@
+# Control de versiones y metadatos de editores.
+.git
+.idea
+.vscode
+.opencode
+
+# Evidencias locales: no forman parte del build.
+docs/evidencias
+
+# Binarios y artefactos de pruebas.
+*.exe
+*.exe~
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Artefactos de workspace de Go.
+go.work
+go.work.sum
+
+# Credenciales locales: nunca dentro de la imagen.
+.env
+.env.*
+!.env.example
