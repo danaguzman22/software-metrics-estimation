@@ -1,0 +1,832 @@
+T-10 GREEN — PostgreSQL 16 local aislado
+== initdb == (salida omitida: codificación local de Windows; cluster PostgreSQL 16.2 inicializado en directorio temporal)
+== iniciar servidor PostgreSQL 16 en 127.0.0.1:55432 ==
+servidor listo en 127.0.0.1:55432
+== versión del servidor ==
+16.2
+== go version ==
+go version go1.27.4 windows/amd64
+== go build ./... ==
+== go test ./... -cover -count=1 -v ==
+=== RUN   TestT03_DatabaseURLObligatoria
+=== RUN   TestT03_DatabaseURLObligatoria/vacía
+=== RUN   TestT03_DatabaseURLObligatoria/solo_espacios
+--- PASS: TestT03_DatabaseURLObligatoria (0.00s)
+    --- PASS: TestT03_DatabaseURLObligatoria/vacía (0.00s)
+    --- PASS: TestT03_DatabaseURLObligatoria/solo_espacios (0.00s)
+=== RUN   TestT03_HTTPAddrPorDefecto
+=== RUN   TestT03_HTTPAddrPorDefecto/vacía
+=== RUN   TestT03_HTTPAddrPorDefecto/solo_espacios
+--- PASS: TestT03_HTTPAddrPorDefecto (0.00s)
+    --- PASS: TestT03_HTTPAddrPorDefecto/vacía (0.00s)
+    --- PASS: TestT03_HTTPAddrPorDefecto/solo_espacios (0.00s)
+=== RUN   TestT03_HTTPAddrPersonalizado
+--- PASS: TestT03_HTTPAddrPersonalizado (0.00s)
+=== RUN   TestT03_ConstruirServidorConDependenciasFalsas
+--- PASS: TestT03_ConstruirServidorConDependenciasFalsas (0.00s)
+=== RUN   TestT03_ArranqueConstruyeServidorYNoTermina
+--- PASS: TestT03_ArranqueConstruyeServidorYNoTermina (0.11s)
+=== RUN   TestT03_ApagadoOrdenado
+--- PASS: TestT03_ApagadoOrdenado (0.00s)
+=== RUN   TestT03_ApagadoCierraPoolAunqueShutdownFalle
+--- PASS: TestT03_ApagadoCierraPoolAunqueShutdownFalle (0.00s)
+=== RUN   TestT03_RunTerminaAlCancelarContexto
+--- PASS: TestT03_RunTerminaAlCancelarContexto (0.00s)
+=== RUN   TestT03_ArranqueNoIniciaServidorSiFallaConexion
+--- PASS: TestT03_ArranqueNoIniciaServidorSiFallaConexion (0.00s)
+=== RUN   TestT03_ArranqueDevuelveErrorSiNoPuedeEscuchar
+--- PASS: TestT03_ArranqueDevuelveErrorSiNoPuedeEscuchar (0.00s)
+=== RUN   TestRequiredDatabaseURL
+--- PASS: TestRequiredDatabaseURL (0.00s)
+PASS
+coverage: 78.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.460s	coverage: 78.0% of statements
+=== RUN   TestUS04_EstadoPorFechas_Planificado
+=== RUN   TestUS04_EstadoPorFechas_Planificado/día_anterior_al_inicio
+--- PASS: TestUS04_EstadoPorFechas_Planificado (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_Planificado/día_anterior_al_inicio (0.00s)
+=== RUN   TestUS04_EstadoPorFechas_EnCursoExtremos
+=== RUN   TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_igual_a_la_fecha_de_inicio
+=== RUN   TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_en_una_fecha_intermedia
+=== RUN   TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_igual_a_la_fecha_de_fin
+--- PASS: TestUS04_EstadoPorFechas_EnCursoExtremos (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_igual_a_la_fecha_de_inicio (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_en_una_fecha_intermedia (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_EnCursoExtremos/hoy_igual_a_la_fecha_de_fin (0.00s)
+=== RUN   TestUS04_EstadoPorFechas_Finalizado
+=== RUN   TestUS04_EstadoPorFechas_Finalizado/día_siguiente_al_fin
+--- PASS: TestUS04_EstadoPorFechas_Finalizado (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_Finalizado/día_siguiente_al_fin (0.00s)
+=== RUN   TestUS04_EstadoPorFechas_ComparacionPorDia
+=== RUN   TestUS04_EstadoPorFechas_ComparacionPorDia/mismo_día_a_las_8:00
+=== RUN   TestUS04_EstadoPorFechas_ComparacionPorDia/mismo_día_a_las_20:00
+--- PASS: TestUS04_EstadoPorFechas_ComparacionPorDia (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_ComparacionPorDia/mismo_día_a_las_8:00 (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_ComparacionPorDia/mismo_día_a_las_20:00 (0.00s)
+=== RUN   TestUS04_EstadoPorFechas_FechaFinAnteriorAInicio
+=== RUN   TestUS04_EstadoPorFechas_FechaFinAnteriorAInicio/fin_anterior_al_inicio
+--- PASS: TestUS04_EstadoPorFechas_FechaFinAnteriorAInicio (0.00s)
+    --- PASS: TestUS04_EstadoPorFechas_FechaFinAnteriorAInicio/fin_anterior_al_inicio (0.00s)
+=== RUN   TestUS04_EstadoCalculadoNoModificaEstadoGuardado
+--- PASS: TestUS04_EstadoCalculadoNoModificaEstadoGuardado (0.00s)
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas/0_de_3
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas/1_de_3
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas/2_de_3
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas/3_de_3
+=== RUN   TestUS04_PorcentajeHistoriasCompletadas/5_de_8
+--- PASS: TestUS04_PorcentajeHistoriasCompletadas (0.00s)
+    --- PASS: TestUS04_PorcentajeHistoriasCompletadas/0_de_3 (0.00s)
+    --- PASS: TestUS04_PorcentajeHistoriasCompletadas/1_de_3 (0.00s)
+    --- PASS: TestUS04_PorcentajeHistoriasCompletadas/2_de_3 (0.00s)
+    --- PASS: TestUS04_PorcentajeHistoriasCompletadas/3_de_3 (0.00s)
+    --- PASS: TestUS04_PorcentajeHistoriasCompletadas/5_de_8 (0.00s)
+=== RUN   TestUS04_PorcentajeSinHistorias
+--- PASS: TestUS04_PorcentajeSinHistorias (0.00s)
+=== RUN   TestUS04_PorcentajeCompletadas_ValoresInvalidos
+=== RUN   TestUS04_PorcentajeCompletadas_ValoresInvalidos/total_negativo
+=== RUN   TestUS04_PorcentajeCompletadas_ValoresInvalidos/completadas_negativas
+=== RUN   TestUS04_PorcentajeCompletadas_ValoresInvalidos/completadas_mayor_que_el_total
+=== RUN   TestUS04_PorcentajeCompletadas_ValoresInvalidos/total_cero_con_completadas_mayor_que_cero
+--- PASS: TestUS04_PorcentajeCompletadas_ValoresInvalidos (0.00s)
+    --- PASS: TestUS04_PorcentajeCompletadas_ValoresInvalidos/total_negativo (0.00s)
+    --- PASS: TestUS04_PorcentajeCompletadas_ValoresInvalidos/completadas_negativas (0.00s)
+    --- PASS: TestUS04_PorcentajeCompletadas_ValoresInvalidos/completadas_mayor_que_el_total (0.00s)
+    --- PASS: TestUS04_PorcentajeCompletadas_ValoresInvalidos/total_cero_con_completadas_mayor_que_cero (0.00s)
+=== RUN   TestUS04_EstadoPorFechas_ComparacionPorDia_UltimoDia
+--- PASS: TestUS04_EstadoPorFechas_ComparacionPorDia_UltimoDia (0.00s)
+=== RUN   TestUS11_Estimar_AsignaStoryPoints
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/1
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/2
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/3
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/5
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/8
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/13
+=== RUN   TestUS11_Estimar_AsignaStoryPoints/21
+--- PASS: TestUS11_Estimar_AsignaStoryPoints (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/1 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/2 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/3 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/5 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/8 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/13 (0.00s)
+    --- PASS: TestUS11_Estimar_AsignaStoryPoints/21 (0.00s)
+=== RUN   TestUS11_Estimar_PreservaRestoDelItem
+--- PASS: TestUS11_Estimar_PreservaRestoDelItem (0.00s)
+=== RUN   TestUS11_Estimar_NoModificaElItemOriginal
+--- PASS: TestUS11_Estimar_NoModificaElItemOriginal (0.00s)
+=== RUN   TestUS11_EsStoryPointsValido_EscalaValida
+--- PASS: TestUS11_EsStoryPointsValido_EscalaValida (0.00s)
+=== RUN   TestUS11_EsStoryPointsValido_ValoresInvalidos
+--- PASS: TestUS11_EsStoryPointsValido_ValoresInvalidos (0.00s)
+=== RUN   TestUS11_Estimar_ValorInvalidoDevuelveError
+=== RUN   TestUS11_Estimar_ValorInvalidoDevuelveError/0
+=== RUN   TestUS11_Estimar_ValorInvalidoDevuelveError/-1
+=== RUN   TestUS11_Estimar_ValorInvalidoDevuelveError/4
+=== RUN   TestUS11_Estimar_ValorInvalidoDevuelveError/22
+--- PASS: TestUS11_Estimar_ValorInvalidoDevuelveError (0.00s)
+    --- PASS: TestUS11_Estimar_ValorInvalidoDevuelveError/0 (0.00s)
+    --- PASS: TestUS11_Estimar_ValorInvalidoDevuelveError/-1 (0.00s)
+    --- PASS: TestUS11_Estimar_ValorInvalidoDevuelveError/4 (0.00s)
+    --- PASS: TestUS11_Estimar_ValorInvalidoDevuelveError/22 (0.00s)
+=== RUN   TestUS11_Estimar_ReestimacionReemplazaValor
+--- PASS: TestUS11_Estimar_ReestimacionReemplazaValor (0.00s)
+=== RUN   TestUS03_NombreVacio
+=== RUN   TestUS03_NombreVacio/nombre_vacío
+=== RUN   TestUS03_NombreVacio/nombre_compuesto_solo_por_espacios
+--- PASS: TestUS03_NombreVacio (0.00s)
+    --- PASS: TestUS03_NombreVacio/nombre_vacío (0.00s)
+    --- PASS: TestUS03_NombreVacio/nombre_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS03_RolVacio
+=== RUN   TestUS03_RolVacio/rol_vacío
+=== RUN   TestUS03_RolVacio/rol_compuesto_solo_por_espacios
+--- PASS: TestUS03_RolVacio (0.00s)
+    --- PASS: TestUS03_RolVacio/rol_vacío (0.00s)
+    --- PASS: TestUS03_RolVacio/rol_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS03_NuevoIntegrante_RecortaEspaciosExternos
+=== RUN   TestUS03_NuevoIntegrante_RecortaEspaciosExternos/nombre_y_rol_con_espacios_externos
+=== RUN   TestUS03_NuevoIntegrante_RecortaEspaciosExternos/mayúsculas_respetadas_tras_el_recorte
+--- PASS: TestUS03_NuevoIntegrante_RecortaEspaciosExternos (0.00s)
+    --- PASS: TestUS03_NuevoIntegrante_RecortaEspaciosExternos/nombre_y_rol_con_espacios_externos (0.00s)
+    --- PASS: TestUS03_NuevoIntegrante_RecortaEspaciosExternos/mayúsculas_respetadas_tras_el_recorte (0.00s)
+=== RUN   TestUS03_Duplicado_IgnoraMayusculas
+=== RUN   TestUS03_Duplicado_IgnoraMayusculas/candidato_en_minúsculas
+=== RUN   TestUS03_Duplicado_IgnoraMayusculas/candidato_en_mayúsculas
+--- PASS: TestUS03_Duplicado_IgnoraMayusculas (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraMayusculas/candidato_en_minúsculas (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraMayusculas/candidato_en_mayúsculas (0.00s)
+=== RUN   TestUS03_Duplicado_IgnoraEspaciosExtremos
+=== RUN   TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_al_inicio_y_al_final
+=== RUN   TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_externos_y_mayúsculas_distintas
+--- PASS: TestUS03_Duplicado_IgnoraEspaciosExtremos (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_al_inicio_y_al_final (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_externos_y_mayúsculas_distintas (0.00s)
+=== RUN   TestUS03_Duplicado_IgnoraRol
+=== RUN   TestUS03_Duplicado_IgnoraRol/nombre_ya_registrado
+=== RUN   TestUS03_Duplicado_IgnoraRol/nombre_no_registrado
+--- PASS: TestUS03_Duplicado_IgnoraRol (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraRol/nombre_ya_registrado (0.00s)
+    --- PASS: TestUS03_Duplicado_IgnoraRol/nombre_no_registrado (0.00s)
+=== RUN   TestUS03_Duplicado_EspaciosInternosDistintos
+=== RUN   TestUS03_Duplicado_EspaciosInternosDistintos/sin_espacio_interno
+=== RUN   TestUS03_Duplicado_EspaciosInternosDistintos/con_doble_espacio_interno
+--- PASS: TestUS03_Duplicado_EspaciosInternosDistintos (0.00s)
+    --- PASS: TestUS03_Duplicado_EspaciosInternosDistintos/sin_espacio_interno (0.00s)
+    --- PASS: TestUS03_Duplicado_EspaciosInternosDistintos/con_doble_espacio_interno (0.00s)
+=== RUN   TestUS05_TituloVacio
+=== RUN   TestUS05_TituloVacio/título_vacío
+=== RUN   TestUS05_TituloVacio/título_compuesto_solo_por_espacios
+--- PASS: TestUS05_TituloVacio (0.00s)
+    --- PASS: TestUS05_TituloVacio/título_vacío (0.00s)
+    --- PASS: TestUS05_TituloVacio/título_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS05_NuevoItemBacklog_RecortaTitulo
+--- PASS: TestUS05_NuevoItemBacklog_RecortaTitulo (0.00s)
+=== RUN   TestUS05_PrioridadInvalida
+=== RUN   TestUS05_PrioridadInvalida/prioridad_no_permitida
+=== RUN   TestUS05_PrioridadInvalida/prioridad_en_minúsculas
+=== RUN   TestUS05_PrioridadInvalida/prioridad_en_mayúsculas
+=== RUN   TestUS05_PrioridadInvalida/prioridad_compuesta_solo_por_espacios
+--- PASS: TestUS05_PrioridadInvalida (0.00s)
+    --- PASS: TestUS05_PrioridadInvalida/prioridad_no_permitida (0.00s)
+    --- PASS: TestUS05_PrioridadInvalida/prioridad_en_minúsculas (0.00s)
+    --- PASS: TestUS05_PrioridadInvalida/prioridad_en_mayúsculas (0.00s)
+    --- PASS: TestUS05_PrioridadInvalida/prioridad_compuesta_solo_por_espacios (0.00s)
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadRecortada
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadRecortada/Alta_con_espacios_externos
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadRecortada/Media_con_espacios_externos
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadRecortada/Baja_con_espacios_externos
+--- PASS: TestUS05_NuevoItemBacklog_PrioridadRecortada (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadRecortada/Alta_con_espacios_externos (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadRecortada/Media_con_espacios_externos (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadRecortada/Baja_con_espacios_externos (0.00s)
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadesValidas
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Alta
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Media
+=== RUN   TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Baja
+--- PASS: TestUS05_NuevoItemBacklog_PrioridadesValidas (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Alta (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Media (0.00s)
+    --- PASS: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Baja (0.00s)
+=== RUN   TestUS05_NuevoItemBacklog_EstadoInicialPendiente
+--- PASS: TestUS05_NuevoItemBacklog_EstadoInicialPendiente (0.00s)
+=== RUN   TestUS05_NuevoItemBacklog_StoryPointsCero
+--- PASS: TestUS05_NuevoItemBacklog_StoryPointsCero (0.00s)
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU01
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU04
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU100
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/sin_cero_a_la_izquierda
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/ceros_a_la_izquierda
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/prefijo_incorrecto
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/capitalizacion_incorrecta
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/vacio
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/prefijo_sin_numero
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/contenido_no_numerico
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/caracteres_extra
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/espacio_externo_izquierda
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/espacio_externo_derecha
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/cero
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/cero_doble
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/signo_negativo
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/signo_positivo
+=== RUN   TestT05_NumeroDeItem_TablaDeCasos/overflow
+--- PASS: TestT05_NumeroDeItem_TablaDeCasos (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU01 (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU04 (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU100 (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/sin_cero_a_la_izquierda (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/ceros_a_la_izquierda (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/prefijo_incorrecto (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/capitalizacion_incorrecta (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/vacio (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/prefijo_sin_numero (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/contenido_no_numerico (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/caracteres_extra (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/espacio_externo_izquierda (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/espacio_externo_derecha (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/cero (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/cero_doble (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/signo_negativo (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/signo_positivo (0.00s)
+    --- PASS: TestT05_NumeroDeItem_TablaDeCasos/overflow (0.00s)
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/lista_vacia
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/lista_nil
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/solo_malformados
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/un_solo_id
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/secuencia
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/formato_dos_digitos
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/hueco
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/orden_irrelevante
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/ids_duplicados
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/comparacion_numerica
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/malformados_ignorados
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/overflow_ignorado
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99
+=== RUN   TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99_siguiente
+--- PASS: TestT05_SiguienteIDItem_TablaDeCasos (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/lista_vacia (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/lista_nil (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/solo_malformados (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/un_solo_id (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/secuencia (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/formato_dos_digitos (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/hueco (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/orden_irrelevante (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/ids_duplicados (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/comparacion_numerica (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/malformados_ignorados (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/overflow_ignorado (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99 (0.00s)
+    --- PASS: TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99_siguiente (0.00s)
+=== RUN   TestT05_SiguienteIDItem_HuecoNoRellena
+--- PASS: TestT05_SiguienteIDItem_HuecoNoRellena (0.00s)
+=== RUN   TestT05_SiguienteIDItem_ComparacionNumericaNoTextual
+--- PASS: TestT05_SiguienteIDItem_ComparacionNumericaNoTextual (0.00s)
+=== RUN   TestT05_SiguienteIDItem_FormatoDosDigitos
+--- PASS: TestT05_SiguienteIDItem_FormatoDosDigitos (0.00s)
+=== RUN   TestT05_SiguienteIDItem_NoMutaLaEntrada
+--- PASS: TestT05_SiguienteIDItem_NoMutaLaEntrada (0.00s)
+=== RUN   TestT05_SiguienteIDItem_Determinista
+--- PASS: TestT05_SiguienteIDItem_Determinista (0.00s)
+=== RUN   TestUS02_ModificacionExitosa
+=== RUN   TestUS02_ModificacionExitosa/datos_válidos
+=== RUN   TestUS02_ModificacionExitosa/nombre_con_espacios_externos_se_conserva
+--- PASS: TestUS02_ModificacionExitosa (0.00s)
+    --- PASS: TestUS02_ModificacionExitosa/datos_válidos (0.00s)
+    --- PASS: TestUS02_ModificacionExitosa/nombre_con_espacios_externos_se_conserva (0.00s)
+=== RUN   TestUS02_ConservaEstado
+=== RUN   TestUS02_ConservaEstado/estado_En_curso
+=== RUN   TestUS02_ConservaEstado/estado_Finalizado
+--- PASS: TestUS02_ConservaEstado (0.00s)
+    --- PASS: TestUS02_ConservaEstado/estado_En_curso (0.00s)
+    --- PASS: TestUS02_ConservaEstado/estado_Finalizado (0.00s)
+=== RUN   TestUS02_NoMutaOriginal
+--- PASS: TestUS02_NoMutaOriginal (0.00s)
+=== RUN   TestUS02_NombreVacio
+=== RUN   TestUS02_NombreVacio/nombre_vacío
+=== RUN   TestUS02_NombreVacio/nombre_compuesto_solo_por_espacios
+--- PASS: TestUS02_NombreVacio (0.00s)
+    --- PASS: TestUS02_NombreVacio/nombre_vacío (0.00s)
+    --- PASS: TestUS02_NombreVacio/nombre_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS02_FechaFinAnteriorAInicio
+=== RUN   TestUS02_FechaFinAnteriorAInicio/fin_anterior_al_inicio
+--- PASS: TestUS02_FechaFinAnteriorAInicio (0.00s)
+    --- PASS: TestUS02_FechaFinAnteriorAInicio/fin_anterior_al_inicio (0.00s)
+=== RUN   TestUS02_FechasIgualesValidas
+=== RUN   TestUS02_FechasIgualesValidas/inicio_y_fin_iguales
+--- PASS: TestUS02_FechasIgualesValidas (0.00s)
+    --- PASS: TestUS02_FechasIgualesValidas/inicio_y_fin_iguales (0.00s)
+=== RUN   TestUS02_ValoresIgualesValidos
+=== RUN   TestUS02_ValoresIgualesValidos/mismos_valores_en_estado_En_curso
+--- PASS: TestUS02_ValoresIgualesValidos (0.00s)
+    --- PASS: TestUS02_ValoresIgualesValidos/mismos_valores_en_estado_En_curso (0.00s)
+=== RUN   TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal
+=== RUN   TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/nombre_vacío
+=== RUN   TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/nombre_compuesto_solo_por_espacios
+=== RUN   TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/fecha_de_fin_anterior_al_inicio
+--- PASS: TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal (0.00s)
+    --- PASS: TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/nombre_vacío (0.00s)
+    --- PASS: TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/nombre_compuesto_solo_por_espacios (0.00s)
+    --- PASS: TestUS02_ErrorDevuelveProyectoVacioYNoMutaOriginal/fecha_de_fin_anterior_al_inicio (0.00s)
+=== RUN   TestUS02_OrdenValidacionesNombreAntesQueFechas
+--- PASS: TestUS02_OrdenValidacionesNombreAntesQueFechas (0.00s)
+=== RUN   TestUS01_CreacionExitosa
+=== RUN   TestUS01_CreacionExitosa/datos_válidos
+=== RUN   TestUS01_CreacionExitosa/otro_proyecto
+=== RUN   TestUS01_CreacionExitosa/nombre_con_espacios_externos_se_conserva
+--- PASS: TestUS01_CreacionExitosa (0.00s)
+    --- PASS: TestUS01_CreacionExitosa/datos_válidos (0.00s)
+    --- PASS: TestUS01_CreacionExitosa/otro_proyecto (0.00s)
+    --- PASS: TestUS01_CreacionExitosa/nombre_con_espacios_externos_se_conserva (0.00s)
+=== RUN   TestUS01_NombreVacio
+=== RUN   TestUS01_NombreVacio/nombre_vacío
+=== RUN   TestUS01_NombreVacio/nombre_compuesto_solo_por_espacios
+--- PASS: TestUS01_NombreVacio (0.00s)
+    --- PASS: TestUS01_NombreVacio/nombre_vacío (0.00s)
+    --- PASS: TestUS01_NombreVacio/nombre_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS01_FechaFinAnteriorAInicio
+=== RUN   TestUS01_FechaFinAnteriorAInicio/fin_anterior_al_inicio
+--- PASS: TestUS01_FechaFinAnteriorAInicio (0.00s)
+    --- PASS: TestUS01_FechaFinAnteriorAInicio/fin_anterior_al_inicio (0.00s)
+=== RUN   TestUS01_EstadoInicialPlanificado
+=== RUN   TestUS01_EstadoInicialPlanificado/creación_con_datos_válidos
+--- PASS: TestUS01_EstadoInicialPlanificado (0.00s)
+    --- PASS: TestUS01_EstadoInicialPlanificado/creación_con_datos_válidos (0.00s)
+=== RUN   TestUS01_FechasIgualesValidas
+=== RUN   TestUS01_FechasIgualesValidas/inicio_y_fin_iguales
+--- PASS: TestUS01_FechasIgualesValidas (0.00s)
+    --- PASS: TestUS01_FechasIgualesValidas/inicio_y_fin_iguales (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.751s	coverage: 100.0% of statements
+=== RUN   TestT09_CrearItem_PropagaErrorRepositorioConWrap
+=== RUN   TestT09_CrearItem_PropagaErrorRepositorioConWrap/Existe
+=== RUN   TestT09_CrearItem_PropagaErrorRepositorioConWrap/AgregarItem
+--- PASS: TestT09_CrearItem_PropagaErrorRepositorioConWrap (0.00s)
+    --- PASS: TestT09_CrearItem_PropagaErrorRepositorioConWrap/Existe (0.00s)
+    --- PASS: TestT09_CrearItem_PropagaErrorRepositorioConWrap/AgregarItem (0.00s)
+=== RUN   TestT09_CrearItem_ConservaIDDevueltoPorRepositorio
+--- PASS: TestT09_CrearItem_ConservaIDDevueltoPorRepositorio (0.00s)
+=== RUN   TestT09_CrearItem_NoEscribeSiProyectoNoExiste
+--- PASS: TestT09_CrearItem_NoEscribeSiProyectoNoExiste (0.00s)
+=== RUN   TestT09_CrearItem_NoEscribeSiValidacionFalla
+=== RUN   TestT09_CrearItem_NoEscribeSiValidacionFalla/título_vacío
+=== RUN   TestT09_CrearItem_NoEscribeSiValidacionFalla/prioridad_inválida
+--- PASS: TestT09_CrearItem_NoEscribeSiValidacionFalla (0.00s)
+    --- PASS: TestT09_CrearItem_NoEscribeSiValidacionFalla/título_vacío (0.00s)
+    --- PASS: TestT09_CrearItem_NoEscribeSiValidacionFalla/prioridad_inválida (0.00s)
+=== RUN   TestT09_CrearItem_ErrorDominioSinEnvolver
+=== RUN   TestT09_CrearItem_ErrorDominioSinEnvolver/proyecto_inexistente
+=== RUN   TestT09_CrearItem_ErrorDominioSinEnvolver/título_vacío
+=== RUN   TestT09_CrearItem_ErrorDominioSinEnvolver/prioridad_inválida
+--- PASS: TestT09_CrearItem_ErrorDominioSinEnvolver (0.00s)
+    --- PASS: TestT09_CrearItem_ErrorDominioSinEnvolver/proyecto_inexistente (0.00s)
+    --- PASS: TestT09_CrearItem_ErrorDominioSinEnvolver/título_vacío (0.00s)
+    --- PASS: TestT09_CrearItem_ErrorDominioSinEnvolver/prioridad_inválida (0.00s)
+=== RUN   TestUS05_CrearItem_Exitoso
+--- PASS: TestUS05_CrearItem_Exitoso (0.00s)
+=== RUN   TestUS05_CrearItem_SegundoItemEnMismoProyecto
+--- PASS: TestUS05_CrearItem_SegundoItemEnMismoProyecto (0.00s)
+=== RUN   TestUS05_CrearItem_PrimerAltaSinArchivoBacklog
+--- PASS: TestUS05_CrearItem_PrimerAltaSinArchivoBacklog (0.00s)
+=== RUN   TestUS05_CrearItem_PrimerItemIDHU01
+--- PASS: TestUS05_CrearItem_PrimerItemIDHU01 (0.00s)
+=== RUN   TestUS05_CrearItem_IDConsecutivoAlMayor
+--- PASS: TestUS05_CrearItem_IDConsecutivoAlMayor (0.00s)
+=== RUN   TestUS05_CrearItem_IDUnicoEnProyecto
+--- PASS: TestUS05_CrearItem_IDUnicoEnProyecto (0.00s)
+=== RUN   TestUS05_CrearItem_MismoIDEnOtroProyecto
+--- PASS: TestUS05_CrearItem_MismoIDEnOtroProyecto (0.00s)
+=== RUN   TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste
+=== RUN   TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_vacío
+=== RUN   TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_compuesto_solo_por_espacios
+--- PASS: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste (0.00s)
+    --- PASS: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_vacío (0.00s)
+    --- PASS: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste
+=== RUN   TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_no_permitida
+=== RUN   TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_minúsculas
+=== RUN   TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_mayúsculas
+=== RUN   TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_compuesta_solo_por_espacios
+--- PASS: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste (0.00s)
+    --- PASS: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_no_permitida (0.00s)
+    --- PASS: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_minúsculas (0.00s)
+    --- PASS: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_mayúsculas (0.00s)
+    --- PASS: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_compuesta_solo_por_espacios (0.00s)
+=== RUN   TestUS05_CrearItem_EstadoInicialPendiente
+--- PASS: TestUS05_CrearItem_EstadoInicialPendiente (0.00s)
+=== RUN   TestUS05_CrearItem_StoryPointsCero
+--- PASS: TestUS05_CrearItem_StoryPointsCero (0.00s)
+=== RUN   TestUS05_CrearItem_DescripcionYCriteriosOpcionales
+--- PASS: TestUS05_CrearItem_DescripcionYCriteriosOpcionales (0.00s)
+=== RUN   TestUS05_CrearItem_DescripcionYCriteriosSinValidar
+--- PASS: TestUS05_CrearItem_DescripcionYCriteriosSinValidar (0.00s)
+=== RUN   TestUS05_CrearItem_ProyectoNoEncontrado
+--- PASS: TestUS05_CrearItem_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS05_CrearItem_ArchivoProyectosInexistente
+--- PASS: TestUS05_CrearItem_ArchivoProyectosInexistente (0.00s)
+=== RUN   TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio
+--- PASS: TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio (0.00s)
+=== RUN   TestUS05_CrearItem_TituloVacioAntesQuePrioridadInvalida
+--- PASS: TestUS05_CrearItem_TituloVacioAntesQuePrioridadInvalida (0.00s)
+=== RUN   TestUS05_CrearItem_ErrorNoAgregaNiPersiste
+=== RUN   TestUS05_CrearItem_ErrorNoAgregaNiPersiste/proyecto_inexistente
+=== RUN   TestUS05_CrearItem_ErrorNoAgregaNiPersiste/título_vacío
+=== RUN   TestUS05_CrearItem_ErrorNoAgregaNiPersiste/prioridad_inválida
+--- PASS: TestUS05_CrearItem_ErrorNoAgregaNiPersiste (0.00s)
+    --- PASS: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/proyecto_inexistente (0.00s)
+    --- PASS: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/título_vacío (0.00s)
+    --- PASS: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/prioridad_inválida (0.00s)
+=== RUN   TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado
+--- PASS: TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado (0.00s)
+=== RUN   TestUS05_CrearItem_BacklogCorruptoNoEsNoEncontrado
+--- PASS: TestUS05_CrearItem_BacklogCorruptoNoEsNoEncontrado (0.00s)
+=== RUN   TestUS05_CrearItem_FalloDeEscrituraNoInformaExito
+--- PASS: TestUS05_CrearItem_FalloDeEscrituraNoInformaExito (0.00s)
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve/ModificarProyecto/Obtener
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve/ModificarProyecto/Actualizar
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/Existe
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/ListarPorProyecto
+=== RUN   TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/Agregar
+--- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve (0.00s)
+    --- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve/ModificarProyecto/Obtener (0.00s)
+    --- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve/ModificarProyecto/Actualizar (0.00s)
+    --- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/Existe (0.00s)
+    --- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/ListarPorProyecto (0.00s)
+    --- PASS: TestT09_ErrorSimpleDeRepositorioSeEnvuelve/AgregarIntegrante/Agregar (0.00s)
+=== RUN   TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual
+=== RUN   TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/ModificarProyecto/Obtener/ErrProyectoNoEncontrado
+=== RUN   TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/ModificarProyecto/Actualizar/ErrProyectoNoEncontrado
+=== RUN   TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/AgregarIntegrante/Agregar/ErrIntegranteDuplicado
+--- PASS: TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual (0.00s)
+    --- PASS: TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/ModificarProyecto/Obtener/ErrProyectoNoEncontrado (0.00s)
+    --- PASS: TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/ModificarProyecto/Actualizar/ErrProyectoNoEncontrado (0.00s)
+    --- PASS: TestT09_ErroresDeDominioDelRepositorioSeDevuelvenTalCual/AgregarIntegrante/Agregar/ErrIntegranteDuplicado (0.00s)
+=== RUN   TestT09_EstimarItem_PropagaErrorRepositorioConWrap
+=== RUN   TestT09_EstimarItem_PropagaErrorRepositorioConWrap/Existe
+=== RUN   TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ObtenerItem
+=== RUN   TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ActualizarItem
+--- PASS: TestT09_EstimarItem_PropagaErrorRepositorioConWrap (0.00s)
+    --- PASS: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/Existe (0.00s)
+    --- PASS: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ObtenerItem (0.00s)
+    --- PASS: TestT09_EstimarItem_PropagaErrorRepositorioConWrap/ActualizarItem (0.00s)
+=== RUN   TestT09_EstimarItem_NoEscribeSiProyectoNoExiste
+--- PASS: TestT09_EstimarItem_NoEscribeSiProyectoNoExiste (0.00s)
+=== RUN   TestT09_EstimarItem_NoEscribeSiItemNoExiste
+--- PASS: TestT09_EstimarItem_NoEscribeSiItemNoExiste (0.00s)
+=== RUN   TestT09_EstimarItem_NoEscribeSiValidacionFalla
+=== RUN   TestT09_EstimarItem_NoEscribeSiValidacionFalla/0
+=== RUN   TestT09_EstimarItem_NoEscribeSiValidacionFalla/-1
+=== RUN   TestT09_EstimarItem_NoEscribeSiValidacionFalla/4
+=== RUN   TestT09_EstimarItem_NoEscribeSiValidacionFalla/22
+--- PASS: TestT09_EstimarItem_NoEscribeSiValidacionFalla (0.00s)
+    --- PASS: TestT09_EstimarItem_NoEscribeSiValidacionFalla/0 (0.00s)
+    --- PASS: TestT09_EstimarItem_NoEscribeSiValidacionFalla/-1 (0.00s)
+    --- PASS: TestT09_EstimarItem_NoEscribeSiValidacionFalla/4 (0.00s)
+    --- PASS: TestT09_EstimarItem_NoEscribeSiValidacionFalla/22 (0.00s)
+=== RUN   TestT09_EstimarItem_ErrorDominioSinEnvolver
+=== RUN   TestT09_EstimarItem_ErrorDominioSinEnvolver/proyecto_inexistente
+=== RUN   TestT09_EstimarItem_ErrorDominioSinEnvolver/ítem_inexistente
+=== RUN   TestT09_EstimarItem_ErrorDominioSinEnvolver/story_points_inválidos
+--- PASS: TestT09_EstimarItem_ErrorDominioSinEnvolver (0.00s)
+    --- PASS: TestT09_EstimarItem_ErrorDominioSinEnvolver/proyecto_inexistente (0.00s)
+    --- PASS: TestT09_EstimarItem_ErrorDominioSinEnvolver/ítem_inexistente (0.00s)
+    --- PASS: TestT09_EstimarItem_ErrorDominioSinEnvolver/story_points_inválidos (0.00s)
+=== RUN   TestUS11_EstimarItem_Exitoso
+--- PASS: TestUS11_EstimarItem_Exitoso (0.00s)
+=== RUN   TestUS11_EstimarItem_ConservaRestoDeCampos
+--- PASS: TestUS11_EstimarItem_ConservaRestoDeCampos (0.00s)
+=== RUN   TestUS11_EstimarItem_Reestimacion
+--- PASS: TestUS11_EstimarItem_Reestimacion (0.00s)
+=== RUN   TestUS11_EstimarItem_ItemSinEstimar
+--- PASS: TestUS11_EstimarItem_ItemSinEstimar (0.00s)
+=== RUN   TestUS11_EstimarItem_ProyectoNoEncontrado
+--- PASS: TestUS11_EstimarItem_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS11_EstimarItem_ArchivoProyectosInexistente
+--- PASS: TestUS11_EstimarItem_ArchivoProyectosInexistente (0.00s)
+=== RUN   TestUS11_EstimarItem_ItemNoEncontrado
+--- PASS: TestUS11_EstimarItem_ItemNoEncontrado (0.00s)
+=== RUN   TestUS11_EstimarItem_MismoIDEnOtroProyecto
+--- PASS: TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.00s)
+=== RUN   TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste
+=== RUN   TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/0
+=== RUN   TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/-1
+=== RUN   TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/4
+=== RUN   TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/22
+--- PASS: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste (0.00s)
+    --- PASS: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/0 (0.00s)
+    --- PASS: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/-1 (0.00s)
+    --- PASS: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/4 (0.00s)
+    --- PASS: TestUS11_EstimarItem_StoryPointsInvalidosNoPersiste/22 (0.00s)
+=== RUN   TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio
+--- PASS: TestUS11_EstimarItem_ValorInvalidoConservaValorPrevio (0.00s)
+=== RUN   TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido
+--- PASS: TestUS11_EstimarItem_ProyectoInexistenteAntesQueValorInvalido (0.00s)
+=== RUN   TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido
+--- PASS: TestUS11_EstimarItem_ItemInexistenteAntesQueValorInvalido (0.00s)
+=== RUN   TestUS11_EstimarItem_ConservaOtrosItemsYOrden
+--- PASS: TestUS11_EstimarItem_ConservaOtrosItemsYOrden (0.00s)
+=== RUN   TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos
+--- PASS: TestUS11_EstimarItem_NoAfectaItemsDeOtrosProyectos (0.00s)
+=== RUN   TestUS11_EstimarItem_ErrorNoEscribe
+=== RUN   TestUS11_EstimarItem_ErrorNoEscribe/proyecto_inexistente
+=== RUN   TestUS11_EstimarItem_ErrorNoEscribe/ítem_inexistente
+=== RUN   TestUS11_EstimarItem_ErrorNoEscribe/story_points_inválidos
+--- PASS: TestUS11_EstimarItem_ErrorNoEscribe (0.00s)
+    --- PASS: TestUS11_EstimarItem_ErrorNoEscribe/proyecto_inexistente (0.00s)
+    --- PASS: TestUS11_EstimarItem_ErrorNoEscribe/ítem_inexistente (0.00s)
+    --- PASS: TestUS11_EstimarItem_ErrorNoEscribe/story_points_inválidos (0.00s)
+=== RUN   TestUS11_EstimarItem_JSONCorruptoPropagaError
+--- PASS: TestUS11_EstimarItem_JSONCorruptoPropagaError (0.00s)
+=== RUN   TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito
+--- PASS: TestUS11_EstimarItem_FalloDeEscrituraNoInformaExito (0.00s)
+=== RUN   TestT09_AgregarIntegrante_PropagaErrorRepositorioConWrap
+--- PASS: TestT09_AgregarIntegrante_PropagaErrorRepositorioConWrap (0.00s)
+=== RUN   TestT09_AgregarIntegrante_PropagaErrorDeExisteConWrap
+--- PASS: TestT09_AgregarIntegrante_PropagaErrorDeExisteConWrap (0.00s)
+=== RUN   TestT09_AgregarIntegrante_PropagaErrorDeAgregarConWrap
+--- PASS: TestT09_AgregarIntegrante_PropagaErrorDeAgregarConWrap (0.00s)
+=== RUN   TestT09_AgregarIntegrante_NoEscribeSiProyectoNoExiste
+--- PASS: TestT09_AgregarIntegrante_NoEscribeSiProyectoNoExiste (0.00s)
+=== RUN   TestT09_AgregarIntegrante_NoEscribeSiDuplicado
+--- PASS: TestT09_AgregarIntegrante_NoEscribeSiDuplicado (0.00s)
+=== RUN   TestT09_AgregarIntegrante_NoEscribeSiValidacionFalla
+--- PASS: TestT09_AgregarIntegrante_NoEscribeSiValidacionFalla (0.00s)
+=== RUN   TestT09_AgregarIntegrante_ErrorDominioSinEnvolver
+--- PASS: TestT09_AgregarIntegrante_ErrorDominioSinEnvolver (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_Exitoso
+--- PASS: TestUS03_AgregarIntegrante_Exitoso (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_SegundoIntegrante
+--- PASS: TestUS03_AgregarIntegrante_SegundoIntegrante (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_NombreConEspaciosExternos
+--- PASS: TestUS03_AgregarIntegrante_NombreConEspaciosExternos (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_PrimerAltaSinArchivoIntegrantes
+--- PASS: TestUS03_AgregarIntegrante_PrimerAltaSinArchivoIntegrantes (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_MismoNombreEnOtroProyecto
+--- PASS: TestUS03_AgregarIntegrante_MismoNombreEnOtroProyecto (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_DuplicadoExacto
+--- PASS: TestUS03_AgregarIntegrante_DuplicadoExacto (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste
+=== RUN   TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_vacío
+=== RUN   TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_compuesto_solo_por_espacios
+--- PASS: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_vacío (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_compuesto_solo_por_espacios (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste
+=== RUN   TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/nombre_vacío
+=== RUN   TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/rol_vacío
+=== RUN   TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/duplicado_exacto
+=== RUN   TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/mismo_nombre_con_distinto_rol
+--- PASS: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/nombre_vacío (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/rol_vacío (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/duplicado_exacto (0.00s)
+    --- PASS: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/mismo_nombre_con_distinto_rol (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_ProyectoNoEncontrado
+--- PASS: TestUS03_AgregarIntegrante_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_ProyectoInexistenteAntesQueNombreVacio
+--- PASS: TestUS03_AgregarIntegrante_ProyectoInexistenteAntesQueNombreVacio (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_ArchivoProyectosInexistente
+--- PASS: TestUS03_AgregarIntegrante_ArchivoProyectosInexistente (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_JSONCorruptoNoEsNoEncontrado
+--- PASS: TestUS03_AgregarIntegrante_JSONCorruptoNoEsNoEncontrado (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_FalloDeEscrituraNoInformaExito
+--- PASS: TestUS03_AgregarIntegrante_FalloDeEscrituraNoInformaExito (0.00s)
+=== RUN   TestUS03_AgregarIntegrante_JSONCorruptoIntegrantes
+--- PASS: TestUS03_AgregarIntegrante_JSONCorruptoIntegrantes (0.00s)
+=== RUN   TestT09_ModificarProyecto_PropagaErrorRepositorioConWrap
+--- PASS: TestT09_ModificarProyecto_PropagaErrorRepositorioConWrap (0.00s)
+=== RUN   TestT09_ModificarProyecto_PropagaErrorDeActualizacionConWrap
+--- PASS: TestT09_ModificarProyecto_PropagaErrorDeActualizacionConWrap (0.00s)
+=== RUN   TestT09_ModificarProyecto_NoActualizaSiValidacionFalla
+--- PASS: TestT09_ModificarProyecto_NoActualizaSiValidacionFalla (0.00s)
+=== RUN   TestT09_ModificarProyecto_ErrorDominioSinEnvolver
+--- PASS: TestT09_ModificarProyecto_ErrorDominioSinEnvolver (0.00s)
+=== RUN   TestUS02_Modificar_PersisteCambios
+=== RUN   TestUS02_Modificar_PersisteCambios/datos_válidos
+=== RUN   TestUS02_Modificar_PersisteCambios/nombre_con_espacios_externos
+--- PASS: TestUS02_Modificar_PersisteCambios (0.00s)
+    --- PASS: TestUS02_Modificar_PersisteCambios/datos_válidos (0.00s)
+    --- PASS: TestUS02_Modificar_PersisteCambios/nombre_con_espacios_externos (0.00s)
+=== RUN   TestUS02_Modificar_ConservaEstado
+=== RUN   TestUS02_Modificar_ConservaEstado/En_curso
+=== RUN   TestUS02_Modificar_ConservaEstado/Finalizado
+--- PASS: TestUS02_Modificar_ConservaEstado (0.00s)
+    --- PASS: TestUS02_Modificar_ConservaEstado/En_curso (0.00s)
+    --- PASS: TestUS02_Modificar_ConservaEstado/Finalizado (0.00s)
+=== RUN   TestUS02_Modificar_NoModificaOtrosProyectos
+--- PASS: TestUS02_Modificar_NoModificaOtrosProyectos (0.00s)
+=== RUN   TestUS02_Modificar_ValoresIguales
+--- PASS: TestUS02_Modificar_ValoresIguales (0.00s)
+=== RUN   TestUS02_Modificar_ValidacionFallidaNoPersiste
+=== RUN   TestUS02_Modificar_ValidacionFallidaNoPersiste/nombre_vacío
+=== RUN   TestUS02_Modificar_ValidacionFallidaNoPersiste/nombre_compuesto_solo_por_espacios
+=== RUN   TestUS02_Modificar_ValidacionFallidaNoPersiste/fecha_de_fin_anterior_al_inicio
+--- PASS: TestUS02_Modificar_ValidacionFallidaNoPersiste (0.00s)
+    --- PASS: TestUS02_Modificar_ValidacionFallidaNoPersiste/nombre_vacío (0.00s)
+    --- PASS: TestUS02_Modificar_ValidacionFallidaNoPersiste/nombre_compuesto_solo_por_espacios (0.00s)
+    --- PASS: TestUS02_Modificar_ValidacionFallidaNoPersiste/fecha_de_fin_anterior_al_inicio (0.00s)
+=== RUN   TestUS02_Modificar_ProyectoNoEncontrado
+--- PASS: TestUS02_Modificar_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS02_Modificar_ProyectoNoEncontradoPrecedeValidaciones
+--- PASS: TestUS02_Modificar_ProyectoNoEncontradoPrecedeValidaciones (0.00s)
+=== RUN   TestUS02_Modificar_ArchivoInexistente
+--- PASS: TestUS02_Modificar_ArchivoInexistente (0.00s)
+=== RUN   TestUS02_Modificar_JSONCorruptoNoEsNoEncontrado
+--- PASS: TestUS02_Modificar_JSONCorruptoNoEsNoEncontrado (0.00s)
+=== RUN   TestUS02_Modificar_FalloDeEscrituraNoInformaExito
+--- PASS: TestUS02_Modificar_FalloDeEscrituraNoInformaExito (0.00s)
+=== RUN   TestT09_ServiceNoImportaStorage
+--- PASS: TestT09_ServiceNoImportaStorage (0.00s)
+=== RUN   TestT06_RepositorioProyectos_FirmasExactas
+--- PASS: TestT06_RepositorioProyectos_FirmasExactas (0.00s)
+=== RUN   TestT06_RepositorioIntegrantes_FirmasExactas
+--- PASS: TestT06_RepositorioIntegrantes_FirmasExactas (0.00s)
+=== RUN   TestT06_RepositorioBacklog_FirmasExactas
+--- PASS: TestT06_RepositorioBacklog_FirmasExactas (0.00s)
+=== RUN   TestT06_ProyectoRegistrado_CamposYTagsJSON
+--- PASS: TestT06_ProyectoRegistrado_CamposYTagsJSON (0.00s)
+=== RUN   TestT06_SinDependenciasDePersistencia
+--- PASS: TestT06_SinDependenciasDePersistencia (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	2.068s	coverage: 100.0% of statements
+	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest		coverage: 0.0% of statements
+=== RUN   TestSaveLoad_RoundTrip
+--- PASS: TestSaveLoad_RoundTrip (0.02s)
+=== RUN   TestLoad_NotFound
+--- PASS: TestLoad_NotFound (0.00s)
+=== RUN   TestLoad_CorruptJSON
+--- PASS: TestLoad_CorruptJSON (0.01s)
+=== RUN   TestLoad_NonPointerTarget_NoEsCorrupt
+--- PASS: TestLoad_NonPointerTarget_NoEsCorrupt (0.01s)
+=== RUN   TestSave_InvalidName
+=== RUN   TestSave_InvalidName/#00
+=== RUN   TestSave_InvalidName/.
+=== RUN   TestSave_InvalidName/..
+=== RUN   TestSave_InvalidName/../x
+=== RUN   TestSave_InvalidName/a/b
+=== RUN   TestSave_InvalidName/a\b
+--- PASS: TestSave_InvalidName (0.00s)
+    --- PASS: TestSave_InvalidName/#00 (0.00s)
+    --- PASS: TestSave_InvalidName/. (0.00s)
+    --- PASS: TestSave_InvalidName/.. (0.00s)
+    --- PASS: TestSave_InvalidName/../x (0.00s)
+    --- PASS: TestSave_InvalidName/a/b (0.00s)
+    --- PASS: TestSave_InvalidName/a\b (0.00s)
+=== RUN   TestNewJSONStore_CreatesNestedDirectory
+--- PASS: TestNewJSONStore_CreatesNestedDirectory (0.00s)
+=== RUN   TestNewJSONStore_EmptyDir
+--- PASS: TestNewJSONStore_EmptyDir (0.00s)
+=== RUN   TestSave_OverwritesAndLeavesNoTempFiles
+--- PASS: TestSave_OverwritesAndLeavesNoTempFiles (0.01s)
+=== RUN   TestSave_UnmarshalableValue
+--- PASS: TestSave_UnmarshalableValue (0.01s)
+PASS
+coverage: 76.7% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.635s	coverage: 76.7% of statements
+=== RUN   TestJSONRepo_Contrato
+=== RUN   TestJSONRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip
+=== RUN   TestJSONRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento
+=== RUN   TestJSONRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento
+=== RUN   TestJSONRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado
+=== RUN   TestJSONRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW
+=== RUN   TestJSONRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo
+=== RUN   TestJSONRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto
+--- PASS: TestJSONRepo_Contrato (1.44s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip (0.02s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento (0.01s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento (1.37s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado (0.02s)
+    --- PASS: TestJSONRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW (0.00s)
+    --- PASS: TestJSONRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo (0.00s)
+    --- PASS: TestJSONRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.02s)
+=== RUN   TestT07_Proyectos_LeeFormatoActual
+--- PASS: TestT07_Proyectos_LeeFormatoActual (0.01s)
+=== RUN   TestT07_Integrantes_LeeFormatoActual
+--- PASS: TestT07_Integrantes_LeeFormatoActual (0.01s)
+=== RUN   TestT07_Backlog_LeeFormatoActual
+--- PASS: TestT07_Backlog_LeeFormatoActual (0.01s)
+=== RUN   TestT07_Proyectos_ActualizaYPersiste
+--- PASS: TestT07_Proyectos_ActualizaYPersiste (0.03s)
+=== RUN   TestT07_Integrantes_AgregaYPersisteEnOrden
+--- PASS: TestT07_Integrantes_AgregaYPersisteEnOrden (0.03s)
+=== RUN   TestT07_Proyectos_ColeccionAusenteEsVacia
+--- PASS: TestT07_Proyectos_ColeccionAusenteEsVacia (0.00s)
+=== RUN   TestT07_Integrantes_ColeccionAusenteEsVacia
+--- PASS: TestT07_Integrantes_ColeccionAusenteEsVacia (0.00s)
+=== RUN   TestT07_Backlog_ColeccionAusenteEsVacia
+--- PASS: TestT07_Backlog_ColeccionAusenteEsVacia (0.00s)
+=== RUN   TestT07_ErrCorruptSePropagaConW
+=== RUN   TestT07_ErrCorruptSePropagaConW/proyectos/Obtener
+=== RUN   TestT07_ErrCorruptSePropagaConW/proyectos/Existe
+=== RUN   TestT07_ErrCorruptSePropagaConW/proyectos/Listar
+=== RUN   TestT07_ErrCorruptSePropagaConW/proyectos/Actualizar
+=== RUN   TestT07_ErrCorruptSePropagaConW/integrantes/ListarPorProyecto
+=== RUN   TestT07_ErrCorruptSePropagaConW/integrantes/Agregar
+=== RUN   TestT07_ErrCorruptSePropagaConW/backlog/AgregarItem
+=== RUN   TestT07_ErrCorruptSePropagaConW/backlog/ObtenerItem
+=== RUN   TestT07_ErrCorruptSePropagaConW/backlog/ListarPorProyecto
+=== RUN   TestT07_ErrCorruptSePropagaConW/backlog/ActualizarItem
+--- PASS: TestT07_ErrCorruptSePropagaConW (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/proyectos/Obtener (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/proyectos/Existe (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/proyectos/Listar (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/proyectos/Actualizar (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/integrantes/ListarPorProyecto (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/integrantes/Agregar (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/backlog/AgregarItem (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/backlog/ObtenerItem (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/backlog/ListarPorProyecto (0.00s)
+    --- PASS: TestT07_ErrCorruptSePropagaConW/backlog/ActualizarItem (0.00s)
+=== RUN   TestT07_ErrorDeGuardadoSePropaga
+=== RUN   TestT07_ErrorDeGuardadoSePropaga/proyectos/Actualizar
+=== RUN   TestT07_ErrorDeGuardadoSePropaga/integrantes/Agregar
+=== RUN   TestT07_ErrorDeGuardadoSePropaga/backlog/AgregarItem
+=== RUN   TestT07_ErrorDeGuardadoSePropaga/backlog/ActualizarItem
+--- PASS: TestT07_ErrorDeGuardadoSePropaga (0.02s)
+    --- PASS: TestT07_ErrorDeGuardadoSePropaga/proyectos/Actualizar (0.01s)
+    --- PASS: TestT07_ErrorDeGuardadoSePropaga/integrantes/Agregar (0.00s)
+    --- PASS: TestT07_ErrorDeGuardadoSePropaga/backlog/AgregarItem (0.00s)
+    --- PASS: TestT07_ErrorDeGuardadoSePropaga/backlog/ActualizarItem (0.00s)
+=== RUN   TestT07_Backlog_AgregarItemNumeraPorProyecto
+--- PASS: TestT07_Backlog_AgregarItemNumeraPorProyecto (0.02s)
+=== RUN   TestT07_Backlog_ListarPorProyectoOrdenaPorNumero
+--- PASS: TestT07_Backlog_ListarPorProyectoOrdenaPorNumero (0.02s)
+=== RUN   TestT07_Backlog_ObtenerYActualizarItem
+--- PASS: TestT07_Backlog_ObtenerYActualizarItem (0.02s)
+=== RUN   TestT07_Backlog_AgregarItemConcurrente
+--- PASS: TestT07_Backlog_AgregarItemConcurrente (0.13s)
+PASS
+coverage: 97.8% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.750s	coverage: 97.8% of statements
+=== RUN   TestMigrateOnEmptyDatabase
+    migrate_test.go:39: PostgreSQL server_version_num=160002
+--- PASS: TestMigrateOnEmptyDatabase (0.36s)
+=== RUN   TestPostgresRepo_Contrato
+=== RUN   TestPostgresRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip
+=== RUN   TestPostgresRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento
+=== RUN   TestPostgresRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento
+=== RUN   TestPostgresRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado
+=== RUN   TestPostgresRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW
+    repotest.go:40: InyectarFallo no disponible
+=== RUN   TestPostgresRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo
+=== RUN   TestPostgresRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto
+--- PASS: TestPostgresRepo_Contrato (1.64s)
+    --- PASS: TestPostgresRepo_Contrato/TestT08_Proyectos_RepositorioVacioYRoundTrip (0.24s)
+    --- PASS: TestPostgresRepo_Contrato/TestT08_Integrantes_OrdenYAislamiento (0.21s)
+    --- PASS: TestPostgresRepo_Contrato/TestT08_Backlog_NumeracionOrdenYAislamiento (0.36s)
+    --- PASS: TestPostgresRepo_Contrato/TestT08_Backlog_RoundTripYNoEncontrado (0.24s)
+    --- SKIP: TestPostgresRepo_Contrato/TestT08_ErroresInfraestructura_EnvuelvenConW (0.22s)
+    --- PASS: TestPostgresRepo_Contrato/TestUS11_EstimarItem_BacklogSinArchivo (0.19s)
+    --- PASS: TestPostgresRepo_Contrato/TestUS11_EstimarItem_MismoIDEnOtroProyecto (0.18s)
+=== RUN   TestPostgresRepo_IntegridadReferencialYChecks
+=== RUN   TestPostgresRepo_IntegridadReferencialYChecks/prioridad
+=== RUN   TestPostgresRepo_IntegridadReferencialYChecks/estado
+=== RUN   TestPostgresRepo_IntegridadReferencialYChecks/story_points
+--- PASS: TestPostgresRepo_IntegridadReferencialYChecks (0.20s)
+    --- PASS: TestPostgresRepo_IntegridadReferencialYChecks/prioridad (0.00s)
+    --- PASS: TestPostgresRepo_IntegridadReferencialYChecks/estado (0.00s)
+    --- PASS: TestPostgresRepo_IntegridadReferencialYChecks/story_points (0.00s)
+=== RUN   TestPostgresRepo_DuplicadoIntegranteTraduceError
+--- PASS: TestPostgresRepo_DuplicadoIntegranteTraduceError (0.19s)
+=== RUN   TestPostgresRepo_AgregarItemProyectoInexistente
+--- PASS: TestPostgresRepo_AgregarItemProyectoInexistente (0.17s)
+=== RUN   TestPostgresRepo_UnicidadIntegrantesYClaveBacklog
+--- PASS: TestPostgresRepo_UnicidadIntegrantesYClaveBacklog (0.21s)
+=== RUN   TestPostgresRepo_AgregarItemConcurrente
+--- PASS: TestPostgresRepo_AgregarItemConcurrente (0.28s)
+PASS
+coverage: 75.5% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	3.320s	coverage: 75.5% of statements
+=== RUN   TestT03_HealthzResponde200ConPingOK
+--- PASS: TestT03_HealthzResponde200ConPingOK (0.00s)
+=== RUN   TestT03_HealthzResponde503ConPingFallido
+--- PASS: TestT03_HealthzResponde503ConPingFallido (0.00s)
+=== RUN   TestT03_HealthzRespetaTimeoutDePing
+--- PASS: TestT03_HealthzRespetaTimeoutDePing (2.00s)
+=== RUN   TestT03_HealthzRechazaMetodoNoPermitido
+--- PASS: TestT03_HealthzRechazaMetodoNoPermitido (0.00s)
+=== RUN   TestT03_SoloHealthzExpuesta
+=== RUN   TestT03_SoloHealthzExpuesta//
+=== RUN   TestT03_SoloHealthzExpuesta//proyectos
+=== RUN   TestT03_SoloHealthzExpuesta//api/proyectos
+--- PASS: TestT03_SoloHealthzExpuesta (0.00s)
+    --- PASS: TestT03_SoloHealthzExpuesta// (0.00s)
+    --- PASS: TestT03_SoloHealthzExpuesta//proyectos (0.00s)
+    --- PASS: TestT03_SoloHealthzExpuesta//api/proyectos (0.00s)
+=== RUN   TestT03_ServidorConfiguraTimeouts
+--- PASS: TestT03_ServidorConfiguraTimeouts (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	4.381s	coverage: 100.0% of statements
+=== RUN   TestEmbeddedInitialMigrationMatchesSchemaDecision
+--- PASS: TestEmbeddedInitialMigrationMatchesSchemaDecision (0.00s)
+PASS
+coverage: [no statements]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	1.706s	coverage: [no statements]
+== resultados verificados ==
+go build ./...: exit code 0
+go test ./... -cover -count=1 -v: exit code 0
