@@ -1,26 +1,32 @@
-Fecha: 2026-11-12T22:09:31
-Rama: feature/T-04-docker
-Commit base: 38d5f48
+Evidencia RED - T-04 Dockerfile, Compose y despliegue
+
+Fecha de validación: 2026-11-12
+Checkout de verificación: commit base 38d5f48
 Go: go version go1.27.3 windows/amd64
-Nota: RED: sin Dockerfile ni compose.yml, la app no se puede construir ni levantar en contenedor.
+Docker: 27.1.1
+Docker Compose: v2.29.1-desktop.1
 
-$ docker --version
-Docker version 27.1.1, build 6312585
+El checkout base no contiene Dockerfile ni compose.yml. Docker Desktop estaba
+encendido y no había un servidor ejecutándose en localhost:8080.
 
-$ docker compose version
-Docker Compose version v2.29.1-desktop.1
+================================================================================
+Comando: docker build -t software-metrics-estimation:dev .
+Resultado esperado: FAIL
+Salida relevante: failed to read dockerfile: open Dockerfile: no such file or directory
 
-$ go version
-go version go1.27.3 windows/amd64
+================================================================================
+Comando: docker compose up --build
+Resultado esperado: FAIL
+Salida: no configuration file provided: not found
 
-$ docker build -t software-metrics-estimation:dev .
-ERROR: error during connect: Head "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/_ping": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+================================================================================
+Comando: docker image ls software-metrics-estimation
+Resultado: no hay imagen con ese repositorio
 
-$ docker compose up --build
-no configuration file provided: not found
+================================================================================
+Comando: curl.exe -sS http://localhost:8080/healthz
+Resultado esperado: FAIL
+Salida: Failed to connect to localhost:8080
 
-$ docker image ls software-metrics-estimation
-error during connect: Head "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/_ping": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
-
-$ curl.exe -sS http://localhost:8080/healthz
-curl: (7) Failed to connect to localhost:8080 after 2223 ms: Could not connect to server
+Conclusión: en el commit base la aplicación no podía construirse ni levantarse
+en contenedor porque todavía no existían Dockerfile ni compose.yml.
