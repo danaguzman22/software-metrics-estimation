@@ -1,0 +1,214 @@
+US-06 GREEN
+
+$ go test ./... -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.337s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.850s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.609s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.244s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.588s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.280s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.451s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.922s
+
+$ go test ./internal/domain ./internal/service -run TestUS06 -count=1 -v
+=== RUN   TestUS06_Editar_Titulo
+=== RUN   TestUS06_Editar_Titulo/cambio_de_título
+=== RUN   TestUS06_Editar_Titulo/título_con_espacios_externos_se_recorta
+--- PASS: TestUS06_Editar_Titulo (0.00s)
+    --- PASS: TestUS06_Editar_Titulo/cambio_de_título (0.00s)
+    --- PASS: TestUS06_Editar_Titulo/título_con_espacios_externos_se_recorta (0.00s)
+=== RUN   TestUS06_Editar_Descripcion
+--- PASS: TestUS06_Editar_Descripcion (0.00s)
+=== RUN   TestUS06_Editar_Prioridad
+=== RUN   TestUS06_Editar_Prioridad/cambio_a_Media
+=== RUN   TestUS06_Editar_Prioridad/prioridad_con_espacios_externos_se_recorta
+--- PASS: TestUS06_Editar_Prioridad (0.00s)
+    --- PASS: TestUS06_Editar_Prioridad/cambio_a_Media (0.00s)
+    --- PASS: TestUS06_Editar_Prioridad/prioridad_con_espacios_externos_se_recorta (0.00s)
+=== RUN   TestUS06_Editar_Criterios
+--- PASS: TestUS06_Editar_Criterios (0.00s)
+=== RUN   TestUS06_Editar_StoryPoints
+=== RUN   TestUS06_Editar_StoryPoints/1
+=== RUN   TestUS06_Editar_StoryPoints/2
+=== RUN   TestUS06_Editar_StoryPoints/3
+=== RUN   TestUS06_Editar_StoryPoints/5
+=== RUN   TestUS06_Editar_StoryPoints/8
+=== RUN   TestUS06_Editar_StoryPoints/13
+=== RUN   TestUS06_Editar_StoryPoints/21
+--- PASS: TestUS06_Editar_StoryPoints (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/1 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/2 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/3 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/5 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/8 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/13 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPoints/21 (0.00s)
+=== RUN   TestUS06_Editar_ItemSinEstimarConservaCero
+--- PASS: TestUS06_Editar_ItemSinEstimarConservaCero (0.00s)
+=== RUN   TestUS06_Editar_DejarSinEstimarConCero
+--- PASS: TestUS06_Editar_DejarSinEstimarConCero (0.00s)
+=== RUN   TestUS06_Editar_TodosLosCampos
+--- PASS: TestUS06_Editar_TodosLosCampos (0.00s)
+=== RUN   TestUS06_Editar_PreservaIDYEstado
+=== RUN   TestUS06_Editar_PreservaIDYEstado/estado_Pendiente
+=== RUN   TestUS06_Editar_PreservaIDYEstado/estado_En_curso
+--- PASS: TestUS06_Editar_PreservaIDYEstado (0.00s)
+    --- PASS: TestUS06_Editar_PreservaIDYEstado/estado_Pendiente (0.00s)
+    --- PASS: TestUS06_Editar_PreservaIDYEstado/estado_En_curso (0.00s)
+=== RUN   TestUS06_Editar_TituloVacioDevuelveError
+--- PASS: TestUS06_Editar_TituloVacioDevuelveError (0.00s)
+=== RUN   TestUS06_Editar_TituloSoloEspaciosDevuelveError
+--- PASS: TestUS06_Editar_TituloSoloEspaciosDevuelveError (0.00s)
+=== RUN   TestUS06_Editar_PrioridadInvalidaDevuelveError
+=== RUN   TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_no_permitida
+=== RUN   TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_en_minúsculas
+=== RUN   TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_en_mayúsculas
+=== RUN   TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_compuesta_solo_por_espacios
+--- PASS: TestUS06_Editar_PrioridadInvalidaDevuelveError (0.00s)
+    --- PASS: TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_no_permitida (0.00s)
+    --- PASS: TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_en_minúsculas (0.00s)
+    --- PASS: TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_en_mayúsculas (0.00s)
+    --- PASS: TestUS06_Editar_PrioridadInvalidaDevuelveError/prioridad_compuesta_solo_por_espacios (0.00s)
+=== RUN   TestUS06_Editar_StoryPointsInvalidosDevuelveError
+=== RUN   TestUS06_Editar_StoryPointsInvalidosDevuelveError/-1
+=== RUN   TestUS06_Editar_StoryPointsInvalidosDevuelveError/4
+=== RUN   TestUS06_Editar_StoryPointsInvalidosDevuelveError/22
+--- PASS: TestUS06_Editar_StoryPointsInvalidosDevuelveError (0.00s)
+    --- PASS: TestUS06_Editar_StoryPointsInvalidosDevuelveError/-1 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPointsInvalidosDevuelveError/4 (0.00s)
+    --- PASS: TestUS06_Editar_StoryPointsInvalidosDevuelveError/22 (0.00s)
+=== RUN   TestUS06_Editar_ItemCompletadoDevuelveError
+--- PASS: TestUS06_Editar_ItemCompletadoDevuelveError (0.00s)
+=== RUN   TestUS06_Editar_ItemCompletadoAntesQueValidaciones
+--- PASS: TestUS06_Editar_ItemCompletadoAntesQueValidaciones (0.00s)
+=== RUN   TestUS06_Editar_NoModificaItemOriginal
+--- PASS: TestUS06_Editar_NoModificaItemOriginal (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_PorPrioridad
+--- PASS: TestUS06_OrdenarBacklog_PorPrioridad (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_DesempatePorNumero
+--- PASS: TestUS06_OrdenarBacklog_DesempatePorNumero (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_HU10VsHU2
+--- PASS: TestUS06_OrdenarBacklog_HU10VsHU2 (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_PrioridadDesconocidaAlFinal
+--- PASS: TestUS06_OrdenarBacklog_PrioridadDesconocidaAlFinal (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_IDMalformadoDespuesDeLosValidos
+--- PASS: TestUS06_OrdenarBacklog_IDMalformadoDespuesDeLosValidos (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_Vacio
+=== RUN   TestUS06_OrdenarBacklog_Vacio/lista_vacía
+=== RUN   TestUS06_OrdenarBacklog_Vacio/lista_nil
+--- PASS: TestUS06_OrdenarBacklog_Vacio (0.00s)
+    --- PASS: TestUS06_OrdenarBacklog_Vacio/lista_vacía (0.00s)
+    --- PASS: TestUS06_OrdenarBacklog_Vacio/lista_nil (0.00s)
+=== RUN   TestUS06_OrdenarBacklog_NoModificaEntrada
+--- PASS: TestUS06_OrdenarBacklog_NoModificaEntrada (0.00s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.680s
+=== RUN   TestUS06_EditarItem_Titulo
+--- PASS: TestUS06_EditarItem_Titulo (0.00s)
+=== RUN   TestUS06_EditarItem_Descripcion
+--- PASS: TestUS06_EditarItem_Descripcion (0.00s)
+=== RUN   TestUS06_EditarItem_Prioridad
+--- PASS: TestUS06_EditarItem_Prioridad (0.00s)
+=== RUN   TestUS06_EditarItem_Criterios
+--- PASS: TestUS06_EditarItem_Criterios (0.00s)
+=== RUN   TestUS06_EditarItem_StoryPoints
+=== RUN   TestUS06_EditarItem_StoryPoints/1
+=== RUN   TestUS06_EditarItem_StoryPoints/8
+=== RUN   TestUS06_EditarItem_StoryPoints/21
+--- PASS: TestUS06_EditarItem_StoryPoints (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPoints/1 (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPoints/8 (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPoints/21 (0.00s)
+=== RUN   TestUS06_EditarItem_ItemSinEstimar
+--- PASS: TestUS06_EditarItem_ItemSinEstimar (0.00s)
+=== RUN   TestUS06_EditarItem_DejarSinEstimarConCero
+--- PASS: TestUS06_EditarItem_DejarSinEstimarConCero (0.00s)
+=== RUN   TestUS06_EditarItem_Exitoso
+--- PASS: TestUS06_EditarItem_Exitoso (0.00s)
+=== RUN   TestUS06_EditarItem_ConservaIDYEstado
+--- PASS: TestUS06_EditarItem_ConservaIDYEstado (0.00s)
+=== RUN   TestUS06_EditarItem_TituloVacioNoPersiste
+=== RUN   TestUS06_EditarItem_TituloVacioNoPersiste/título_vacío
+=== RUN   TestUS06_EditarItem_TituloVacioNoPersiste/título_solo_de_espacios
+=== RUN   TestUS06_EditarItem_TituloVacioNoPersiste/título_vacío_prevalece_sobre_prioridad_y_story_points_inválidos
+--- PASS: TestUS06_EditarItem_TituloVacioNoPersiste (0.00s)
+    --- PASS: TestUS06_EditarItem_TituloVacioNoPersiste/título_vacío (0.00s)
+    --- PASS: TestUS06_EditarItem_TituloVacioNoPersiste/título_solo_de_espacios (0.00s)
+    --- PASS: TestUS06_EditarItem_TituloVacioNoPersiste/título_vacío_prevalece_sobre_prioridad_y_story_points_inválidos (0.00s)
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_no_permitida
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_en_minúsculas
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_en_mayúsculas
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_solo_de_espacios
+=== RUN   TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_inválida_prevalece_sobre_story_points_inválidos
+--- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste (0.00s)
+    --- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_no_permitida (0.00s)
+    --- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_en_minúsculas (0.00s)
+    --- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_en_mayúsculas (0.00s)
+    --- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_solo_de_espacios (0.00s)
+    --- PASS: TestUS06_EditarItem_PrioridadInvalidaNoPersiste/prioridad_inválida_prevalece_sobre_story_points_inválidos (0.00s)
+=== RUN   TestUS06_EditarItem_StoryPointsInvalidosNoPersiste
+=== RUN   TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/-1
+=== RUN   TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/4
+=== RUN   TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/22
+--- PASS: TestUS06_EditarItem_StoryPointsInvalidosNoPersiste (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/-1 (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/4 (0.00s)
+    --- PASS: TestUS06_EditarItem_StoryPointsInvalidosNoPersiste/22 (0.00s)
+=== RUN   TestUS06_EditarItem_ProyectoNoEncontrado
+--- PASS: TestUS06_EditarItem_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS06_EditarItem_ItemNoEncontrado
+=== RUN   TestUS06_EditarItem_ItemNoEncontrado/ítem_ausente_en_el_proyecto
+=== RUN   TestUS06_EditarItem_ItemNoEncontrado/mismo_ID_en_otro_proyecto_no_cuenta
+--- PASS: TestUS06_EditarItem_ItemNoEncontrado (0.00s)
+    --- PASS: TestUS06_EditarItem_ItemNoEncontrado/ítem_ausente_en_el_proyecto (0.00s)
+    --- PASS: TestUS06_EditarItem_ItemNoEncontrado/mismo_ID_en_otro_proyecto_no_cuenta (0.00s)
+=== RUN   TestUS06_EditarItem_ItemCompletadoNoPersiste
+--- PASS: TestUS06_EditarItem_ItemCompletadoNoPersiste (0.00s)
+=== RUN   TestUS06_EditarItem_ItemCompletadoAntesQueValidaciones
+--- PASS: TestUS06_EditarItem_ItemCompletadoAntesQueValidaciones (0.00s)
+=== RUN   TestUS06_ListarBacklog_OrdenadoPorPrioridad
+--- PASS: TestUS06_ListarBacklog_OrdenadoPorPrioridad (0.00s)
+=== RUN   TestUS06_ListarBacklog_DesempatePorNumero
+--- PASS: TestUS06_ListarBacklog_DesempatePorNumero (0.00s)
+=== RUN   TestUS06_ListarBacklog_HU10VsHU2
+--- PASS: TestUS06_ListarBacklog_HU10VsHU2 (0.00s)
+=== RUN   TestUS06_ListarBacklog_BacklogVacio
+--- PASS: TestUS06_ListarBacklog_BacklogVacio (0.00s)
+=== RUN   TestUS06_ListarBacklog_ProyectoNoEncontrado
+--- PASS: TestUS06_ListarBacklog_ProyectoNoEncontrado (0.00s)
+=== RUN   TestUS06_EditarItem_ErrorDeRepositorioEnvuelto
+=== RUN   TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto
+=== RUN   TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_obtener_el_ítem
+=== RUN   TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_actualizar_el_ítem
+--- PASS: TestUS06_EditarItem_ErrorDeRepositorioEnvuelto (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_obtener_el_ítem (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorDeRepositorioEnvuelto/error_al_actualizar_el_ítem (0.00s)
+=== RUN   TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto
+=== RUN   TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto
+=== RUN   TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto/error_al_listar_el_backlog
+--- PASS: TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto (0.00s)
+    --- PASS: TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto (0.00s)
+    --- PASS: TestUS06_ListarBacklog_ErrorDeRepositorioEnvuelto/error_al_listar_el_backlog (0.00s)
+=== RUN   TestUS06_EditarItem_ConservaOtrosItemsYOrden
+--- PASS: TestUS06_EditarItem_ConservaOtrosItemsYOrden (0.00s)
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/proyecto_inexistente
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/ítem_inexistente
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/título_vacío
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/prioridad_inválida
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/story_points_inválidos
+=== RUN   TestUS06_EditarItem_ErrorNoEscribe/ítem_completado
+--- PASS: TestUS06_EditarItem_ErrorNoEscribe (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/proyecto_inexistente (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/ítem_inexistente (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/título_vacío (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/prioridad_inválida (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/story_points_inválidos (0.00s)
+    --- PASS: TestUS06_EditarItem_ErrorNoEscribe/ítem_completado (0.00s)
+=== RUN   TestUS06_ListarBacklog_NoMezclaProyectos
+--- PASS: TestUS06_ListarBacklog_NoMezclaProyectos (0.00s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.956s
