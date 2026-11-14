@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
@@ -10,10 +11,14 @@ type fakeRepositorioProyectos struct {
 	proyectos       map[string]domain.Proyecto
 	obtenerErr      error
 	existeErr       error
+	listarErr       error
 	actualizarErr   error
+	crearErr        error
 	obtenerLlamadas int
 	existeLlamadas  int
+	listarLlamadas  int
 	actualizaciones int
+	crearLlamadas   int
 }
 
 func (f *fakeRepositorioProyectos) Obtener(id string) (ProyectoRegistrado, error) {
@@ -38,11 +43,25 @@ func (f *fakeRepositorioProyectos) Existe(id string) (bool, error) {
 }
 
 func (f *fakeRepositorioProyectos) Listar() ([]ProyectoRegistrado, error) {
+	f.listarLlamadas++
+	if f.listarErr != nil {
+		return nil, f.listarErr
+	}
 	registros := make([]ProyectoRegistrado, 0, len(f.proyectos))
 	for id, proyecto := range f.proyectos {
 		registros = append(registros, ProyectoRegistrado{ID: id, Proyecto: proyecto})
 	}
 	return registros, nil
+}
+
+func (f *fakeRepositorioProyectos) Crear(proyecto domain.Proyecto) (ProyectoRegistrado, error) {
+	f.crearLlamadas++
+	if f.crearErr != nil {
+		return ProyectoRegistrado{}, f.crearErr
+	}
+	id := fmt.Sprintf("PRJ-%03d", len(f.proyectos)+1)
+	f.proyectos[id] = proyecto
+	return ProyectoRegistrado{ID: id, Proyecto: proyecto}, nil
 }
 
 func (f *fakeRepositorioProyectos) Actualizar(id string, proyecto domain.Proyecto) error {
