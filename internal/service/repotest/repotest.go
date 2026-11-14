@@ -18,6 +18,7 @@ type Entorno struct {
 	Backlog         service.RepositorioBacklog
 	SembrarProyecto func(t *testing.T, p service.ProyectoRegistrado)
 	InyectarFallo   func(t *testing.T) (causa error, ejecutar func() error)
+	CausaCoincide   func(err, causa error) bool
 }
 
 // Ejecutar ejecuta la suite de contrato compartida para un adaptador.
@@ -234,8 +235,12 @@ func ejecutarErroresInfra(t *testing.T, e Entorno) {
 	if err == nil {
 		t.Fatalf("esperado error de infraestructura")
 	}
-	if !errors.Is(err, causa) {
-		t.Fatalf("errors.Is(err, causa) = false; err=%v", err)
+	coincide := errors.Is(err, causa)
+	if e.CausaCoincide != nil {
+		coincide = e.CausaCoincide(err, causa)
+	}
+	if !coincide {
+		t.Fatalf("la causa del error de infraestructura no coincide; err=%v", err)
 	}
 	if err == causa {
 		t.Fatalf("error no debe ser la causa pelada")
