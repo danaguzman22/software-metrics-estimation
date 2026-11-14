@@ -16,6 +16,8 @@ var (
 	ErrItemNoEstimado = errors.New("el ítem no está estimado")
 	// ErrItemNoPendiente indica que la historia no está en estado Pendiente.
 	ErrItemNoPendiente = errors.New("el ítem no está pendiente")
+	// ErrItemNoAsignadoAlSprint indica que la historia no pertenece al Sprint indicado.
+	ErrItemNoAsignadoAlSprint = errors.New("el ítem no está asignado al sprint")
 )
 
 // ValidarItemAsignable valida que una historia pueda asignarse a un Sprint
