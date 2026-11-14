@@ -1,13 +1,13 @@
 # language: es
 # Estado: Propuesta
-# Los escenarios describen US-09 y las decisiones D1–D21 aprobadas para la
-# historia. El orden de evaluación al marcar completada es: proyecto, Sprint,
-# historia. El cierre conserva las asignaciones completadas y elimina las no
-# completadas en la misma transacción; las historias devueltas quedan
-# "Pendiente" en el backlog.
-# El nombre y tipo del campo SPPlanificados, el método de dominio
-# MarcarComoCompletada y el comportamiento del Down de 00005 están decididos
-# en specs/US-09.md.
+# Los escenarios describen US-09 y las decisiones D1–D18 aprobadas para la
+# historia. D19–D21 quedan pendientes de confirmación de Dana. El orden de
+# evaluación al marcar completada es: proyecto, Sprint, historia; para cerrar y
+# consultar métricas, proyecto, Sprint. El cierre conserva las asignaciones
+# completadas y elimina las no completadas en la misma transacción; las historias
+# devueltas quedan "Pendiente" en el backlog.
+# La implementación usa provisionalmente el campo SPPlanificados, el método
+# MarcarComoCompletada y el comportamiento del Down propuestos en specs/US-09.md.
 # La suite completa debe seguir en verde para US-07. Un test de integración
 # verifica que cerrar un Sprint libera el índice parcial de Sprint activo.
 # La suite repotest cubre marcar una historia como completada en jsonrepo y
@@ -64,6 +64,46 @@ Característica: Marcar historias como completadas y cerrar el Sprint
     Entonces se devuelve un error indicando que el Sprint no existe en el proyecto
     Y no se devuelve un error de historia inexistente
 
+  @R2
+  Escenario: Proyecto inexistente prevalece sobre Sprint inexistente al cerrar
+    Dado que no existe un proyecto identificado por "p999"
+    Cuando se intenta cerrar el Sprint número 9 del proyecto "p999"
+    Entonces se devuelve un error indicando que el proyecto no existe
+    Y no se devuelve un error de Sprint inexistente
+
+  @R2
+  Escenario: Sprint inexistente al cerrar un Sprint de un proyecto existente
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" no tiene el Sprint número 9
+    Cuando se intenta cerrar el Sprint número 9 del proyecto "p1"
+    Entonces se devuelve un error indicando que el Sprint no existe en el proyecto
+
+  @R2
+  Esquema del escenario: Las consultas de métricas validan el proyecto antes que el Sprint
+    Dado que no existe un proyecto identificado por "p999"
+    Cuando se consultan los "<métrica>" del Sprint número 9 del proyecto "p999"
+    Entonces se devuelve un error indicando que el proyecto no existe
+    Y no se devuelve un error de Sprint inexistente
+
+    Ejemplos:
+      | métrica |
+      | Story Points planificados |
+      | Story Points completados |
+      | velocidad |
+
+  @R2
+  Esquema del escenario: Las consultas de métricas requieren un Sprint del proyecto
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" no tiene el Sprint número 9
+    Cuando se consultan los "<métrica>" del Sprint número 9 del proyecto "p1"
+    Entonces se devuelve un error indicando que el Sprint no existe en el proyecto
+
+    Ejemplos:
+      | métrica |
+      | Story Points planificados |
+      | Story Points completados |
+      | velocidad |
+
   @D4
   Escenario: No marcar como completada una historia inexistente
     Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
@@ -117,6 +157,15 @@ Característica: Marcar historias como completadas y cerrar el Sprint
     Y que la historia "HU-02" de 5 Story Points está asignada al Sprint número 1 del proyecto "p1"
     Cuando se cierra el Sprint número 1 del proyecto "p1"
     Y se consultan sus Story Points planificados
+    Entonces los Story Points planificados del Sprint número 1 son 8
+
+  @D12
+  Escenario: Consultar Story Points planificados de un Sprint activo en vivo
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene el Sprint número 1 en estado "Activo"
+    Y que la historia "HU-01" con 3 Story Points está asignada al Sprint número 1 del proyecto "p1"
+    Y que la historia "HU-02" con 5 Story Points está asignada al Sprint número 1 del proyecto "p1"
+    Cuando se consultan los Story Points planificados del Sprint número 1 del proyecto "p1"
     Entonces los Story Points planificados del Sprint número 1 son 8
 
   @D13

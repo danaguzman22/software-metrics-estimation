@@ -1,6 +1,10 @@
 package service
 
-import "github.com/danaguzman22/software-metrics-estimation/internal/domain"
+import (
+	"fmt"
+
+	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
+)
 
 // RepositorioAsignaciones persiste la relación historia–Sprint (D4, D5).
 type RepositorioAsignaciones interface {
@@ -17,6 +21,9 @@ type RepositorioAsignaciones interface {
 	// ListarNumerosItem devuelve los números de historia asignados al Sprint,
 	// ordenados por número ascendente (CA3).
 	ListarNumerosItem(proyectoID string, sprintNumero int) ([]int, error)
+
+	// ExisteItemEnSprint informa si la historia está asignada al Sprint indicado.
+	ExisteItemEnSprint(proyectoID string, sprintNumero, itemNumero int) (bool, error)
 }
 
 // AsignarItem asigna la historia itemID al Sprint sprintNumero del proyecto.
@@ -32,12 +39,12 @@ func (s *ServicioSprints) AsignarItem(proyectoID string, sprintNumero int, itemI
 		return domain.ErrProyectoNoEncontrado
 	}
 
-	existeSprint, err := s.sprints.ExisteNumero(proyectoID, sprintNumero)
+	sprint, err := s.sprints.Obtener(proyectoID, sprintNumero)
 	if err != nil {
 		return envolverErrorRepositorio("verificar sprint", err)
 	}
-	if !existeSprint {
-		return domain.ErrSprintNoEncontrado
+	if sprint.Estado == domain.EstadoSprintCerrado {
+		return domain.ErrSprintCerrado
 	}
 
 	item, err := s.backlog.ObtenerItem(proyectoID, itemID)
@@ -80,12 +87,15 @@ func (s *ServicioSprints) StoryPointsPlanificados(proyectoID string, sprintNumer
 		return 0, domain.ErrProyectoNoEncontrado
 	}
 
-	existeSprint, err := s.sprints.ExisteNumero(proyectoID, sprintNumero)
+	sprint, err := s.sprints.Obtener(proyectoID, sprintNumero)
 	if err != nil {
 		return 0, envolverErrorRepositorio("verificar sprint", err)
 	}
-	if !existeSprint {
-		return 0, domain.ErrSprintNoEncontrado
+	if sprint.Estado == domain.EstadoSprintCerrado {
+		if sprint.SPPlanificados == nil {
+			return 0, fmt.Errorf("service: el sprint cerrado %d no tiene story points planificados guardados", sprintNumero)
+		}
+		return *sprint.SPPlanificados, nil
 	}
 
 	numeros, err := s.asignaciones.ListarNumerosItem(proyectoID, sprintNumero)
@@ -115,4 +125,95 @@ func (s *ServicioSprints) StoryPointsPlanificados(proyectoID string, sprintNumer
 	}
 
 	return domain.StoryPointsPlanificados(filtrados), nil
+}
+
+// MarcarItemCompletada cambia a Completada una historia Pendiente asignada al
+// Sprint activo indicado.
+func (s *ServicioSprints) MarcarItemCompletada(proyectoID string, sprintNumero int, itemID string) error {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return domain.ErrProyectoNoEncontrado
+	}
+
+	sprint, err := s.sprints.Obtener(proyectoID, sprintNumero)
+	if err != nil {
+		return envolverErrorRepositorio("obtener sprint", err)
+	}
+	if sprint.Estado != domain.EstadoSprintActivo {
+		return domain.ErrSprintCerrado
+	}
+
+	item, err := s.backlog.ObtenerItem(proyectoID, itemID)
+	if err != nil {
+		return envolverErrorRepositorio("obtener ítem del backlog", err)
+	}
+	numero, ok := domain.NumeroDeItem(item.ID)
+	if !ok {
+		return domain.ErrItemNoEncontrado
+	}
+	asignado, err := s.asignaciones.ExisteItemEnSprint(proyectoID, sprintNumero, numero)
+	if err != nil {
+		return envolverErrorRepositorio("verificar asignación al sprint", err)
+	}
+	if !asignado {
+		return domain.ErrItemNoAsignadoAlSprint
+	}
+
+	completado, err := item.MarcarComoCompletada()
+	if err != nil {
+		return err
+	}
+	if err := s.backlog.ActualizarItem(proyectoID, completado); err != nil {
+		return envolverErrorRepositorio("marcar ítem como completado", err)
+	}
+	return nil
+}
+
+// StoryPointsCompletados devuelve la suma de Story Points de las historias
+// completadas asignadas al Sprint.
+func (s *ServicioSprints) StoryPointsCompletados(proyectoID string, sprintNumero int) (int, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return 0, domain.ErrProyectoNoEncontrado
+	}
+	if _, err := s.sprints.Obtener(proyectoID, sprintNumero); err != nil {
+		return 0, envolverErrorRepositorio("obtener sprint", err)
+	}
+	items, err := s.backlog.ListarPorProyecto(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("listar ítems del proyecto", err)
+	}
+	numeros, err := s.asignaciones.ListarNumerosItem(proyectoID, sprintNumero)
+	if err != nil {
+		return 0, envolverErrorRepositorio("listar ítems del sprint", err)
+	}
+	asignados := make(map[int]struct{}, len(numeros))
+	for _, numero := range numeros {
+		asignados[numero] = struct{}{}
+	}
+	total := 0
+	for _, item := range items {
+		if item.Estado != domain.EstadoCompletada {
+			continue
+		}
+		numero, ok := domain.NumeroDeItem(item.ID)
+		if !ok {
+			continue
+		}
+		if _, ok := asignados[numero]; ok {
+			total += item.StoryPoints
+		}
+	}
+	return total, nil
+}
+
+// VelocidadSprint devuelve la suma de Story Points completados del Sprint.
+func (s *ServicioSprints) VelocidadSprint(proyectoID string, sprintNumero int) (int, error) {
+	return s.StoryPointsCompletados(proyectoID, sprintNumero)
 }

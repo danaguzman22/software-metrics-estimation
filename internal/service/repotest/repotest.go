@@ -34,6 +34,7 @@ func Ejecutar(t *testing.T, nuevo func(t *testing.T) Entorno) {
 		{"TestT08_ErroresInfraestructura_EnvuelvenConW", ejecutarErroresInfra},
 		{"TestUS11_EstimarItem_BacklogSinArchivo", ejecutarUS11BacklogSinArchivo},
 		{"TestUS11_EstimarItem_MismoIDEnOtroProyecto", ejecutarUS11MismoIDEnOtroProyecto},
+		{"TestUS09_MarcarItemCompletada_BacklogEnAmbosAdaptadores", ejecutarUS09MarcarItemCompletada},
 	}
 	for _, c := range casos {
 		t.Run(c.nombre, func(t *testing.T) {
@@ -198,6 +199,29 @@ func ejecutarBacklogRoundTrip(t *testing.T, e Entorno) {
 	itemInexistente.ID = "HU-99"
 	err = e.Backlog.ActualizarItem("PRJ-001", itemInexistente)
 	verificarErrDominio(t, err, domain.ErrItemNoEncontrado, "ActualizarItem inexistente")
+}
+
+func ejecutarUS09MarcarItemCompletada(t *testing.T, e Entorno) {
+	t.Helper()
+	e.SembrarProyecto(t, nuevoRegistroProyecto(t, "PRJ-001", "Proyecto A"))
+	item := debeNuevoItem(t, "Historia", "desc", "Alta", []string{"criterio"})
+	agregado, err := e.Backlog.AgregarItem("PRJ-001", item)
+	debeNoError(t, err, "AgregarItem")
+	estimado, err := agregado.Estimar(3)
+	debeNoError(t, err, "Estimar")
+	debeNoError(t, e.Backlog.ActualizarItem("PRJ-001", estimado), "ActualizarItem estimado")
+
+	completado, err := estimado.MarcarComoCompletada()
+	debeNoError(t, err, "MarcarComoCompletada")
+	debeNoError(t, e.Backlog.ActualizarItem("PRJ-001", completado), "ActualizarItem completado")
+	obtenido, err := e.Backlog.ObtenerItem("PRJ-001", agregado.ID)
+	debeNoError(t, err, "ObtenerItem completado")
+	if obtenido.Estado != domain.EstadoCompletada {
+		t.Fatalf("Estado = %q, se esperaba %q", obtenido.Estado, domain.EstadoCompletada)
+	}
+	if !itemsEquivalentes(completado, obtenido) {
+		t.Fatalf("ítem completado: esperado %#v, obtenido %#v", completado, obtenido)
+	}
 }
 
 func ejecutarErroresInfra(t *testing.T, e Entorno) {

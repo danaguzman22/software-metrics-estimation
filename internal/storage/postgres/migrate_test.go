@@ -8,8 +8,11 @@ import (
 	"time"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"
+	"github.com/danaguzman22/software-metrics-estimation/migrations"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5/stdlib"
+	"github.com/pressly/goose/v3"
 )
 
 func TestMigrateOnEmptyDatabase(t *testing.T) {
@@ -69,6 +72,7 @@ func TestMigrateOnEmptyDatabase(t *testing.T) {
 	assertColumnType(t, ctx, pool, schema, "proyectos", "fecha_inicio", "date")
 	assertColumnType(t, ctx, pool, schema, "proyectos", "fecha_fin", "date")
 	assertColumnType(t, ctx, pool, schema, "items_backlog", "criterios_aceptacion", "ARRAY")
+	assertColumnType(t, ctx, pool, schema, "sprints", "sp_planificados", "integer")
 
 	var projectID string
 	err = pool.QueryRow(ctx, `
@@ -131,6 +135,19 @@ func TestMigrateOnEmptyDatabase(t *testing.T) {
 		t.Fatal("criterios_aceptacion no tiene una lista vacía por defecto")
 	}
 	if _, err := pool.Exec(ctx, `
+		UPDATE items_backlog SET estado = 'Completada'
+		WHERE proyecto_id = $1 AND numero = 1
+	`, projectID); err != nil {
+		t.Fatalf("actualizar estado de historia a Completada: %v", err)
+	}
+	if _, err := pool.Exec(ctx, `
+		INSERT INTO sprints
+			(proyecto_id, numero, objetivo, fecha_inicio, fecha_fin, estado, sp_planificados)
+		VALUES ($1, 1, 'Sprint cerrado', DATE '2026-01-01', DATE '2026-01-31', 'Cerrado', 0)
+	`, projectID); err != nil {
+		t.Fatalf("insertar Sprint cerrado con cero planificados: %v", err)
+	}
+	if _, err := pool.Exec(ctx, `
 		INSERT INTO items_backlog
 			(proyecto_id, numero, titulo, descripcion, prioridad, estado, story_points)
 		VALUES ($1, 1, 'HU-01 duplicado', '', 'Alta', 'Pendiente', 0)
@@ -146,6 +163,17 @@ func TestMigrateOnEmptyDatabase(t *testing.T) {
 			t.Errorf("se permitió estado de proyecto %q", invalidStatus)
 		}
 	}
+
+	db := stdlib.OpenDBFromPool(pool)
+	defer db.Close()
+	provider, err := goose.NewProvider(goose.DialectPostgres, db, migrations.FS)
+	if err != nil {
+		t.Fatalf("crear proveedor para probar Down de US-09: %v", err)
+	}
+	if _, err := provider.DownTo(ctx, 4); err == nil {
+		t.Fatal("el Down de 00005 debía fallar mientras existen estados nuevos")
+	}
+	assertColumnType(t, ctx, pool, schema, "sprints", "sp_planificados", "integer")
 }
 
 func assertColumnType(t *testing.T, ctx context.Context, pool *pgxpool.Pool, schema, table, column, want string) {

@@ -89,6 +89,7 @@ func TestUS08_RepositorioAsignaciones_AsignarYExiste(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ExisteItem() devolvió un error inesperado: %v", err)
 	}
+
 	if !existe {
 		t.Errorf("ExisteItem() = false, se esperaba true para el ítem asignado")
 	}
@@ -220,6 +221,7 @@ func TestUS08_RepositorioAsignaciones_ListarNumerosItem(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		numeros = append(numeros, sembrarItemUS08Postgres(t, pool, "PRJ-001"))
 	}
+
 	repo := nuevoRepositorioAsignacionesUS08(pool)
 
 	// Se asignan en orden inverso para comprobar que el adaptador ordena.
@@ -245,5 +247,26 @@ func TestUS08_RepositorioAsignaciones_ListarNumerosItem(t *testing.T) {
 	}
 	if len(vacios) != 0 {
 		t.Errorf("ListarNumerosItem() de un Sprint vacío = %v, se esperaba una lista vacía", vacios)
+	}
+}
+
+func TestUS09_RepositorioAsignaciones_ExisteItemEnSprint(t *testing.T) {
+	pool := nuevoPoolPostgres(t)
+	seedProject(t, pool, "PRJ-001")
+	sembrarSprintUS08Postgres(t, pool, "PRJ-001", 1)
+	sembrarSprintUS08Postgres(t, pool, "PRJ-001", 2)
+	numero := sembrarItemUS08Postgres(t, pool, "PRJ-001")
+	repo := nuevoRepositorioAsignacionesUS08(pool)
+	if err := repo.Agregar("PRJ-001", 1, numero); err != nil {
+		t.Fatalf("Agregar() devolvió un error inesperado: %v", err)
+	}
+
+	existe, err := repo.ExisteItemEnSprint("PRJ-001", 1, numero)
+	if err != nil || !existe {
+		t.Fatalf("ExisteItemEnSprint() = (%v, %v), se esperaba (true, nil)", existe, err)
+	}
+	existe, err = repo.ExisteItemEnSprint("PRJ-001", 2, numero)
+	if err != nil || existe {
+		t.Fatalf("ExisteItemEnSprint() para otro Sprint = (%v, %v), se esperaba (false, nil)", existe, err)
 	}
 }

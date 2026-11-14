@@ -19,6 +19,17 @@ type RepositorioSprints interface {
 
 	// ExisteActivo informa si el proyecto tiene un Sprint en estado Activo.
 	ExisteActivo(proyectoID string) (bool, error)
+
+	// Obtener devuelve el Sprint del proyecto o domain.ErrSprintNoEncontrado.
+	Obtener(proyectoID string, numero int) (domain.Sprint, error)
+
+	// ListarPorProyecto devuelve los Sprints del proyecto ordenados por número.
+	ListarPorProyecto(proyectoID string) ([]domain.Sprint, error)
+
+	// Cerrar cierra un Sprint activo y elimina las asignaciones no completadas
+	// en una transacción. Si el Sprint no está activo devuelve
+	// domain.ErrSprintCerrado.
+	Cerrar(proyectoID string, numero, spPlanificados int) error
 }
 
 // ServicioSprints orquesta los casos de uso de Sprints sobre el dominio (D8).
@@ -88,4 +99,33 @@ func (s *ServicioSprints) CrearSprint(
 	}
 
 	return sprint, nil
+}
+
+// CerrarSprint cierra el Sprint y conserva el total de Story Points
+// planificados antes de retirar las asignaciones no completadas.
+func (s *ServicioSprints) CerrarSprint(proyectoID string, sprintNumero int) error {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return domain.ErrProyectoNoEncontrado
+	}
+
+	sprint, err := s.sprints.Obtener(proyectoID, sprintNumero)
+	if err != nil {
+		return envolverErrorRepositorio("obtener sprint", err)
+	}
+	if sprint.Estado != domain.EstadoSprintActivo {
+		return domain.ErrSprintCerrado
+	}
+
+	spPlanificados, err := s.StoryPointsPlanificados(proyectoID, sprintNumero)
+	if err != nil {
+		return err
+	}
+	if err := s.sprints.Cerrar(proyectoID, sprintNumero, spPlanificados); err != nil {
+		return envolverErrorRepositorio("cerrar sprint", err)
+	}
+	return nil
 }
