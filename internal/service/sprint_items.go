@@ -217,3 +217,62 @@ func (s *ServicioSprints) StoryPointsCompletados(proyectoID string, sprintNumero
 func (s *ServicioSprints) VelocidadSprint(proyectoID string, sprintNumero int) (int, error) {
 	return s.StoryPointsCompletados(proyectoID, sprintNumero)
 }
+
+// VelocidadPromedio devuelve el promedio de Story Points completados por los
+// Sprints cerrados del proyecto. Sin Sprints cerrados devuelve cero.
+func (s *ServicioSprints) VelocidadPromedio(proyectoID string) (float64, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return 0, domain.ErrProyectoNoEncontrado
+	}
+
+	sprints, err := s.sprints.ListarPorProyecto(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("listar sprints del proyecto", err)
+	}
+
+	total := 0
+	cerrados := 0
+	for _, sprint := range sprints {
+		if sprint.Estado != domain.EstadoSprintCerrado {
+			continue
+		}
+		velocidad, err := s.VelocidadSprint(proyectoID, sprint.Numero)
+		if err != nil {
+			return 0, err
+		}
+		total += velocidad
+		cerrados++
+	}
+	if cerrados == 0 {
+		return 0, nil
+	}
+	return float64(total) / float64(cerrados), nil
+}
+
+// PorcentajeHistoriasCompletadas devuelve el porcentaje de historias
+// completadas sobre todo el backlog del proyecto.
+func (s *ServicioSprints) PorcentajeHistoriasCompletadas(proyectoID string) (float64, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return 0, domain.ErrProyectoNoEncontrado
+	}
+
+	items, err := s.backlog.ListarPorProyecto(proyectoID)
+	if err != nil {
+		return 0, envolverErrorRepositorio("listar ítems del proyecto", err)
+	}
+	completadas := 0
+	for _, item := range items {
+		if item.Estado == domain.EstadoCompletada {
+			completadas++
+		}
+	}
+	return domain.PorcentajeCompletadas(len(items), completadas)
+}
