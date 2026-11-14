@@ -22,7 +22,7 @@ ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgr
 ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.013s
 ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
 
-$ go test ./internal/storage/postgres -run TestUS08_RepositorioAsignaciones|TestUS07_RepositorioSprints -count=2 -v (PostgreSQL real)
+$ go test ./internal/storage/postgres -run "TestUS08_RepositorioAsignaciones|TestUS07_RepositorioSprints" -count=2 -v (PostgreSQL real)
 === RUN   TestUS08_RepositorioAsignaciones_AsignarYExiste
 --- PASS: TestUS08_RepositorioAsignaciones_AsignarYExiste (0.16s)
 === RUN   TestUS08_RepositorioAsignaciones_ItemYaAsignado
