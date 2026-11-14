@@ -1,0 +1,63 @@
+US-08 GREEN
+
+$ go test ./... -count=1 (sin TEST_DATABASE_URL)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.391s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.727s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	1.292s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.892s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	2.725s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	0.287s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.570s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.723s
+
+$ go test ./... -count=1 (con TEST_DATABASE_URL, PostgreSQL real)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.138s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.013s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.084s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.041s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.187s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	2.567s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.013s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
+
+$ go test ./internal/storage/postgres -run "TestUS08_RepositorioAsignaciones|TestUS07_RepositorioSprints" -count=2 -v (PostgreSQL real)
+=== RUN   TestUS08_RepositorioAsignaciones_AsignarYExiste
+--- PASS: TestUS08_RepositorioAsignaciones_AsignarYExiste (0.16s)
+=== RUN   TestUS08_RepositorioAsignaciones_ItemYaAsignado
+--- PASS: TestUS08_RepositorioAsignaciones_ItemYaAsignado (0.10s)
+=== RUN   TestUS08_RepositorioAsignaciones_MismoItemOtroProyecto
+--- PASS: TestUS08_RepositorioAsignaciones_MismoItemOtroProyecto (0.12s)
+=== RUN   TestUS08_RepositorioAsignaciones_SprintInexistente
+--- PASS: TestUS08_RepositorioAsignaciones_SprintInexistente (0.12s)
+=== RUN   TestUS08_RepositorioAsignaciones_ItemInexistente
+--- PASS: TestUS08_RepositorioAsignaciones_ItemInexistente (0.10s)
+=== RUN   TestUS08_RepositorioAsignaciones_ListarNumerosItem
+--- PASS: TestUS08_RepositorioAsignaciones_ListarNumerosItem (0.12s)
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado (0.10s)
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo (0.10s)
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto (0.09s)
+=== RUN   TestUS08_RepositorioAsignaciones_AsignarYExiste
+--- PASS: TestUS08_RepositorioAsignaciones_AsignarYExiste (0.09s)
+=== RUN   TestUS08_RepositorioAsignaciones_ItemYaAsignado
+--- PASS: TestUS08_RepositorioAsignaciones_ItemYaAsignado (0.10s)
+=== RUN   TestUS08_RepositorioAsignaciones_MismoItemOtroProyecto
+--- PASS: TestUS08_RepositorioAsignaciones_MismoItemOtroProyecto (0.11s)
+=== RUN   TestUS08_RepositorioAsignaciones_SprintInexistente
+--- PASS: TestUS08_RepositorioAsignaciones_SprintInexistente (0.11s)
+=== RUN   TestUS08_RepositorioAsignaciones_ItemInexistente
+--- PASS: TestUS08_RepositorioAsignaciones_ItemInexistente (0.09s)
+=== RUN   TestUS08_RepositorioAsignaciones_ListarNumerosItem
+--- PASS: TestUS08_RepositorioAsignaciones_ListarNumerosItem (0.11s)
+=== RUN   TestUS07_RepositorioSprints_NumeroDuplicado
+--- PASS: TestUS07_RepositorioSprints_NumeroDuplicado (0.09s)
+=== RUN   TestUS07_RepositorioSprints_IndiceUnicoActivo
+--- PASS: TestUS07_RepositorioSprints_IndiceUnicoActivo (0.09s)
+=== RUN   TestUS07_RepositorioSprints_MismoNumeroOtroProyecto
+--- PASS: TestUS07_RepositorioSprints_MismoNumeroOtroProyecto (0.09s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	1.899s

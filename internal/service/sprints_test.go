@@ -80,7 +80,12 @@ func nuevoEntornoSprints() *entornoSprints {
 }
 
 func (e *entornoSprints) servicio() *ServicioSprints {
-	return NuevoServicioSprints(e.fakeRepositorioProyectos, e.fakeRepositorioSprints)
+	return NuevoServicioSprints(
+		e.fakeRepositorioProyectos,
+		e.fakeRepositorioSprints,
+		nuevoFakeBacklogUS08(),
+		nuevoFakeAsignaciones(),
+	)
 }
 
 // fechaUS07Servicio arma una fecha sin hora para los escenarios de US-07.

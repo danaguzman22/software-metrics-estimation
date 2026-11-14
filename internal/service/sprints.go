@@ -23,13 +23,25 @@ type RepositorioSprints interface {
 
 // ServicioSprints orquesta los casos de uso de Sprints sobre el dominio (D8).
 type ServicioSprints struct {
-	proyectos RepositorioProyectos
-	sprints   RepositorioSprints
+	proyectos    RepositorioProyectos
+	sprints      RepositorioSprints
+	backlog      RepositorioBacklog
+	asignaciones RepositorioAsignaciones
 }
 
 // NuevoServicioSprints crea el servicio con los repositorios indicados.
-func NuevoServicioSprints(proyectos RepositorioProyectos, sprints RepositorioSprints) *ServicioSprints {
-	return &ServicioSprints{proyectos: proyectos, sprints: sprints}
+func NuevoServicioSprints(
+	proyectos RepositorioProyectos,
+	sprints RepositorioSprints,
+	backlog RepositorioBacklog,
+	asignaciones RepositorioAsignaciones,
+) *ServicioSprints {
+	return &ServicioSprints{
+		proyectos:    proyectos,
+		sprints:      sprints,
+		backlog:      backlog,
+		asignaciones: asignaciones,
+	}
 }
 
 // CrearSprint crea un Sprint en el proyecto identificado por proyectoID.
