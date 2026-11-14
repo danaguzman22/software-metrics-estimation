@@ -1,0 +1,16 @@
+US-16 REFACTOR
+
+$ go vet ./...
+Exit code: 0
+
+$ go build ./...
+Exit code: 0
+
+$ git diff --check
+Exit code: 0
+
+Se ajustó el contrato compartido para aceptar una verificación específica de la
+causa de infraestructura. PostgreSQL emite errores tipados por SQLSTATE, no el
+sentinel de Go que puede inyectar el adaptador JSON; el contrato PostgreSQL
+verifica el SQLSTATE 42P01 y conserva las comprobaciones de envoltura y error no
+perteneciente al dominio.
