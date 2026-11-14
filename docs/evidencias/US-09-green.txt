@@ -1,0 +1,34 @@
+US-09 GREEN
+
+$ go test ./... -count=1
+PostgreSQL 16.2 aislado en localhost:55432; TEST_DATABASE_URL configurada para esta ejecución.
+
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.610s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.105s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	2.716s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.355s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	4.273s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	8.035s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.756s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	1.740s
+
+Exit code: 0
+
+$ go test ./internal/storage/postgres -run '^(TestUS09_|TestMigrateOnEmptyDatabase$)' -count=1 -v
+
+=== RUN   TestMigrateOnEmptyDatabase
+    migrate_test.go:42: PostgreSQL server_version_num=160002
+--- PASS: TestMigrateOnEmptyDatabase (0.26s)
+=== RUN   TestUS09_RepositorioAsignaciones_ExisteItemEnSprint
+--- PASS: TestUS09_RepositorioAsignaciones_ExisteItemEnSprint (0.41s)
+=== RUN   TestUS09_RepositorioSprints_ObtenerYListarIncluyenPlanificados
+--- PASS: TestUS09_RepositorioSprints_ObtenerYListarIncluyenPlanificados (0.26s)
+=== RUN   TestUS09_RepositorioSprints_CerrarAtomicoYLiberaIndiceActivo
+--- PASS: TestUS09_RepositorioSprints_CerrarAtomicoYLiberaIndiceActivo (0.27s)
+=== RUN   TestUS09_RepositorioSprints_CerrarSprintNoActivoDevuelveError
+--- PASS: TestUS09_RepositorioSprints_CerrarSprintNoActivoDevuelveError (0.22s)
+PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	1.636s
+
+Exit code: 0

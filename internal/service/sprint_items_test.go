@@ -20,13 +20,17 @@ type asignacionUS08 struct {
 // para los tests de servicio de US-08. Cuenta las llamadas a Agregar y permite
 // inyectar errores en cada operación.
 type fakeRepositorioAsignaciones struct {
-	asignaciones       []asignacionUS08
-	agregarErr         error
-	existeItemErr      error
-	listarErr          error
-	agregarLlamadas    int
-	existeItemLlamadas int
-	listarLlamadas     int
+	asignaciones               []asignacionUS08
+	agregarErr                 error
+	existeItemErr              error
+	existeItemEnSprintErr      error
+	listarErr                  error
+	agregarLlamadas            int
+	existeItemLlamadas         int
+	existeItemEnSprintLlamadas int
+	listarLlamadas             int
+	ultimoItemNumero           int
+	ultimoSprintNumero         int
 }
 
 func nuevoFakeAsignaciones() *fakeRepositorioAsignaciones {
@@ -58,6 +62,26 @@ func (f *fakeRepositorioAsignaciones) ExisteItem(proyectoID string, itemNumero i
 	}
 	_, ok := f.sprintDe(proyectoID, itemNumero)
 	return ok, nil
+}
+
+func (f *fakeRepositorioAsignaciones) ExisteItemEnSprint(
+	proyectoID string,
+	sprintNumero, itemNumero int,
+) (bool, error) {
+	f.existeItemEnSprintLlamadas++
+	f.ultimoSprintNumero = sprintNumero
+	f.ultimoItemNumero = itemNumero
+	if f.existeItemEnSprintErr != nil {
+		return false, f.existeItemEnSprintErr
+	}
+	for _, asignacion := range f.asignaciones {
+		if asignacion.proyectoID == proyectoID &&
+			asignacion.sprintNumero == sprintNumero &&
+			asignacion.itemNumero == itemNumero {
+			return true, nil
+		}
+	}
+	return false, nil
 }
 
 func (f *fakeRepositorioAsignaciones) ListarNumerosItem(proyectoID string, sprintNumero int) ([]int, error) {
@@ -305,6 +329,9 @@ func TestUS08_AsignarItem_ProyectoNoEncontrado(t *testing.T) {
 	if entorno.sprints.existeNumeroLlamadas != 0 {
 		t.Errorf("ExisteNumero fue invocado %d veces; el proyecto debía validarse primero", entorno.sprints.existeNumeroLlamadas)
 	}
+	if entorno.sprints.obtenerLlamadas != 0 {
+		t.Errorf("Obtener fue invocado %d veces; el proyecto debía validarse primero", entorno.sprints.obtenerLlamadas)
+	}
 	if entorno.backlog.obtenerLlamadas != 0 {
 		t.Errorf("ObtenerItem fue invocado %d veces; el proyecto debía validarse primero", entorno.backlog.obtenerLlamadas)
 	}
@@ -412,6 +439,9 @@ func TestUS08_AsignarItem_OrdenProyectoAntesQueSprint(t *testing.T) {
 	}
 	if entorno.sprints.existeNumeroLlamadas != 0 {
 		t.Errorf("ExisteNumero fue invocado %d veces; el proyecto debía evaluarse primero", entorno.sprints.existeNumeroLlamadas)
+	}
+	if entorno.sprints.obtenerLlamadas != 0 {
+		t.Errorf("Obtener fue invocado %d veces; el proyecto debía evaluarse primero", entorno.sprints.obtenerLlamadas)
 	}
 	if entorno.asignaciones.agregarLlamadas != 0 {
 		t.Errorf("Agregar fue invocado %d veces; no debía escribirse nada", entorno.asignaciones.agregarLlamadas)
@@ -616,10 +646,10 @@ func TestUS08_AsignarItem_ErrorDeRepositorioEnvuelto(t *testing.T) {
 			},
 		},
 		{
-			descripcion: "ExisteNumero",
+			descripcion: "Obtener",
 			preparar: func(t *testing.T, entorno *entornoAsignaciones, causa error) {
 				sembrarProyectosUS08(t, entorno, "p1")
-				entorno.sprints.existeNumeroErr = causa
+				entorno.sprints.obtenerErr = causa
 			},
 		},
 		{
@@ -686,10 +716,10 @@ func TestUS08_AsignarItem_ErrorNoAsigna(t *testing.T) {
 			},
 		},
 		{
-			descripcion: "ExisteNumero",
+			descripcion: "Obtener",
 			preparar: func(t *testing.T, entorno *entornoAsignaciones, causa error) {
 				sembrarProyectosUS08(t, entorno, "p1")
-				entorno.sprints.existeNumeroErr = causa
+				entorno.sprints.obtenerErr = causa
 			},
 		},
 		{
@@ -750,10 +780,10 @@ func TestUS08_StoryPointsPlanificados_ErrorDeRepositorioEnvuelto(t *testing.T) {
 			},
 		},
 		{
-			descripcion: "ExisteNumero",
+			descripcion: "Obtener",
 			preparar: func(t *testing.T, entorno *entornoAsignaciones, causa error) {
 				sembrarProyectosUS08(t, entorno, "p1")
-				entorno.sprints.existeNumeroErr = causa
+				entorno.sprints.obtenerErr = causa
 			},
 		},
 		{
