@@ -7,7 +7,10 @@ import (
 )
 
 // EstadoSprintActivo es el estado inicial de todo Sprint creado (D2).
-const EstadoSprintActivo = "Activo"
+const (
+	EstadoSprintActivo  = "Activo"
+	EstadoSprintCerrado = "Cerrado"
+)
 
 // Errores de dominio de Sprints (D3, D4, D5, D6).
 var (
@@ -22,16 +25,19 @@ var (
 	ErrSprintActivoExistente = errors.New("el proyecto ya tiene un sprint activo")
 	// ErrSprintDuplicado indica que el número del Sprint ya existe en el proyecto.
 	ErrSprintDuplicado = errors.New("el número del sprint ya existe en el proyecto")
+	// ErrSprintCerrado indica que el Sprint ya se cerró y no admite modificaciones.
+	ErrSprintCerrado = errors.New("el sprint está cerrado")
 )
 
 // Sprint representa una iteración de un proyecto con número, objetivo, fechas
 // y estado (D2).
 type Sprint struct {
-	Numero      int
-	Objetivo    string
-	FechaInicio time.Time
-	FechaFin    time.Time
-	Estado      string
+	Numero         int
+	Objetivo       string
+	FechaInicio    time.Time
+	FechaFin       time.Time
+	Estado         string
+	SPPlanificados *int
 }
 
 // NuevoSprint crea un Sprint a partir de su número, su objetivo y sus fechas.

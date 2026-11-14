@@ -1,0 +1,19 @@
+US-16 GREEN
+
+$ go test ./... -count=1
+PostgreSQL 16.15 en Docker (localhost:55434); TEST_DATABASE_URL configurada.
+
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations
+
+Exit code: 0
+
+$ go test ./... -count=1 -v
+Resultado: exit code 0; 0 pruebas omitidas (SKIP).

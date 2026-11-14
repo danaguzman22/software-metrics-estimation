@@ -2,6 +2,7 @@ package postgres_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"sync"
@@ -13,6 +14,7 @@ import (
 	"github.com/danaguzman22/software-metrics-estimation/internal/service/repotest"
 	"github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -205,7 +207,40 @@ func nuevaEntornoPostgres(t *testing.T) repotest.Entorno {
 				t.Fatalf("sembrar proyecto %s: %v", proyecto.ID, err)
 			}
 		},
+		InyectarFallo: func(t *testing.T) (error, func() error) {
+			t.Helper()
+			config, err := pgxpool.ParseConfig(os.Getenv("TEST_DATABASE_URL"))
+			if err != nil {
+				t.Fatalf("analizar configuración PostgreSQL para inyectar error: %v", err)
+			}
+			config.ConnConfig.RuntimeParams["search_path"] = "esquema_sin_tablas"
+			poolFallo, err := pgxpool.NewWithConfig(context.Background(), config)
+			if err != nil {
+				t.Fatalf("crear pool PostgreSQL para inyectar error: %v", err)
+			}
+			t.Cleanup(poolFallo.Close)
+			repo := postgres.NuevoProyectos(poolFallo)
+			causa := errorSQLState("42P01")
+			return causa, func() error {
+				_, err := repo.Listar()
+				return err
+			}
+		},
+		CausaCoincide: func(err, causa error) bool {
+			esperada, ok := causa.(errorSQLState)
+			if !ok {
+				return false
+			}
+			var postgresError *pgconn.PgError
+			return errors.As(err, &postgresError) && postgresError.Code == string(esperada)
+		},
 	}
+}
+
+type errorSQLState string
+
+func (e errorSQLState) Error() string {
+	return fmt.Sprintf("PostgreSQL SQLSTATE %s", string(e))
 }
 
 func nuevoPoolPostgres(t *testing.T) *pgxpool.Pool {
