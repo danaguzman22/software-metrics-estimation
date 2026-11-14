@@ -65,6 +65,24 @@ func (r *Asignaciones) ExisteItem(proyectoID string, itemNumero int) (bool, erro
 	return existe, nil
 }
 
+// ExisteItemEnSprint informa si la historia está asignada al Sprint indicado.
+func (r *Asignaciones) ExisteItemEnSprint(
+	proyectoID string,
+	sprintNumero, itemNumero int,
+) (bool, error) {
+	var existe bool
+	if err := r.pool.QueryRow(context.Background(), `
+		SELECT EXISTS (
+			SELECT 1
+			FROM sprint_items
+			WHERE proyecto_id = $1 AND sprint_numero = $2 AND item_numero = $3
+		)
+	`, proyectoID, sprintNumero, itemNumero).Scan(&existe); err != nil {
+		return false, fmt.Errorf("verificar asignación al sprint: %w", err)
+	}
+	return existe, nil
+}
+
 // ListarNumerosItem devuelve los números de historia asignados al Sprint,
 // ordenados por número ascendente.
 func (r *Asignaciones) ListarNumerosItem(proyectoID string, sprintNumero int) ([]int, error) {

@@ -40,3 +40,17 @@ func (i ItemBacklog) Editar(
 	editado.Estado = i.Estado
 	return editado, nil
 }
+
+// MarcarComoCompletada devuelve una copia del ítem en estado Completada.
+// Solo se permite completar ítems Pendientes.
+func (i ItemBacklog) MarcarComoCompletada() (ItemBacklog, error) {
+	if i.Estado != EstadoItemPendiente {
+		return ItemBacklog{}, ErrItemNoPendiente
+	}
+	completado := i
+	completado.Estado = EstadoCompletada
+	if i.Criterios != nil {
+		completado.Criterios = append([]string{}, i.Criterios...)
+	}
+	return completado, nil
+}

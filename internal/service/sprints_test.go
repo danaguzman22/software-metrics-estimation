@@ -17,11 +17,18 @@ type fakeRepositorioSprints struct {
 	agregarErr           error
 	existeNumeroErr      error
 	existeActivoErr      error
+	obtenerErr           error
+	listarErr            error
+	cerrarErr            error
 	agregados            int
 	existeNumeroLlamadas int
 	existeActivoLlamadas int
+	obtenerLlamadas      int
+	listarLlamadas       int
+	cerrarLlamadas       int
 	ultimoProyectoID     string
 	ultimoSprint         domain.Sprint
+	ultimoSPPlanificados int
 }
 
 func (f *fakeRepositorioSprints) Agregar(proyectoID string, sprint domain.Sprint) error {
@@ -59,6 +66,45 @@ func (f *fakeRepositorioSprints) ExisteActivo(proyectoID string) (bool, error) {
 		}
 	}
 	return false, nil
+}
+
+func (f *fakeRepositorioSprints) Obtener(proyectoID string, numero int) (domain.Sprint, error) {
+	f.obtenerLlamadas++
+	if f.obtenerErr != nil {
+		return domain.Sprint{}, f.obtenerErr
+	}
+	for _, sprint := range f.sprints[proyectoID] {
+		if sprint.Numero == numero {
+			return sprint, nil
+		}
+	}
+	return domain.Sprint{}, domain.ErrSprintNoEncontrado
+}
+
+func (f *fakeRepositorioSprints) ListarPorProyecto(proyectoID string) ([]domain.Sprint, error) {
+	f.listarLlamadas++
+	if f.listarErr != nil {
+		return nil, f.listarErr
+	}
+	return append([]domain.Sprint(nil), f.sprints[proyectoID]...), nil
+}
+
+func (f *fakeRepositorioSprints) Cerrar(proyectoID string, numero, spPlanificados int) error {
+	f.cerrarLlamadas++
+	f.ultimoProyectoID = proyectoID
+	f.ultimoSPPlanificados = spPlanificados
+	if f.cerrarErr != nil {
+		return f.cerrarErr
+	}
+	for i := range f.sprints[proyectoID] {
+		if f.sprints[proyectoID][i].Numero == numero &&
+			f.sprints[proyectoID][i].Estado == domain.EstadoSprintActivo {
+			f.sprints[proyectoID][i].Estado = "Cerrado"
+			f.sprints[proyectoID][i].SPPlanificados = &spPlanificados
+			return nil
+		}
+	}
+	return domain.ErrSprintCerrado
 }
 
 func nuevoFakeSprints() *fakeRepositorioSprints {
@@ -129,6 +175,11 @@ func verificarSprintServicioUS07(t *testing.T, obtenido, esperado domain.Sprint)
 	}
 	if obtenido.Estado != esperado.Estado {
 		t.Errorf("Estado = %q, se esperaba %q", obtenido.Estado, esperado.Estado)
+	}
+	if (obtenido.SPPlanificados == nil) != (esperado.SPPlanificados == nil) {
+		t.Errorf("SPPlanificados = %v, se esperaba %v", obtenido.SPPlanificados, esperado.SPPlanificados)
+	} else if obtenido.SPPlanificados != nil && *obtenido.SPPlanificados != *esperado.SPPlanificados {
+		t.Errorf("*SPPlanificados = %d, se esperaba %d", *obtenido.SPPlanificados, *esperado.SPPlanificados)
 	}
 }
 
