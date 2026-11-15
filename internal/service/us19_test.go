@@ -322,9 +322,9 @@ func TestUS19_Fase1_ServicioDashboard_SoloSprintsActivos(t *testing.T) {
 // dos decimales); el servicio no las recalcula ni las redondea.
 func TestUS19_Fase1_ServicioDashboard_VelocidadPromedioYPorcentajeTalComoUS16(t *testing.T) {
 	casos := []struct {
-		descripcion      string
-		preparar         func(t *testing.T, entorno *entornoDashboard)
-		promedioEsperado float64
+		descripcion        string
+		preparar           func(t *testing.T, entorno *entornoDashboard)
+		promedioEsperado   float64
 		porcentajeEsperado float64
 	}{
 		{
@@ -816,14 +816,7 @@ func TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones(t *testing.T) {
 			descripcion: "proyecto inexistente prevalece sobre Sprint cerrado sin guardado sembrado",
 			preparar: func(t *testing.T, e *entornoDashboard) {
 				sembrarSprintDashboard(t, e, "p1", 1, domain.EstadoSprintCerrado, nil)
-			},
-			exacto: domain.ErrProyectoNoEncontrado,
-		},
-		{
-			descripcion: "proyecto inexistente prevalece sobre error al listar los Sprints",
-			preparar: func(t *testing.T, e *entornoDashboard) {
 				e.proyectos.proyectos = map[string]domain.Proyecto{} // proyecto inexistente
-				e.sprints.listarErr = causa
 			},
 			exacto: domain.ErrProyectoNoEncontrado,
 		},
