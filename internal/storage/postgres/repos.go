@@ -83,6 +83,22 @@ func (r *Proyectos) Listar() ([]service.ProyectoRegistrado, error) {
 	return proyectos, nil
 }
 
+// Crear persiste el proyecto y devuelve el registro con el ID generado por la
+// base de datos (DEFAULT gen_random_uuid()::text).
+func (r *Proyectos) Crear(proyecto domain.Proyecto) (service.ProyectoRegistrado, error) {
+	var id string
+	err := r.pool.QueryRow(context.Background(), `
+		INSERT INTO proyectos (nombre, fecha_inicio, fecha_fin, estado)
+		VALUES ($1, $2::date, $3::date, $4)
+		RETURNING id
+	`, proyecto.Nombre, fechaPostgres(proyecto.FechaInicio),
+		fechaPostgres(proyecto.FechaFin), proyecto.Estado).Scan(&id)
+	if err != nil {
+		return service.ProyectoRegistrado{}, fmt.Errorf("crear proyecto: %w", err)
+	}
+	return service.ProyectoRegistrado{ID: id, Proyecto: proyecto}, nil
+}
+
 // Actualizar reemplaza los datos del proyecto identificado por id.
 // Devuelve domain.ErrProyectoNoEncontrado si no existe.
 func (r *Proyectos) Actualizar(id string, proyecto domain.Proyecto) error {

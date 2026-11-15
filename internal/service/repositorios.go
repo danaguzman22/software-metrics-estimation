@@ -24,6 +24,9 @@ type RepositorioProyectos interface {
 	// Actualizar reemplaza el proyecto con ese ID (el ID nunca cambia).
 	// domain.ErrProyectoNoEncontrado si el ID no existe.
 	Actualizar(id string, proyecto domain.Proyecto) error
+	// Crear persiste el proyecto y devuelve el registro con el ID generado.
+	// El ID lo genera el adaptador.
+	Crear(proyecto domain.Proyecto) (ProyectoRegistrado, error)
 }
 
 // RepositorioIntegrantes persiste los integrantes por proyecto.

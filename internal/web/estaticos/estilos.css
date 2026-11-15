@@ -1,0 +1,107 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  background: #f7f7f8;
+  color: #1f2328;
+}
+
+.encabezado {
+  background: #1f2937;
+  padding: 0.75rem 1.5rem;
+}
+
+.navegacion {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.navegacion a {
+  color: #f9fafb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navegacion a:hover {
+  text-decoration: underline;
+}
+
+.contenido {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.leyenda {
+  background: #e0ecff;
+  border-left: 4px solid #2563eb;
+  padding: 0.75rem 1rem;
+  color: #1e3a8a;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.tabla th,
+.tabla td {
+  border: 1px solid #d0d7de;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.tabla th {
+  background: #f0f2f5;
+}
+
+.detalle dt {
+  font-weight: 600;
+}
+
+.detalle dd {
+  margin: 0 0 0.5rem 0;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 420px;
+}
+
+.formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.formulario input,
+.formulario button {
+  padding: 0.5rem;
+  font: inherit;
+}
+
+.formulario button {
+  cursor: pointer;
+}
+
+.error {
+  background: #fde8e8;
+  border-left: 4px solid #dc2626;
+  padding: 0.75rem 1rem;
+  color: #991b1b;
+}
+
+.acciones {
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}

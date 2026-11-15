@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Titulo}}</title>
+  <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+  <header class="encabezado">
+    <nav class="navegacion" aria-label="Navegación principal">
+      <a href="/proyectos">Proyectos</a>
+      <a href="{{.Nav.Backlog}}">Backlog</a>
+      <a href="{{.Nav.Sprints}}">Sprints</a>
+      <a href="/defectos">Defectos</a>
+    </nav>
+  </header>
+  <main class="contenido">
+    {{if .Nav.MostrarLeyenda}}
+    <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+    {{end}}
+    {{template "contenido" .}}
+  </main>
+</body>
+</html>
