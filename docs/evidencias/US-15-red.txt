@@ -1,7 +1,7 @@
 US-15 RED
 
-Se ejecutó en un worktree detached en el commit de pruebas 2cf75e4, que contiene
-la especificación, el feature y los tests, pero no implementación ni migración.
+Se ejecutó en un worktree detached del snapshot de pruebas, que contiene la
+especificación, el feature y los tests, pero no implementación ni migración.
 
 $ go test ./internal/domain ./internal/service ./internal/storage/postgres ./internal/web ./migrations -count=1
 Resultado: exit code 1, esperado en RED.
