@@ -144,6 +144,23 @@ func (r *Sprints) Cerrar(proyectoID string, numero, spPlanificados int) error {
 	}
 
 	if _, err := tx.Exec(ctx, `
+		INSERT INTO sprint_esfuerzo_snapshots (proyecto_id, sprint_numero)
+		VALUES ($1, $2)
+	`, proyectoID, numero); err != nil {
+		return fmt.Errorf("registrar snapshot del sprint: %w", err)
+	}
+	if _, err := tx.Exec(ctx, `
+		INSERT INTO sprint_esfuerzo_items (proyecto_id, sprint_numero, item_numero, horas_estimadas)
+		SELECT si.proyecto_id, si.sprint_numero, si.item_numero, ib.horas_estimadas
+		FROM sprint_items AS si
+		JOIN items_backlog AS ib
+			ON ib.proyecto_id = si.proyecto_id AND ib.numero = si.item_numero
+		WHERE si.proyecto_id = $1 AND si.sprint_numero = $2
+	`, proyectoID, numero); err != nil {
+		return fmt.Errorf("guardar historias del snapshot del sprint: %w", err)
+	}
+
+	if _, err := tx.Exec(ctx, `
 		DELETE FROM sprint_items AS si
 		USING items_backlog AS ib
 		WHERE si.proyecto_id = $1
