@@ -31,10 +31,19 @@ type ServicioBacklogWeb interface {
 	EstimarItem(proyectoID, itemID string, storyPoints int) (domain.ItemBacklog, error)
 }
 
+// ServicioSprintsWeb es el contrato de consumidor de Sprints de la web.
+type ServicioSprintsWeb interface {
+	CrearSprint(proyectoID string, numero int, objetivo string, fechaInicio, fechaFin time.Time) (domain.Sprint, error)
+	AsignarItem(proyectoID string, sprintNumero int, itemID string) error
+	StoryPointsPlanificados(proyectoID string, sprintNumero int) (int, error)
+	ListarSprints(proyectoID string) ([]domain.Sprint, error)
+}
+
 // Dependencias reúne los servicios y el reloj que usa la aplicación web.
 type Dependencias struct {
 	Proyectos ServicioProyectosWeb
 	Backlog   ServicioBacklogWeb
+	Sprints   ServicioSprintsWeb
 	// Ahora es el reloj inyectable usado para calcular el estado del proyecto
 	// con domain.EstadoPorFechas. Si es nil se usa time.Now.
 	Ahora func() time.Time
@@ -78,7 +87,10 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("GET /proyectos/{id}/backlog/{itemID}/editar", app.formularioEditarItem)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/editar", app.editarItem)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/estimar", app.estimarItem)
-	mux.HandleFunc("GET /proyectos/{id}/sprints", app.sprintsProximamente)
+	mux.HandleFunc("GET /proyectos/{id}/sprints", app.listarSprints)
+	mux.HandleFunc("GET /proyectos/{id}/sprints/nuevo", app.formularioAltaSprint)
+	mux.HandleFunc("POST /proyectos/{id}/sprints", app.crearSprint)
+	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/asignar", app.asignarItemSprint)
 	mux.HandleFunc("GET /defectos", app.defectos)
 
 	return mux

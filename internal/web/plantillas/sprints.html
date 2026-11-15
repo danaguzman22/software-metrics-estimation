@@ -1,6 +1,45 @@
 {{define "contenido"}}
 <h1>Sprints</h1>
-{{with .Proyecto}}<p>Proyecto: {{.Nombre}}</p>{{end}}
-<p>La sección de sprints todavía no está implementada.</p>
-<p>{{.Mensaje}}</p>
+<p>Proyecto: {{.Proyecto.Nombre}}</p>
+<p><a href="/proyectos/{{.Proyecto.ID}}/sprints/nuevo">Nuevo Sprint</a></p>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{if .Sprints}}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Objetivo</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+      <th>Estado</th>
+      <th>Story Points planificados</th>
+      <th>Asignar historia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Sprints}}
+    <tr>
+      <td>{{.Numero}}</td>
+      <td>{{.Objetivo}}</td>
+      <td>{{.FechaInicio}}</td>
+      <td>{{.FechaFin}}</td>
+      <td>{{.Estado}}</td>
+      <td>{{.SPPlanificados}}</td>
+      <td>
+        <form method="post" action="/proyectos/{{$.Proyecto.ID}}/sprints/{{.Numero}}/asignar" class="en-linea">
+          <select name="itemID">
+            {{range $.Items}}
+            <option value="{{.ID}}">{{.ID}} - {{.Titulo}}</option>
+            {{end}}
+          </select>
+          <button type="submit">Asignar</button>
+        </form>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{else}}
+<p>No hay sprints registrados</p>
+{{end}}
 {{end}}

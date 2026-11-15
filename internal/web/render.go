@@ -40,19 +40,40 @@ type formularioProyecto struct {
 	FechaFin    string
 }
 
+// formularioSprint conserva los datos ingresados en el alta de Sprint.
+type formularioSprint struct {
+	Numero      string
+	Objetivo    string
+	FechaInicio string
+	FechaFin    string
+}
+
+// sprintVista es la representación de un Sprint lista para renderizar, con su
+// total de Story Points planificados devuelto por el servicio.
+type sprintVista struct {
+	Numero         int
+	Objetivo       string
+	FechaInicio    string
+	FechaFin       string
+	Estado         string
+	SPPlanificados int
+}
+
 // datosPagina reúne los datos que consumen las plantillas.
 type datosPagina struct {
-	Titulo         string
-	Nav            navContexto
-	Proyectos      []proyectoVista
-	Proyecto       *proyectoVista
-	Formulario     formularioProyecto
-	Items          []domain.ItemBacklog
-	ItemID         string
-	FormularioItem formularioItem
-	Editando       bool
-	Mensaje        string
-	Error          string
+	Titulo           string
+	Nav              navContexto
+	Proyectos        []proyectoVista
+	Proyecto         *proyectoVista
+	Formulario       formularioProyecto
+	Items            []domain.ItemBacklog
+	ItemID           string
+	FormularioItem   formularioItem
+	Editando         bool
+	Sprints          []sprintVista
+	FormularioSprint formularioSprint
+	Mensaje          string
+	Error            string
 }
 
 // vistas contiene las plantillas embebidas ya parseadas por página.
@@ -69,6 +90,7 @@ var paginas = []string{
 	"formulario-item",
 	"defectos",
 	"sprints",
+	"formulario-sprint",
 	"error",
 }
 

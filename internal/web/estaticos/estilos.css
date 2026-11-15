@@ -105,3 +105,9 @@ body {
   padding: 0;
   list-style: none;
 }
+
+.en-linea {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}

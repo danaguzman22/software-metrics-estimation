@@ -90,13 +90,17 @@ func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.S
 	proyectos := postgres.NuevoProyectos(pool)
 	integrantes := postgres.NuevoIntegrantes(pool)
 	backlog := postgres.NuevoBacklog(pool)
+	sprints := postgres.NuevoSprints(pool)
+	asignaciones := postgres.NuevoAsignaciones(pool)
 
 	servicioProyectos := service.NuevoServicioProyectos(proyectos, integrantes)
 	servicioBacklog := service.NuevoServicioBacklog(proyectos, backlog)
+	servicioSprints := service.NuevoServicioSprints(proyectos, sprints, backlog, asignaciones)
 
 	handler := web.NuevoHandlerAplicacion(ping, web.Dependencias{
 		Proyectos: servicioProyectos,
 		Backlog:   servicioBacklog,
+		Sprints:   servicioSprints,
 		Ahora:     time.Now,
 	})
 	return web.NuevoServidor(addr, handler)
