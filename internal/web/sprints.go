@@ -81,6 +81,73 @@ func (a *aplicacion) crearSprint(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusSeeOther)
 }
 
+// completarItemSprint delega el marcado como completada en el servicio y
+// redirige al listado con 303.
+func (a *aplicacion) completarItemSprint(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+
+	numero, err := parsearEntero(strings.TrimSpace(r.PathValue("numero")), "El número del sprint debe ser un número entero")
+	if err != nil {
+		a.responderErrorRuta(w, id, err.Error())
+		return
+	}
+
+	itemID := r.PathValue("itemID")
+	if _, ok := domain.NumeroDeItem(itemID); !ok {
+		a.responderErrorRuta(w, id, "El ID de la historia debe tener el formato HU-NN")
+		return
+	}
+
+	if err := a.deps.Sprints.MarcarItemCompletada(id, numero, itemID); err != nil {
+		switch {
+		case errors.Is(err, domain.ErrSprintCerrado),
+			errors.Is(err, domain.ErrItemNoPendiente),
+			errors.Is(err, domain.ErrItemNoAsignadoAlSprint):
+			a.renderizarSprints(w, id, http.StatusUnprocessableEntity, err.Error())
+		case errors.Is(err, domain.ErrProyectoNoEncontrado),
+			errors.Is(err, domain.ErrSprintNoEncontrado),
+			errors.Is(err, domain.ErrItemNoEncontrado):
+			a.responderErrorSprints(w, id, err)
+		default:
+			a.responderErrorInfraestructura(w, "marcar ítem como completado", err)
+		}
+		return
+	}
+
+	w.Header().Set("Location", "/proyectos/"+id+"/sprints")
+	w.WriteHeader(http.StatusSeeOther)
+}
+
+// cerrarSprint delega el cierre del Sprint en el servicio y redirige al
+// listado con 303.
+func (a *aplicacion) cerrarSprint(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+
+	numero, err := parsearEntero(strings.TrimSpace(r.PathValue("numero")), "El número del sprint debe ser un número entero")
+	if err != nil {
+		a.responderErrorRuta(w, id, err.Error())
+		return
+	}
+
+	if err := a.deps.Sprints.CerrarSprint(id, numero); err != nil {
+		switch {
+		case errors.Is(err, domain.ErrSprintCerrado),
+			errors.Is(err, domain.ErrItemNoPendiente),
+			errors.Is(err, domain.ErrItemNoAsignadoAlSprint):
+			a.renderizarSprints(w, id, http.StatusUnprocessableEntity, err.Error())
+		case errors.Is(err, domain.ErrProyectoNoEncontrado),
+			errors.Is(err, domain.ErrSprintNoEncontrado):
+			a.responderErrorSprints(w, id, err)
+		default:
+			a.responderErrorInfraestructura(w, "cerrar sprint", err)
+		}
+		return
+	}
+
+	w.Header().Set("Location", "/proyectos/"+id+"/sprints")
+	w.WriteHeader(http.StatusSeeOther)
+}
+
 // asignarItemSprint delega la asignación en el servicio y redirige al listado
 // con 303.
 func (a *aplicacion) asignarItemSprint(w http.ResponseWriter, r *http.Request) {
@@ -140,7 +207,33 @@ func (a *aplicacion) renderizarSprints(w http.ResponseWriter, proyectoID string,
 			a.responderErrorSprints(w, proyectoID, err)
 			return
 		}
-		vistas = append(vistas, sprintVistaDesde(sprint, planificados))
+		completados, err := a.deps.Sprints.StoryPointsCompletados(proyectoID, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, proyectoID, err)
+			return
+		}
+		velocidad, err := a.deps.Sprints.VelocidadSprint(proyectoID, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, proyectoID, err)
+			return
+		}
+		itemsSprint, err := a.deps.Sprints.ListarItemsDelSprint(proyectoID, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, proyectoID, err)
+			return
+		}
+		vistas = append(vistas, sprintVistaDesde(sprint, planificados, completados, velocidad, itemsSprint))
+	}
+
+	promedio, err := a.deps.Sprints.VelocidadPromedio(proyectoID)
+	if err != nil {
+		a.responderErrorSprints(w, proyectoID, err)
+		return
+	}
+	porcentaje, err := a.deps.Sprints.PorcentajeHistoriasCompletadas(proyectoID)
+	if err != nil {
+		a.responderErrorSprints(w, proyectoID, err)
+		return
 	}
 
 	items, err := a.deps.Backlog.ListarBacklog(proyectoID)
@@ -150,12 +243,14 @@ func (a *aplicacion) renderizarSprints(w http.ResponseWriter, proyectoID string,
 	}
 
 	a.renderizar(w, estado, "sprints", datosPagina{
-		Titulo:   "Sprints",
-		Nav:      navConProyecto(proyectoID),
-		Proyecto: &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
-		Sprints:  vistas,
-		Items:    items,
-		Error:    mensaje,
+		Titulo:                "Sprints",
+		Nav:                   navConProyecto(proyectoID),
+		Proyecto:              &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
+		Sprints:               vistas,
+		Items:                 items,
+		VelocidadPromedio:     promedio,
+		PorcentajeCompletadas: porcentaje,
+		Error:                 mensaje,
 	})
 }
 
@@ -167,6 +262,17 @@ func (a *aplicacion) renderizarFormularioSprint(w http.ResponseWriter, estado in
 		Proyecto:         &proyectoVista{ID: proyectoID},
 		FormularioSprint: formulario,
 		Error:            mensaje,
+	})
+}
+
+// responderErrorRuta muestra el mensaje de formato con HTTP 422 sin consultar
+// la persistencia: los parámetros de la ruta se validan antes que el proyecto
+// (V11).
+func (a *aplicacion) responderErrorRuta(w http.ResponseWriter, proyectoID, mensaje string) {
+	a.renderizar(w, http.StatusUnprocessableEntity, "error", datosPagina{
+		Titulo: "Datos inválidos",
+		Nav:    navConProyecto(proyectoID),
+		Error:  mensaje,
 	})
 }
 
@@ -197,9 +303,19 @@ func (a *aplicacion) responderErrorSprints(w http.ResponseWriter, proyectoID str
 	}
 }
 
-// sprintVistaDesde arma la vista de un Sprint con el total planificado ya
-// calculado por el servicio.
-func sprintVistaDesde(sprint domain.Sprint, planificados int) sprintVista {
+// sprintVistaDesde arma la vista de un Sprint con los totales y las historias
+// devueltos por el servicio.
+func sprintVistaDesde(sprint domain.Sprint, planificados, completados, velocidad int, items []domain.ItemBacklog) sprintVista {
+	historias := make([]itemSprintVista, 0, len(items))
+	for _, item := range items {
+		historias = append(historias, itemSprintVista{
+			ID:          item.ID,
+			Titulo:      item.Titulo,
+			Estado:      item.Estado,
+			StoryPoints: item.StoryPoints,
+			Pendiente:   item.Estado == domain.EstadoItemPendiente,
+		})
+	}
 	return sprintVista{
 		Numero:         sprint.Numero,
 		Objetivo:       sprint.Objetivo,
@@ -207,5 +323,9 @@ func sprintVistaDesde(sprint domain.Sprint, planificados int) sprintVista {
 		FechaFin:       sprint.FechaFin.Format(formatoFecha),
 		Estado:         sprint.Estado,
 		SPPlanificados: planificados,
+		SPCompletados:  completados,
+		Velocidad:      float64(velocidad),
+		Activo:         sprint.Estado == domain.EstadoSprintActivo,
+		Items:          historias,
 	}
 }

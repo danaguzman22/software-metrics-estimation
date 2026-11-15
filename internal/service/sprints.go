@@ -1,6 +1,7 @@
 package service
 
 import (
+	"sort"
 	"time"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
@@ -150,4 +151,57 @@ func (s *ServicioSprints) CerrarSprint(proyectoID string, sprintNumero int) erro
 		return envolverErrorRepositorio("cerrar sprint", err)
 	}
 	return nil
+}
+
+// ListarItemsDelSprint devuelve las historias del backlog asignadas al Sprint,
+// ordenadas por número de historia ascendente.
+//
+// Verifica primero que el proyecto exista y devuelve
+// domain.ErrProyectoNoEncontrado sin envolver si no existe. Devuelve
+// domain.ErrSprintNoEncontrado sin envolver si el Sprint no existe. Para un
+// Sprint sin historias devuelve un slice vacío y nil.
+func (s *ServicioSprints) ListarItemsDelSprint(proyectoID string, sprintNumero int) ([]domain.ItemBacklog, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return nil, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return nil, domain.ErrProyectoNoEncontrado
+	}
+
+	if _, err := s.sprints.Obtener(proyectoID, sprintNumero); err != nil {
+		return nil, envolverErrorRepositorio("obtener sprint", err)
+	}
+
+	numeros, err := s.asignaciones.ListarNumerosItem(proyectoID, sprintNumero)
+	if err != nil {
+		return nil, envolverErrorRepositorio("listar ítems del sprint", err)
+	}
+
+	items, err := s.backlog.ListarPorProyecto(proyectoID)
+	if err != nil {
+		return nil, envolverErrorRepositorio("listar ítems del proyecto", err)
+	}
+
+	porNumero := make(map[int]domain.ItemBacklog, len(items))
+	for _, item := range items {
+		numero, ok := domain.NumeroDeItem(item.ID)
+		if !ok {
+			continue
+		}
+		porNumero[numero] = item
+	}
+
+	ordenados := append([]int(nil), numeros...)
+	sort.Ints(ordenados)
+
+	asignados := make([]domain.ItemBacklog, 0, len(ordenados))
+	for _, numero := range ordenados {
+		item, ok := porNumero[numero]
+		if !ok {
+			continue
+		}
+		asignados = append(asignados, item)
+	}
+	return asignados, nil
 }

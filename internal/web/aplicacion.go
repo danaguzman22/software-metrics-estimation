@@ -37,6 +37,14 @@ type ServicioSprintsWeb interface {
 	AsignarItem(proyectoID string, sprintNumero int, itemID string) error
 	StoryPointsPlanificados(proyectoID string, sprintNumero int) (int, error)
 	ListarSprints(proyectoID string) ([]domain.Sprint, error)
+	// Nuevos en FASE 3
+	ListarItemsDelSprint(proyectoID string, sprintNumero int) ([]domain.ItemBacklog, error)
+	MarcarItemCompletada(proyectoID string, sprintNumero int, itemID string) error
+	CerrarSprint(proyectoID string, sprintNumero int) error
+	StoryPointsCompletados(proyectoID string, sprintNumero int) (int, error)
+	VelocidadSprint(proyectoID string, sprintNumero int) (int, error)
+	VelocidadPromedio(proyectoID string) (float64, error)
+	PorcentajeHistoriasCompletadas(proyectoID string) (float64, error)
 }
 
 // Dependencias reúne los servicios y el reloj que usa la aplicación web.
@@ -91,6 +99,8 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("GET /proyectos/{id}/sprints/nuevo", app.formularioAltaSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints", app.crearSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/asignar", app.asignarItemSprint)
+	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/items/{itemID}/completar", app.completarItemSprint)
+	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/cerrar", app.cerrarSprint)
 	mux.HandleFunc("GET /defectos", app.defectos)
 
 	return mux
