@@ -10,6 +10,11 @@
 # con las lecturas YaVotaron/Votos y los errores de dominio propuestos en
 # specs/US-12.md. specs/US-14.md no existe: la identidad del integrante se
 # decide por nombre canónico (D17, DECIDIDA).
+# FASE 2 (sección 20 de specs/US-12.md): la interfaz web de Planning Poker por
+# historia; sus escenarios están marcados con @Fase2 y describen una página por
+# historia para iniciar la ronda actual, votar en oculto, revelar y abrir la
+# siguiente ronda. La exclusión web de D8 se levanta solo para esta fase; el
+# consenso y la estimación final siguen siendo US-13.
 
 @US-12
 Característica: Planning Poker: votos ocultos y revelación
@@ -313,3 +318,148 @@ Característica: Planning Poker: votos ocultos y revelación
     Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
     Cuando el integrante "Ana" vota 5 en la ronda número 0 de la historia "HU-01" del proyecto "p1"
     Entonces se devuelve un error indicando que el número de la ronda debe ser mayor que cero
+
+  @CA1 @Fase2
+  Escenario: La página de poker ofrece iniciar una ronda cuando la historia no tiene rondas
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Cuando se visita la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página ofrece el botón "Iniciar ronda"
+    Y la página no muestra un formulario de voto
+
+  @CA1 @Fase2
+  Escenario: Iniciar una ronda desde la página crea la ronda 1
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Cuando se inicia una ronda desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces se redirige a la página de poker de la historia "HU-01" del proyecto "p1"
+    Y se crea la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+
+  @CA1 @D7 @Fase2
+  Escenario: Con la ronda anterior revelada, la página ofrece abrir la siguiente ronda
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Revelada"
+    Cuando se inicia una ronda desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces se redirige a la página de poker de la historia "HU-01" del proyecto "p1"
+    Y se crea la ronda número 2 sobre la historia "HU-01" en estado "Abierta"
+
+  @CA2 @Fase2
+  Escenario: Con la ronda abierta la página lista quiénes votaron sin valores
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene las integrantes "Ana" y "Vicky" con roles "Product Owner" y "Product Builder"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Y que la integrante "Ana" vota 5 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
+    Y que la integrante "Vicky" vota 8 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
+    Cuando se visita la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página informa que ya votaron "Ana" y "Vicky"
+    Y la página no informa los valores de los votos
+
+  @CA2 @Fase2
+  Escenario: Con la ronda abierta la página no muestra los valores de los votos
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Y que la integrante "Ana" vota 5 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
+    Cuando se visita la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página no informa los valores de los votos
+    Y la página muestra el formulario de voto
+    Y la página muestra el formulario "Revelar"
+
+  @CA1 @Fase2
+  Escenario: Votar desde la página registra el voto
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Cuando el integrante "Ana" vota 5 en la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces se redirige a la página de poker de la historia "HU-01" del proyecto "p1"
+    Y la ronda número 1 informa que ya votó 1 integrante
+
+  @CA4 @Fase2
+  Escenario: Votar desde la página con un integrante ajeno muestra el error del dominio
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Cuando el integrante "Marcos" vota 5 en la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página muestra el mensaje "el integrante no pertenece al proyecto"
+    Y la ronda número 1 no informa que "Marcos" haya votado
+
+  @CA2 @Fase2
+  Escenario: Revelar desde la página muestra todos los votos con sus valores
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene las integrantes "Ana" y "Vicky" con roles "Product Owner" y "Product Builder"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Y que la integrante "Ana" vota 5 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
+    Y que la integrante "Vicky" vota 8 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
+    Cuando la integrante "Ana" revela la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces se redirige a la página de poker de la historia "HU-01" del proyecto "p1"
+    Y la página informa los votos de "Ana" con valor 5 y de "Vicky" con valor 8
+
+  @CA2 @Fase2
+  Escenario: Revelar dos veces desde la página muestra el error del dominio
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Cuando la integrante "Ana" revela la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Y la integrante "Ana" revela de nuevo la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página muestra el mensaje "la ronda ya fue revelada"
+    Y la ronda número 1 permanece en estado "Revelada"
+
+  @CA1 @CA3 @Fase2
+  Escenario: Votar sobre una ronda revelada desde la página muestra el error del dominio
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Revelada"
+    Y que la integrante "Ana" votó 5 en la ronda número 1 antes de revelarla
+    Cuando el integrante "Ana" vota 8 en la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página muestra el mensaje "la ronda ya fue revelada"
+    Y el voto de "Ana" en la ronda número 1 permanece en valor 5
+
+  @CA1 @Fase2
+  Escenario: Un valor no numérico en el formulario de voto produce un mensaje de formato
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la ronda número 1 sobre la historia "HU-01" en estado "Abierta"
+    Cuando se envía un voto con valor "cinco" en la ronda número 1 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página muestra un mensaje indicando que el voto debe ser un número entero
+
+  @CA1 @E5 @Fase2
+  Escenario: Votar sobre una ronda inexistente muestra un mensaje
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" no tiene la ronda número 9 sobre la historia "HU-01"
+    Cuando el integrante "Ana" vota 5 en la ronda número 9 desde la página de poker de la historia "HU-01" del proyecto "p1"
+    Entonces la página muestra el mensaje "la ronda no existe para la historia"
+
+  @CA2 @E2 @Fase2
+  Escenario: La historia inexistente muestra un mensaje
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" no tiene la historia "HU-99"
+    Cuando se visita la página de poker de la historia "HU-99" del proyecto "p1"
+    Entonces la página muestra el mensaje "el ítem no existe en el proyecto"
+
+  @CA4 @R1 @Fase2
+  Escenario: El proyecto inexistente muestra un mensaje
+    Dado que no existe un proyecto identificado por "p999"
+    Cuando se visita la página de poker de la historia "HU-01" del proyecto "p999"
+    Entonces la página muestra el mensaje "no se encontró el proyecto"
+
+  @CA1 @Fase2
+  Escenario: El backlog muestra el enlace Planning Poker por historia
+    Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
+    Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
+    Y que el proyecto "p1" tiene la historia "HU-02" con título "Recuperar contraseña", estado "Pendiente" y 0 Story Points
+    Cuando se visita el backlog del proyecto "p1"
+    Entonces cada historia del backlog muestra un enlace "Planning Poker" hacia su página de poker
