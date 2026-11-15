@@ -20,6 +20,7 @@ type ServicioProyectosWeb interface {
 	CrearProyecto(nombre string, fechaInicio, fechaFin time.Time) (service.ProyectoRegistrado, error)
 	ListarProyectos() ([]service.ProyectoRegistrado, error)
 	ObtenerProyecto(id string) (service.ProyectoRegistrado, error)
+	ListarIntegrantes(proyectoID string) ([]domain.Integrante, error)
 }
 
 // ServicioBacklogWeb es el contrato de consumidor del backlog de la web.
@@ -29,6 +30,18 @@ type ServicioBacklogWeb interface {
 	ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, error)
 	EditarItem(proyectoID, itemID, titulo, descripcion, prioridad string, criterios []string, storyPoints int) (domain.ItemBacklog, error)
 	EstimarItem(proyectoID, itemID string, storyPoints int) (domain.ItemBacklog, error)
+}
+
+// ServicioPokerWeb es el contrato de consumidor de Planning Poker de la web.
+// Errores exactos: domain.Err*; la web los muestra con HTTP 422 o 404 según la
+// sección 8 de specs/US-12.md; el resto se registra en el log y responde HTTP
+// 500 genérico.
+type ServicioPokerWeb interface {
+	IniciarRonda(proyectoID, itemID string) (domain.RondaPoker, error)
+	Votar(proyectoID, itemID string, rondaNumero int, integranteNombre string, valor int) error
+	RevelarRonda(proyectoID, itemID string, rondaNumero int, integranteNombre string) error
+	ConsultarRonda(proyectoID, itemID string, rondaNumero int) (domain.ConsultaRondaPoker, error)
+	RondaActual(proyectoID, itemID string) (domain.RondaPoker, bool, error)
 }
 
 // ServicioSprintsWeb es el contrato de consumidor de Sprints de la web.
@@ -52,6 +65,7 @@ type Dependencias struct {
 	Proyectos ServicioProyectosWeb
 	Backlog   ServicioBacklogWeb
 	Sprints   ServicioSprintsWeb
+	Poker     ServicioPokerWeb
 	// Ahora es el reloj inyectable usado para calcular el estado del proyecto
 	// con domain.EstadoPorFechas. Si es nil se usa time.Now.
 	Ahora func() time.Time
@@ -101,6 +115,10 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/asignar", app.asignarItemSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/items/{itemID}/completar", app.completarItemSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/cerrar", app.cerrarSprint)
+	mux.HandleFunc("GET /proyectos/{id}/backlog/{itemID}/poker", app.paginaPoker)
+	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas", app.iniciarRondaPoker)
+	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/votos", app.votarPoker)
+	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/revelar", app.revelarPoker)
 	mux.HandleFunc("GET /defectos", app.defectos)
 
 	return mux

@@ -103,6 +103,10 @@ func (f *servicioProyectosFalso) CrearProyecto(nombre string, fechaInicio, fecha
 	return resultado, nil
 }
 
+func (f *servicioProyectosFalso) ListarIntegrantes(proyectoID string) ([]domain.Integrante, error) {
+	return nil, nil
+}
+
 type llamadaCrearItemUS22 struct {
 	proyectoID  string
 	titulo      string

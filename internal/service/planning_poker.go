@@ -194,6 +194,25 @@ func (s *ServicioPlanningPoker) RevelarRonda(proyectoID, itemID string, rondaNum
 	return nil
 }
 
+// RondaActual devuelve la ronda de mayor número de la historia.
+// bool = false si la historia no tiene rondas.
+func (s *ServicioPlanningPoker) RondaActual(proyectoID, itemID string) (domain.RondaPoker, bool, error) {
+	if err := s.verificarProyecto(proyectoID); err != nil {
+		return domain.RondaPoker{}, false, err
+	}
+	if err := s.obtenerHistoria(proyectoID, itemID); err != nil {
+		return domain.RondaPoker{}, false, err
+	}
+	rondas, err := s.rondas.ListarPorHistoria(proyectoID, itemID)
+	if err != nil {
+		return domain.RondaPoker{}, false, envolverErrorRepositorio("listar rondas de la historia", err)
+	}
+	if len(rondas) == 0 {
+		return domain.RondaPoker{}, false, nil
+	}
+	return rondas[len(rondas)-1], true, nil
+}
+
 // ConsultarRonda devuelve el estado de la ronda y, según el estado:
 // con la ronda Abierta, YaVotaron (nombres; Votos nil) y nunca los valores;
 // con la ronda Revelada, Votos (YaVotaron nil) (R6, R17).

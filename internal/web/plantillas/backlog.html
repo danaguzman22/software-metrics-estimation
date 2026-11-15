@@ -25,6 +25,7 @@
       <td>{{.StoryPoints}}</td>
       <td>
         <a href="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/editar">Editar</a>
+        <a href="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/poker">Planning Poker</a>
         <form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/estimar" class="en-linea">
           <input type="number" name="storyPoints" value="{{.StoryPoints}}" min="0" step="1">
           <button type="submit">Estimar</button>
