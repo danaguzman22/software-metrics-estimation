@@ -1,0 +1,1350 @@
+US-22 FASE 3 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us22_fase3_test.go:24:26: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us22_fase3_test.go:24:26: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+internal/service/us22_fase3_test.go:62:26: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+internal/service/us22_fase3_test.go:86:25: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+internal/service/us22_fase3_test.go:109:25: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+internal/service/us22_fase3_test.go:137:25: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+internal/service/us22_fase3_test.go:201:27: servicio.ListarItemsDelSprint undefined (type *ServicioSprints has no field or method ListarItemsDelSprint)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.154s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.012s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.037s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.200s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	3.377s
+2026/11/15 04:50:25 web: listar proyectos: detalle interno: conexión caída
+2026/11/15 04:50:25 web: crear proyecto: detalle interno: conexión caída
+--- FAIL: TestUS22_Fase3_Sprints_ListarHistoriasAsignadas (0.00s)
+    us22_fase3_test.go:197: el cuerpo no contiene "HU-01"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "Iniciar sesión"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "Pendiente"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "HU-02"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "Cerrar sesión"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "Completada"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:197: el cuerpo no contiene "5"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:203: el cuerpo no contiene "HU-01"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_BotonesSoloSprintActivo (0.00s)
+    us22_fase3_test.go:243: falta el botón "Marcar completada" de HU-01 (pendiente, Sprint Activo); cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>Segunda entrega</td>
+              <td>2026-03-15</td>
+              <td>2026-03-28</td>
+              <td>Cerrado</td>
+              <td>13</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:252: falta el botón "Cerrar Sprint" del Sprint Activo; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>Segunda entrega</td>
+              <td>2026-03-15</td>
+              <td>2026-03-28</td>
+              <td>Cerrado</td>
+              <td>13</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_MarcarCompletada (0.00s)
+    us22_fase3_test.go:276: código = 404, se esperaba 303; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_CerrarSprint (0.00s)
+    us22_fase3_test.go:311: código = 404, se esperaba 303; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_PlanificadosCompletadosVelocidad (0.00s)
+    us22_fase3_test.go:350: el cuerpo no contiene "21"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>34</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:353: StoryPointsCompletados se llamó 0 veces, se esperaba 1
+    us22_fase3_test.go:356: VelocidadSprint se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS22_Fase3_Sprints_VelocidadPromedio (0.00s)
+    us22_fase3_test.go:375: el cuerpo no contiene "4.50"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Cerrado</td>
+              <td>9</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_VelocidadPromedioSinCerrados (0.00s)
+    us22_fase3_test.go:393: el cuerpo no contiene "0.00"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>0</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_PorcentajeHistoriasCompletadas (0.00s)
+    us22_fase3_test.go:412: el cuerpo no contiene "62.50%"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Cerrado</td>
+              <td>9</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_PorcentajeConCeroHistorias (0.00s)
+    us22_fase3_test.go:430: el cuerpo no contiene "0.00%"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>0</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase3_Sprints_MarcarCompletadaSprintCerrado (0.00s)
+    us22_fase3_test.go:450: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_MarcarCompletadaNoPendiente (0.00s)
+    us22_fase3_test.go:475: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_MarcarCompletadaNoAsignadaAlSprint (0.00s)
+    us22_fase3_test.go:500: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_CerrarSprintCerrado (0.00s)
+    us22_fase3_test.go:522: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_CompletarSprintInexistente404 (0.00s)
+    us22_fase3_test.go:545: el cuerpo no contiene "el sprint no existe en el proyecto"; cuerpo:
+        404 page not found
+    us22_fase3_test.go:548: MarcarItemCompletada se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS22_Fase3_Sprints_CerrarSprintInexistente404 (0.00s)
+    us22_fase3_test.go:567: el cuerpo no contiene "el sprint no existe en el proyecto"; cuerpo:
+        404 page not found
+    us22_fase3_test.go:570: CerrarSprint se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS22_Fase3_Sprints_MarcarCompletadaItemInexistente404 (0.00s)
+    us22_fase3_test.go:590: el cuerpo no contiene "el ítem no existe en el proyecto"; cuerpo:
+        404 page not found
+    us22_fase3_test.go:593: MarcarItemCompletada se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS22_Fase3_Sprints_NumeroRutaInvalido (0.00s)
+    --- FAIL: TestUS22_Fase3_Sprints_NumeroRutaInvalido/completar (0.00s)
+        us22_fase3_test.go:621: código = 404, se esperaba 422; cuerpo:
+            404 page not found
+    --- FAIL: TestUS22_Fase3_Sprints_NumeroRutaInvalido/cerrar (0.00s)
+        us22_fase3_test.go:621: código = 404, se esperaba 422; cuerpo:
+            404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_PostRedirige303 (0.00s)
+    --- FAIL: TestUS22_Fase3_Sprints_PostRedirige303/completar (0.00s)
+        us22_fase3_test.go:661: código = 404, se esperaba 303; cuerpo:
+            404 page not found
+    --- FAIL: TestUS22_Fase3_Sprints_PostRedirige303/cerrar (0.00s)
+        us22_fase3_test.go:661: código = 404, se esperaba 303; cuerpo:
+            404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_MetodoNoPermitido (0.00s)
+    --- FAIL: TestUS22_Fase3_Sprints_MetodoNoPermitido/completar_con_GET (0.00s)
+        us22_fase3_test.go:690: código = 404, se esperaba 405; cuerpo:
+            404 page not found
+    --- FAIL: TestUS22_Fase3_Sprints_MetodoNoPermitido/cerrar_con_GET (0.00s)
+        us22_fase3_test.go:690: código = 404, se esperaba 405; cuerpo:
+            404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_ErrorInfraestructura (0.00s)
+    --- FAIL: TestUS22_Fase3_Sprints_ErrorInfraestructura/listado (0.00s)
+        us22_fase3_test.go:749: código = 200, se esperaba 500; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Objetivo</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Estado</th>
+                  <th>Story Points planificados</th>
+                  <th>Asignar historia</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>1</td>
+                  <td>Primera entrega</td>
+                  <td>2026-03-01</td>
+                  <td>2026-03-14</td>
+                  <td>Activo</td>
+                  <td>0</td>
+                  <td>
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                      <select name="itemID">
+                        
+                      </select>
+                      <button type="submit">Asignar</button>
+                    </form>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase3_Sprints_ErrorInfraestructura/completar (0.00s)
+        us22_fase3_test.go:749: código = 404, se esperaba 500; cuerpo:
+            404 page not found
+    --- FAIL: TestUS22_Fase3_Sprints_ErrorInfraestructura/cerrar (0.00s)
+        us22_fase3_test.go:749: código = 404, se esperaba 500; cuerpo:
+            404 page not found
+--- FAIL: TestUS22_Fase3_Sprints_WebNoRecalculaMetricas (0.00s)
+    us22_fase3_test.go:777: el cuerpo no contiene "21"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>34</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:777: el cuerpo no contiene "6.50"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>34</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+    us22_fase3_test.go:777: el cuerpo no contiene "75.00%"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Asignar historia</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>34</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	2.319s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.006s
+FAIL
+Exit code: 1

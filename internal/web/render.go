@@ -48,8 +48,18 @@ type formularioSprint struct {
 	FechaFin    string
 }
 
-// sprintVista es la representación de un Sprint lista para renderizar, con su
-// total de Story Points planificados devuelto por el servicio.
+// itemSprintVista es la representación de una historia asignada a un Sprint
+// lista para renderizar.
+type itemSprintVista struct {
+	ID          string
+	Titulo      string
+	Estado      string
+	StoryPoints int
+	Pendiente   bool
+}
+
+// sprintVista es la representación de un Sprint lista para renderizar, con sus
+// totales devueltos por el servicio.
 type sprintVista struct {
 	Numero         int
 	Objetivo       string
@@ -57,6 +67,10 @@ type sprintVista struct {
 	FechaFin       string
 	Estado         string
 	SPPlanificados int
+	SPCompletados  int
+	Velocidad      float64
+	Activo         bool
+	Items          []itemSprintVista
 }
 
 // datosPagina reúne los datos que consumen las plantillas.
@@ -70,10 +84,12 @@ type datosPagina struct {
 	ItemID           string
 	FormularioItem   formularioItem
 	Editando         bool
-	Sprints          []sprintVista
-	FormularioSprint formularioSprint
-	Mensaje          string
-	Error            string
+	Sprints               []sprintVista
+	FormularioSprint      formularioSprint
+	VelocidadPromedio     float64
+	PorcentajeCompletadas float64
+	Mensaje               string
+	Error                 string
 }
 
 // vistas contiene las plantillas embebidas ya parseadas por página.

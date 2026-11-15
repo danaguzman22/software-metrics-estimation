@@ -19,28 +19,52 @@ type llamadaCrearSprintUS22 struct {
 
 // servicioSprintsFalso es el doble en memoria de web.ServicioSprintsWeb.
 type servicioSprintsFalso struct {
-	sprints             map[string][]domain.Sprint
-	spPlanificados      map[string]map[int]int
-	proyectosExistentes map[string]bool
-	listarErr           error
-	crearErr            error
-	asignarErr          error
-	storyPointsErr      error
-	listarLlamadas      int
-	crearLlamadas       int
-	asignarLlamadas     int
-	storyPointsLlamadas int
-	ultimoProyectoID    string
-	ultimoSprintNumero  int
-	ultimoItemID        string
-	ultimaCreacion      llamadaCrearSprintUS22
+	sprints               map[string][]domain.Sprint
+	spPlanificados        map[string]map[int]int
+	proyectosExistentes   map[string]bool
+	listarErr             error
+	crearErr              error
+	asignarErr            error
+	storyPointsErr        error
+	listarLlamadas        int
+	crearLlamadas         int
+	asignarLlamadas       int
+	storyPointsLlamadas   int
+	ultimoProyectoID      string
+	ultimoSprintNumero    int
+	ultimoItemID          string
+	ultimaCreacion        llamadaCrearSprintUS22
+	itemsPorSprint        map[string]map[int][]domain.ItemBacklog
+	completadosPorSprint  map[string]map[int]int
+	velocidadPorSprint    map[string]map[int]int
+	promedioPorID         map[string]float64
+	porcentajePorID       map[string]float64
+	itemsDelSprintErr     error
+	completarErr          error
+	cerrarErr             error
+	completadosErr        error
+	velocidadErr          error
+	promedioErr           error
+	porcentajeErr         error
+	listarItemsLlamadas   int
+	completarLlamadas     int
+	cerrarLlamadas        int
+	completadosLlamadas   int
+	velocidadLlamadas     int
+	promedioLlamadas      int
+	porcentajeLlamadas    int
 }
 
 func nuevoServicioSprintsFalso() *servicioSprintsFalso {
 	return &servicioSprintsFalso{
-		sprints:             map[string][]domain.Sprint{},
-		spPlanificados:      map[string]map[int]int{},
-		proyectosExistentes: map[string]bool{},
+		sprints:              map[string][]domain.Sprint{},
+		spPlanificados:       map[string]map[int]int{},
+		proyectosExistentes:  map[string]bool{},
+		itemsPorSprint:       map[string]map[int][]domain.ItemBacklog{},
+		completadosPorSprint: map[string]map[int]int{},
+		velocidadPorSprint:   map[string]map[int]int{},
+		promedioPorID:        map[string]float64{},
+		porcentajePorID:      map[string]float64{},
 	}
 }
 
