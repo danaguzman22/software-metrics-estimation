@@ -50,11 +50,18 @@ func NuevoIntegrante(nombre, rol string) (Integrante, error) {
 // (C2). El rol no participa en la comparación y los espacios internos sí
 // distinguen (C8).
 func EsDuplicado(existentes []Integrante, nombre string) bool {
+	_, encontrado := BuscarIntegrante(existentes, nombre)
+	return encontrado
+}
+
+// BuscarIntegrante devuelve el integrante cuyo nombre coincide ignorando
+// mayúsculas y espacios externos.
+func BuscarIntegrante(existentes []Integrante, nombre string) (Integrante, bool) {
 	nombre = strings.TrimSpace(nombre)
 	for _, existente := range existentes {
 		if strings.EqualFold(strings.TrimSpace(existente.Nombre), nombre) {
-			return true
+			return existente, true
 		}
 	}
-	return false
+	return Integrante{}, false
 }

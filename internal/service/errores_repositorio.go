@@ -16,7 +16,10 @@ func envolverErrorRepositorio(contexto string, err error) error {
 		errors.Is(err, domain.ErrSprintNoEncontrado) ||
 		errors.Is(err, domain.ErrSprintCerrado) ||
 		errors.Is(err, domain.ErrItemYaAsignado) ||
-		errors.Is(err, domain.ErrItemNoAsignadoAlSprint) {
+		errors.Is(err, domain.ErrItemNoAsignadoAlSprint) ||
+		errors.Is(err, domain.ErrIntegranteNoPerteneceAlProyecto) ||
+		errors.Is(err, domain.ErrHorasEsfuerzoInvalidas) ||
+		errors.Is(err, domain.ErrFechaEsfuerzoFutura) {
 		return err
 	}
 	return fmt.Errorf("service: %s: %w", contexto, err)

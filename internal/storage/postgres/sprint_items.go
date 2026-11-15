@@ -7,6 +7,7 @@ import (
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 	"github.com/danaguzman22/software-metrics-estimation/internal/service"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -81,6 +82,26 @@ func (r *Asignaciones) ExisteItemEnSprint(
 		return false, fmt.Errorf("verificar asignación al sprint: %w", err)
 	}
 	return existe, nil
+}
+
+// SprintDeItem devuelve el Sprint al que está asignada la historia, si existe.
+func (r *Asignaciones) SprintDeItem(
+	proyectoID string,
+	itemNumero int,
+) (int, bool, error) {
+	var sprintNumero int
+	err := r.pool.QueryRow(context.Background(), `
+		SELECT sprint_numero
+		FROM sprint_items
+		WHERE proyecto_id = $1 AND item_numero = $2
+	`, proyectoID, itemNumero).Scan(&sprintNumero)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return 0, false, nil
+	}
+	if err != nil {
+		return 0, false, fmt.Errorf("obtener sprint de la historia: %w", err)
+	}
+	return sprintNumero, true, nil
 }
 
 // ListarNumerosItem devuelve los números de historia asignados al Sprint,
