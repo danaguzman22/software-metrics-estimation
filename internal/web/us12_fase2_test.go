@@ -115,6 +115,25 @@ func (f *servicioPokerFalso) RondaActual(proyectoID, itemID string) (domain.Rond
 	return f.rondaActual, f.rondaActualExiste, nil
 }
 
+// US-13 FASE 2: métodos nuevos del contrato; el doble conserva un estado neutro
+// (DiferenciasRonda informa ErrRondaNoRevelada, D31: la sección no se
+// renderiza; Historial vacío; acuerdo no soportado por este doble).
+func (f *servicioPokerFalso) DiferenciasRonda(proyectoID, itemID string, rondaNumero int) (domain.DiferenciaPoker, error) {
+	return domain.DiferenciaPoker{}, domain.ErrRondaNoRevelada
+}
+
+func (f *servicioPokerFalso) HistorialRondas(proyectoID, itemID string) ([]domain.RondaHistorialPoker, error) {
+	return nil, nil
+}
+
+func (f *servicioPokerFalso) AcordarEstimacion(proyectoID, itemID string, rondaNumero int, integranteNombre string, valor int) (domain.ItemBacklog, error) {
+	return domain.ItemBacklog{}, nil
+}
+
+func (f *servicioPokerFalso) HistoriaActual(proyectoID, itemID string) (domain.ItemBacklog, error) {
+	return domain.ItemBacklog{}, nil
+}
+
 // servicioProyectosPokerFalso es el doble en memoria de
 // web.ServicioProyectosWeb ampliado con ListarIntegrantes (D31).
 type servicioProyectosPokerFalso struct {
@@ -272,7 +291,7 @@ func TestUS12_Fase2_Poker_IniciarRondaTrasRevelarRedirige303(t *testing.T) {
 	rec := solicitarUS22(handler, http.MethodGet, rutaPokerUS12("HU-01"), nil)
 	exigirEstadoUS22(t, rec, http.StatusOK)
 	exigirCuerpoContieneUS22(t, rec, "Revelada", "Nueva ronda")
-	exigirCuerpoNoContieneUS22(t, rec, `name="valor"`)
+	exigirCuerpoNoContieneUS22(t, rec, "/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos")
 
 	rec = solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/backlog/HU-01/poker/rondas", nil)
 	exigirRedireccionUS22(t, rec, rutaPokerUS12("HU-01"))
@@ -391,7 +410,7 @@ func TestUS12_Fase2_Poker_RevelarMuestraVotos(t *testing.T) {
 	rec := solicitarUS22(handler, http.MethodGet, rutaPokerUS12("HU-01"), nil)
 	exigirEstadoUS22(t, rec, http.StatusOK)
 	exigirCuerpoContieneUS22(t, rec, "Revelada", "Ana", "<td>5</td>", "Beto", "<td>8</td>", "Nueva ronda")
-	exigirCuerpoNoContieneUS22(t, rec, `name="valor"`, `name="integrante"`)
+	exigirCuerpoNoContieneUS22(t, rec, "/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos")
 }
 
 // CA2 / R29 / E20: revelar una ronda ya Revelada muestra el mensaje exacto del
