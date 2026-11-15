@@ -172,13 +172,12 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 | Gestión de proyectos (crear, listar, consultar estado por fechas) | Implementada en la interfaz web |
 | Integrantes del proyecto | Implementada en el servicio |
 | Product Backlog (alta, edición, priorización) | Implementado, con interfaz web |
-| Sprints: crear, asignar historias, completar, cerrar, consultar anteriores | Implementados, con interfaz web |
+| Sprints: crear, asignar historias, completar, cerrar, consultar anteriores | Implementados, con interfaz web (incluye histórico) |
 | Métricas: SP planificados y completados, velocidad, velocidad promedio, % de historias completadas | Implementadas y visibles en la interfaz |
-| Planning Poker (votos ocultos, revelación, un voto por integrante) | Reglas, servicio y persistencia implementados (US-12); la interfaz web está en desarrollo |
-| Planning Poker (votos ocultos, revelación, un voto por integrante, nueva ronda) | Implementado con interfaz web por historia (US-12) |
+| Planning Poker: votos ocultos, revelación, diferencias, nuevas rondas y estimación acordada | Implementado con interfaz web por historia (US-12 y US-13) |
 | Registro de esfuerzo (integrante, fecha, actividad, horas) | Implementado en servicio y persistencia (US-14); falta interfaz |
 | Gestión de defectos | Parcial |
-| Métricas de horas y desviación estimado vs. real | Pendiente |
+| Métricas de horas y desviación estimado vs. real | Implementadas en servicio y persistencia (US-17); falta interfaz |
 | Dashboard con gráficos | Pendiente (Sprint 3) |
 | Reportes y exportación a PDF | Pendiente (Sprint 4) |
 
@@ -196,7 +195,7 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 8. Evidencias de aplicación de TDD (`docs/evidencias/`).
 9. Software funcional (Docker Compose).
 10. Informe de métricas y cobertura de pruebas (`docs/metricas-y-cobertura.md`).
-11. Actas de retrospectivas (`docs/retrospectivas/sprint-1.md`) y trazabilidad con evidencias de TDD (`docs/trazabilidad-y-evidencias.md`).
+11. Actas de retrospectivas (`docs/retrospectivas/sprint-1.md` y `docs/retrospectivas/sprint-2.md`) y trazabilidad con evidencias de TDD (`docs/trazabilidad-y-evidencias.md`).
 12. Documentación técnica (`docs/documentacion-tecnica.md`, ADR y specs) y manual breve de usuario (`docs/manual-usuario.md`).
 13. Presentación y demostración final.
 

@@ -44,10 +44,10 @@ La aplicación calcula y muestra, por Sprint y por proyecto:
 - Velocidad del Sprint (Story Points completados) y velocidad promedio de los Sprints cerrados.
 - Porcentaje de historias completadas sobre el backlog del proyecto.
 
-Pendientes para los próximos Sprints: horas estimadas y reales, desviación entre esfuerzo estimado y real (el registro de esfuerzo ya existe en servicio y persistencia), cantidad de defectos detectados y resueltos, y el dashboard con gráficos.
+Pendientes para los próximos Sprints: Las horas estimadas, reales y la desviación (por historia, Sprint y proyecto) están calculadas en servicio y persistencia (US-17); falta su pantalla.
 
 ## 4. Lectura y acciones
 
-- La cobertura total de 75.9 % es razonable para el estado del proyecto. El detalle por función está en `evidencias/cobertura-actual.txt` y permite identificar los puntos con menor cobertura.
+- La cobertura total de 77.1 % es razonable para el estado del proyecto. El detalle por función está en `evidencias/cobertura-sprint-2.txt` y permite identificar los puntos con menor cobertura.
 - Acción: revisar las funciones con menor cobertura (típicamente rutas de error de infraestructura y arranque) y reforzarlas en el Sprint 3.
 - Acción: calcular y mostrar la cobertura por paquete en cada cierre de Sprint (el reporte del Sprint 1 había quedado sin datos por un error de montaje de Docker y se regeneró).
