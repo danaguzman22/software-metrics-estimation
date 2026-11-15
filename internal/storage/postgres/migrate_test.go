@@ -73,6 +73,8 @@ func TestMigrateOnEmptyDatabase(t *testing.T) {
 	assertColumnType(t, ctx, pool, schema, "proyectos", "fecha_fin", "date")
 	assertColumnType(t, ctx, pool, schema, "items_backlog", "criterios_aceptacion", "ARRAY")
 	assertColumnType(t, ctx, pool, schema, "sprints", "sp_planificados", "integer")
+	assertColumnType(t, ctx, pool, schema, "items_backlog", "horas_estimadas", "numeric")
+	assertColumnType(t, ctx, pool, schema, "esfuerzos", "sprint_numero", "integer")
 
 	var projectID string
 	err = pool.QueryRow(ctx, `
