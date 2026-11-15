@@ -3,6 +3,7 @@
 <p>Proyecto: {{.Proyecto.Nombre}}</p>
 <p>Velocidad promedio: {{printf "%.2f" .VelocidadPromedio}} · Porcentaje de historias completadas: {{printf "%.2f%%" .PorcentajeCompletadas}}</p>
 <p><a href="/proyectos/{{.Proyecto.ID}}/sprints/nuevo">Nuevo Sprint</a></p>
+<p><a href="/proyectos/{{.Proyecto.ID}}/sprints/historico">Histórico de Sprints</a></p>
 <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
 {{if .Error}}<p class="error">{{.Error}}</p>{{end}}
 {{if .Sprints}}

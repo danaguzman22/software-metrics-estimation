@@ -54,6 +54,7 @@ type ServicioSprintsWeb interface {
 	AsignarItem(proyectoID string, sprintNumero int, itemID string) error
 	StoryPointsPlanificados(proyectoID string, sprintNumero int) (int, error)
 	ListarSprints(proyectoID string) ([]domain.Sprint, error)
+	ListarSprintsCerrados(proyectoID string) ([]domain.Sprint, error)
 	// Nuevos en FASE 3
 	ListarItemsDelSprint(proyectoID string, sprintNumero int) ([]domain.ItemBacklog, error)
 	MarcarItemCompletada(proyectoID string, sprintNumero int, itemID string) error
@@ -114,6 +115,7 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/editar", app.editarItem)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/estimar", app.estimarItem)
 	mux.HandleFunc("GET /proyectos/{id}/sprints", app.listarSprints)
+	mux.HandleFunc("GET /proyectos/{id}/sprints/historico", app.listarSprintsAnteriores)
 	mux.HandleFunc("GET /proyectos/{id}/sprints/nuevo", app.formularioAltaSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints", app.crearSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/asignar", app.asignarItemSprint)

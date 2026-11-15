@@ -14,6 +14,49 @@ func (a *aplicacion) listarSprints(w http.ResponseWriter, r *http.Request) {
 	a.renderizarSprints(w, r.PathValue("id"), http.StatusOK, "")
 }
 
+// listarSprintsAnteriores muestra el historial de Sprints cerrados del proyecto.
+func (a *aplicacion) listarSprintsAnteriores(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	proyecto, err := a.deps.Proyectos.ObtenerProyecto(id)
+	if err != nil {
+		a.responderErrorSprints(w, id, err)
+		return
+	}
+
+	sprints, err := a.deps.Sprints.ListarSprintsCerrados(id)
+	if err != nil {
+		a.responderErrorSprints(w, id, err)
+		return
+	}
+
+	vistas := make([]sprintVista, 0, len(sprints))
+	for _, sprint := range sprints {
+		planificados, err := a.deps.Sprints.StoryPointsPlanificados(id, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, id, err)
+			return
+		}
+		completados, err := a.deps.Sprints.StoryPointsCompletados(id, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, id, err)
+			return
+		}
+		velocidad, err := a.deps.Sprints.VelocidadSprint(id, sprint.Numero)
+		if err != nil {
+			a.responderErrorSprints(w, id, err)
+			return
+		}
+		vistas = append(vistas, sprintVistaDesde(sprint, planificados, completados, velocidad, nil))
+	}
+
+	a.renderizar(w, http.StatusOK, "sprints-historicos", datosPagina{
+		Titulo:   "Histórico de Sprints",
+		Nav:      navConProyecto(id),
+		Proyecto: &proyectoVista{ID: id, Nombre: proyecto.Proyecto.Nombre},
+		Sprints:  vistas,
+	})
+}
+
 // formularioAltaSprint muestra el formulario de alta de un Sprint.
 func (a *aplicacion) formularioAltaSprint(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
