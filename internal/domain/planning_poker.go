@@ -2,6 +2,7 @@ package domain
 
 import (
 	"errors"
+	"sort"
 	"strings"
 )
 
@@ -30,6 +31,13 @@ var (
 	ErrRondaAbiertaExistente = errors.New("la historia ya tiene una ronda abierta")
 	// ErrRondaRevelada indica que la ronda ya fue revelada.
 	ErrRondaRevelada = errors.New("la ronda ya fue revelada")
+	// ErrRondaNoRevelada indica que la ronda debe estar Revelada. Texto
+	// neutro: aplica a acordar con ronda no Revelada (E6) y a
+	// DiferenciasRonda con ronda Abierta (E9).
+	ErrRondaNoRevelada = errors.New("la ronda aún no fue revelada")
+	// ErrRondaSinVotos indica que la ronda Revelada no tiene votos.
+	// Únicamente en DiferenciasRonda (D25, opción A).
+	ErrRondaSinVotos = errors.New("la ronda no tiene votos")
 )
 
 // RondaPoker representa una ronda de votación sobre una historia.
@@ -42,6 +50,22 @@ type RondaPoker struct {
 type VotoPoker struct {
 	Integrante string
 	Valor      int
+}
+
+// DiferenciaPoker describe las diferencias de una ronda revelada (CA1).
+type DiferenciaPoker struct {
+	HayDiferencia bool
+	Minimo        int
+	Maximo        int
+	QuienesMinimo []string
+	QuienesMaximo []string
+}
+
+// RondaHistorialPoker es una ronda del historial con sus votos; Votos queda
+// nil en rondas Abierta (D4, R15).
+type RondaHistorialPoker struct {
+	Ronda RondaPoker
+	Votos []VotoPoker
 }
 
 // ConsultaRondaPoker es el resultado de ConsultarRonda. Con la ronda Abierta
@@ -91,6 +115,58 @@ func SiguienteNumeroRonda(rondas []RondaPoker) (int, error) {
 		}
 	}
 	return mayor + 1, nil
+}
+
+// DiferenciaDeVotos calcula si hay diferencia entre ≥1 votos. Cero votos
+// devuelve ErrRondaSinVotos (R3). HayDiferencia es true si y solo si existe
+// al menos un par de votos con valores distintos. QuienesMinimo y
+// QuienesMaximo van ordenadas alfabéticamente sin distinguir mayúsculas,
+// con desempate por el nombre exacto (R2, D16).
+func DiferenciaDeVotos(votos []VotoPoker) (DiferenciaPoker, error) {
+	if len(votos) == 0 {
+		return DiferenciaPoker{}, ErrRondaSinVotos
+	}
+	minimo := votos[0].Valor
+	maximo := votos[0].Valor
+	quienesMinimo := []string{}
+	quienesMaximo := []string{}
+	for _, voto := range votos {
+		if voto.Valor < minimo {
+			minimo = voto.Valor
+		}
+		if voto.Valor > maximo {
+			maximo = voto.Valor
+		}
+	}
+	for _, voto := range votos {
+		if voto.Valor == minimo {
+			quienesMinimo = append(quienesMinimo, voto.Integrante)
+		}
+		if voto.Valor == maximo {
+			quienesMaximo = append(quienesMaximo, voto.Integrante)
+		}
+	}
+	ordenarNombresPoker(quienesMinimo)
+	ordenarNombresPoker(quienesMaximo)
+	return DiferenciaPoker{
+		HayDiferencia: minimo != maximo,
+		Minimo:        minimo,
+		Maximo:        maximo,
+		QuienesMinimo: quienesMinimo,
+		QuienesMaximo: quienesMaximo,
+	}, nil
+}
+
+// ordenarNombresPoker ordena los nombres sin distinguir mayúsculas y
+// desempatando por el nombre exacto (D20).
+func ordenarNombresPoker(nombres []string) {
+	sort.Slice(nombres, func(i, j int) bool {
+		ni, nj := strings.ToLower(nombres[i]), strings.ToLower(nombres[j])
+		if ni == nj {
+			return nombres[i] < nombres[j]
+		}
+		return ni < nj
+	})
 }
 
 // Revelar marca una ronda como Revelada; si ya lo estaba, ErrRondaRevelada

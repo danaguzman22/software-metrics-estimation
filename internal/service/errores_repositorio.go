@@ -24,6 +24,8 @@ func envolverErrorRepositorio(contexto string, err error) error {
 		errors.Is(err, domain.ErrRondaNoEncontrada) ||
 		errors.Is(err, domain.ErrRondaAbiertaExistente) ||
 		errors.Is(err, domain.ErrRondaRevelada) ||
+		errors.Is(err, domain.ErrRondaNoRevelada) ||
+		errors.Is(err, domain.ErrRondaSinVotos) ||
 		errors.Is(err, domain.ErrHorasEsfuerzoInvalidas) ||
 		errors.Is(err, domain.ErrFechaEsfuerzoFutura) {
 		return err
