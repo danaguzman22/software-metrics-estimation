@@ -347,7 +347,7 @@ func TestUS22_Fase3_Sprints_PlanificadosCompletadosVelocidad(t *testing.T) {
 
 	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/sprints", nil)
 	exigirEstadoUS22(t, rec, http.StatusOK)
-	exigirCuerpoContieneUS22(t, rec, "34", "21")
+	exigirCuerpoContieneUS22(t, rec, "34", "21.00")
 
 	if sprints.completadosLlamadas != 1 {
 		t.Errorf("StoryPointsCompletados se llamó %d veces, se esperaba 1", sprints.completadosLlamadas)
