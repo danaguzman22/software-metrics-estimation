@@ -1,5 +1,5 @@
 # language: es
-# Estado: Propuesta
+# Estado: Fase 1 implementada (GREEN)
 # Los escenarios describen el comportamiento acordado para CA1–CA3 y las
 # decisiones D1–D8 (una página por proyecto GET /proyectos/{id}/dashboard,
 # enlazada desde el detalle y desde la navegación del proyecto; contenido con
