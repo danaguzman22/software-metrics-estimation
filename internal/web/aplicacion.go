@@ -65,12 +65,20 @@ type ServicioSprintsWeb interface {
 	PorcentajeHistoriasCompletadas(proyectoID string) (float64, error)
 }
 
+// ServicioDefectosWeb es el contrato de consumidor de defectos de la web.
+type ServicioDefectosWeb interface {
+	ListarDefectos(proyectoID string) ([]domain.Defecto, error)
+	RegistrarDefecto(proyectoID string, defecto domain.Defecto) (domain.Defecto, error)
+	CambiarEstadoDefecto(proyectoID string, defectoID int64, estado string, sprintResolucion *int) (domain.Defecto, error)
+}
+
 // Dependencias reúne los servicios y el reloj que usa la aplicación web.
 type Dependencias struct {
 	Proyectos ServicioProyectosWeb
 	Backlog   ServicioBacklogWeb
 	Sprints   ServicioSprintsWeb
 	Poker     ServicioPokerWeb
+	Defectos  ServicioDefectosWeb
 	// Ahora es el reloj inyectable usado para calcular el estado del proyecto
 	// con domain.EstadoPorFechas. Si es nil se usa time.Now.
 	Ahora func() time.Time
@@ -121,6 +129,9 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/asignar", app.asignarItemSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/items/{itemID}/completar", app.completarItemSprint)
 	mux.HandleFunc("POST /proyectos/{id}/sprints/{numero}/cerrar", app.cerrarSprint)
+	mux.HandleFunc("GET /proyectos/{id}/defectos", app.listarDefectos)
+	mux.HandleFunc("POST /proyectos/{id}/defectos", app.registrarDefecto)
+	mux.HandleFunc("POST /proyectos/{id}/defectos/{defectoID}/estado", app.cambiarEstadoDefecto)
 	mux.HandleFunc("GET /proyectos/{id}/backlog/{itemID}/poker", app.paginaPoker)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas", app.iniciarRondaPoker)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/votos", app.votarPoker)
