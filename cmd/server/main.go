@@ -97,7 +97,7 @@ func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.S
 	servicioProyectos := service.NuevoServicioProyectos(proyectos, integrantes)
 	servicioBacklog := service.NuevoServicioBacklog(proyectos, backlog)
 	servicioSprints := service.NuevoServicioSprints(proyectos, sprints, backlog, asignaciones)
-	servicioPoker := service.NuevoServicioPlanningPoker(proyectos, integrantes, backlog, rondasPoker)
+	servicioPoker := service.NuevoServicioPlanningPokerConEstimador(proyectos, integrantes, backlog, rondasPoker, servicioBacklog)
 
 	handler := web.NuevoHandlerAplicacion(ping, web.Dependencias{
 		Proyectos: servicioProyectos,

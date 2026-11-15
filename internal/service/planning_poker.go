@@ -1,10 +1,15 @@
 package service
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
+
+// errEstimadorNoConfigurado indica que el servicio se armó con el constructor
+// original (estimador nil); AcordarEstimacion lo envuelve con %w.
+var errEstimadorNoConfigurado = errors.New("estimador no configurado")
 
 // RepositorioRondas persiste el agregado planning_poker (solo PostgreSQL, D1).
 type RepositorioRondas interface {
@@ -39,15 +44,23 @@ type RepositorioRondas interface {
 	Revelar(proyectoID, itemID string, numero int) error
 }
 
+// EstimadorStoryPoints abstrae el caso de uso de estimar existente (US-11).
+type EstimadorStoryPoints interface {
+	EstimarItem(proyectoID, itemID string, storyPoints int) (domain.ItemBacklog, error)
+}
+
 // ServicioPlanningPoker orquesta los casos de uso de Planning Poker (D19).
 type ServicioPlanningPoker struct {
 	proyectos   RepositorioProyectos
 	integrantes RepositorioIntegrantes
 	backlog     RepositorioBacklog
 	rondas      RepositorioRondas
+	estimador   EstimadorStoryPoints
 }
 
 // NuevoServicioPlanningPoker crea el servicio con los repositorios indicados.
+// Con este constructor el estimador queda nil; AcordarEstimacion devuelve
+// un error envolviendo "estimador no configurado" (D14).
 func NuevoServicioPlanningPoker(
 	proyectos RepositorioProyectos,
 	integrantes RepositorioIntegrantes,
@@ -59,6 +72,24 @@ func NuevoServicioPlanningPoker(
 		integrantes: integrantes,
 		backlog:     backlog,
 		rondas:      rondas,
+	}
+}
+
+// NuevoServicioPlanningPokerConEstimador crea el servicio con los repositorios
+// indicados y el estimador del caso de uso de estimar existente (US-11).
+func NuevoServicioPlanningPokerConEstimador(
+	proyectos RepositorioProyectos,
+	integrantes RepositorioIntegrantes,
+	backlog RepositorioBacklog,
+	rondas RepositorioRondas,
+	estimador EstimadorStoryPoints,
+) *ServicioPlanningPoker {
+	return &ServicioPlanningPoker{
+		proyectos:   proyectos,
+		integrantes: integrantes,
+		backlog:     backlog,
+		rondas:      rondas,
+		estimador:   estimador,
 	}
 }
 
@@ -242,4 +273,110 @@ func (s *ServicioPlanningPoker) ConsultarRonda(proyectoID, itemID string, rondaN
 		return domain.ConsultaRondaPoker{}, envolverErrorRepositorio("listar quiénes votaron", err)
 	}
 	return domain.ConsultaRondaPoker{Ronda: ronda, YaVotaron: nombres}, nil
+}
+
+// DiferenciasRonda informa si hay diferencia entre los votos de una ronda
+// Revelada: mínimo, máximo y quiénes votaron cada extremo (CA1).
+//
+// Orden de evaluación: proyecto, historia, ronda, estado. Con la ronda
+// Abierta devuelve domain.ErrRondaNoRevelada sin consultar votos (R1).
+func (s *ServicioPlanningPoker) DiferenciasRonda(proyectoID, itemID string, rondaNumero int) (domain.DiferenciaPoker, error) {
+	if err := s.verificarProyecto(proyectoID); err != nil {
+		return domain.DiferenciaPoker{}, err
+	}
+	if err := s.obtenerHistoria(proyectoID, itemID); err != nil {
+		return domain.DiferenciaPoker{}, err
+	}
+	if rondaNumero <= 0 {
+		return domain.DiferenciaPoker{}, domain.ErrNumeroRondaInvalido
+	}
+	ronda, err := s.rondas.Obtener(proyectoID, itemID, rondaNumero)
+	if err != nil {
+		return domain.DiferenciaPoker{}, envolverErrorRepositorio("obtener ronda", err)
+	}
+	if ronda.Estado != domain.EstadoRondaRevelada {
+		return domain.DiferenciaPoker{}, domain.ErrRondaNoRevelada
+	}
+	votos, err := s.rondas.Votos(proyectoID, itemID, rondaNumero)
+	if err != nil {
+		return domain.DiferenciaPoker{}, envolverErrorRepositorio("listar votos de la ronda", err)
+	}
+	diferencia, err := domain.DiferenciaDeVotos(votos)
+	if err != nil {
+		return domain.DiferenciaPoker{}, err
+	}
+	return diferencia, nil
+}
+
+// HistorialRondas devuelve todas las rondas de la historia en orden
+// ascendente por número. Las Revelada incluyen sus votos; las Abierta no
+// incluyen valores (Votos nil) (R4).
+//
+// Orden de evaluación: proyecto, historia.
+func (s *ServicioPlanningPoker) HistorialRondas(proyectoID, itemID string) ([]domain.RondaHistorialPoker, error) {
+	if err := s.verificarProyecto(proyectoID); err != nil {
+		return nil, err
+	}
+	if err := s.obtenerHistoria(proyectoID, itemID); err != nil {
+		return nil, err
+	}
+	rondas, err := s.rondas.ListarPorHistoria(proyectoID, itemID)
+	if err != nil {
+		return nil, envolverErrorRepositorio("listar rondas de la historia", err)
+	}
+	historial := make([]domain.RondaHistorialPoker, 0, len(rondas))
+	for _, ronda := range rondas {
+		entrada := domain.RondaHistorialPoker{Ronda: ronda}
+		if ronda.Estado == domain.EstadoRondaRevelada {
+			votos, err := s.rondas.Votos(proyectoID, itemID, ronda.Numero)
+			if err != nil {
+				return nil, envolverErrorRepositorio("listar votos de la ronda", err)
+			}
+			if len(votos) == 0 {
+				votos = nil
+			}
+			entrada.Votos = votos
+		}
+		historial = append(historial, entrada)
+	}
+	return historial, nil
+}
+
+// AcordarEstimacion fija el valor acordado como Story Points de la historia
+// reutilizando el caso de uso de estimar existente (CA3). El valor debe estar
+// en la serie 1, 2, 3, 5, 8, 13, 21 y la ronda debe estar Revelada (CA4).
+//
+// Orden de evaluación: proyecto, historia, integrante del proyecto, ronda,
+// estado, valor (R5, R12).
+func (s *ServicioPlanningPoker) AcordarEstimacion(proyectoID, itemID string, rondaNumero int, integranteNombre string, valor int) (domain.ItemBacklog, error) {
+	if err := s.verificarProyecto(proyectoID); err != nil {
+		return domain.ItemBacklog{}, err
+	}
+	if err := s.obtenerHistoria(proyectoID, itemID); err != nil {
+		return domain.ItemBacklog{}, err
+	}
+	if _, err := s.integranteCanonico(proyectoID, integranteNombre); err != nil {
+		return domain.ItemBacklog{}, err
+	}
+	if rondaNumero <= 0 {
+		return domain.ItemBacklog{}, domain.ErrNumeroRondaInvalido
+	}
+	ronda, err := s.rondas.Obtener(proyectoID, itemID, rondaNumero)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("obtener ronda", err)
+	}
+	if ronda.Estado != domain.EstadoRondaRevelada {
+		return domain.ItemBacklog{}, domain.ErrRondaNoRevelada
+	}
+	if !domain.EsStoryPointsValido(valor) {
+		return domain.ItemBacklog{}, domain.ErrStoryPointsInvalidos
+	}
+	if s.estimador == nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("acordar estimación", errEstimadorNoConfigurado)
+	}
+	historia, err := s.estimador.EstimarItem(proyectoID, itemID, valor)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("estimar ítem del backlog", err)
+	}
+	return historia, nil
 }
