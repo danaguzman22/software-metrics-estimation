@@ -1,0 +1,15 @@
+US-14 REFACTOR
+
+$ go vet ./...
+Exit code: 0
+
+$ go build ./...
+Exit code: 0
+
+$ git diff --check
+Exit code: 0
+
+Se reutiliza la comparación de nombres de US-03 mediante
+domain.BuscarIntegrante; domain.EsDuplicado delega en esa función y conserva su
+comportamiento. El agregado de esfuerzo persiste solo en PostgreSQL, conforme
+a la decisión D12 de la especificación y la enmienda correspondiente a ADR-001.

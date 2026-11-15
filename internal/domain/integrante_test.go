@@ -246,3 +246,88 @@ func TestUS03_Duplicado_EspaciosInternosDistintos(t *testing.T) {
 		})
 	}
 }
+
+// R4 / D13 / D23: BuscarIntegrante reutiliza la comparación de US-03, ignora
+// mayúsculas y espacios externos, y devuelve el integrante tal como está
+// registrado.
+func TestUS14_BuscarIntegrante_IgnoraMayusculasYEspacios(t *testing.T) {
+	existentes := []domain.Integrante{
+		{Nombre: "Ana Pérez", Rol: "Desarrolladora"},
+		{Nombre: "Luis Gómez", Rol: "QA"},
+	}
+
+	casos := []struct {
+		descripcion string
+		nombre      string
+		esperado    domain.Integrante
+	}{
+		{
+			descripcion: "minúsculas y espacios externos",
+			nombre:      "  ana pérez  ",
+			esperado:    domain.Integrante{Nombre: "Ana Pérez", Rol: "Desarrolladora"},
+		},
+		{
+			descripcion: "mayúsculas",
+			nombre:      "ANA PÉREZ",
+			esperado:    domain.Integrante{Nombre: "Ana Pérez", Rol: "Desarrolladora"},
+		},
+		{
+			descripcion: "nombre exacto",
+			nombre:      "Luis Gómez",
+			esperado:    domain.Integrante{Nombre: "Luis Gómez", Rol: "QA"},
+		},
+	}
+
+	for _, caso := range casos {
+		t.Run(caso.descripcion, func(t *testing.T) {
+			integrante, encontrado := domain.BuscarIntegrante(existentes, caso.nombre)
+			if !encontrado {
+				t.Fatalf("BuscarIntegrante(existentes, %q) = false, se esperaba true", caso.nombre)
+			}
+			if integrante != caso.esperado {
+				t.Errorf("BuscarIntegrante(existentes, %q) = %+v, se esperaba %+v", caso.nombre, integrante, caso.esperado)
+			}
+		})
+	}
+}
+
+// R4 / D23: un nombre ausente no pertenece al proyecto y devuelve el valor cero.
+func TestUS14_BuscarIntegrante_NoEncontrado(t *testing.T) {
+	casos := []struct {
+		descripcion string
+		existentes  []domain.Integrante
+		nombre      string
+	}{
+		{
+			descripcion: "nombre no registrado",
+			existentes: []domain.Integrante{
+				{Nombre: "Ana Pérez", Rol: "Desarrolladora"},
+			},
+			nombre: "Luis Gómez",
+		},
+		{
+			descripcion: "lista vacía",
+			existentes:  []domain.Integrante{},
+			nombre:      "Ana Pérez",
+		},
+		{
+			descripcion: "difiere en espacios internos",
+			existentes: []domain.Integrante{
+				{Nombre: "Ana Paz", Rol: "Revisor"},
+			},
+			nombre: "Ana  Paz",
+		},
+	}
+
+	for _, caso := range casos {
+		t.Run(caso.descripcion, func(t *testing.T) {
+			integrante, encontrado := domain.BuscarIntegrante(caso.existentes, caso.nombre)
+			if encontrado {
+				t.Fatalf("BuscarIntegrante(existentes, %q) = true, se esperaba false", caso.nombre)
+			}
+			if integrante != (domain.Integrante{}) {
+				t.Errorf("se esperaba domain.Integrante{} cuando no se encuentra, se obtuvo %+v", integrante)
+			}
+		})
+	}
+}
