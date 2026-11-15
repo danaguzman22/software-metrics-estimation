@@ -27,7 +27,15 @@ func envolverErrorRepositorio(contexto string, err error) error {
 		errors.Is(err, domain.ErrRondaNoRevelada) ||
 		errors.Is(err, domain.ErrRondaSinVotos) ||
 		errors.Is(err, domain.ErrHorasEsfuerzoInvalidas) ||
-		errors.Is(err, domain.ErrFechaEsfuerzoFutura) {
+		errors.Is(err, domain.ErrFechaEsfuerzoFutura) ||
+		errors.Is(err, domain.ErrDescripcionDefectoVacia) ||
+		errors.Is(err, domain.ErrSeveridadDefectoInvalida) ||
+		errors.Is(err, domain.ErrEstadoDefectoInvalido) ||
+		errors.Is(err, domain.ErrSprintDeteccionDefectoInvalido) ||
+		errors.Is(err, domain.ErrSprintResolucionDefectoObligatorio) ||
+		errors.Is(err, domain.ErrSprintResolucionAnteriorADeteccion) ||
+		errors.Is(err, domain.ErrSprintResolucionDefectoInvalido) ||
+		errors.Is(err, domain.ErrDefectoNoEncontrado) {
 		return err
 	}
 	return fmt.Errorf("service: %s: %w", contexto, err)

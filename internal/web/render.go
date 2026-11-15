@@ -75,16 +75,18 @@ type sprintVista struct {
 
 // datosPagina reúne los datos que consumen las plantillas.
 type datosPagina struct {
-	Titulo           string
-	Nav              navContexto
-	Proyectos        []proyectoVista
-	Proyecto         *proyectoVista
-	Formulario       formularioProyecto
-	Items            []domain.ItemBacklog
-	ItemID           string
-	FormularioItem   formularioItem
-	Editando         bool
+	Titulo                string
+	Nav                   navContexto
+	Proyectos             []proyectoVista
+	Proyecto              *proyectoVista
+	Formulario            formularioProyecto
+	Items                 []domain.ItemBacklog
+	ItemID                string
+	FormularioItem        formularioItem
+	Editando              bool
 	Sprints               []sprintVista
+	SprintsOpciones       []domain.Sprint
+	Defectos              []domain.Defecto
 	FormularioSprint      formularioSprint
 	VelocidadPromedio     float64
 	PorcentajeCompletadas float64
