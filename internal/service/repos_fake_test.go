@@ -186,3 +186,64 @@ func proyectoFakeValido() domain.Proyecto {
 func fechaFake(anio, mes, dia int) time.Time {
 	return time.Date(anio, time.Month(mes), dia, 0, 0, 0, 0, time.UTC)
 }
+
+// SprintDeItem es el doble de la consulta del Sprint al que pertenece una
+// historia (D20). Se define acá porque es una operación nueva de US-14 sobre el
+// doble de asignaciones de US-08.
+func (f *fakeRepositorioAsignaciones) SprintDeItem(
+	proyectoID string,
+	itemNumero int,
+) (int, bool, error) {
+	f.sprintDeLlamadas++
+	if f.sprintDeErr != nil {
+		return 0, false, f.sprintDeErr
+	}
+	sprintNumero, asignado := f.sprintDe(proyectoID, itemNumero)
+	return sprintNumero, asignado, nil
+}
+
+// registroEsfuerzoFake es una fila del doble de esfuerzo.
+type registroEsfuerzoFake struct {
+	proyectoID string
+	itemNumero int
+	registro   domain.RegistroEsfuerzo
+}
+
+// fakeRepositorioEsfuerzo es el doble en memoria de RepositorioEsfuerzo. Cuenta
+// las llamadas a Agregar y permite inyectar errores (estilo de los dobles
+// existentes).
+type fakeRepositorioEsfuerzo struct {
+	registros        []registroEsfuerzoFake
+	agregarErr       error
+	agregarLlamadas  int
+	ultimoProyectoID string
+	ultimoItemNumero int
+	ultimoRegistro   domain.RegistroEsfuerzo
+}
+
+func (f *fakeRepositorioEsfuerzo) Agregar(
+	proyectoID string,
+	itemNumero int,
+	registro domain.RegistroEsfuerzo,
+) error {
+	f.agregarLlamadas++
+	f.ultimoProyectoID = proyectoID
+	f.ultimoItemNumero = itemNumero
+	f.ultimoRegistro = registro
+	if f.agregarErr != nil {
+		return f.agregarErr
+	}
+	f.registros = append(f.registros, registroEsfuerzoFake{
+		proyectoID: proyectoID,
+		itemNumero: itemNumero,
+		registro:   registro,
+	})
+	return nil
+}
+
+func nuevoFakeEsfuerzo() *fakeRepositorioEsfuerzo {
+	return &fakeRepositorioEsfuerzo{}
+}
+
+// El doble debe cumplir el contrato que define el consumidor (D32).
+var _ RepositorioEsfuerzo = (*fakeRepositorioEsfuerzo)(nil)

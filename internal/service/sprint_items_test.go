@@ -24,10 +24,12 @@ type fakeRepositorioAsignaciones struct {
 	agregarErr                 error
 	existeItemErr              error
 	existeItemEnSprintErr      error
+	sprintDeErr                error
 	listarErr                  error
 	agregarLlamadas            int
 	existeItemLlamadas         int
 	existeItemEnSprintLlamadas int
+	sprintDeLlamadas           int
 	listarLlamadas             int
 	ultimoItemNumero           int
 	ultimoSprintNumero         int
