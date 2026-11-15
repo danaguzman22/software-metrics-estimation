@@ -90,6 +90,6 @@ Para los tests de integración completos ver la sección "Pruebas automatizadas"
 
 ## 8. Limitaciones conocidas
 
-- Planning Poker: reglas, servicio y persistencia implementados; la interfaz web y el consenso (diferencias entre votos, nuevas rondas y estimación acordada) son trabajo siguiente (US-13).
+- Planning Poker: votación oculta, revelación y nueva ronda implementadas con interfaz web (US-12); el consenso (diferencias entre votos y estimación acordada) es trabajo siguiente (US-13).
 - Registro de esfuerzo: servicio y persistencia sin interfaz web todavía.
 - Dashboard con gráficos, reportes y exportación a PDF: Sprints 3 y 4.

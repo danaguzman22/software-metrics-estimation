@@ -31,6 +31,14 @@ Abrí <http://localhost:8080>. Para detenerla: `docker compose down` (conserva l
 3. Durante el Sprint, en cada historia pendiente usá **Marcar completada**.
 4. Al terminar, **Cerrar Sprint**. Las historias que no se completaron **vuelven al backlog** y el Sprint queda cerrado con sus métricas.
 
+## Planning Poker
+
+1. En el Backlog, en la fila de la historia, elegí **Planning Poker**.
+2. Con **Iniciar ronda** se abre la votación.
+3. Cada integrante elige su nombre y su voto (1, 2, 3, 5, 8, 13 o 21) y presiona **Votar**. Puede cambiar su voto mientras la ronda esté abierta. La pantalla solo muestra quiénes ya votaron, nunca los valores.
+4. Cualquier integrante del proyecto puede **Revelar**: se muestra la tabla con todos los votos. Es irreversible.
+5. Con **Nueva ronda** se vota otra vez sobre la misma historia.
+
 ## 5. Métricas
 
 En la pantalla de Sprints se ven, por cada Sprint, los **Story Points planificados**, los **completados** y la **velocidad**. A nivel proyecto se muestran la **velocidad promedio** (solo Sprints cerrados; 0.00 si todavía no hay ninguno) y el **porcentaje de historias completadas**.
@@ -46,4 +54,4 @@ En la pantalla de Sprints se ven, por cada Sprint, los **Story Points planificad
 
 ## 7. Qué viene
 
-Planning Poker en la interfaz, registro de esfuerzo, gestión de defectos completa, dashboard con gráficos y exportación a PDF (Sprints 2 a 4).
+Registro de esfuerzo, gestión de defectos completa, dashboard con gráficos y exportación a PDF (Sprints 2 a 4).

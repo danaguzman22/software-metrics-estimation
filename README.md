@@ -175,7 +175,7 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 | Sprints: crear, asignar historias, completar, cerrar, consultar anteriores | Implementados, con interfaz web |
 | Métricas: SP planificados y completados, velocidad, velocidad promedio, % de historias completadas | Implementadas y visibles en la interfaz |
 | Planning Poker (votos ocultos, revelación, un voto por integrante) | Reglas, servicio y persistencia implementados (US-12); la interfaz web está en desarrollo |
-| Planning Poker: diferencias entre votos, nuevas rondas y estimación acordada | Pendiente (US-13) |
+| Planning Poker (votos ocultos, revelación, un voto por integrante, nueva ronda) | Implementado con interfaz web por historia (US-12) |
 | Registro de esfuerzo (integrante, fecha, actividad, horas) | Implementado en servicio y persistencia (US-14); falta interfaz |
 | Gestión de defectos | Parcial |
 | Métricas de horas y desviación estimado vs. real | Pendiente |
@@ -195,9 +195,9 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 7. Código fuente en Go.
 8. Evidencias de aplicación de TDD (`docs/evidencias/`).
 9. Software funcional (Docker Compose).
-10. Informe de métricas y cobertura de pruebas (`docs/retrospectivas/`).
-11. Actas de retrospectivas (`docs/retrospectivas/`).
-12. Documentación técnica (ADR, specs) y manual breve de usuario (esta guía).
+10. Informe de métricas y cobertura de pruebas (`docs/metricas-y-cobertura.md`).
+11. Actas de retrospectivas (`docs/retrospectivas/sprint-1.md`) y trazabilidad con evidencias de TDD (`docs/trazabilidad-y-evidencias.md`).
+12. Documentación técnica (`docs/documentacion-tecnica.md`, ADR y specs) y manual breve de usuario (`docs/manual-usuario.md`).
 13. Presentación y demostración final.
 
 ---
