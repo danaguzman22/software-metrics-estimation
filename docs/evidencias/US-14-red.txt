@@ -1,0 +1,92 @@
+﻿go : # github.com/danaguzman22/software-metrics-esti
+mation/internal/domain_test [github.com/danaguzman22
+/software-metrics-estimation/internal/domain.test]
+En línea: 1 Carácter: 1
++ go test ./... -count=1 2>&1 | Out-File -Encoding 
+utf8 docs\evidencias ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (# gith 
+   ub.com/da...al/domain.test]:String) [], RemoteE  
+  xception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+internal\domain\esfuerzo_test.go:68:18: undefined: 
+domain.ValidarHorasEsfuerzo
+internal\domain\esfuerzo_test.go:75:30: undefined: 
+domain.ErrHorasEsfuerzoInvalidas
+internal\domain\esfuerzo_test.go:76:54: undefined: 
+domain.ErrHorasEsfuerzoInvalidas
+internal\domain\esfuerzo_test.go:126:18: undefined: 
+domain.ValidarFechaEsfuerzo
+internal\domain\esfuerzo_test.go:133:30: undefined: 
+domain.ErrFechaEsfuerzoFutura
+internal\domain\esfuerzo_test.go:134:54: undefined: 
+domain.ErrFechaEsfuerzoFutura
+internal\domain\esfuerzo_test.go:143:21: undefined: 
+domain.RegistroEsfuerzo
+internal\domain\esfuerzo_test.go:167:48: undefined: 
+domain.ErrIntegranteNoPerteneceAlProyecto
+internal\domain\esfuerzo_test.go:168:48: undefined: 
+domain.ErrHorasEsfuerzoInvalidas
+internal\domain\esfuerzo_test.go:169:48: undefined: 
+domain.ErrFechaEsfuerzoFutura
+internal\domain\esfuerzo_test.go:169:48: too many 
+errors
+# github.com/danaguzman22/software-metrics-estimatio
+n/internal/service [github.com/danaguzman22/software
+-metrics-estimation/internal/service.test]
+internal\service\repos_fake_test.go:209:20: 
+undefined: domain.RegistroEsfuerzo
+internal\service\repos_fake_test.go:221:26: 
+undefined: domain.RegistroEsfuerzo
+internal\service\repos_fake_test.go:227:18: 
+undefined: domain.RegistroEsfuerzo
+internal\service\repos_fake_test.go:249:7: 
+undefined: RepositorioEsfuerzo
+internal\service\esfuerzo_test.go:47:39: undefined: 
+ServicioEsfuerzo
+internal\service\esfuerzo_test.go:48:9: undefined: 
+NuevoServicioEsfuerzo
+internal\service\esfuerzo_test.go:140:28: 
+undefined: domain.RegistroEsfuerzo
+internal\service\esfuerzo_test.go:157:63: 
+undefined: domain.RegistroEsfuerzo
+internal\service\esfuerzo_test.go:170:18: 
+undefined: domain.RegistroEsfuerzo
+internal\service\esfuerzo_test.go:223:25: 
+undefined: domain.ErrIntegranteNoPerteneceAlProyecto
+internal\service\esfuerzo_test.go:223:25: too many 
+errors
+# github.com/danaguzman22/software-metrics-estimatio
+n/internal/storage/postgres_test [github.com/danaguz
+man22/software-metrics-estimation/internal/storage/p
+ostgres.test]
+internal\storage\postgres\esfuerzo_test.go:16:61: 
+undefined: domain.RegistroEsfuerzo
+internal\storage\postgres\esfuerzo_test.go:22:18: 
+undefined: postgres.NuevoEsfuerzo
+internal\storage\postgres\esfuerzo_test.go:34:21: 
+undefined: domain.RegistroEsfuerzo
+internal\storage\postgres\esfuerzo_test.go:82:21: 
+undefined: domain.RegistroEsfuerzo
+internal\storage\postgres\esfuerzo_test.go:116:38: 
+repo.SprintDeItem undefined (type 
+*postgres.Asignaciones has no field or method 
+SprintDeItem)
+internal\storage\postgres\esfuerzo_test.go:135:38: 
+repo.SprintDeItem undefined (type 
+*postgres.Asignaciones has no field or method 
+SprintDeItem)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.525s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	1.651s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	3.980s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	3.897s
+--- FAIL: TestUS14_MigracionEsfuerzo (0.00s)
+    us14_esfuerzo_test.go:19: se esperaba exactamente una migraci├│n 00007_*.sql, se encontraron []
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/migrations	1.218s
+FAIL

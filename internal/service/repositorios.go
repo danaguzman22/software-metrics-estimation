@@ -58,3 +58,8 @@ type RepositorioBacklog interface {
 	// proyecto. domain.ErrItemNoEncontrado si no existe en ese proyecto.
 	ActualizarItem(proyectoID string, item domain.ItemBacklog) error
 }
+
+// RepositorioEsfuerzo persiste registros de esfuerzo asociados a historias.
+type RepositorioEsfuerzo interface {
+	Agregar(proyectoID string, itemNumero int, registro domain.RegistroEsfuerzo) error
+}

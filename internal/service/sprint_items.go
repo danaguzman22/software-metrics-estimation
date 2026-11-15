@@ -24,6 +24,9 @@ type RepositorioAsignaciones interface {
 
 	// ExisteItemEnSprint informa si la historia está asignada al Sprint indicado.
 	ExisteItemEnSprint(proyectoID string, sprintNumero, itemNumero int) (bool, error)
+
+	// SprintDeItem devuelve el Sprint al que está asignada la historia, si existe.
+	SprintDeItem(proyectoID string, itemNumero int) (sprintNumero int, asignado bool, err error)
 }
 
 // AsignarItem asigna la historia itemID al Sprint sprintNumero del proyecto.
