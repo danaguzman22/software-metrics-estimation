@@ -1,0 +1,72 @@
+US-19 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.157s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.019s
+--- FAIL: TestUS19_Fase1_ServicioDashboard_ArmaMetricas (0.00s)
+    us19_test.go:178: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_SinSprintsNiHistorias (0.00s)
+    us19_test.go:226: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_SoloSprintsActivos (0.00s)
+    us19_test.go:279: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_VelocidadPromedioYPorcentajeTalComoUS16 (0.00s)
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_VelocidadPromedioYPorcentajeTalComoUS16/sin_Sprints_cerrados_devuelve_cero_sin_error (0.00s)
+        us19_test.go:374: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_VelocidadPromedioYPorcentajeTalComoUS16/promedio_fraccionario_con_cerrados_y_porcentaje_con_dos_decimales (0.00s)
+        us19_test.go:374: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_VelocidadPromedioYPorcentajeTalComoUS16/sin_historias_el_porcentaje_es_cero_y_el_promedio_es_cero (0.00s)
+        us19_test.go:374: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_EstimacionesIncompletas (0.00s)
+    us19_test.go:407: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_DesviacionNilConSumaCero (0.00s)
+    us19_test.go:440: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_SinRegistrosDeEsfuerzo (0.00s)
+    us19_test.go:470: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_ProyectoInexistente (0.00s)
+    us19_test.go:497: err = service: no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS19_Fase1_ServicioDashboard_CerradosEnOrdenAscendente (0.00s)
+    us19_test.go:562: ObtenerDashboard() devolvió un error inesperado: service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_SprintCerradoSinSnapshot (0.00s)
+    us19_test.go:625: ObtenerDashboard() devolvió un error inesperado: service: no implementado (el Sprint sin snapshot no debe fallar)
+--- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto (0.00s)
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_listar_los_Sprints_del_proyecto (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_obtener_el_Sprint_al_sumar_los_planificados (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_listar_las_asignaciones_del_Sprint_al_sumar_los_planificados (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_listar_los_ítems_del_proyecto_al_sumar_los_completados (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_obtener_el_snapshot_del_Sprint (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_sumar_horas_reales_del_Sprint (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_ErrorDeRepositorioEnvuelto/error_al_sumar_horas_reales_del_proyecto (0.00s)
+        us19_test.go:754: errors.Is(err, causa) = false; err = service: no implementado
+--- FAIL: TestUS19_Fase1_ServicioDashboard_SprintCerradoSinSPPlanificadosPropagaError (0.00s)
+    us19_test.go:797: err = "service: no implementado", se esperaba el detalle del SPPlanificados faltante
+--- FAIL: TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones (0.00s)
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones/proyecto_inexistente_prevalece_sobre_Sprint_cerrado_sin_guardado_sembrado (0.00s)
+        us19_test.go:869: err = service: no implementado, se esperaba exactamente no se encontró el proyecto sin envolver
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones/proyecto_inexistente_prevalece_sobre_error_al_listar_los_Sprints (0.00s)
+        us19_test.go:869: err = service: no implementado, se esperaba exactamente no se encontró el proyecto sin envolver
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones/error_al_verificar_el_proyecto_prevalece_sobre_Sprint_cerrado_sin_guardado (0.00s)
+        us19_test.go:859: errors.Is(err, causa) = false; err = service: no implementado
+    --- FAIL: TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones/error_al_listar_los_Sprints_prevalece_sobre_Sprint_cerrado_sin_guardado (0.00s)
+        us19_test.go:859: errors.Is(err, causa) = false; err = service: no implementado
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	0.125s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.043s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.309s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	9.471s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.727s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
+FAIL
+Exit code: 1
