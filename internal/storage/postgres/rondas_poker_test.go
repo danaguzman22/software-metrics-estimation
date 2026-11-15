@@ -46,7 +46,7 @@ func nuevoPoolVacioPostgres(t *testing.T) (*pgxpool.Pool, string) {
 		t.Fatalf("verificar conexión a PostgreSQL: %v", err)
 	}
 
-	schema := fmt.Sprintf("t14_%d", time.Now().UnixNano())
+	schema := fmt.Sprintf("us12_%d", time.Now().UnixNano())
 	if _, err := adminPool.Exec(ctx, "CREATE SCHEMA "+pgx.Identifier{schema}.Sanitize()); err != nil {
 		adminPool.Close()
 		t.Fatalf("crear esquema aislado: %v", err)
@@ -287,6 +287,38 @@ func TestUS12_Postgres_RevelarDosVeces(t *testing.T) {
 	}
 }
 
+// D9 / E13: revelar una ronda sin votos está permitido; la ronda queda
+// Revelada y Votos devuelve una lista vacía sin error.
+func TestUS12_Postgres_RevelarConCeroVotos(t *testing.T) {
+	pool := nuevoPoolPostgres(t)
+	seedProject(t, pool, "PRJ-001")
+	itemID := itemIDUS12(t, pool, "PRJ-001")
+	repo := postgres.NuevoRondasPoker(pool)
+
+	if err := repo.Iniciar("PRJ-001", itemID, 1); err != nil {
+		t.Fatalf("Iniciar() devolvió un error inesperado: %v", err)
+	}
+	if err := repo.Revelar("PRJ-001", itemID, 1); err != nil {
+		t.Fatalf("Revelar() devolvió un error inesperado: %v", err)
+	}
+
+	ronda, err := repo.Obtener("PRJ-001", itemID, 1)
+	if err != nil {
+		t.Fatalf("Obtener() devolvió un error inesperado: %v", err)
+	}
+	if ronda.Estado != domain.EstadoRondaRevelada {
+		t.Errorf("Obtener() tras revelar = %q, se esperaba Revelada", ronda.Estado)
+	}
+
+	votos, err := repo.Votos("PRJ-001", itemID, 1)
+	if err != nil {
+		t.Fatalf("Votos() devolvió un error inesperado: %v", err)
+	}
+	if len(votos) != 0 {
+		t.Errorf("Votos() = %+v, se esperaba una lista vacía", votos)
+	}
+}
+
 // V4 / E5: operar sobre una ronda inexistente devuelve domain.ErrRondaNoEncontrada.
 func TestUS12_Postgres_RondaInexistente(t *testing.T) {
 	pool := nuevoPoolPostgres(t)
@@ -367,20 +399,20 @@ func TestUS12_Postgres_FKHistoriaInexistente(t *testing.T) {
 		t.Fatalf("consultar claves candidatas de items_backlog: %v", err)
 	}
 	defer rows.Close()
-	refenciable := false
+	referenciable := false
 	for rows.Next() {
 		var constraintName, columnas string
 		if err := rows.Scan(&constraintName, &columnas); err != nil {
 			t.Fatalf("leer clave candidata de items_backlog: %v", err)
 		}
 		if columnas == "proyecto_id,numero" {
-			refenciable = true
+			referenciable = true
 		}
 	}
 	if err := rows.Err(); err != nil {
 		t.Fatalf("iterar claves candidatas de items_backlog: %v", err)
 	}
-	if !refenciable {
+	if !referenciable {
 		t.Fatal("items_backlog(proyecto_id, numero) no es PK ni UNIQUE: la FK rondas_poker_item_fk no es referenciable")
 	}
 
@@ -424,7 +456,9 @@ func TestUS12_Postgres_RegistrarVotoConcurrenteMismoIntegrante(t *testing.T) {
 	wg.Wait()
 	close(errs)
 	for err := range errs {
-		t.Errorf("RegistrarVoto concurrente del mismo integrante: %v", err)
+		if err != nil {
+			t.Errorf("RegistrarVoto concurrente del mismo integrante: %v", err)
+		}
 	}
 
 	if err := repo.Revelar("PRJ-001", itemID, 1); err != nil {
@@ -472,7 +506,9 @@ func TestUS12_Postgres_RegistrarVotoConcurrenteIntegrantesDistintos(t *testing.T
 	wg.Wait()
 	close(errs)
 	for err := range errs {
-		t.Errorf("RegistrarVoto concurrente de integrantes distintos: %v", err)
+		if err != nil {
+			t.Errorf("RegistrarVoto concurrente de integrantes distintos: %v", err)
+		}
 	}
 
 	nombres, err := repo.YaVotaron("PRJ-001", itemID, 1)

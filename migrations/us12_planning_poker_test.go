@@ -48,7 +48,7 @@ func TestUS12_MigracionPlanningPokerUp(t *testing.T) {
 	}
 	up := sql[:indiceDown]
 
-	requiredFragments := []string{
+	fragmentosRequeridos := []string{
 		"-- +goose Up",
 		"CREATE TABLE rondas_poker",
 		"CREATE TABLE votos_poker",
@@ -61,7 +61,7 @@ func TestUS12_MigracionPlanningPokerUp(t *testing.T) {
 		"IN (1, 2, 3, 5, 8, 13, 21)",
 		"('Abierta', 'Revelada')",
 	}
-	for _, fragment := range requiredFragments {
+	for _, fragment := range fragmentosRequeridos {
 		if !strings.Contains(sql, fragment) {
 			t.Errorf("la migración no contiene %q", fragment)
 		}
