@@ -240,10 +240,10 @@ func (r *Backlog) AgregarItem(proyectoID string, item domain.ItemBacklog) (domai
 	}
 	_, err = tx.Exec(ctx, `
 		INSERT INTO items_backlog
-			(proyecto_id, numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			(proyecto_id, numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion, horas_estimadas)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 	`, proyectoID, numero, item.Titulo, item.Descripcion, item.Prioridad,
-		item.Estado, item.StoryPoints, criterios)
+		item.Estado, item.StoryPoints, criterios, item.HorasEstimadas)
 	if err != nil {
 		return domain.ItemBacklog{}, fmt.Errorf("insertar ítem: %w", err)
 	}
@@ -264,7 +264,7 @@ func (r *Backlog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, er
 		return domain.ItemBacklog{}, domain.ErrItemNoEncontrado
 	}
 	item, err := scanItem(r.pool.QueryRow(context.Background(), `
-		SELECT numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion
+		SELECT numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion, horas_estimadas
 		FROM items_backlog
 		WHERE proyecto_id = $1 AND numero = $2
 	`, proyectoID, numero))
@@ -280,7 +280,7 @@ func (r *Backlog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, er
 // ListarPorProyecto devuelve los ítems del proyecto en orden numérico.
 func (r *Backlog) ListarPorProyecto(proyectoID string) ([]domain.ItemBacklog, error) {
 	rows, err := r.pool.Query(context.Background(), `
-		SELECT numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion
+		SELECT numero, titulo, descripcion, prioridad, estado, story_points, criterios_aceptacion, horas_estimadas
 		FROM items_backlog
 		WHERE proyecto_id = $1
 		ORDER BY numero
@@ -318,10 +318,10 @@ func (r *Backlog) ActualizarItem(proyectoID string, item domain.ItemBacklog) err
 	tag, err := r.pool.Exec(context.Background(), `
 		UPDATE items_backlog
 		SET titulo = $3, descripcion = $4, prioridad = $5, estado = $6,
-			story_points = $7, criterios_aceptacion = $8
+			story_points = $7, criterios_aceptacion = $8, horas_estimadas = $9
 		WHERE proyecto_id = $1 AND numero = $2
 	`, proyectoID, numero, item.Titulo, item.Descripcion, item.Prioridad,
-		item.Estado, item.StoryPoints, criterios)
+		item.Estado, item.StoryPoints, criterios, item.HorasEstimadas)
 	if err != nil {
 		return fmt.Errorf("actualizar ítem: %w", err)
 	}
@@ -364,6 +364,7 @@ func scanItem(row rowScanner) (domain.ItemBacklog, error) {
 		&item.Estado,
 		&item.StoryPoints,
 		&item.Criterios,
+		&item.HorasEstimadas,
 	); err != nil {
 		return domain.ItemBacklog{}, err
 	}

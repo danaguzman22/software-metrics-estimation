@@ -225,6 +225,7 @@ func (f *fakeRepositorioAsignaciones) SprintDeItem(
 type registroEsfuerzoFake struct {
 	proyectoID string
 	itemNumero int
+	sprintNum  *int
 	registro   domain.RegistroEsfuerzo
 }
 
@@ -234,15 +235,20 @@ type registroEsfuerzoFake struct {
 type fakeRepositorioEsfuerzo struct {
 	registros        []registroEsfuerzoFake
 	agregarErr       error
+	horasItemErr     error
+	horasSprintErr   error
+	horasProyectoErr error
 	agregarLlamadas  int
 	ultimoProyectoID string
 	ultimoItemNumero int
 	ultimoRegistro   domain.RegistroEsfuerzo
+	snapshots        map[string]snapshotEsfuerzoFake
 }
 
 func (f *fakeRepositorioEsfuerzo) Agregar(
 	proyectoID string,
 	itemNumero int,
+	sprintNumero *int,
 	registro domain.RegistroEsfuerzo,
 ) error {
 	f.agregarLlamadas++
@@ -255,13 +261,73 @@ func (f *fakeRepositorioEsfuerzo) Agregar(
 	f.registros = append(f.registros, registroEsfuerzoFake{
 		proyectoID: proyectoID,
 		itemNumero: itemNumero,
+		sprintNum:  sprintNumero,
 		registro:   registro,
 	})
 	return nil
 }
 
+type snapshotEsfuerzoFake struct {
+	items      []domain.ItemSprintEsfuerzo
+	disponible bool
+	err        error
+}
+
+func (f *fakeRepositorioEsfuerzo) HorasRealesPorItem(proyectoID string, itemNumero int) (float64, error) {
+	if f.horasItemErr != nil {
+		return 0, f.horasItemErr
+	}
+	var total float64
+	for _, registro := range f.registros {
+		if registro.proyectoID == proyectoID && registro.itemNumero == itemNumero {
+			total += registro.registro.Horas
+		}
+	}
+	return total, nil
+}
+
+func (f *fakeRepositorioEsfuerzo) HorasRealesPorSprint(proyectoID string, sprintNumero int) (float64, error) {
+	if f.horasSprintErr != nil {
+		return 0, f.horasSprintErr
+	}
+	var total float64
+	for _, registro := range f.registros {
+		if registro.proyectoID == proyectoID && registro.sprintNum != nil && *registro.sprintNum == sprintNumero {
+			total += registro.registro.Horas
+		}
+	}
+	return total, nil
+}
+
+func (f *fakeRepositorioEsfuerzo) HorasRealesPorProyecto(proyectoID string) (float64, error) {
+	if f.horasProyectoErr != nil {
+		return 0, f.horasProyectoErr
+	}
+	var total float64
+	for _, registro := range f.registros {
+		if registro.proyectoID == proyectoID {
+			total += registro.registro.Horas
+		}
+	}
+	return total, nil
+}
+
+func (f *fakeRepositorioEsfuerzo) SnapshotSprint(
+	proyectoID string,
+	sprintNumero int,
+) ([]domain.ItemSprintEsfuerzo, bool, error) {
+	if f.snapshots == nil {
+		return nil, false, nil
+	}
+	snapshot := f.snapshots[fmt.Sprintf("%s:%d", proyectoID, sprintNumero)]
+	if snapshot.err != nil {
+		return nil, false, snapshot.err
+	}
+	return append([]domain.ItemSprintEsfuerzo(nil), snapshot.items...), snapshot.disponible, nil
+}
+
 func nuevoFakeEsfuerzo() *fakeRepositorioEsfuerzo {
-	return &fakeRepositorioEsfuerzo{}
+	return &fakeRepositorioEsfuerzo{snapshots: map[string]snapshotEsfuerzoFake{}}
 }
 
 // El doble debe cumplir el contrato que define el consumidor (D32).

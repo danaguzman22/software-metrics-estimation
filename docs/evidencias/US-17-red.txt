@@ -1,0 +1,21 @@
+US-17 RED
+
+Worktree detached desde origin/develop, con únicamente los tests nuevos o
+modificados de US-17; no contiene código de producción ni la migración 00008.
+PostgreSQL 16 temporal en Docker; TEST_DATABASE_URL configurada.
+
+$ go test ./internal/service ./internal/domain ./internal/storage/postgres ./migrations -count=1 -v
+Resultado: exit code 1, esperado en RED.
+
+La compilación falló porque el código todavía no implementaba las APIs de
+métricas y estimaciones:
+- undefined: domain.ItemSprintEsfuerzo
+- undefined: domain.MetricasEsfuerzo
+- servicio.EstimarHoras undefined
+- undefined: domain.ValidarHorasEstimadas
+- undefined: domain.CalcularDesviacion
+- RepositorioEsfuerzo y postgres.Esfuerzo aún tenían la firma anterior de
+  Agregar, incompatible con la nueva atribución de Sprint.
+
+También falló TestUS17_MigracionMetricasEsfuerzo porque todavía no existía la
+migración 00008. Los tests previos de migraciones pasaron.

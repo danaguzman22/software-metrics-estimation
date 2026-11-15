@@ -13,7 +13,7 @@ import (
 // repositorioEsfuerzoUS14 es el contrato mínimo que el adaptador PostgreSQL de
 // esfuerzo debe cumplir para la suite de integración de US-14.
 type repositorioEsfuerzoUS14 interface {
-	Agregar(proyectoID string, itemNumero int, registro domain.RegistroEsfuerzo) error
+	Agregar(proyectoID string, itemNumero int, sprintNumero *int, registro domain.RegistroEsfuerzo) error
 }
 
 // nuevoRepositorioEsfuerzoUS14 instancia el adaptador PostgreSQL de esfuerzo.
@@ -38,7 +38,7 @@ func TestUS14_RepositorioEsfuerzo_Agregar(t *testing.T) {
 		Horas:      1.5,
 	}
 
-	if err := repo.Agregar("PRJ-001", numero, registro); err != nil {
+	if err := repo.Agregar("PRJ-001", numero, nil, registro); err != nil {
 		t.Fatalf("Agregar() devolvió un error inesperado: %v", err)
 	}
 
@@ -86,7 +86,7 @@ func TestUS14_RepositorioEsfuerzo_ItemInexistente(t *testing.T) {
 		Horas:      1.5,
 	}
 
-	if err := repo.Agregar("PRJ-001", numero+1, registro); err == nil {
+	if err := repo.Agregar("PRJ-001", numero+1, nil, registro); err == nil {
 		t.Fatal("Agregar() con una historia inexistente debía devolver un error")
 	}
 

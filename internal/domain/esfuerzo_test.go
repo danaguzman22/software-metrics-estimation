@@ -2,6 +2,7 @@ package domain_test
 
 import (
 	"errors"
+	"math"
 	"testing"
 	"time"
 
@@ -183,4 +184,64 @@ func TestUS14_ErroresEsfuerzo_SonSentinelasDistintas(t *testing.T) {
 			}
 		}
 	}
+
+}
+
+func TestUS17_ValidarHorasEstimadas(t *testing.T) {
+	casos := []struct {
+		nombre string
+		horas  float64
+		valida bool
+	}{
+		{nombre: "cero", horas: 0, valida: true},
+		{nombre: "decimal", horas: 1.25, valida: true},
+		{nombre: "horas mayores a un día", horas: 30, valida: true},
+		{nombre: "negativa", horas: -0.01},
+		{nombre: "más de dos decimales", horas: 1.234},
+		{nombre: "NaN", horas: math.NaN()},
+		{nombre: "infinito", horas: math.Inf(1)},
+		{nombre: "desborda al convertir a centésimos", horas: math.MaxFloat64},
+	}
+	for _, caso := range casos {
+		t.Run(caso.nombre, func(t *testing.T) {
+			err := domain.ValidarHorasEstimadas(caso.horas)
+			if caso.valida && err != nil {
+				t.Fatalf("ValidarHorasEstimadas(%v) devolvió error: %v", caso.horas, err)
+			}
+			if !caso.valida && !errors.Is(err, domain.ErrHorasEstimadasInvalidas) {
+				t.Fatalf("err = %v, se esperaba %v", err, domain.ErrHorasEstimadasInvalidas)
+			}
+		})
+	}
+}
+
+func TestUS17_CalcularDesviacion(t *testing.T) {
+	casos := []struct {
+		nombre    string
+		estimadas float64
+		reales    float64
+		esperada  *float64
+	}{
+		{nombre: "sobreestimación real", estimadas: 10, reales: 12, esperada: float64Puntero(20)},
+		{nombre: "subestimación real", estimadas: 10, reales: 8, esperada: float64Puntero(-20)},
+		{nombre: "estimación cero", estimadas: 0, reales: 2},
+	}
+	for _, caso := range casos {
+		t.Run(caso.nombre, func(t *testing.T) {
+			obtenida := domain.CalcularDesviacion(caso.estimadas, caso.reales)
+			if caso.esperada == nil {
+				if obtenida != nil {
+					t.Fatalf("desviación = %v, se esperaba nil", *obtenida)
+				}
+				return
+			}
+			if obtenida == nil || *obtenida != *caso.esperada {
+				t.Fatalf("desviación = %v, se esperaba %v", obtenida, *caso.esperada)
+			}
+		})
+	}
+}
+
+func float64Puntero(valor float64) *float64 {
+	return &valor
 }

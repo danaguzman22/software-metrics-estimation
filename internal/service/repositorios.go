@@ -61,5 +61,9 @@ type RepositorioBacklog interface {
 
 // RepositorioEsfuerzo persiste registros de esfuerzo asociados a historias.
 type RepositorioEsfuerzo interface {
-	Agregar(proyectoID string, itemNumero int, registro domain.RegistroEsfuerzo) error
+	Agregar(proyectoID string, itemNumero int, sprintNumero *int, registro domain.RegistroEsfuerzo) error
+	HorasRealesPorItem(proyectoID string, itemNumero int) (float64, error)
+	HorasRealesPorSprint(proyectoID string, sprintNumero int) (float64, error)
+	HorasRealesPorProyecto(proyectoID string) (float64, error)
+	SnapshotSprint(proyectoID string, sprintNumero int) ([]domain.ItemSprintEsfuerzo, bool, error)
 }

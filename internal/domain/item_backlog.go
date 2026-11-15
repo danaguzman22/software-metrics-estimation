@@ -18,13 +18,14 @@ var (
 // ItemBacklog representa un ítem del Product Backlog de un proyecto, con los
 // campos de CA1 (D10).
 type ItemBacklog struct {
-	ID          string
-	Titulo      string
-	Descripcion string
-	Prioridad   string
-	Estado      string
-	StoryPoints int
-	Criterios   []string
+	ID             string
+	Titulo         string
+	Descripcion    string
+	Prioridad      string
+	Estado         string
+	StoryPoints    int
+	HorasEstimadas *float64
+	Criterios      []string
 }
 
 // NuevoItemBacklog crea un ítem del backlog a partir de su título, descripción,

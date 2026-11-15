@@ -1,0 +1,14 @@
+US-17 REFACTOR
+
+$ go vet ./...
+Exit code: 0
+
+$ go build ./...
+Exit code: 0
+
+$ git diff --check
+Exit code: 0
+
+Se agregaron pruebas de propagación de errores para confirmar que los errores
+de dominio se conservan sin envolver y que los errores de infraestructura
+mantienen su causa mediante errors.Is.
