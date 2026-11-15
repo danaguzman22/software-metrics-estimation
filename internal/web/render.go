@@ -90,6 +90,7 @@ type datosPagina struct {
 	PorcentajeCompletadas float64
 	Mensaje               string
 	Error                 string
+	Poker                 *pokerVista
 }
 
 // vistas contiene las plantillas embebidas ya parseadas por página.
@@ -107,6 +108,7 @@ var paginas = []string{
 	"defectos",
 	"sprints",
 	"formulario-sprint",
+	"poker",
 	"error",
 }
 

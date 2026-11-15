@@ -1,0 +1,57 @@
+{{define "contenido"}}
+<h1>Planning Poker</h1>
+<p>Historia: {{.ItemID}}</p>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{with .Poker}}
+{{if .HayRonda}}
+<p>Ronda {{.RondaNumero}} — {{.Estado}}</p>
+{{if eq .Estado "Revelada"}}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Integrante</th>
+      <th>Voto</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Votos}}
+    <tr>
+      <td>{{.Integrante}}</td>
+      <td>{{.Valor}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+<form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas" class="en-linea">
+  <button type="submit">Nueva ronda</button>
+</form>
+{{else}}
+<p>{{if .YaVotaron}}Ya votaron: {{range $i, $n := .YaVotaron}}{{if $i}}, {{end}}{{$n}}{{end}}{{else}}Nadie votó todavía{{end}}</p>
+<p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+<form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas/{{.RondaNumero}}/votos">
+  <select name="integrante">
+    {{range .Integrantes}}<option value="{{.Nombre}}">{{.Nombre}}</option>
+    {{end}}
+  </select>
+  <select name="valor">
+    {{range .Valores}}<option value="{{.}}">{{.}}</option>
+    {{end}}
+  </select>
+  <button type="submit">Votar</button>
+</form>
+<form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas/{{.RondaNumero}}/revelar" class="en-linea">
+  <select name="integrante">
+    {{range .Integrantes}}<option value="{{.Nombre}}">{{.Nombre}}</option>
+    {{end}}
+  </select>
+  <button type="submit">Revelar</button>
+</form>
+{{end}}
+{{else}}
+<p>La historia todavía no tiene rondas</p>
+<form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas" class="en-linea">
+  <button type="submit">Iniciar ronda</button>
+</form>
+{{end}}
+{{end}}
+{{end}}
