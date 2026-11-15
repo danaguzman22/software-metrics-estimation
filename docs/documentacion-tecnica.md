@@ -38,6 +38,7 @@ Decisión registrada en [`adr/ADR-001-persistencia-postgresql.md`](adr/ADR-001-p
 | `00005_cierre_sprint.sql` | Estados Completada/Cerrado y Story Points planificados al cierre |
 | `00006_planning_poker.sql` | Rondas y votos de Planning Poker (una ronda abierta por historia) |
 | `00007_esfuerzo.sql` | Registros de esfuerzo (horas por integrante, fecha y actividad) |
+| `00008_metricas_esfuerzo.sql` | Horas estimadas por historia, Sprint de cada registro de esfuerzo y fotos de esfuerzo al cierre del Sprint |
 
 Los agregados de Sprint, asignaciones, esfuerzo y Planning Poker se persisten solo en PostgreSQL, como excepción documentada en las enmiendas (d) a (g) del ADR-001. Los tests de integración con PostgreSQL se omiten si no hay `TEST_DATABASE_URL`; en la evidencia GREEN de cada historia se ejecutan con una base real y sin tests omitidos.
 
@@ -61,13 +62,16 @@ Rutas principales:
 | `POST /proyectos/{id}/sprints/{numero}/asignar` | Asignar una historia al Sprint |
 | `POST .../sprints/{numero}/items/{itemID}/completar` | Marcar una historia como completada |
 | `POST .../sprints/{numero}/cerrar` | Cerrar el Sprint |
+| `GET /proyectos/{id}/sprints/historico` | Histórico de Sprints cerrados con Sprint Goal, SP planificados y completados y velocidad |
+| `GET /proyectos/{id}/backlog/{itemID}/poker` (+ `POST .../poker/rondas`, `.../rondas/{n}/votos`, `.../rondas/{n}/revelar`, `.../rondas/{n}/acordar`) | Planning Poker: rondas, votos ocultos, revelación, diferencias, historial y estimación acordada |
 
 ## 5. Reglas de negocio destacadas
 
 - **Un solo Sprint activo** por proyecto, garantizado por la lógica y por un índice parcial en la base.
 - **Cierre de Sprint** en una única transacción: guarda los Story Points planificados, marca el Sprint como Cerrado y devuelve al backlog las historias no completadas.
 - **Métricas**: Story Points planificados y completados por Sprint, velocidad del Sprint, velocidad promedio (solo Sprints cerrados; 0 si no hay) y porcentaje de historias completadas sobre todo el backlog. La web las muestra tal como las calcula el servicio, sin recalcular.
-- **Planning Poker**: un voto por integrante por ronda, cambiable mientras la ronda está abierta; con la ronda abierta el servicio solo informa quiénes votaron, nunca los valores; revelar es irreversible; una nueva ronda solo si la anterior fue revelada.
+- **Planning Poker**: un voto por integrante por ronda, cambiable mientras la ronda está abierta; con la ronda abierta solo se informa quiénes votaron, nunca los valores; revelar es irreversible. Con la ronda revelada se calculan las diferencias (mínimo, máximo y quién votó cada valor), se conserva el historial y se puede acordar una estimación, que se guarda como Story Points de la historia. Una nueva ronda solo se abre si la anterior fue revelada.
+- **Métricas de esfuerzo**: horas estimadas por historia, horas reales (suma de registros de esfuerzo) y desviación porcentual, sin división por cero; calculadas por historia, por Sprint y por proyecto.
 - **Esfuerzo**: horas de 0 a 24 con dos decimales, fecha no futura, integrante del proyecto e historia que no pertenezca a un Sprint cerrado.
 
 ## 6. Proceso de desarrollo y trazabilidad
@@ -90,6 +94,6 @@ Para los tests de integración completos ver la sección "Pruebas automatizadas"
 
 ## 8. Limitaciones conocidas
 
-- Planning Poker: votación oculta, revelación y nueva ronda implementadas con interfaz web (US-12); el consenso (diferencias entre votos y estimación acordada) es trabajo siguiente (US-13).
-- Registro de esfuerzo: servicio y persistencia sin interfaz web todavía.
+- Registro de esfuerzo y métricas de horas: servicio y persistencia implementados (US-14 y US-17), sin interfaz web todavía.
+- La interfaz web no permite cargar integrantes; para Planning Poker se cargan en la base (US-03 existe en el servicio).
 - Dashboard con gráficos, reportes y exportación a PDF: Sprints 3 y 4.

@@ -30,6 +30,7 @@ Abrí <http://localhost:8080>. Para detenerla: `docker compose down` (conserva l
 2. En la fila del Sprint, elegí una historia del backlog y **Asignar**. La columna **Story Points planificados** se actualiza.
 3. Durante el Sprint, en cada historia pendiente usá **Marcar completada**.
 4. Al terminar, **Cerrar Sprint**. Las historias que no se completaron **vuelven al backlog** y el Sprint queda cerrado con sus métricas.
+5. **Histórico de Sprints**: desde la pantalla de Sprints, el enlace "Histórico de Sprints" muestra los Sprints cerrados con su Sprint Goal, Story Points planificados y completados y velocidad. Si todavía no hay Sprints cerrados, indica que no hay ninguno.
 
 ## Planning Poker
 
@@ -38,6 +39,8 @@ Abrí <http://localhost:8080>. Para detenerla: `docker compose down` (conserva l
 3. Cada integrante elige su nombre y su voto (1, 2, 3, 5, 8, 13 o 21) y presiona **Votar**. Puede cambiar su voto mientras la ronda esté abierta. La pantalla solo muestra quiénes ya votaron, nunca los valores.
 4. Cualquier integrante del proyecto puede **Revelar**: se muestra la tabla con todos los votos. Es irreversible.
 5. Con **Nueva ronda** se vota otra vez sobre la misma historia.
+6. Con la ronda revelada, la pantalla muestra las **diferencias**: valor mínimo, máximo y quién votó cada uno, además del **historial** de rondas anteriores.
+7. **Acordar estimación**: elegí tu nombre y el valor acordado (de la serie 1, 2, 3, 5, 8, 13, 21). Se guarda como Story Points de la historia y se ve en el backlog. No se puede acordar si la ronda no fue revelada.
 
 ## 5. Métricas
 
