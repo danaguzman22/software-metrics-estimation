@@ -344,7 +344,7 @@ func TestUS13_Servicio_DiferenciasRonda_AbiertaDevuelveErrRondaNoRevelada(t *tes
 	if err != domain.ErrRondaNoRevelada {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrRondaNoRevelada)
 	}
-	if diferencia != (domain.DiferenciaPoker{}) {
+	if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 		t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 	}
 	if entorno.votosLlamadas != 0 {
@@ -366,7 +366,7 @@ func TestUS13_Servicio_DiferenciasRonda_ReveladaSinVotosDevuelveErrRondaSinVotos
 	if err != domain.ErrRondaSinVotos {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrRondaSinVotos)
 	}
-	if diferencia != (domain.DiferenciaPoker{}) {
+	if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 		t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 	}
 }
@@ -383,7 +383,7 @@ func TestUS13_Servicio_DiferenciasRonda_ProyectoNoEncontrado(t *testing.T) {
 	if err != domain.ErrProyectoNoEncontrado {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrProyectoNoEncontrado)
 	}
-	if diferencia != (domain.DiferenciaPoker{}) {
+	if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 		t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 	}
 	if entorno.fakeRepositorioBacklog.obtenerLlamadas != 0 || entorno.fakeRepositorioRondas.obtenerLlamadas != 0 {
@@ -404,7 +404,7 @@ func TestUS13_Servicio_DiferenciasRonda_HistoriaNoEncontrada(t *testing.T) {
 	if err != domain.ErrItemNoEncontrado {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrItemNoEncontrado)
 	}
-	if diferencia != (domain.DiferenciaPoker{}) {
+	if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 		t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 	}
 	if entorno.fakeRepositorioRondas.obtenerLlamadas != 0 {
@@ -427,7 +427,7 @@ func TestUS13_Servicio_DiferenciasRonda_NumeroRondaInvalido(t *testing.T) {
 			if err != domain.ErrNumeroRondaInvalido {
 				t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrNumeroRondaInvalido)
 			}
-			if diferencia != (domain.DiferenciaPoker{}) {
+			if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 				t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 			}
 			if entorno.fakeRepositorioRondas.obtenerLlamadas != 0 {
@@ -449,7 +449,7 @@ func TestUS13_Servicio_DiferenciasRonda_RondaNoEncontrada(t *testing.T) {
 	if err != domain.ErrRondaNoEncontrada {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrRondaNoEncontrada)
 	}
-	if diferencia != (domain.DiferenciaPoker{}) {
+	if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 		t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 	}
 }
@@ -484,7 +484,7 @@ func TestUS13_Servicio_DiferenciasRonda_ErrorDeRepositorioEnvuelto(t *testing.T)
 			if !strings.HasPrefix(err.Error(), "service:") {
 				t.Errorf("mensaje = %q, se esperaba el prefijo service:", err.Error())
 			}
-			if diferencia != (domain.DiferenciaPoker{}) {
+			if !reflect.DeepEqual(diferencia, domain.DiferenciaPoker{}) {
 				t.Errorf("diferencia = %+v, se esperaba domain.DiferenciaPoker{}", diferencia)
 			}
 		})
@@ -649,7 +649,7 @@ func TestUS13_Servicio_AcordarEstimacion_RondaAbiertaDevuelveErrRondaNoRevelada(
 	if err != domain.ErrRondaNoRevelada {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrRondaNoRevelada)
 	}
-	if historia != (domain.ItemBacklog{}) {
+	if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 		t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 	}
 	if len(estimador.llamadas) != 0 {
@@ -678,7 +678,7 @@ func TestUS13_Servicio_AcordarEstimacion_ValorFueraDeSerie(t *testing.T) {
 			if err != domain.ErrStoryPointsInvalidos {
 				t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrStoryPointsInvalidos)
 			}
-			if historia != (domain.ItemBacklog{}) {
+			if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 				t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 			}
 			if len(estimador.llamadas) != 0 {
@@ -706,7 +706,7 @@ func TestUS13_Servicio_AcordarEstimacion_IntegranteNoDelProyecto(t *testing.T) {
 	if err != domain.ErrIntegranteNoDelProyecto {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrIntegranteNoDelProyecto)
 	}
-	if historia != (domain.ItemBacklog{}) {
+	if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 		t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 	}
 	if len(estimador.llamadas) != 0 {
@@ -778,7 +778,7 @@ func TestUS13_Servicio_AcordarEstimacion_RondaNoEncontrada(t *testing.T) {
 	if err != domain.ErrRondaNoEncontrada {
 		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrRondaNoEncontrada)
 	}
-	if historia != (domain.ItemBacklog{}) {
+	if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 		t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 	}
 	if len(estimador.llamadas) != 0 {
@@ -977,7 +977,7 @@ func TestUS13_Servicio_AcordarEstimacion_ErrorDeRepositorioEnvuelto(t *testing.T
 			if !strings.HasPrefix(err.Error(), "service:") {
 				t.Errorf("mensaje = %q, se esperaba el prefijo service:", err.Error())
 			}
-			if historia != (domain.ItemBacklog{}) {
+			if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 				t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 			}
 			if len(estimador.llamadas) != 0 {
@@ -1004,7 +1004,7 @@ func TestUS13_Servicio_AcordarEstimacion_ErrorDelEstimador(t *testing.T) {
 		if !strings.HasPrefix(err.Error(), "service:") {
 			t.Errorf("mensaje = %q, se esperaba el prefijo service:", err.Error())
 		}
-		if historia != (domain.ItemBacklog{}) {
+		if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 			t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 		}
 	})
@@ -1018,7 +1018,7 @@ func TestUS13_Servicio_AcordarEstimacion_ErrorDelEstimador(t *testing.T) {
 		if err != domain.ErrItemNoEncontrado {
 			t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrItemNoEncontrado)
 		}
-		if historia != (domain.ItemBacklog{}) {
+		if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 			t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 		}
 	})
@@ -1046,7 +1046,7 @@ func TestUS13_ServicioPlanningPoker_AcordarEstimacionConstructorOriginal_ErrorDe
 		errors.Is(err, domain.ErrItemNoEncontrado) {
 		t.Errorf("err = %v, el error de configuración no debe mapear a un error de dominio", err)
 	}
-	if historia != (domain.ItemBacklog{}) {
+	if !reflect.DeepEqual(historia, domain.ItemBacklog{}) {
 		t.Errorf("historia = %+v, se esperaba domain.ItemBacklog{}", historia)
 	}
 	if obtenidos := historiaStoryPointsPoker(t, entorno, "p1", "HU-01"); obtenidos != storyPointsPrevios {
