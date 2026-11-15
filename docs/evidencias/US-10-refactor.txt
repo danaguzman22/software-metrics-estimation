@@ -1,0 +1,14 @@
+US-10 REFACTOR
+
+$ go vet ./...
+Exit code: 0
+
+$ go build ./...
+Exit code: 0
+
+$ git diff --check
+Exit code: 0
+
+El historial filtra Sprints cerrados en el servicio y reutiliza las consultas
+de métricas existentes. La capa web solo presenta los datos y conserva el
+orden que devuelve el repositorio.
