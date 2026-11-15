@@ -59,6 +59,7 @@ func TestUS22_Fase1_ServicioProyectos_Crear(t *testing.T) {
 			fechaInicio:   fechaUS02(2026, time.June, 30),
 			fechaFin:      fechaUS02(2026, time.March, 1),
 			errorEsperado: domain.ErrFechaFinAnteriorAInicio,
+			sinEnvolver:   true,
 		},
 	}
 
@@ -145,6 +146,9 @@ func TestUS22_Fase1_ServicioProyectos_Obtener(t *testing.T) {
 		}
 		if !errors.Is(err, domain.ErrProyectoNoEncontrado) {
 			t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
+		}
+		if err != domain.ErrProyectoNoEncontrado {
+			t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrProyectoNoEncontrado)
 		}
 		if obtenido.ID != "" || obtenido.Proyecto != (domain.Proyecto{}) {
 			t.Errorf("se esperaba ProyectoRegistrado{} ante un error, se obtuvo %+v", obtenido)
@@ -247,6 +251,9 @@ func TestUS22_Fase1_ServicioBacklog_ObtenerItemProyectoNoEncontrado(t *testing.T
 	}
 	if !errors.Is(err, domain.ErrProyectoNoEncontrado) {
 		t.Errorf("err = %v, se esperaba %v", err, domain.ErrProyectoNoEncontrado)
+	}
+	if err != domain.ErrProyectoNoEncontrado {
+		t.Errorf("err = %v, se esperaba exactamente %v sin envolver", err, domain.ErrProyectoNoEncontrado)
 	}
 	verificarItemBacklogVacio(t, obtenido)
 	if almacen.fakeRepositorioBacklog.obtenerLlamadas != 0 {

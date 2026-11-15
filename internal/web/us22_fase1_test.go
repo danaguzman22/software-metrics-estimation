@@ -355,6 +355,22 @@ func posicionUS22(t *testing.T, cuerpo, fragmento string) int {
 	return posicion
 }
 
+func filaProyectoUS22(t *testing.T, cuerpo, id string) string {
+	t.Helper()
+	marca := "<td>" + id + "</td>"
+	inicioID := strings.Index(cuerpo, marca)
+	if inicioID < 0 {
+		t.Fatalf("no se encontró la fila del proyecto %s; cuerpo:\n%s", id, cuerpo)
+	}
+	inicioFila := strings.LastIndex(cuerpo[:inicioID], "<tr>")
+	finRelativo := strings.Index(cuerpo[inicioID:], "</tr>")
+	if inicioFila < 0 || finRelativo < 0 {
+		t.Fatalf("no se pudo delimitar la fila del proyecto %s", id)
+	}
+	finFila := inicioID + finRelativo + len("</tr>")
+	return cuerpo[inicioFila:finFila]
+}
+
 func exigirRedireccionUS22(t *testing.T, rec *httptest.ResponseRecorder, destino string) {
 	t.Helper()
 	exigirEstadoUS22(t, rec, http.StatusSeeOther)
@@ -382,24 +398,30 @@ func TestUS22_Fase1_NavegacionEnTodasLasPaginas(t *testing.T) {
 	proyectos, backlog := nuevoEntornoUS22(
 		registroProyectoUS22("PRJ-001", "Sistema de Métricas", fechaUS22(2026, time.March, 1), fechaUS22(2026, time.June, 30)),
 	)
+	backlog.agregarItem("PRJ-001", itemUS22("HU-01", "Iniciar sesión", "Media", "Pendiente", 3))
 	handler := nuevoHandlerUS22(t, proyectos, backlog)
 
 	casos := []struct {
 		ruta    string
+		estado  int
 		leyenda bool
 	}{
-		{ruta: "/", leyenda: true},
-		{ruta: "/proyectos", leyenda: true},
-		{ruta: "/proyectos/PRJ-001", leyenda: false},
-		{ruta: "/proyectos/PRJ-001/backlog", leyenda: false},
-		{ruta: "/proyectos/PRJ-001/sprints", leyenda: false},
-		{ruta: "/defectos", leyenda: false},
+		{ruta: "/", estado: http.StatusOK, leyenda: true},
+		{ruta: "/proyectos", estado: http.StatusOK, leyenda: true},
+		{ruta: "/proyectos/nuevo", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-001", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-001/backlog", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-001/backlog/nuevo", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-001/backlog/HU-01/editar", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-001/sprints", estado: http.StatusOK, leyenda: false},
+		{ruta: "/defectos", estado: http.StatusOK, leyenda: false},
+		{ruta: "/proyectos/PRJ-999", estado: http.StatusNotFound, leyenda: false},
 	}
 
 	for _, caso := range casos {
 		t.Run(caso.ruta, func(t *testing.T) {
 			rec := solicitarUS22(handler, http.MethodGet, caso.ruta, nil)
-			exigirEstadoUS22(t, rec, http.StatusOK)
+			exigirEstadoUS22(t, rec, caso.estado)
 			exigirCuerpoContieneUS22(t, rec, "Proyectos", "Backlog", "Sprints", "Defectos")
 
 			cuerpo := rec.Body.String()
@@ -471,6 +493,7 @@ func TestUS22_Fase1_Proyectos_Listar(t *testing.T) {
 	proyectos, backlog := nuevoEntornoUS22(
 		registroProyectoUS22("PRJ-001", "Sistema de Métricas", fechaUS22(2026, time.March, 1), fechaUS22(2026, time.June, 30)),
 		registroProyectoUS22("PRJ-002", "Portal de Clientes", fechaUS22(2026, time.April, 15), fechaUS22(2026, time.August, 31)),
+		registroProyectoUS22("PRJ-003", "Sistema legado", fechaUS22(2025, time.January, 1), fechaUS22(2025, time.December, 31)),
 	)
 	handler := nuevoHandlerUS22(t, proyectos, backlog)
 
@@ -479,12 +502,24 @@ func TestUS22_Fase1_Proyectos_Listar(t *testing.T) {
 	exigirCuerpoContieneUS22(t, rec,
 		"PRJ-001", "Sistema de Métricas", "2026-03-01", "2026-06-30",
 		"PRJ-002", "Portal de Clientes", "2026-04-15", "2026-08-31",
-		"Planificado",
+		"PRJ-003", "Sistema legado", "2025-01-01", "2025-12-31",
+		"Planificado", "Finalizado",
 	)
 
 	cuerpo := rec.Body.String()
+	filaPlanificado := filaProyectoUS22(t, cuerpo, "PRJ-001")
+	if !strings.Contains(filaPlanificado, "Planificado") {
+		t.Errorf("la fila de PRJ-001 debería mostrar el estado Planificado; fila: %s", filaPlanificado)
+	}
+	filaFinalizado := filaProyectoUS22(t, cuerpo, "PRJ-003")
+	if !strings.Contains(filaFinalizado, "Finalizado") {
+		t.Errorf("la fila de PRJ-003 debería mostrar el estado Finalizado; fila: %s", filaFinalizado)
+	}
 	if posicionUS22(t, cuerpo, "Sistema de Métricas") > posicionUS22(t, cuerpo, "Portal de Clientes") {
 		t.Error("Sistema de Métricas debería aparecer antes que Portal de Clientes")
+	}
+	if posicionUS22(t, cuerpo, "Portal de Clientes") > posicionUS22(t, cuerpo, "Sistema legado") {
+		t.Error("Portal de Clientes debería aparecer antes que Sistema legado")
 	}
 }
 
@@ -678,6 +713,7 @@ func TestUS22_Fase1_Backlog_Editar(t *testing.T) {
 	})
 
 	t.Run("edición válida", func(t *testing.T) {
+		antes := backlog.editarLlamadas
 		rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/backlog/HU-01/editar", url.Values{
 			"titulo":      {"Iniciar sesión con correo"},
 			"descripcion": {"Iniciar sesión con correo electrónico"},
@@ -687,18 +723,55 @@ func TestUS22_Fase1_Backlog_Editar(t *testing.T) {
 		})
 		exigirRedireccionUS22(t, rec, "/proyectos/PRJ-001/backlog")
 
-		if backlog.editarLlamadas != 1 {
-			t.Fatalf("EditarItem se llamó %d veces, se esperaba 1", backlog.editarLlamadas)
+		if backlog.editarLlamadas != antes+1 {
+			t.Fatalf("EditarItem se llamó %d veces, se esperaba %d", backlog.editarLlamadas, antes+1)
 		}
 		llamada := backlog.ultimaEdicion
+		if llamada.proyectoID != "PRJ-001" {
+			t.Errorf("proyectoID = %q, se esperaba %q", llamada.proyectoID, "PRJ-001")
+		}
 		if llamada.itemID != "HU-01" {
 			t.Errorf("itemID = %q, se esperaba %q", llamada.itemID, "HU-01")
 		}
 		if llamada.titulo != "Iniciar sesión con correo" {
 			t.Errorf("titulo = %q, se esperaba %q", llamada.titulo, "Iniciar sesión con correo")
 		}
+		if llamada.descripcion != "Iniciar sesión con correo electrónico" {
+			t.Errorf("descripcion = %q, se esperaba %q", llamada.descripcion, "Iniciar sesión con correo electrónico")
+		}
+		if llamada.prioridad != "Media" {
+			t.Errorf("prioridad = %q, se esperaba %q", llamada.prioridad, "Media")
+		}
+		esperados := []string{"El correo debe ser válido"}
+		if len(llamada.criterios) != len(esperados) {
+			t.Fatalf("criterios = %#v, se esperaban %#v", llamada.criterios, esperados)
+		}
+		for i := range esperados {
+			if llamada.criterios[i] != esperados[i] {
+				t.Errorf("criterios[%d] = %q, se esperaba %q", i, llamada.criterios[i], esperados[i])
+			}
+		}
 		if llamada.storyPoints != 3 {
 			t.Errorf("storyPoints = %d, se esperaba 3", llamada.storyPoints)
+		}
+	})
+
+	t.Run("story points vacío llega como cero", func(t *testing.T) {
+		antes := backlog.editarLlamadas
+		rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/backlog/HU-01/editar", url.Values{
+			"titulo":      {"Iniciar sesión con correo"},
+			"descripcion": {"Iniciar sesión con correo electrónico"},
+			"prioridad":   {"Media"},
+			"criterios":   {"El correo debe ser válido"},
+			"storyPoints": {""},
+		})
+		exigirRedireccionUS22(t, rec, "/proyectos/PRJ-001/backlog")
+
+		if backlog.editarLlamadas != antes+1 {
+			t.Fatalf("EditarItem se llamó %d veces, se esperaba %d", backlog.editarLlamadas, antes+1)
+		}
+		if backlog.ultimaEdicion.storyPoints != 0 {
+			t.Errorf("storyPoints = %d, se esperaba 0", backlog.ultimaEdicion.storyPoints)
 		}
 	})
 }
