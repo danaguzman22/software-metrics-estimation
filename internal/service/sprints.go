@@ -124,6 +124,23 @@ func (s *ServicioSprints) ListarSprints(proyectoID string) ([]domain.Sprint, err
 	return sprints, nil
 }
 
+// ListarSprintsCerrados devuelve los Sprints cerrados del proyecto, conservando
+// el orden ascendente provisto por el repositorio.
+func (s *ServicioSprints) ListarSprintsCerrados(proyectoID string) ([]domain.Sprint, error) {
+	sprints, err := s.ListarSprints(proyectoID)
+	if err != nil {
+		return nil, err
+	}
+
+	cerrados := make([]domain.Sprint, 0, len(sprints))
+	for _, sprint := range sprints {
+		if sprint.Estado == domain.EstadoSprintCerrado {
+			cerrados = append(cerrados, sprint)
+		}
+	}
+	return cerrados, nil
+}
+
 // CerrarSprint cierra el Sprint y conserva el total de Story Points
 // planificados antes de retirar las asignaciones no completadas.
 func (s *ServicioSprints) CerrarSprint(proyectoID string, sprintNumero int) error {

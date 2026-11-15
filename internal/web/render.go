@@ -108,6 +108,7 @@ var paginas = []string{
 	"defectos",
 	"sprints",
 	"formulario-sprint",
+	"sprints-historicos",
 	"poker",
 	"error",
 }
