@@ -225,6 +225,20 @@ func (s *ServicioPlanningPoker) RevelarRonda(proyectoID, itemID string, rondaNum
 	return nil
 }
 
+// HistoriaActual devuelve la historia del flujo proyecto → historia (D36),
+// para que la página de poker informe los Story Points vigentes sin
+// recalcularlos. Orden de evaluación: proyecto, historia.
+func (s *ServicioPlanningPoker) HistoriaActual(proyectoID, itemID string) (domain.ItemBacklog, error) {
+	if err := s.verificarProyecto(proyectoID); err != nil {
+		return domain.ItemBacklog{}, err
+	}
+	historia, err := s.backlog.ObtenerItem(proyectoID, itemID)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("obtener ítem del backlog", err)
+	}
+	return historia, nil
+}
+
 // RondaActual devuelve la ronda de mayor número de la historia.
 // bool = false si la historia no tiene rondas.
 func (s *ServicioPlanningPoker) RondaActual(proyectoID, itemID string) (domain.RondaPoker, bool, error) {

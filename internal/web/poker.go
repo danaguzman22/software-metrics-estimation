@@ -14,7 +14,9 @@ import (
 var valoresPokerVoto = []int{1, 2, 3, 5, 8, 13, 21}
 
 // pokerVista es la representación de la página de Planning Poker lista para
-// renderizar. Con la ronda Abierta, Votos queda nil (R33).
+// renderizar. Con la ronda Abierta, Votos queda nil (R33). Diferencias solo se
+// completa con la ronda Revelada (D31); Historial siempre que haya rondas
+// (D32); StoryPointsActuales lo devuelve el servicio (D36).
 type pokerVista struct {
 	HayRonda    bool
 	RondaNumero int
@@ -23,6 +25,10 @@ type pokerVista struct {
 	Votos       []domain.VotoPoker
 	Integrantes []domain.Integrante
 	Valores     []int
+	Diferencia          *domain.DiferenciaPoker
+	DiferenciasSinVotos bool
+	Historial           []domain.RondaHistorialPoker
+	StoryPointsActuales int
 }
 
 // paginaPoker muestra la ronda actual de la historia (la de mayor número) o,
@@ -122,6 +128,42 @@ func (a *aplicacion) revelarPoker(w http.ResponseWriter, r *http.Request) {
 	redirigirPoker(w, id, itemID)
 }
 
+// acordarPoker delega el acuerdo en el servicio y redirige a la página con
+// 303 (D28). El valor no numérico se rechaza con 422 sin llamar al servicio.
+func (a *aplicacion) acordarPoker(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	itemID := r.PathValue("itemID")
+	if _, ok := domain.NumeroDeItem(itemID); !ok {
+		a.responderErrorRuta(w, id, "El ID de la historia debe tener el formato HU-NN")
+		return
+	}
+
+	numero, err := parsearEntero(strings.TrimSpace(r.PathValue("numero")), "El número de la ronda debe ser un número entero")
+	if err != nil {
+		a.responderErrorRuta(w, id, err.Error())
+		return
+	}
+
+	if err := r.ParseForm(); err != nil {
+		a.responderErrorRuta(w, id, "No se pudo leer el formulario.")
+		return
+	}
+
+	valor, err := parsearEntero(strings.TrimSpace(r.PostFormValue("valor")), "El valor acordado debe ser un número entero")
+	if err != nil {
+		a.responderErrorRuta(w, id, err.Error())
+		return
+	}
+
+	integrante := r.PostFormValue("integrante")
+	if _, err := a.deps.Poker.AcordarEstimacion(id, itemID, numero, integrante, valor); err != nil {
+		a.responderErrorPokerPost(w, id, itemID, "acordar estimación en poker", err)
+		return
+	}
+
+	redirigirPoker(w, id, itemID)
+}
+
 // redirigirPoker responde 303 a la propia página del poker (D25).
 func redirigirPoker(w http.ResponseWriter, proyectoID, itemID string) {
 	w.Header().Set("Location", "/proyectos/"+proyectoID+"/backlog/"+itemID+"/poker")
@@ -130,7 +172,9 @@ func redirigirPoker(w http.ResponseWriter, proyectoID, itemID string) {
 
 // renderizarPoker muestra la página de poker con la ronda actual (si la hay) y
 // un mensaje opcional. Con la ronda Abierta lista solo los nombres de quienes
-// votaron; con la Revelada incluye los votos con sus valores (R33).
+// votaron; con la Revelada incluye los votos con sus valores (R33), las
+// diferencias y el formulario de acuerdo. Siempre informa los Story Points
+// vigentes y, con rondas, el historial (D31, D32, D33, D36).
 func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID string, estado int, mensaje string) {
 	ronda, existe, err := a.deps.Poker.RondaActual(proyectoID, itemID)
 	if err != nil {
@@ -138,7 +182,13 @@ func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID s
 		return
 	}
 
-	vista := pokerVista{}
+	historia, err := a.deps.Poker.HistoriaActual(proyectoID, itemID)
+	if err != nil {
+		a.responderErrorPoker(w, proyectoID, err)
+		return
+	}
+
+	vista := pokerVista{StoryPointsActuales: historia.StoryPoints}
 	if existe {
 		consulta, err := a.deps.Poker.ConsultarRonda(proyectoID, itemID, ronda.Numero)
 		if err != nil {
@@ -148,17 +198,37 @@ func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID s
 		vista.HayRonda = true
 		vista.RondaNumero = ronda.Numero
 		vista.Estado = ronda.Estado
+
+		historial, err := a.deps.Poker.HistorialRondas(proyectoID, itemID)
+		if err != nil {
+			a.responderErrorPoker(w, proyectoID, err)
+			return
+		}
+		vista.Historial = historial
+
+		integrantes, err := a.deps.Proyectos.ListarIntegrantes(proyectoID)
+		if err != nil {
+			a.responderErrorPoker(w, proyectoID, err)
+			return
+		}
+		vista.Integrantes = integrantes
+		vista.Valores = valoresPokerVoto
+
 		if ronda.Estado == domain.EstadoRondaRevelada {
 			vista.Votos = consulta.Votos
-		} else {
-			vista.YaVotaron = consulta.YaVotaron
-			integrantes, err := a.deps.Proyectos.ListarIntegrantes(proyectoID)
-			if err != nil {
+			diferencia, err := a.deps.Poker.DiferenciasRonda(proyectoID, itemID, ronda.Numero)
+			switch {
+			case err == nil:
+				vista.Diferencia = &diferencia
+			case errors.Is(err, domain.ErrRondaSinVotos):
+				vista.DiferenciasSinVotos = true
+			case errors.Is(err, domain.ErrRondaNoRevelada):
+			default:
 				a.responderErrorPoker(w, proyectoID, err)
 				return
 			}
-			vista.Integrantes = integrantes
-			vista.Valores = valoresPokerVoto
+		} else {
+			vista.YaVotaron = consulta.YaVotaron
 		}
 	}
 
@@ -212,6 +282,8 @@ func (a *aplicacion) responderErrorPokerPost(w http.ResponseWriter, proyectoID, 
 		a.responderErrorPoker(w, proyectoID, err)
 	case errors.Is(err, domain.ErrRondaRevelada),
 		errors.Is(err, domain.ErrRondaAbiertaExistente),
+		errors.Is(err, domain.ErrRondaNoRevelada),
+		errors.Is(err, domain.ErrStoryPointsInvalidos),
 		errors.Is(err, domain.ErrIntegranteNoDelProyecto),
 		errors.Is(err, domain.ErrValorVotoPokerInvalido),
 		errors.Is(err, domain.ErrNombreIntegranteVacio),

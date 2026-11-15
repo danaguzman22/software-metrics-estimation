@@ -3,6 +3,7 @@
 <p>Historia: {{.ItemID}}</p>
 {{if .Error}}<p class="error">{{.Error}}</p>{{end}}
 {{with .Poker}}
+<p>{{if gt .StoryPointsActuales 0}}Story Points actuales: {{.StoryPointsActuales}}{{else}}Sin estimar{{end}}</p>
 {{if .HayRonda}}
 <p>Ronda {{.RondaNumero}} — {{.Estado}}</p>
 {{if eq .Estado "Revelada"}}
@@ -22,8 +23,30 @@
     {{end}}
   </tbody>
 </table>
+<h2>Diferencias</h2>
+{{if .DiferenciasSinVotos}}
+<p>La ronda no tiene votos</p>
+{{else if .Diferencia}}
+{{if .Diferencia.HayDiferencia}}
+<p>Hay diferencia: mínimo {{.Diferencia.Minimo}} ({{range $i, $n := .Diferencia.QuienesMinimo}}{{if $i}}, {{end}}{{$n}}{{end}}), máximo {{.Diferencia.Maximo}} ({{range $i, $n := .Diferencia.QuienesMaximo}}{{if $i}}, {{end}}{{$n}}{{end}})</p>
+{{else}}
+<p>No hay diferencia: todos votaron {{.Diferencia.Minimo}}</p>
+{{end}}
+{{end}}
 <form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas" class="en-linea">
   <button type="submit">Nueva ronda</button>
+</form>
+<h2>Acordar estimación</h2>
+<form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{$.ItemID}}/poker/rondas/{{.RondaNumero}}/acordar" class="en-linea">
+  <select name="integrante">
+    {{range .Integrantes}}<option value="{{.Nombre}}">{{.Nombre}}</option>
+    {{end}}
+  </select>
+  <select name="valor">
+    {{range .Valores}}<option value="{{.}}">{{.}}</option>
+    {{end}}
+  </select>
+  <button type="submit">Acordar estimación</button>
 </form>
 {{else}}
 <p>{{if .YaVotaron}}Ya votaron: {{range $i, $n := .YaVotaron}}{{if $i}}, {{end}}{{$n}}{{end}}{{else}}Nadie votó todavía{{end}}</p>
@@ -46,6 +69,27 @@
   </select>
   <button type="submit">Revelar</button>
 </form>
+{{end}}
+{{with .Historial}}
+<h2>Historial</h2>
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Ronda</th>
+      <th>Estado</th>
+      <th>Votos</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .}}
+    <tr>
+      <td>{{.Ronda.Numero}}</td>
+      <td>{{.Ronda.Estado}}</td>
+      <td>{{if eq .Ronda.Estado "Revelada"}}{{if .Votos}}{{range $i, $v := .Votos}}{{if $i}}, {{end}}{{$v.Integrante}}: {{$v.Valor}}{{end}}{{else}}sin votos{{end}}{{else}}votos ocultos{{end}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
 {{end}}
 {{else}}
 <p>La historia todavía no tiene rondas</p>
