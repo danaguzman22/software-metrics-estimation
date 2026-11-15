@@ -9,7 +9,9 @@
 # (D18). El mensaje de ErrRondaNoRevelada es "la ronda aún no fue revelada".
 # El orden de evaluación al acordar es: proyecto, historia,
 # integrante del proyecto, ronda, estado, valor. Con la ronda Abierta no se
-# informan diferencias ni valores (privacidad de US-12). La implementación usa
+# informan diferencias ni los valores de esa ronda (la privacidad de US-12 se
+# mantiene para la ronda actual); el historial de rondas ya reveladas se muestra
+# siempre (D29). La implementación usa
 # provisionalmente los servicios DiferenciasRonda, HistorialRondas y
 # AcordarEstimacion, el constructor NuevoServicioPlanningPokerConEstimador
 # (US-13) y reutiliza el caso de uso de estimar de US-11 (detalle en
@@ -338,7 +340,7 @@ Característica: Planning Poker: diferencias, nuevas rondas y estimación acorda
     Y la página informa que el valor máximo es 13 y lo votó "Vicky"
 
   @CA1 @Fase2
-  Escenario: Con la ronda abierta la página no muestra las diferencias ni los valores del historial
+  Escenario: Con la ronda abierta la página no muestra las diferencias ni los valores de esa ronda
     Dado un proyecto existente identificado por "p1", con nombre "Sistema de Métricas"
     Y que el proyecto "p1" tiene la integrante "Ana" con rol "Product Owner"
     Y que el proyecto "p1" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 0 Story Points
@@ -346,7 +348,7 @@ Característica: Planning Poker: diferencias, nuevas rondas y estimación acorda
     Y que la integrante "Ana" vota 5 en la ronda número 1 de la historia "HU-01" del proyecto "p1"
     Cuando se visita la página de poker de la historia "HU-01" del proyecto "p1"
     Entonces la página no informa diferencias
-    Y la página no informa los valores de los votos
+    Y la página no informa los valores de los votos de la ronda actual
 
   @CA2 @Fase2
   Escenario: El historial lista las rondas reveladas con sus votos y las abiertas como votos ocultos

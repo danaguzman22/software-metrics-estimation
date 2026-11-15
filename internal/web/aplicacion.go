@@ -42,6 +42,10 @@ type ServicioPokerWeb interface {
 	RevelarRonda(proyectoID, itemID string, rondaNumero int, integranteNombre string) error
 	ConsultarRonda(proyectoID, itemID string, rondaNumero int) (domain.ConsultaRondaPoker, error)
 	RondaActual(proyectoID, itemID string) (domain.RondaPoker, bool, error)
+	DiferenciasRonda(proyectoID, itemID string, rondaNumero int) (domain.DiferenciaPoker, error)
+	HistorialRondas(proyectoID, itemID string) ([]domain.RondaHistorialPoker, error)
+	AcordarEstimacion(proyectoID, itemID string, rondaNumero int, integranteNombre string, valor int) (domain.ItemBacklog, error)
+	HistoriaActual(proyectoID, itemID string) (domain.ItemBacklog, error)
 }
 
 // ServicioSprintsWeb es el contrato de consumidor de Sprints de la web.
@@ -119,6 +123,7 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas", app.iniciarRondaPoker)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/votos", app.votarPoker)
 	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/revelar", app.revelarPoker)
+	mux.HandleFunc("POST /proyectos/{id}/backlog/{itemID}/poker/rondas/{numero}/acordar", app.acordarPoker)
 	mux.HandleFunc("GET /defectos", app.defectos)
 
 	return mux

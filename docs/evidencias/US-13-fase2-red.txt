@@ -1,0 +1,2190 @@
+US-13 FASE 2 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us13_fase2_test.go:19:28: servicio.HistoriaActual undefined (type *ServicioPlanningPoker has no field or method HistoriaActual)
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us13_fase2_test.go:19:28: servicio.HistoriaActual undefined (type *ServicioPlanningPoker has no field or method HistoriaActual)
+internal/service/us13_fase2_test.go:45:28: servicio.HistoriaActual undefined (type *ServicioPlanningPoker has no field or method HistoriaActual)
+internal/service/us13_fase2_test.go:66:28: servicio.HistoriaActual undefined (type *ServicioPlanningPoker has no field or method HistoriaActual)
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.153s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.018s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.045s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.224s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	7.317s
+2026/11/15 17:34:59 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/15 17:34:59 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/15 17:34:59 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/15 17:34:59 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/15 17:34:59 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/15 17:34:59 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+--- FAIL: TestUS13_Fase2_Poker_DiferenciasVisiblesTrasRevelar (0.00s)
+    us13_fase2_test.go:229: el cuerpo no contiene "Diferencias"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:229: el cuerpo no contiene "Hay diferencia"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:229: el cuerpo no contiene "mínimo"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:229: el cuerpo no contiene "máximo"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:232: el cuerpo no contiene "Historial"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:232: el cuerpo no contiene "Ana: 5"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:232: el cuerpo no contiene "Beto: 8"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "action=\"/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "Acordar estimación"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "name=\"integrante\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "name=\"valor\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"1\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"2\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"3\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"5\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"8\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"13\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:235: el cuerpo no contiene "value=\"21\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Ana</td>
+              <td>5</td>
+            </tr>
+            
+            <tr>
+              <td>Beto</td>
+              <td>8</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:242: DiferenciasRonda se llamó 0 veces, se esperaba 1
+    us13_fase2_test.go:245: DiferenciasRonda recibió el número 0, se esperaba 1
+    us13_fase2_test.go:248: HistorialRondas se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS13_Fase2_Poker_AbiertaSinDiferenciasNiValores (0.00s)
+    us13_fase2_test.go:280: el cuerpo no contiene "votos ocultos"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 2 — Abierta</p>
+        
+        <p>Ya votaron: Ana</p>
+        <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <select name="valor">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="13">13</option>
+            <option value="21">21</option>
+            
+          </select>
+          <button type="submit">Votar</button>
+        </form>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <button type="submit">Revelar</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:280: el cuerpo no contiene "Ana: 5"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 2 — Abierta</p>
+        
+        <p>Ya votaron: Ana</p>
+        <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <select name="valor">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="13">13</option>
+            <option value="21">21</option>
+            
+          </select>
+          <button type="submit">Votar</button>
+        </form>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <button type="submit">Revelar</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:280: el cuerpo no contiene "Vicky: 8"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 2 — Abierta</p>
+        
+        <p>Ya votaron: Ana</p>
+        <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <select name="valor">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="13">13</option>
+            <option value="21">21</option>
+            
+          </select>
+          <button type="submit">Votar</button>
+        </form>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+          <select name="integrante">
+            <option value="Ana">Ana</option>
+            <option value="Beto">Beto</option>
+            <option value="Caro">Caro</option>
+            
+          </select>
+          <button type="submit">Revelar</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS13_Fase2_Poker_HistorialVisible (0.00s)
+    --- FAIL: TestUS13_Fase2_Poker_HistorialVisible/con_ronda_actual_Revelada (0.00s)
+        us13_fase2_test.go:312: el cuerpo no contiene "Historial"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:312: el cuerpo no contiene "Estado"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:312: el cuerpo no contiene "Votos"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:312: el cuerpo no contiene "Ana: 5"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:312: el cuerpo no contiene "Vicky: 8"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:312: el cuerpo no contiene "Caro: 13"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>Caro</td>
+                  <td>13</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:317: HistorialRondas se llamó 0 veces, se esperaba 1
+    --- FAIL: TestUS13_Fase2_Poker_HistorialVisible/ronda_actual_Abierta_muestra_votos_ocultos_en_el_historial (0.00s)
+        us13_fase2_test.go:342: el cuerpo no contiene "Historial"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Abierta</p>
+            
+            <p>Ya votaron: Ana</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:342: el cuerpo no contiene "Ana: 5"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Abierta</p>
+            
+            <p>Ya votaron: Ana</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:342: el cuerpo no contiene "Vicky: 8"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Abierta</p>
+            
+            <p>Ya votaron: Ana</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        us13_fase2_test.go:342: el cuerpo no contiene "votos ocultos"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 2 — Abierta</p>
+            
+            <p>Ya votaron: Ana</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/votos">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/2/revelar" class="en-linea">
+              <select name="integrante">
+                <option value="Ana">Ana</option>
+                <option value="Beto">Beto</option>
+                <option value="Caro">Caro</option>
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS13_Fase2_Poker_AcordarRedirige303 (0.00s)
+    us13_fase2_test.go:357: código = 404, se esperaba 303; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_ReAcordarReemplazaStoryPoints (0.00s)
+    us13_fase2_test.go:380: código = 404, se esperaba 303; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_BacklogMuestraStoryPointsTrasAcordar (0.00s)
+    us13_fase2_test.go:421: código = 404, se esperaba 303; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_AcordarEnRondaAbierta422 (0.00s)
+    us13_fase2_test.go:445: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_AcordarValorFueraSerie422 (0.00s)
+    us13_fase2_test.go:463: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_AcordarErroresDeDominio422 (0.00s)
+    --- FAIL: TestUS13_Fase2_Poker_AcordarErroresDeDominio422/integrante_no_del_proyecto (0.00s)
+        us13_fase2_test.go:492: código = 404, se esperaba 422; cuerpo:
+            404 page not found
+    --- FAIL: TestUS13_Fase2_Poker_AcordarErroresDeDominio422/nombre_de_integrante_vacío (0.00s)
+        us13_fase2_test.go:492: código = 404, se esperaba 422; cuerpo:
+            404 page not found
+    --- FAIL: TestUS13_Fase2_Poker_AcordarErroresDeDominio422/número_de_ronda_inválido (0.00s)
+        us13_fase2_test.go:492: código = 404, se esperaba 422; cuerpo:
+            404 page not found
+--- FAIL: TestUS13_Fase2_Poker_AcordarInexistente404 (0.00s)
+    --- FAIL: TestUS13_Fase2_Poker_AcordarInexistente404/proyecto (0.00s)
+        us13_fase2_test.go:524: el cuerpo no contiene "no se encontró el proyecto"; cuerpo:
+            404 page not found
+        us13_fase2_test.go:527: AcordarEstimacion se llamó 0 veces, se esperaba 1
+    --- FAIL: TestUS13_Fase2_Poker_AcordarInexistente404/historia (0.00s)
+        us13_fase2_test.go:524: el cuerpo no contiene "el ítem no existe en el proyecto"; cuerpo:
+            404 page not found
+        us13_fase2_test.go:527: AcordarEstimacion se llamó 0 veces, se esperaba 1
+    --- FAIL: TestUS13_Fase2_Poker_AcordarInexistente404/ronda (0.00s)
+        us13_fase2_test.go:524: el cuerpo no contiene "la ronda no existe para la historia"; cuerpo:
+            404 page not found
+        us13_fase2_test.go:527: AcordarEstimacion se llamó 0 veces, se esperaba 1
+--- FAIL: TestUS13_Fase2_Poker_ErrorInfraestructura500 (0.00s)
+    --- FAIL: TestUS13_Fase2_Poker_ErrorInfraestructura500/página_(DiferenciasRonda) (0.00s)
+        us13_fase2_test.go:570: código = 200, se esperaba 500; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS13_Fase2_Poker_ErrorInfraestructura500/página_(HistorialRondas) (0.00s)
+        us13_fase2_test.go:570: código = 200, se esperaba 500; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS13_Fase2_Poker_ErrorInfraestructura500/acordar (0.00s)
+        us13_fase2_test.go:570: código = 404, se esperaba 500; cuerpo:
+            404 page not found
+--- FAIL: TestUS13_Fase2_Poker_NumeroRutaNoNumerico422 (0.00s)
+    us13_fase2_test.go:585: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_ItemIDFormatoInvalido422 (0.00s)
+    us13_fase2_test.go:601: código = 404, se esperaba 422; cuerpo:
+        404 page not found
+--- FAIL: TestUS13_Fase2_Poker_MetodoNoPermitido405 (0.00s)
+    --- FAIL: TestUS13_Fase2_Poker_MetodoNoPermitido405/GET (0.00s)
+        us13_fase2_test.go:626: código = 404, se esperaba 405; cuerpo:
+            404 page not found
+    --- FAIL: TestUS13_Fase2_Poker_MetodoNoPermitido405/DELETE (0.00s)
+        us13_fase2_test.go:626: código = 404, se esperaba 405; cuerpo:
+            404 page not found
+--- FAIL: TestUS13_Fase2_Poker_DiferenciasRondaSinVotos (0.00s)
+    us13_fase2_test.go:652: el cuerpo no contiene "La ronda no tiene votos"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:654: el cuerpo no contiene "action=\"/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us13_fase2_test.go:654: el cuerpo no contiene "Acordar estimación"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        
+        <p>Ronda 1 — Revelada</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Integrante</th>
+              <th>Voto</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Nueva ronda</button>
+        </form>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+2026/11/15 17:34:59 web: listar proyectos: detalle interno: conexión caída
+2026/11/15 17:34:59 web: crear proyecto: detalle interno: conexión caída
+2026/11/15 17:35:00 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/15 17:35:00 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/15 17:35:00 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	2.666s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.006s
+FAIL
+Exit code: 1
