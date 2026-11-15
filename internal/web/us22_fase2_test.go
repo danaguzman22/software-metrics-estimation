@@ -535,3 +535,73 @@ func TestUS22_Fase2_Sprints_FormularioAsignacion(t *testing.T) {
 		t.Errorf("ListarBacklog se llamó %d veces; el formulario debe ofrecer las historias del proyecto", backlog.listarLlamadas)
 	}
 }
+
+// CA2 / R22 / E11: un número de Sprint no numérico en la ruta produce HTTP 422
+// y no se llama al servicio de asignación.
+func TestUS22_Fase2_Sprints_AsignarNumeroNoNumerico(t *testing.T) {
+	proyectos, backlog := nuevoEntornoUS22(
+		registroProyectoUS22("PRJ-001", "Sistema de Métricas", fechaUS22(2026, time.March, 1), fechaUS22(2026, time.June, 30)),
+	)
+	backlog.agregarItem("PRJ-001", itemUS22("HU-01", "Iniciar sesión", "Alta", "Pendiente", 3))
+	sprints := nuevoServicioSprintsFalso()
+	sprints.agregarSprint("PRJ-001", sprintUS22(
+		1, "Primera entrega", domain.EstadoSprintActivo,
+		fechaUS22(2026, time.March, 1), fechaUS22(2026, time.March, 14),
+	), 0)
+	handler := nuevoHandlerUS22(t, proyectos, backlog, sprints)
+
+	rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/sprints/abc/asignar", url.Values{
+		"itemID": {"HU-01"},
+	})
+	exigirEstadoUS22(t, rec, http.StatusUnprocessableEntity)
+	exigirCuerpoContieneUS22(t, rec, "El número del sprint debe ser un número entero")
+
+	if sprints.asignarLlamadas != 0 {
+		t.Errorf("AsignarItem se llamó %d veces y no debía ejecutarse", sprints.asignarLlamadas)
+	}
+}
+
+// CA2 / R31 / E2: si AsignarItem devuelve domain.ErrItemNoEncontrado, se muestra
+// HTTP 404 con el mensaje del dominio.
+func TestUS22_Fase2_Sprints_AsignarItemNoEncontrado404(t *testing.T) {
+	proyectos, backlog := nuevoEntornoUS22(
+		registroProyectoUS22("PRJ-001", "Sistema de Métricas", fechaUS22(2026, time.March, 1), fechaUS22(2026, time.June, 30)),
+	)
+	backlog.agregarItem("PRJ-001", itemUS22("HU-99", "Historia inexistente", "Media", "Pendiente", 3))
+	sprints := nuevoServicioSprintsFalso()
+	sprints.agregarSprint("PRJ-001", sprintUS22(
+		1, "Primera entrega", domain.EstadoSprintActivo,
+		fechaUS22(2026, time.March, 1), fechaUS22(2026, time.March, 14),
+	), 0)
+	sprints.asignarErr = domain.ErrItemNoEncontrado
+	handler := nuevoHandlerUS22(t, proyectos, backlog, sprints)
+
+	rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/sprints/1/asignar", url.Values{
+		"itemID": {"HU-99"},
+	})
+	exigirEstadoUS22(t, rec, http.StatusNotFound)
+	exigirCuerpoContieneUS22(t, rec, domain.ErrItemNoEncontrado.Error())
+}
+
+// CA1 / R29: la página de Sprints muestra el NOMBRE del proyecto (obtenido con
+// Dependencias.Proyectos.ObtenerProyecto) y no su ID.
+func TestUS22_Fase2_Sprints_ListarMuestraNombreProyecto(t *testing.T) {
+	proyectos, backlog := nuevoEntornoUS22(
+		registroProyectoUS22("PRJ-001", "Sistema de Métricas", fechaUS22(2026, time.March, 1), fechaUS22(2026, time.June, 30)),
+	)
+	sprints := nuevoServicioSprintsFalso()
+	sprints.agregarSprint("PRJ-001", sprintUS22(
+		1, "Primera entrega", domain.EstadoSprintActivo,
+		fechaUS22(2026, time.March, 1), fechaUS22(2026, time.March, 14),
+	), 0)
+	handler := nuevoHandlerUS22(t, proyectos, backlog, sprints)
+
+	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/sprints", nil)
+	exigirEstadoUS22(t, rec, http.StatusOK)
+	exigirCuerpoContieneUS22(t, rec, "Sistema de Métricas")
+	exigirCuerpoNoContieneUS22(t, rec, "Proyecto: PRJ-001")
+
+	if proyectos.obtenerLlamadas != 1 {
+		t.Errorf("ObtenerProyecto se llamó %d veces, se esperaba 1", proyectos.obtenerLlamadas)
+	}
+}
