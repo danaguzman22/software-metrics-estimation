@@ -67,3 +67,11 @@ type RepositorioEsfuerzo interface {
 	HorasRealesPorProyecto(proyectoID string) (float64, error)
 	SnapshotSprint(proyectoID string, sprintNumero int) ([]domain.ItemSprintEsfuerzo, bool, error)
 }
+
+// RepositorioDefectos persiste los defectos registrados por proyecto.
+type RepositorioDefectos interface {
+	Crear(proyectoID string, defecto domain.Defecto) (domain.Defecto, error)
+	ListarPorProyecto(proyectoID string) ([]domain.Defecto, error)
+	Obtener(proyectoID string, defectoID int64) (domain.Defecto, error)
+	Actualizar(proyectoID string, defecto domain.Defecto) error
+}

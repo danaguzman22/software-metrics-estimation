@@ -1,5 +1,82 @@
 {{define "contenido"}}
+{{if .Proyecto}}
+<h1>Defectos de {{.Proyecto.Nombre}}</h1>
+{{if .Error}}<p class="error" role="alert">{{.Error}}</p>{{end}}
+
+<section>
+  <h2>Registrar defecto</h2>
+  <form method="post" action="/proyectos/{{.Proyecto.ID}}/defectos" class="formulario">
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" name="descripcion" required></textarea>
+
+    <label for="severidad">Severidad</label>
+    <select id="severidad" name="severidad" required>
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+
+    <label for="estado">Estado</label>
+    <select id="estado" name="estado" required>
+      <option value="Abierto">Abierto</option>
+      <option value="En curso">En curso</option>
+      <option value="Resuelto">Resuelto</option>
+    </select>
+
+    <label for="item_id">Historia relacionada</label>
+    <select id="item_id" name="item_id" required>
+      {{range .Items}}<option value="{{.ID}}">{{.ID}} - {{.Titulo}}</option>{{end}}
+    </select>
+
+    <label for="sprint_deteccion">Sprint de detección</label>
+    <select id="sprint_deteccion" name="sprint_deteccion" required>
+      {{range .SprintsOpciones}}<option value="{{.Numero}}">Sprint {{.Numero}} - {{.Objetivo}}</option>{{end}}
+    </select>
+
+    <label for="sprint_resolucion">Sprint de resolución (opcional)</label>
+    <select id="sprint_resolucion" name="sprint_resolucion">
+      <option value="">Sin Sprint de resolución</option>
+      {{range .SprintsOpciones}}<option value="{{.Numero}}">Sprint {{.Numero}} - {{.Objetivo}}</option>{{end}}
+    </select>
+
+    <button type="submit">Registrar defecto</button>
+  </form>
+</section>
+
+<section>
+  <h2>Defectos registrados</h2>
+  {{if .Defectos}}
+    <ul>
+      {{range .Defectos}}
+      <li>
+        <h3>{{.Descripcion}}</h3>
+        <p>Severidad: {{.Severidad}} | Estado: {{.Estado}}</p>
+        <p>Historia: {{.ItemID}} · Sprint de detección: {{.SprintDeteccion}}</p>
+        {{if .SprintResolucion}}<p>Sprint de resolución: {{.SprintResolucion}}</p>{{end}}
+        <form method="post" action="/proyectos/{{$.Proyecto.ID}}/defectos/{{.ID}}/estado" class="formulario">
+          <label for="estado-{{.ID}}">Actualizar estado</label>
+          <select id="estado-{{.ID}}" name="estado" required>
+            <option value="Abierto">Abierto</option>
+            <option value="En curso">En curso</option>
+            <option value="Resuelto">Resuelto</option>
+          </select>
+          <label for="resolucion-{{.ID}}">Sprint de resolución</label>
+          <select id="resolucion-{{.ID}}" name="sprint_resolucion">
+            <option value="">Sin Sprint de resolución</option>
+            {{range $.SprintsOpciones}}<option value="{{.Numero}}">Sprint {{.Numero}} - {{.Objetivo}}</option>{{end}}
+          </select>
+          <button type="submit">Guardar seguimiento</button>
+        </form>
+      </li>
+      {{end}}
+    </ul>
+  {{else}}
+    <p>No hay defectos registrados.</p>
+  {{end}}
+</section>
+{{else}}
 <h1>Defectos</h1>
 <p>La sección de defectos todavía no está implementada.</p>
 <p>{{.Mensaje}}</p>
+{{end}}
 {{end}}
