@@ -1,17 +1,22 @@
 # language: es
 # Estado: Propuesta
 # Los escenarios describen el comportamiento acordado para CA1–CA3 y las
-# decisiones D1–D20: una interfaz web renderizada en el servidor, con
+# decisiones D1–D23: una interfaz web renderizada en el servidor, con
 # navegación entre proyectos, backlog, sprints y defectos; formularios que
 # muestran errores claros; y una interfaz que delega las reglas en el dominio
 # y los servicios.
 # FASE 1 incluye inicio, proyectos, backlog y páginas "Disponible próximamente"
 # para Sprints y Defectos. FASE 2 incluye el listado, el alta y la asignación de
 # Sprints; ya puede implementarse porque US-07, US-08 y US-09 están mergeadas en
-# develop.
+# develop. FASE 3 incluye la gestión completa del Sprint desde la interfaz
+# (historias asignadas por Sprint, marcar completada, cerrar Sprint, Story Points
+# planificados, completados y velocidad por Sprint, y a nivel proyecto la velocidad
+# promedio y el porcentaje de historias completadas); ya puede implementarse
+# porque US-09 y US-16 están mergeadas en develop.
 # Los errores se describen por su significado; sus identificadores y códigos
 # HTTP exactos están decididos en la spec (sección 8).
-# Los escenarios de FASE 2 están marcados con @Fase2 y ya pueden implementarse.
+# Los escenarios de FASE 2 están marcados con @Fase2 y los de FASE 3 con @Fase3;
+# ambos ya pueden implementarse.
 # No se escenifican el HTTP 500, el HTTP 405, el patrón POST–Redirect–GET, la
 # delegación en servicios, la verificación estructural de imports, la
 # generación de IDs de proyecto ni el ítem completado: se verifican con tests
@@ -288,3 +293,157 @@ Característica: Interfaz web base
     Cuando se abre el formulario de asignación del Sprint número 1 del proyecto "PRJ-001"
     Entonces el formulario ofrece las historias "HU-01" y "HU-02" del proyecto "PRJ-001"
     Y no ofrece la historia "HU-01" del proyecto "PRJ-002"
+
+  @CA1 @Fase3
+  Escenario: El listado de sprints muestra las historias asignadas de cada sprint
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 3 Story Points
+    Y que el proyecto "PRJ-001" tiene la historia "HU-02" con título "Cerrar sesión", estado "Pendiente" y 5 Story Points
+    Y que la historia "HU-01" está asignada al Sprint número 1 del proyecto "PRJ-001"
+    Y que la historia "HU-02" está asignada al Sprint número 1 del proyecto "PRJ-001"
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces el Sprint número 1 muestra las historias "HU-01" y "HU-02"
+    Y cada historia muestra su identificador, su título, su estado y sus Story Points
+
+  @CA1 @Fase3
+  Escenario: El sprint activo ofrece marcar completada y cerrar el sprint
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 3 Story Points
+    Y que el proyecto "PRJ-001" tiene la historia "HU-02" con título "Cerrar sesión", estado "Completada" y 5 Story Points
+    Y que las historias "HU-01" y "HU-02" están asignadas al Sprint número 1 del proyecto "PRJ-001"
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces el Sprint número 1 ofrece la acción "Marcar completada" para la historia "HU-01"
+    Y no ofrece la acción "Marcar completada" para la historia "HU-02"
+    Y se ofrece la acción "Cerrar Sprint" para el Sprint número 1
+
+  @CA1 @Fase3
+  Escenario: Marcar una historia completada desde el sprint
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 3 Story Points
+    Y que la historia "HU-01" está asignada al Sprint número 1 del proyecto "PRJ-001"
+    Cuando se marca la historia "HU-01" como completada en el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se vuelve a la sección de sprints del proyecto "PRJ-001"
+    Y la historia "HU-01" figura con estado "Completada"
+    Y el Sprint número 1 muestra 3 Story Points completados
+
+  @CA1 @Fase3
+  Escenario: Cerrar un sprint activo
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Completada" y 3 Story Points
+    Y que el proyecto "PRJ-001" tiene la historia "HU-02" con título "Cerrar sesión", estado "Pendiente" y 5 Story Points
+    Y que las historias "HU-01" y "HU-02" están asignadas al Sprint número 1 del proyecto "PRJ-001"
+    Cuando se cierra el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se vuelve a la sección de sprints del proyecto "PRJ-001"
+    Y el Sprint número 1 se lista con estado "Cerrado"
+    Y la historia "HU-02" figura con estado "Pendiente" en el backlog del proyecto "PRJ-001"
+    Y se informa que las historias no completadas vuelven al backlog al cerrar el Sprint
+
+  @CA1 @Fase3
+  Escenario: Cada sprint muestra sus story points planificados, completados y su velocidad
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado con 8 Story Points planificados guardados
+    Y que las historias completadas del Sprint número 1 del proyecto "PRJ-001" suman 3 Story Points completados
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces el Sprint número 1 muestra 8 Story Points planificados
+    Y el Sprint número 1 muestra 3 Story Points completados
+    Y el Sprint número 1 muestra una velocidad de "3.00"
+
+  @CA1 @Fase3
+  Escenario: El proyecto muestra la velocidad promedio
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado con 3 Story Points completados
+    Y que el proyecto "PRJ-001" tiene el Sprint número 2 cerrado con 5 Story Points completados
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces se muestra la velocidad promedio del proyecto "PRJ-001" como "4.00"
+
+  @CA1 @Fase3
+  Escenario: Sin sprints cerrados la velocidad promedio es cero
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces se muestra la velocidad promedio del proyecto "PRJ-001" como "0.00"
+
+  @CA1 @Fase3
+  Escenario: El proyecto muestra el porcentaje de historias completadas
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado
+    Y que el backlog del proyecto "PRJ-001" tiene 4 historias
+    Y que 1 de esas historias está completada
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces se muestra el porcentaje de historias completadas del proyecto "PRJ-001" como "25.00%"
+
+  @CA1 @Fase3
+  Escenario: Sin historias el porcentaje de historias completadas es cero
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado con objetivo "Primera entrega"
+    Y que el backlog del proyecto "PRJ-001" está vacío
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces se muestra el porcentaje de historias completadas del proyecto "PRJ-001" como "0.00%"
+
+  @CA2 @Fase3
+  Escenario: No se marca completada una historia de un sprint cerrado
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado con objetivo "Primera entrega"
+    Cuando se intenta marcar la historia "HU-01" como completada en el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el sprint está cerrado"
+    Y la historia "HU-01" no cambia de estado
+
+  @CA2 @Fase3
+  Escenario: No se marca completada una historia que no está pendiente
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Completada" y 3 Story Points
+    Y que la historia "HU-01" está asignada al Sprint número 1 del proyecto "PRJ-001"
+    Cuando se intenta marcar la historia "HU-01" como completada en el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el ítem no está pendiente"
+
+  @CA2 @Fase3
+  Escenario: No se marca completada una historia no asignada al sprint
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 2 con objetivo "Segunda entrega"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 3 Story Points
+    Y que la historia "HU-01" está asignada al Sprint número 2 del proyecto "PRJ-001"
+    Cuando se intenta marcar la historia "HU-01" como completada en el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el ítem no está asignado al sprint"
+    Y la historia "HU-01" figura con estado "Pendiente"
+
+  @CA2 @Fase3
+  Escenario: No se cierra un sprint que ya está cerrado
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 cerrado con objetivo "Primera entrega"
+    Cuando se intenta cerrar el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el sprint está cerrado"
+
+  @CA2 @Fase3
+  Escenario: Completar o cerrar con un sprint inexistente muestra un mensaje
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene la historia "HU-01" con título "Iniciar sesión", estado "Pendiente" y 3 Story Points
+    Cuando se intenta marcar la historia "HU-01" como completada en el Sprint número 9 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el sprint no existe en el proyecto"
+    Cuando se intenta cerrar el Sprint número 9 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el sprint no existe en el proyecto"
+
+  @CA2 @Fase3
+  Escenario: Completar con una historia inexistente muestra un mensaje
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el proyecto "PRJ-001" tiene el Sprint número 1 con objetivo "Primera entrega"
+    Y que el proyecto "PRJ-001" no tiene la historia "HU-99"
+    Cuando se intenta marcar la historia "HU-99" como completada en el Sprint número 1 del proyecto "PRJ-001"
+    Entonces se muestra el mensaje "el ítem no existe en el proyecto"
+
+  @CA3 @Fase3
+  Escenario: La web muestra los totales devueltos por el servicio sin recalcularlos
+    Dado un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas"
+    Y que el servicio informa una velocidad promedio de "7.50" para el proyecto "PRJ-001"
+    Y que el servicio informa 8 Story Points completados para el Sprint número 1 del proyecto "PRJ-001"
+    Y que el servicio informa un porcentaje de historias completadas de "62.50%" para el proyecto "PRJ-001"
+    Cuando se visita la sección de sprints del proyecto "PRJ-001"
+    Entonces el Sprint número 1 muestra 8 Story Points completados
+    Y se muestra la velocidad promedio del proyecto "PRJ-001" como "7.50"
+    Y se muestra el porcentaje de historias completadas del proyecto "PRJ-001" como "62.50%"
