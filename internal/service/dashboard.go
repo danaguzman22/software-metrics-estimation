@@ -1,6 +1,11 @@
 package service
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+
+	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
+)
 
 // PuntoVelocidadSprint es la velocidad (Story Points completados) de un
 // Sprint cerrado del proyecto (CA2).
@@ -59,5 +64,90 @@ func NuevoServicioDashboard(
 // proyecto no existe; el resto de los errores de repositorio se envuelven con
 // %w.
 func (s *ServicioDashboard) ObtenerDashboard(proyectoID string) (DashboardProyecto, error) {
-	return DashboardProyecto{}, errors.New("service: no implementado")
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return DashboardProyecto{}, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return DashboardProyecto{}, domain.ErrProyectoNoEncontrado
+	}
+
+	sprints, err := s.sprints.ListarSprints(proyectoID)
+	if err != nil {
+		return DashboardProyecto{}, err
+	}
+
+	cerrados := make([]domain.Sprint, 0, len(sprints))
+	for _, sprint := range sprints {
+		if sprint.Estado == domain.EstadoSprintCerrado {
+			cerrados = append(cerrados, sprint)
+		}
+	}
+
+	dashboard := DashboardProyecto{SprintsCerrados: len(cerrados)}
+	for _, sprint := range sprints {
+		planificados, err := s.sprints.StoryPointsPlanificados(proyectoID, sprint.Numero)
+		if err != nil {
+			return DashboardProyecto{}, envolverErrorRepositorio(
+				fmt.Sprintf("sumar story points planificados del sprint %d", sprint.Numero), err)
+		}
+		completados, err := s.sprints.StoryPointsCompletados(proyectoID, sprint.Numero)
+		if err != nil {
+			return DashboardProyecto{}, envolverErrorRepositorio(
+				fmt.Sprintf("sumar story points completados del sprint %d", sprint.Numero), err)
+		}
+		dashboard.SPPlanificadosTotal += planificados
+		dashboard.SPCompletadosTotal += completados
+	}
+
+	promedio, err := s.sprints.VelocidadPromedio(proyectoID)
+	if err != nil {
+		return DashboardProyecto{}, err
+	}
+	dashboard.VelocidadPromedio = promedio
+
+	porcentaje, err := s.sprints.PorcentajeHistoriasCompletadas(proyectoID)
+	if err != nil {
+		return DashboardProyecto{}, err
+	}
+	dashboard.PorcentajeHistoriasCompletadas = porcentaje
+
+	metricas, err := s.esfuerzo.MetricasProyecto(proyectoID)
+	if err != nil {
+		return DashboardProyecto{}, err
+	}
+	dashboard.HorasEstimadasTotal = metricas.HorasEstimadas
+	dashboard.HorasRealesTotal = metricas.HorasReales
+	dashboard.EstimacionesCompletas = metricas.EstimacionesCompletas
+	dashboard.DesviacionHorasTotal = metricas.Desviacion
+
+	for _, sprint := range cerrados {
+		velocidad, err := s.sprints.VelocidadSprint(proyectoID, sprint.Numero)
+		if err != nil {
+			return DashboardProyecto{}, envolverErrorRepositorio(
+				fmt.Sprintf("sumar velocidad del sprint %d", sprint.Numero), err)
+		}
+		dashboard.VelocidadPorSprint = append(dashboard.VelocidadPorSprint,
+			PuntoVelocidadSprint{SprintNumero: sprint.Numero, Velocidad: velocidad})
+
+		m, err := s.esfuerzo.MetricasSprint(proyectoID, sprint.Numero)
+		if errors.Is(err, domain.ErrMetricasSprintNoDisponibles) {
+			dashboard.HorasPorSprint = append(dashboard.HorasPorSprint,
+				PuntoHorasSprint{SprintNumero: sprint.Numero, MetricasDisponibles: false})
+			continue
+		}
+		if err != nil {
+			return DashboardProyecto{}, envolverErrorRepositorio(
+				fmt.Sprintf("obtener métricas del sprint %d", sprint.Numero), err)
+		}
+		dashboard.HorasPorSprint = append(dashboard.HorasPorSprint, PuntoHorasSprint{
+			SprintNumero:          sprint.Numero,
+			HorasEstimadas:        m.HorasEstimadas,
+			HorasReales:           m.HorasReales,
+			EstimacionesCompletas: m.EstimacionesCompletas,
+			MetricasDisponibles:   true,
+		})
+	}
+
+	return dashboard, nil
 }
