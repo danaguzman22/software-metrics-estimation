@@ -36,6 +36,7 @@ func Ejecutar(t *testing.T, nuevo func(t *testing.T) Entorno) {
 		{"TestUS11_EstimarItem_BacklogSinArchivo", ejecutarUS11BacklogSinArchivo},
 		{"TestUS11_EstimarItem_MismoIDEnOtroProyecto", ejecutarUS11MismoIDEnOtroProyecto},
 		{"TestUS09_MarcarItemCompletada_BacklogEnAmbosAdaptadores", ejecutarUS09MarcarItemCompletada},
+		{"TestUS22_Fase1_Proyectos_Crear", ejecutarUS22ProyectosCrear},
 	}
 	for _, c := range casos {
 		t.Run(c.nombre, func(t *testing.T) {
@@ -222,6 +223,47 @@ func ejecutarUS09MarcarItemCompletada(t *testing.T, e Entorno) {
 	}
 	if !itemsEquivalentes(completado, obtenido) {
 		t.Fatalf("ítem completado: esperado %#v, obtenido %#v", completado, obtenido)
+	}
+}
+
+func ejecutarUS22ProyectosCrear(t *testing.T, e Entorno) {
+	t.Helper()
+	proyecto := nuevoProyecto(t, "Proyecto Nuevo",
+		time.Date(2026, 5, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2026, 8, 31, 0, 0, 0, 0, time.UTC))
+
+	creado, err := e.Proyectos.Crear(proyecto)
+	debeNoError(t, err, "Crear proyecto")
+	if creado.ID == "" {
+		t.Fatalf("Crear proyecto: el ID no puede estar vacío")
+	}
+	verificarProyectoFechas(t, proyecto, creado.Proyecto)
+
+	obtenido, err := e.Proyectos.Obtener(creado.ID)
+	debeNoError(t, err, "Obtener tras Crear")
+	if obtenido.ID != creado.ID {
+		t.Fatalf("Obtener tras Crear: esperado ID %q, obtenido %q", creado.ID, obtenido.ID)
+	}
+	verificarProyectoFechas(t, proyecto, obtenido.Proyecto)
+
+	existe, err := e.Proyectos.Existe(creado.ID)
+	debeNoError(t, err, "Existe tras Crear")
+	if !existe {
+		t.Fatalf("Existe tras Crear: esperado true para %q", creado.ID)
+	}
+
+	lista, err := e.Proyectos.Listar()
+	debeNoError(t, err, "Listar tras Crear")
+	encontrado := false
+	for _, registro := range lista {
+		if registro.ID == creado.ID {
+			encontrado = true
+			verificarProyectoFechas(t, proyecto, registro.Proyecto)
+			break
+		}
+	}
+	if !encontrado {
+		t.Fatalf("Listar tras Crear: no se encontró el proyecto %q", creado.ID)
 	}
 }
 

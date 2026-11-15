@@ -32,8 +32,7 @@ func dependenciasPorDefecto() dependenciasArranque {
 			defer cancelar()
 			return postgres.ConnectAndMigrate(bootstrapCtx, databaseURL)
 		},
-		escuchar:           net.Listen,
-		construirServicios: construirServiciosPostgres,
+		escuchar: net.Listen,
 	}
 }
 
@@ -57,10 +56,9 @@ func direccionHTTP() string {
 // dependenciasArranque agrupa las funciones y dependencias inyectables del
 // arranque para poder probarlo sin PostgreSQL real.
 type dependenciasArranque struct {
-	conectar           func(context.Context, string) (*pgxpool.Pool, error)
-	escuchar           func(string, string) (net.Listener, error)
-	construirServicios func(*pgxpool.Pool)
-	ping               web.Pinger
+	conectar func(context.Context, string) (*pgxpool.Pool, error)
+	escuchar func(string, string) (net.Listener, error)
+	ping     web.Pinger
 }
 
 type errorConexionPostgres struct {
@@ -85,20 +83,27 @@ type poolCerrable interface {
 	Close()
 }
 
-// construirServidor arma el servidor HTTP con el handler de salud. El pool se
-// reserva para las rutas de negocio de historias posteriores; en T-03 el ping
-// ya llega resuelto por separado.
-func construirServidor(_ *pgxpool.Pool, ping web.Pinger, addr string) *http.Server {
-	return web.NuevoServidor(addr, web.NuevoHandler(ping))
-}
-
-func construirServiciosPostgres(pool *pgxpool.Pool) {
+// construirServidor arma la aplicación web completa: repositorios PostgreSQL,
+// servicios y handlers. Conserva la firma de T-03 para que construirServidor
+// con un pool nil siga funcionando en los tests de salud.
+func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.Server {
 	proyectos := postgres.NuevoProyectos(pool)
 	integrantes := postgres.NuevoIntegrantes(pool)
 	backlog := postgres.NuevoBacklog(pool)
+	sprints := postgres.NuevoSprints(pool)
+	asignaciones := postgres.NuevoAsignaciones(pool)
 
-	_ = service.NuevoServicioProyectos(proyectos, integrantes)
-	_ = service.NuevoServicioBacklog(proyectos, backlog)
+	servicioProyectos := service.NuevoServicioProyectos(proyectos, integrantes)
+	servicioBacklog := service.NuevoServicioBacklog(proyectos, backlog)
+	servicioSprints := service.NuevoServicioSprints(proyectos, sprints, backlog, asignaciones)
+
+	handler := web.NuevoHandlerAplicacion(ping, web.Dependencias{
+		Proyectos: servicioProyectos,
+		Backlog:   servicioBacklog,
+		Sprints:   servicioSprints,
+		Ahora:     time.Now,
+	})
+	return web.NuevoServidor(addr, handler)
 }
 
 // arrancar conecta con la base, levanta el servidor y espera una señal o un
@@ -113,12 +118,6 @@ func arrancar(ctx context.Context, deps dependenciasArranque) error {
 	if err != nil {
 		return errorConexionPostgres{err: err}
 	}
-
-	construirServicios := deps.construirServicios
-	if construirServicios == nil {
-		construirServicios = construirServiciosPostgres
-	}
-	construirServicios(pool)
 
 	ping := deps.ping
 	if ping == nil {

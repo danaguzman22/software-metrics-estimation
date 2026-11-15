@@ -1,6 +1,8 @@
 package jsonrepo
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"sort"
@@ -107,6 +109,32 @@ func (r *Proyectos) Listar() ([]service.ProyectoRegistrado, error) {
 		resultado = append(resultado, service.ProyectoRegistrado{ID: reg.ID, Proyecto: reg.Proyecto})
 	}
 	return resultado, nil
+}
+
+func (r *Proyectos) Crear(proyecto domain.Proyecto) (service.ProyectoRegistrado, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	registros, err := r.cargar()
+	if err != nil {
+		return service.ProyectoRegistrado{}, err
+	}
+	id, err := nuevoIDProyecto()
+	if err != nil {
+		return service.ProyectoRegistrado{}, err
+	}
+	registros = append(registros, registroProyecto{ID: id, Proyecto: proyecto})
+	if err := r.guardar(registros); err != nil {
+		return service.ProyectoRegistrado{}, err
+	}
+	return service.ProyectoRegistrado{ID: id, Proyecto: proyecto}, nil
+}
+
+func nuevoIDProyecto() (string, error) {
+	bytes := make([]byte, 16)
+	if _, err := rand.Read(bytes); err != nil {
+		return "", fmt.Errorf("generar ID de proyecto: %w", err)
+	}
+	return hex.EncodeToString(bytes), nil
 }
 
 func (r *Proyectos) Actualizar(id string, proyecto domain.Proyecto) error {

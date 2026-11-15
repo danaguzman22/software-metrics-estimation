@@ -4,6 +4,25 @@ import (
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 )
 
+// ObtenerItem devuelve el ítem identificado por itemID dentro del proyecto.
+// Verifica primero que el proyecto exista.
+func (s *ServicioBacklog) ObtenerItem(proyectoID, itemID string) (domain.ItemBacklog, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return domain.ItemBacklog{}, domain.ErrProyectoNoEncontrado
+	}
+
+	item, err := s.backlog.ObtenerItem(proyectoID, itemID)
+	if err != nil {
+		return domain.ItemBacklog{}, envolverErrorRepositorio("obtener ítem del backlog", err)
+	}
+
+	return item, nil
+}
+
 // EditarItem edita los campos editables del ítem identificado por itemID
 // dentro del proyecto identificado por proyectoID. Conserva el ID y el estado.
 func (s *ServicioBacklog) EditarItem(

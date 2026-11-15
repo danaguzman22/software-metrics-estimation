@@ -101,6 +101,28 @@ func (s *ServicioSprints) CrearSprint(
 	return sprint, nil
 }
 
+// ListarSprints devuelve los Sprints del proyecto ordenados por número.
+//
+// Verifica primero que el proyecto exista y devuelve
+// domain.ErrProyectoNoEncontrado sin envolver si no existe. Reutiliza
+// RepositorioSprints.ListarPorProyecto y no recalcula Story Points.
+func (s *ServicioSprints) ListarSprints(proyectoID string) ([]domain.Sprint, error) {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return nil, envolverErrorRepositorio("verificar proyecto", err)
+	}
+	if !existe {
+		return nil, domain.ErrProyectoNoEncontrado
+	}
+
+	sprints, err := s.sprints.ListarPorProyecto(proyectoID)
+	if err != nil {
+		return nil, envolverErrorRepositorio("listar sprints del proyecto", err)
+	}
+
+	return sprints, nil
+}
+
 // CerrarSprint cierra el Sprint y conserva el total de Story Points
 // planificados antes de retirar las asignaciones no completadas.
 func (s *ServicioSprints) CerrarSprint(proyectoID string, sprintNumero int) error {

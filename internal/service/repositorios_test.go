@@ -73,6 +73,7 @@ func TestT06_RepositorioProyectos_FirmasExactas(t *testing.T) {
 		"Existe":     reflect.FuncOf([]reflect.Type{stringType}, []reflect.Type{reflect.TypeOf(false), errType}, false),
 		"Listar":     reflect.FuncOf(nil, []reflect.Type{reflect.SliceOf(registro), errType}, false),
 		"Actualizar": reflect.FuncOf([]reflect.Type{stringType, proyecto}, []reflect.Type{errType}, false),
+		"Crear":      reflect.FuncOf([]reflect.Type{proyecto}, []reflect.Type{registro, errType}, false),
 	}
 
 	if contrato.NumMethod() != len(esperados) {

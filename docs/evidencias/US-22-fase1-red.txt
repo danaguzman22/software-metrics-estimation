@@ -1,0 +1,48 @@
+US-22 FASE 1 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+Los tests de PostgreSQL no llegan a ejecutarse: la compilación falla antes, que es el RED esperado.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/service/repotest
+internal/service/repotest/repotest.go:235:29: e.Proyectos.Crear undefined (type service.RepositorioProyectos has no field or method Crear)
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/web_test]
+vet: internal/web/us22_fase1_test.go:299:13: undefined: web.NuevoHandlerAplicacion
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us22_fase1_test.go:19:27: servicio.CrearProyecto undefined (type *ServicioProyectos has no field or method CrearProyecto)
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/service/repotest
+internal/service/repotest/repotest.go:235:29: e.Proyectos.Crear undefined (type service.RepositorioProyectos has no field or method Crear)
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test [github.com/danaguzman22/software-metrics-estimation/internal/web.test]
+internal/web/us22_fase1_test.go:299:13: undefined: web.NuevoHandlerAplicacion
+internal/web/us22_fase1_test.go:299:54: undefined: web.Dependencias
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us22_fase1_test.go:19:27: servicio.CrearProyecto undefined (type *ServicioProyectos has no field or method CrearProyecto)
+internal/service/us22_fase1_test.go:69:28: servicio.CrearProyecto undefined (type *ServicioProyectos has no field or method CrearProyecto)
+internal/service/us22_fase1_test.go:96:29: servicio.ListarProyectos undefined (type *ServicioProyectos has no field or method ListarProyectos)
+internal/service/us22_fase1_test.go:127:29: servicio.ObtenerProyecto undefined (type *ServicioProyectos has no field or method ObtenerProyecto)
+internal/service/us22_fase1_test.go:142:29: servicio.ObtenerProyecto undefined (type *ServicioProyectos has no field or method ObtenerProyecto)
+internal/service/us22_fase1_test.go:163:27: servicio.CrearProyecto undefined (type *ServicioProyectos has no field or method CrearProyecto)
+internal/service/us22_fase1_test.go:183:30: servicio.ListarProyectos undefined (type *ServicioProyectos has no field or method ListarProyectos)
+internal/service/us22_fase1_test.go:203:29: servicio.ObtenerProyecto undefined (type *ServicioProyectos has no field or method ObtenerProyecto)
+internal/service/us22_fase1_test.go:225:28: servicio.ObtenerItem undefined (type *ServicioBacklog has no field or method ObtenerItem)
+internal/service/us22_fase1_test.go:244:28: servicio.ObtenerItem undefined (type *ServicioBacklog has no field or method ObtenerItem)
+internal/service/us22_fase1_test.go:285:30: servicio.ObtenerItem undefined (type *ServicioBacklog has no field or method ObtenerItem)
+--- FAIL: TestUS22_Fase1_ConstruirServidorConRutasDeNegocio (0.00s)
+    us22_fase1_test.go:48: código de / = 404, se esperaba 200; cuerpo:
+        404 page not found
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.143s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.022s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.040s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.009s
+FAIL
+Exit code: 1

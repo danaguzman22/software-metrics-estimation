@@ -1,0 +1,28 @@
+{{define "contenido"}}
+<h1>{{.Titulo}}</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post" action="/proyectos/{{.Proyecto.ID}}/backlog{{if .Editando}}/{{.ItemID}}/editar{{end}}" class="formulario">
+  <label>Título
+    <input type="text" name="titulo" value="{{.FormularioItem.Titulo}}">
+  </label>
+  <label>Descripción
+    <textarea name="descripcion" rows="3">{{.FormularioItem.Descripcion}}</textarea>
+  </label>
+  <label>Prioridad
+    <select name="prioridad">
+      <option value="Alta"{{if eq .FormularioItem.Prioridad "Alta"}} selected{{end}}>Alta</option>
+      <option value="Media"{{if eq .FormularioItem.Prioridad "Media"}} selected{{end}}>Media</option>
+      <option value="Baja"{{if eq .FormularioItem.Prioridad "Baja"}} selected{{end}}>Baja</option>
+    </select>
+  </label>
+  <label>Criterios de aceptación (uno por línea)
+    <textarea name="criterios" rows="4">{{.FormularioItem.Criterios}}</textarea>
+  </label>
+  {{if .Editando}}
+  <label>Story Points
+    <input type="number" name="storyPoints" value="{{.FormularioItem.StoryPoints}}" min="0" step="1">
+  </label>
+  {{end}}
+  <button type="submit">{{if .Editando}}Guardar cambios{{else}}Crear ítem{{end}}</button>
+</form>
+{{end}}
