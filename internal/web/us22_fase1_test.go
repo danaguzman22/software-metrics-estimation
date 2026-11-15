@@ -288,7 +288,7 @@ func nuevoEntornoUS22(registros ...service.ProyectoRegistrado) (*servicioProyect
 	return proyectos, backlog
 }
 
-func nuevoHandlerUS22(t *testing.T, proyectos *servicioProyectosFalso, backlog *servicioBacklogFalso) http.Handler {
+func nuevoHandlerUS22(t *testing.T, proyectos *servicioProyectosFalso, backlog *servicioBacklogFalso, sprintsOpcionales ...*servicioSprintsFalso) http.Handler {
 	t.Helper()
 	if proyectos == nil {
 		proyectos = &servicioProyectosFalso{}
@@ -296,9 +296,23 @@ func nuevoHandlerUS22(t *testing.T, proyectos *servicioProyectosFalso, backlog *
 	if backlog == nil {
 		backlog = nuevoServicioBacklogFalso()
 	}
+
+	// La FASE 2 agregó ServicioSprintsWeb a las dependencias. El parámetro es
+	// variádico para no modificar las llamadas existentes de la FASE 1.
+	var sprints *servicioSprintsFalso
+	if len(sprintsOpcionales) > 0 && sprintsOpcionales[0] != nil {
+		sprints = sprintsOpcionales[0]
+	} else {
+		sprints = nuevoServicioSprintsFalso()
+	}
+	for _, registro := range proyectos.registros {
+		sprints.marcarProyectoExistente(registro.ID)
+	}
+
 	return web.NuevoHandlerAplicacion(&pingFalso{}, web.Dependencias{
 		Proyectos: proyectos,
 		Backlog:   backlog,
+		Sprints:   sprints,
 		Ahora: func() time.Time {
 			return fechaUS22(2026, time.February, 1)
 		},
@@ -460,8 +474,10 @@ func TestUS22_Fase1_DefectosProximamente(t *testing.T) {
 	exigirServiciosSinLlamadasUS22(t, proyectos, backlog)
 }
 
-// CA1 / R4: en FASE 1 la sección de sprints informa que estará disponible
-// próximamente; un proyecto inexistente devuelve 404.
+// CA1 / R4: en la FASE 1 la sección de sprints informaba "Disponible
+// próximamente". Ese comportamiento cambió en la FASE 2: ahora la página lista
+// los Sprints del proyecto. El test conserva la verificación de que el mensaje
+// de FASE 1 ya no aparece y de que un proyecto inexistente sigue devolviendo 404.
 func TestUS22_Fase1_SprintsProximamente(t *testing.T) {
 	t.Run("proyecto existente", func(t *testing.T) {
 		proyectos, backlog := nuevoEntornoUS22(
@@ -471,7 +487,7 @@ func TestUS22_Fase1_SprintsProximamente(t *testing.T) {
 
 		rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/sprints", nil)
 		exigirEstadoUS22(t, rec, http.StatusOK)
-		exigirCuerpoContieneUS22(t, rec, "Disponible próximamente")
+		exigirCuerpoNoContieneUS22(t, rec, "Disponible próximamente")
 		if !strings.Contains(strings.ToLower(rec.Body.String()), "sprints") {
 			t.Errorf("el cuerpo debería informar sobre la sección de sprints; cuerpo:\n%s", rec.Body.String())
 		}
