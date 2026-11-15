@@ -18,6 +18,12 @@ func envolverErrorRepositorio(contexto string, err error) error {
 		errors.Is(err, domain.ErrItemYaAsignado) ||
 		errors.Is(err, domain.ErrItemNoAsignadoAlSprint) ||
 		errors.Is(err, domain.ErrIntegranteNoPerteneceAlProyecto) ||
+		errors.Is(err, domain.ErrIntegranteNoDelProyecto) ||
+		errors.Is(err, domain.ErrValorVotoPokerInvalido) ||
+		errors.Is(err, domain.ErrNumeroRondaInvalido) ||
+		errors.Is(err, domain.ErrRondaNoEncontrada) ||
+		errors.Is(err, domain.ErrRondaAbiertaExistente) ||
+		errors.Is(err, domain.ErrRondaRevelada) ||
 		errors.Is(err, domain.ErrHorasEsfuerzoInvalidas) ||
 		errors.Is(err, domain.ErrFechaEsfuerzoFutura) {
 		return err
