@@ -66,6 +66,14 @@ func (f *fakeRepositorioDefectosUS15) Actualizar(proyectoID string, defecto doma
 	return domain.ErrDefectoNoEncontrado
 }
 
+func (f *fakeRepositorioDefectosUS15) MetricasPorSprint(string, int) (domain.MetricasDefectos, error) {
+	return domain.MetricasDefectos{}, nil
+}
+
+func (f *fakeRepositorioDefectosUS15) MetricasPorProyecto(string) (domain.MetricasDefectos, error) {
+	return domain.MetricasDefectos{}, nil
+}
+
 func prepararServicioDefectosUS15(t *testing.T) (
 	*fakeRepositorioProyectos,
 	*fakeRepositorioBacklog,
