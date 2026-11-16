@@ -1,0 +1,2938 @@
+T-15 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.199s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.018s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/reportepdf	0.095s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.186s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.082s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.303s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	12.611s
+--- FAIL: TestT15_MigasEnCadaPantalla (0.01s)
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Proyectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/proyectos">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+                
+                
+            <h1>Proyectos</h1>
+            <p><a href="/proyectos/nuevo">Crear proyecto</a></p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de fin</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>PRJ-001</td>
+                  <td><a href="/proyectos/PRJ-001">Sistema de Métricas</a></td>
+                  <td>2026-01-05</td>
+                  <td>2026-12-31</td>
+                  <td>En curso</td>
+                </tr>
+                
+                <tr>
+                  <td>PRJ-002</td>
+                  <td><a href="/proyectos/PRJ-002">&lt;script&gt;alert(1)&lt;/script&gt;</a></td>
+                  <td>2026-01-05</td>
+                  <td>2026-12-31</td>
+                  <td>En curso</td>
+                </tr>
+                
+                <tr>
+                  <td>PRJ-003</td>
+                  <td><a href="/proyectos/PRJ-003"></a></td>
+                  <td>2026-01-05</td>
+                  <td>2026-12-31</td>
+                  <td>En curso</td>
+                </tr>
+                
+                <tr>
+                  <td>PRJ-004</td>
+                  <td><a href="/proyectos/PRJ-004">Sistema de métricas y estimación para equipos distribuidos en múltiples zonas horarias con reportes semanales consolidados</a></td>
+                  <td>2026-01-05</td>
+                  <td>2026-12-31</td>
+                  <td>En curso</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/nuevo (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo proyecto</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/proyectos">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo proyecto</h1>
+            
+            <form method="post" action="/proyectos" class="formulario">
+              <label>Nombre
+                <input type="text" name="nombre" value="">
+              </label>
+              <label>Fecha de inicio
+                <input type="date" name="fechaInicio" value="">
+              </label>
+              <label>Fecha de fin
+                <input type="date" name="fechaFin" value="">
+              </label>
+              <button type="submit">Crear proyecto</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001 (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Sistema de Métricas</h1>
+            <dl class="detalle">
+              <dt>ID</dt>
+              <dd>PRJ-001</dd>
+              <dt>Fecha de inicio</dt>
+              <dd>2026-01-05</dd>
+              <dt>Fecha de fin</dt>
+              <dd>2026-12-31</dd>
+              <dt>Estado</dt>
+              <dd>En curso</dd>
+            </dl>
+            <p class="acciones">
+              <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+              <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+              <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+              <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+              <a href="/proyectos/PRJ-001/integrantes">Ver integrantes</a>
+            </p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/backlog (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Backlog</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Backlog</h1>
+            <p>Proyecto: PRJ-001</p>
+            <p><a href="/proyectos/PRJ-001/backlog/nuevo">Nuevo ítem</a></p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Prioridad</th>
+                  <th>Estado</th>
+                  <th>Story Points</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>HU-01</td>
+                  <td>Iniciar sesión</td>
+                  <td>Media</td>
+                  <td>Pendiente</td>
+                  <td>3</td>
+                  <td>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/editar">Editar</a>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/poker">Planning Poker</a>
+                    <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/estimar" class="en-linea">
+                      <input type="number" name="storyPoints" value="3" min="0" step="1">
+                      <button type="submit">Estimar</button>
+                    </form>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/backlog/nuevo (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3"></textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <button type="submit">Crear ítem</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/backlog/HU-01/editar (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Editar ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Editar ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/editar" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="Iniciar sesión">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3">Descripción de Iniciar sesión</textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media" selected>Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <label>Story Points
+                <input type="number" name="storyPoints" value="3" min="0" step="1">
+              </label>
+              
+              <button type="submit">Guardar cambios</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/backlog/HU-01/poker (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Este proyecto todavía no tiene integrantes</p>
+            <p><a href="/proyectos/PRJ-001/integrantes">Registrar integrantes</a></p>
+            
+            
+            <p>La historia todavía no tiene rondas</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Iniciar ronda</button>
+            </form>
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/sprints (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+            <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Objetivo</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Estado</th>
+                  <th>Story Points planificados</th>
+                  <th>Story Points completados</th>
+                  <th>Velocidad</th>
+                  <th>Asignar historia</th>
+                  <th>Cerrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>1</td>
+                  <td>Primera entrega</td>
+                  <td>2026-03-01</td>
+                  <td>2026-03-14</td>
+                  <td>Activo</td>
+                  <td>8</td>
+                  <td>0</td>
+                  <td>0.00</td>
+                  <td>
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                      <select name="itemID">
+                        
+                        <option value="HU-01">HU-01 - Iniciar sesión</option>
+                        
+                      </select>
+                      <button type="submit">Asignar</button>
+                    </form>
+                  </td>
+                  <td>
+                    
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/cerrar" class="en-linea">
+                      <button type="submit">Cerrar Sprint</button>
+                    </form>
+                    
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            <h2>Sprint 1: historias asignadas</h2>
+            <p><a href="/proyectos/PRJ-001/sprints/1/reporte">Ver reporte del Sprint</a></p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Estado</th>
+                  <th>Story Points</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                
+                <tr>
+                  <td>HU-01</td>
+                  <td>Iniciar sesión</td>
+                  <td>Pendiente</td>
+                  <td>3</td>
+                  <td>
+                    
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/items/HU-01/completar" class="en-linea">
+                      <button type="submit">Marcar completada</button>
+                    </form>
+                    
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/sprints/nuevo (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo Sprint</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo Sprint</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/sprints" class="formulario">
+              <label>Número
+                <input type="number" name="numero" value="" min="1" step="1">
+              </label>
+              <label>Objetivo
+                <input type="text" name="objetivo" value="">
+              </label>
+              <label>Fecha de inicio
+                <input type="date" name="fechaInicio" value="">
+              </label>
+              <label>Fecha de fin
+                <input type="date" name="fechaFin" value="">
+              </label>
+              <button type="submit">Crear Sprint</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/sprints/historico (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Histórico de Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Histórico de Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p><a href="/proyectos/PRJ-001/sprints">Volver a Sprints</a></p>
+            
+            <p>No hay Sprints cerrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/sprints/1/reporte (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Reporte del Sprint 1</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <div class="reporte">
+            <header class="reporte-encabezado">
+              <h1>Reporte del Sprint 1 de Sistema de Métricas</h1>
+              <dl class="detalle">
+                <dt>Sprint Goal</dt>
+                <dd>Entregar el núcleo del sistema</dd>
+                <dt>Fecha de inicio</dt>
+                <dd>2026-02-02</dd>
+                <dt>Fecha de fin</dt>
+                <dd>2026-02-27</dd>
+                <dt>Estado</dt>
+                <dd>Cerrado</dd>
+                <dt>Story Points planificados</dt>
+                <dd>88</dd>
+                <dt>Story Points completados</dt>
+                <dd>34</dd>
+                <dt>Velocidad</dt>
+                <dd>13</dd>
+              </dl>
+              <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+              <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint.</p>
+            </header>
+            
+            <section aria-labelledby="titulo-historias-asignadas">
+              <h2 id="titulo-historias-asignadas">Historias asignadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas (horas)</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr><tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>—</td><td>0.00 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-horas">
+              <h2 id="titulo-horas">Horas estimadas vs reales (horas)</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Horas estimadas (horas)</th>
+                    <th scope="col">Horas reales (horas)</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>111.11 h</td>
+                    <td>222.22 h</td>
+                    <td>-12.50%</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos-detectados">
+              <h2 id="titulo-defectos-detectados">Defectos detectados en el Sprint</h2>
+              
+              <dl class="detalle">
+                <dt>Detectados</dt>
+                <dd>61</dd>
+                <dt>Resueltos</dt>
+                <dd>57</dd>
+                <dt>Total detectados en el Sprint</dt>
+                <dd>24</dd>
+                <dt>Severidad alta</dt>
+                <dd>9</dd>
+                <dt>Severidad media</dt>
+                <dd>8</dd>
+                <dt>Severidad baja</dt>
+                <dd>7</dd>
+                <dt>Abiertos</dt>
+                <dd>5</dd>
+                <dt>En curso</dt>
+                <dd>4</dd>
+                <dt>Resueltos por estado</dt>
+                <dd>3</dd>
+              </dl>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de detección</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>Resuelto</td><td>HU-01</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos-resueltos">
+              <h2 id="titulo-defectos-resueltos">Defectos resueltos en el Sprint</h2>
+              
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de resolución</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>HU-01</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <p class="acciones">
+              <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+              <a class="boton-imprimir" href="/proyectos/PRJ-001/sprints/1/reporte.pdf">Descargar PDF</a>
+            </p>
+            </div>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/defectos (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Defectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Defectos de Sistema de Métricas</h1>
+            
+            
+            <section aria-labelledby="metricas-proyecto">
+              <h2 id="metricas-proyecto">Métricas del proyecto</h2>
+              <p>Defectos detectados: 0</p>
+              <p>Defectos resueltos: 0</p>
+            </section>
+            
+            <section aria-labelledby="metricas-sprints">
+              <h2 id="metricas-sprints">Métricas por Sprint</h2>
+              
+                <table>
+                  <thead>
+                    <tr><th>Sprint</th><th>Objetivo</th><th>Detectados</th><th>Resueltos</th></tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>Sprint 1</td>
+                      <td>Primera entrega</td>
+                      <td>Detectados: 0</td>
+                      <td>Resueltos: 0</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              
+            </section>
+            
+            <section>
+              <h2>Registrar defecto</h2>
+              <form method="post" action="/proyectos/PRJ-001/defectos" class="formulario">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+            
+                <label for="severidad">Severidad</label>
+                <select id="severidad" name="severidad" required>
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+            
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" required>
+                  <option value="Abierto">Abierto</option>
+                  <option value="En curso">En curso</option>
+                  <option value="Resuelto">Resuelto</option>
+                </select>
+            
+                <label for="item_id">Historia relacionada</label>
+                <select id="item_id" name="item_id" required>
+                  <option value="HU-01">HU-01 - Iniciar sesión</option>
+                </select>
+            
+                <label for="sprint_deteccion">Sprint de detección</label>
+                <select id="sprint_deteccion" name="sprint_deteccion" required>
+                  <option value="1">Sprint 1 - Primera entrega</option>
+                </select>
+            
+                <label for="sprint_resolucion">Sprint de resolución (opcional)</label>
+                <select id="sprint_resolucion" name="sprint_resolucion">
+                  <option value="">Sin Sprint de resolución</option>
+                  <option value="1">Sprint 1 - Primera entrega</option>
+                </select>
+            
+                <button type="submit">Registrar defecto</button>
+              </form>
+            </section>
+            
+            <section>
+              <h2>Defectos registrados</h2>
+              
+                <p>No hay defectos registrados.</p>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/integrantes (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Integrantes</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Integrantes</h1>
+            <h2>Proyecto: Sistema de Métricas</h2>
+            
+            
+            
+            <p>El proyecto no tiene integrantes</p>
+            
+            <form method="post" action="/proyectos/PRJ-001/integrantes" class="formulario">
+              <label>
+                Nombre
+                <input type="text" name="nombre" value="">
+              </label>
+              <label>
+                Rol
+                <input type="text" name="rol" value="">
+              </label>
+              <button type="submit">Registrar integrante</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/dashboard (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-99.00%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>+42.50%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_MigasEnCadaPantalla//proyectos/PRJ-001/reporte (0.00s)
+        t15_test.go:234: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Reporte de Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <div class="reporte">
+            <header class="reporte-encabezado">
+              <h1>Reporte de Sistema de Métricas</h1>
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>88</dd>
+                <dt>Story Points completados</dt>
+                <dd>34</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>93.75%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>
+              <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+            </header>
+            
+            <section aria-labelledby="titulo-historias-planificadas">
+              <h2 id="titulo-historias-planificadas">Historias planificadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>10.00 h</td><td>9.50 h</td></tr><tr><td>HU-03</td><td>Cerrar sesión</td><td>Pendiente</td><td>8</td><td>—</td><td>0.00 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-historias-completadas">
+              <h2 id="titulo-historias-completadas">Historias completadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-sprints-cerrados">
+              <h2 id="titulo-sprints-cerrados">Sprints cerrados</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Velocidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos">
+              <h2 id="titulo-defectos">Defectos</h2>
+              
+              <dl class="detalle">
+                <dt>Detectados</dt>
+                <dd>121</dd>
+                <dt>Resueltos</dt>
+                <dd>117</dd>
+                <dt>Total</dt>
+                <dd>121</dd>
+                <dt>Severidad alta</dt>
+                <dd>91</dd>
+                <dt>Severidad media</dt>
+                <dd>82</dd>
+                <dt>Severidad baja</dt>
+                <dd>73</dd>
+                <dt>Abiertos</dt>
+                <dd>51</dd>
+                <dt>En curso</dt>
+                <dd>42</dd>
+                <dt>Resueltos por estado</dt>
+                <dd>33</dd>
+              </dl>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de detección</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Totales desalineados en la tabla</td><td>Media</td><td>En curso</td><td>HU-02</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <p class="acciones">
+              <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+              <a class="boton-imprimir" href="/proyectos/PRJ-001/reporte.pdf">Descargar PDF</a>
+            </p>
+            </div>
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestT15_VolverEnCadaPantalla (0.01s)
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/nuevo (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo proyecto</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/proyectos">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo proyecto</h1>
+            
+            <form method="post" action="/proyectos" class="formulario">
+              <label>Nombre
+                <input type="text" name="nombre" value="">
+              </label>
+              <label>Fecha de inicio
+                <input type="date" name="fechaInicio" value="">
+              </label>
+              <label>Fecha de fin
+                <input type="date" name="fechaFin" value="">
+              </label>
+              <button type="submit">Crear proyecto</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001 (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Sistema de Métricas</h1>
+            <dl class="detalle">
+              <dt>ID</dt>
+              <dd>PRJ-001</dd>
+              <dt>Fecha de inicio</dt>
+              <dd>2026-01-05</dd>
+              <dt>Fecha de fin</dt>
+              <dd>2026-12-31</dd>
+              <dt>Estado</dt>
+              <dd>En curso</dd>
+            </dl>
+            <p class="acciones">
+              <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+              <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+              <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+              <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+              <a href="/proyectos/PRJ-001/integrantes">Ver integrantes</a>
+            </p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/backlog (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Backlog</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Backlog</h1>
+            <p>Proyecto: PRJ-001</p>
+            <p><a href="/proyectos/PRJ-001/backlog/nuevo">Nuevo ítem</a></p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Prioridad</th>
+                  <th>Estado</th>
+                  <th>Story Points</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>HU-01</td>
+                  <td>Iniciar sesión</td>
+                  <td>Media</td>
+                  <td>Pendiente</td>
+                  <td>3</td>
+                  <td>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/editar">Editar</a>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/poker">Planning Poker</a>
+                    <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/estimar" class="en-linea">
+                      <input type="number" name="storyPoints" value="3" min="0" step="1">
+                      <button type="submit">Estimar</button>
+                    </form>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/backlog/nuevo (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/backlog"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3"></textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <button type="submit">Crear ítem</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/backlog/HU-01/editar (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/backlog#item-HU-01"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Editar ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Editar ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/editar" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="Iniciar sesión">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3">Descripción de Iniciar sesión</textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media" selected>Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <label>Story Points
+                <input type="number" name="storyPoints" value="3" min="0" step="1">
+              </label>
+              
+              <button type="submit">Guardar cambios</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/backlog/HU-01/poker (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/backlog#item-HU-01"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Este proyecto todavía no tiene integrantes</p>
+            <p><a href="/proyectos/PRJ-001/integrantes">Registrar integrantes</a></p>
+            
+            
+            <p>La historia todavía no tiene rondas</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Iniciar ronda</button>
+            </form>
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/sprints (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+            <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Objetivo</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Estado</th>
+                  <th>Story Points planificados</th>
+                  <th>Story Points completados</th>
+                  <th>Velocidad</th>
+                  <th>Asignar historia</th>
+                  <th>Cerrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>1</td>
+                  <td>Primera entrega</td>
+                  <td>2026-03-01</td>
+                  <td>2026-03-14</td>
+                  <td>Activo</td>
+                  <td>8</td>
+                  <td>0</td>
+                  <td>0.00</td>
+                  <td>
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                      <select name="itemID">
+                        
+                        <option value="HU-01">HU-01 - Iniciar sesión</option>
+                        
+                      </select>
+                      <button type="submit">Asignar</button>
+                    </form>
+                  </td>
+                  <td>
+                    
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/cerrar" class="en-linea">
+                      <button type="submit">Cerrar Sprint</button>
+                    </form>
+                    
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            <h2>Sprint 1: historias asignadas</h2>
+            <p><a href="/proyectos/PRJ-001/sprints/1/reporte">Ver reporte del Sprint</a></p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Estado</th>
+                  <th>Story Points</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                
+                <tr>
+                  <td>HU-01</td>
+                  <td>Iniciar sesión</td>
+                  <td>Pendiente</td>
+                  <td>3</td>
+                  <td>
+                    
+                    <form method="post" action="/proyectos/PRJ-001/sprints/1/items/HU-01/completar" class="en-linea">
+                      <button type="submit">Marcar completada</button>
+                    </form>
+                    
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/sprints/nuevo (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/sprints"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo Sprint</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo Sprint</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/sprints" class="formulario">
+              <label>Número
+                <input type="number" name="numero" value="" min="1" step="1">
+              </label>
+              <label>Objetivo
+                <input type="text" name="objetivo" value="">
+              </label>
+              <label>Fecha de inicio
+                <input type="date" name="fechaInicio" value="">
+              </label>
+              <label>Fecha de fin
+                <input type="date" name="fechaFin" value="">
+              </label>
+              <button type="submit">Crear Sprint</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/sprints/historico (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/sprints"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Histórico de Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Histórico de Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p><a href="/proyectos/PRJ-001/sprints">Volver a Sprints</a></p>
+            
+            <p>No hay Sprints cerrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/sprints/1/reporte (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001/sprints#sprint-1"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Reporte del Sprint 1</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <div class="reporte">
+            <header class="reporte-encabezado">
+              <h1>Reporte del Sprint 1 de Sistema de Métricas</h1>
+              <dl class="detalle">
+                <dt>Sprint Goal</dt>
+                <dd>Entregar el núcleo del sistema</dd>
+                <dt>Fecha de inicio</dt>
+                <dd>2026-02-02</dd>
+                <dt>Fecha de fin</dt>
+                <dd>2026-02-27</dd>
+                <dt>Estado</dt>
+                <dd>Cerrado</dd>
+                <dt>Story Points planificados</dt>
+                <dd>88</dd>
+                <dt>Story Points completados</dt>
+                <dd>34</dd>
+                <dt>Velocidad</dt>
+                <dd>13</dd>
+              </dl>
+              <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+              <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint.</p>
+            </header>
+            
+            <section aria-labelledby="titulo-historias-asignadas">
+              <h2 id="titulo-historias-asignadas">Historias asignadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas (horas)</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr><tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>—</td><td>0.00 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-horas">
+              <h2 id="titulo-horas">Horas estimadas vs reales (horas)</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Horas estimadas (horas)</th>
+                    <th scope="col">Horas reales (horas)</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>111.11 h</td>
+                    <td>222.22 h</td>
+                    <td>-12.50%</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos-detectados">
+              <h2 id="titulo-defectos-detectados">Defectos detectados en el Sprint</h2>
+              
+              <dl class="detalle">
+                <dt>Detectados</dt>
+                <dd>61</dd>
+                <dt>Resueltos</dt>
+                <dd>57</dd>
+                <dt>Total detectados en el Sprint</dt>
+                <dd>24</dd>
+                <dt>Severidad alta</dt>
+                <dd>9</dd>
+                <dt>Severidad media</dt>
+                <dd>8</dd>
+                <dt>Severidad baja</dt>
+                <dd>7</dd>
+                <dt>Abiertos</dt>
+                <dd>5</dd>
+                <dt>En curso</dt>
+                <dd>4</dd>
+                <dt>Resueltos por estado</dt>
+                <dd>3</dd>
+              </dl>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de detección</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>Resuelto</td><td>HU-01</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos-resueltos">
+              <h2 id="titulo-defectos-resueltos">Defectos resueltos en el Sprint</h2>
+              
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de resolución</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>HU-01</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <p class="acciones">
+              <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+              <a class="boton-imprimir" href="/proyectos/PRJ-001/sprints/1/reporte.pdf">Descargar PDF</a>
+            </p>
+            </div>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/defectos (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Defectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Defectos de Sistema de Métricas</h1>
+            
+            
+            <section aria-labelledby="metricas-proyecto">
+              <h2 id="metricas-proyecto">Métricas del proyecto</h2>
+              <p>Defectos detectados: 0</p>
+              <p>Defectos resueltos: 0</p>
+            </section>
+            
+            <section aria-labelledby="metricas-sprints">
+              <h2 id="metricas-sprints">Métricas por Sprint</h2>
+              
+                <table>
+                  <thead>
+                    <tr><th>Sprint</th><th>Objetivo</th><th>Detectados</th><th>Resueltos</th></tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>Sprint 1</td>
+                      <td>Primera entrega</td>
+                      <td>Detectados: 0</td>
+                      <td>Resueltos: 0</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              
+            </section>
+            
+            <section>
+              <h2>Registrar defecto</h2>
+              <form method="post" action="/proyectos/PRJ-001/defectos" class="formulario">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+            
+                <label for="severidad">Severidad</label>
+                <select id="severidad" name="severidad" required>
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+            
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" required>
+                  <option value="Abierto">Abierto</option>
+                  <option value="En curso">En curso</option>
+                  <option value="Resuelto">Resuelto</option>
+                </select>
+            
+                <label for="item_id">Historia relacionada</label>
+                <select id="item_id" name="item_id" required>
+                  <option value="HU-01">HU-01 - Iniciar sesión</option>
+                </select>
+            
+                <label for="sprint_deteccion">Sprint de detección</label>
+                <select id="sprint_deteccion" name="sprint_deteccion" required>
+                  <option value="1">Sprint 1 - Primera entrega</option>
+                </select>
+            
+                <label for="sprint_resolucion">Sprint de resolución (opcional)</label>
+                <select id="sprint_resolucion" name="sprint_resolucion">
+                  <option value="">Sin Sprint de resolución</option>
+                  <option value="1">Sprint 1 - Primera entrega</option>
+                </select>
+            
+                <button type="submit">Registrar defecto</button>
+              </form>
+            </section>
+            
+            <section>
+              <h2>Defectos registrados</h2>
+              
+                <p>No hay defectos registrados.</p>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/integrantes (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Integrantes</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Integrantes</h1>
+            <h2>Proyecto: Sistema de Métricas</h2>
+            
+            
+            
+            <p>El proyecto no tiene integrantes</p>
+            
+            <form method="post" action="/proyectos/PRJ-001/integrantes" class="formulario">
+              <label>
+                Nombre
+                <input type="text" name="nombre" value="">
+              </label>
+              <label>
+                Rol
+                <input type="text" name="rol" value="">
+              </label>
+              <button type="submit">Registrar integrante</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/dashboard (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-99.00%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>+42.50%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT15_VolverEnCadaPantalla//proyectos/PRJ-001/reporte (0.00s)
+        t15_test.go:249: el enlace ← Volver no apunta a "/proyectos/PRJ-001"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Reporte de Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <div class="reporte">
+            <header class="reporte-encabezado">
+              <h1>Reporte de Sistema de Métricas</h1>
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>88</dd>
+                <dt>Story Points completados</dt>
+                <dd>34</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>93.75%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>
+              <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+            </header>
+            
+            <section aria-labelledby="titulo-historias-planificadas">
+              <h2 id="titulo-historias-planificadas">Historias planificadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>10.00 h</td><td>9.50 h</td></tr><tr><td>HU-03</td><td>Cerrar sesión</td><td>Pendiente</td><td>8</td><td>—</td><td>0.00 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-historias-completadas">
+              <h2 id="titulo-historias-completadas">Historias completadas</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Story Points</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales (acumuladas)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-sprints-cerrados">
+              <h2 id="titulo-sprints-cerrados">Sprints cerrados</h2>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Velocidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            <section aria-labelledby="titulo-defectos">
+              <h2 id="titulo-defectos">Defectos</h2>
+              
+              <dl class="detalle">
+                <dt>Detectados</dt>
+                <dd>121</dd>
+                <dt>Resueltos</dt>
+                <dd>117</dd>
+                <dt>Total</dt>
+                <dd>121</dd>
+                <dt>Severidad alta</dt>
+                <dd>91</dd>
+                <dt>Severidad media</dt>
+                <dd>82</dd>
+                <dt>Severidad baja</dt>
+                <dd>73</dd>
+                <dt>Abiertos</dt>
+                <dd>51</dd>
+                <dt>En curso</dt>
+                <dd>42</dd>
+                <dt>Resueltos por estado</dt>
+                <dd>33</dd>
+              </dl>
+              
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Severidad</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Historia</th>
+                    <th scope="col">Sprint de detección</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Totales desalineados en la tabla</td><td>Media</td><td>En curso</td><td>HU-02</td><td>1</td></tr>
+                </tbody>
+              </table>
+              
+              
+            </section>
+            
+            <p class="acciones">
+              <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+              <a class="boton-imprimir" href="/proyectos/PRJ-001/reporte.pdf">Descargar PDF</a>
+            </p>
+            </div>
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestT15_MigasSeRenderizanUnaVez (0.00s)
+    t15_test.go:263: el bloque de migas aparece 0 veces, se esperaba exactamente 1 (R1)
+--- FAIL: TestT15_BacklogFilasConAncla (0.00s)
+    t15_test.go:292: el cuerpo no contiene "<tr id=\"item-HU-01\">"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Backlog</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Backlog</h1>
+        <p>Proyecto: PRJ-001</p>
+        <p><a href="/proyectos/PRJ-001/backlog/nuevo">Nuevo ítem</a></p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Prioridad</th>
+              <th>Estado</th>
+              <th>Story Points</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>HU-01</td>
+              <td>Iniciar sesión</td>
+              <td>Media</td>
+              <td>Pendiente</td>
+              <td>3</td>
+              <td>
+                <a href="/proyectos/PRJ-001/backlog/HU-01/editar">Editar</a>
+                <a href="/proyectos/PRJ-001/backlog/HU-01/poker">Planning Poker</a>
+                <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/estimar" class="en-linea">
+                  <input type="number" name="storyPoints" value="3" min="0" step="1">
+                  <button type="submit">Estimar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_SprintsEncabezadoConAncla (0.00s)
+    t15_test.go:302: el cuerpo no contiene "<h2 id=\"sprint-1\">"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+        <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Story Points completados</th>
+              <th>Velocidad</th>
+              <th>Asignar historia</th>
+              <th>Cerrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-03-01</td>
+              <td>2026-03-14</td>
+              <td>Activo</td>
+              <td>8</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                    <option value="HU-01">HU-01 - Iniciar sesión</option>
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/cerrar" class="en-linea">
+                  <button type="submit">Cerrar Sprint</button>
+                </form>
+                
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        <h2>Sprint 1: historias asignadas</h2>
+        <p><a href="/proyectos/PRJ-001/sprints/1/reporte">Ver reporte del Sprint</a></p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Estado</th>
+              <th>Story Points</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            
+            <tr>
+              <td>HU-01</td>
+              <td>Iniciar sesión</td>
+              <td>Pendiente</td>
+              <td>3</td>
+              <td>
+                
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/items/HU-01/completar" class="en-linea">
+                  <button type="submit">Marcar completada</button>
+                </form>
+                
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_PokerVolverAnclaAlItem (0.00s)
+    t15_test.go:313: el enlace ← Volver no apunta a "/proyectos/PRJ-001/backlog#item-HU-01"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Planning Poker</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Planning Poker</h1>
+        <p>Historia: HU-01</p>
+        
+        
+        <p>Sin estimar</p>
+        
+        <p>Este proyecto todavía no tiene integrantes</p>
+        <p><a href="/proyectos/PRJ-001/integrantes">Registrar integrantes</a></p>
+        
+        
+        <p>La historia todavía no tiene rondas</p>
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+          <button type="submit">Iniciar ronda</button>
+        </form>
+        
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_EditarVolverAnclaAlItem (0.00s)
+    t15_test.go:324: el enlace ← Volver no apunta a "/proyectos/PRJ-001/backlog#item-HU-01"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Editar ítem</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Editar ítem</h1>
+        
+        <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/editar" class="formulario">
+          <label>Título
+            <input type="text" name="titulo" value="Iniciar sesión">
+          </label>
+          <label>Descripción
+            <textarea name="descripcion" rows="3">Descripción de Iniciar sesión</textarea>
+          </label>
+          <label>Prioridad
+            <select name="prioridad">
+              <option value="Alta">Alta</option>
+              <option value="Media" selected>Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </label>
+          <label>Criterios de aceptación (uno por línea)
+            <textarea name="criterios" rows="4"></textarea>
+          </label>
+          
+          <label>Story Points
+            <input type="number" name="storyPoints" value="3" min="0" step="1">
+          </label>
+          
+          <button type="submit">Guardar cambios</button>
+        </form>
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_ReporteSprintVolverAncladoAlSprint (0.00s)
+    t15_test.go:335: el enlace ← Volver no apunta a "/proyectos/PRJ-001/sprints#sprint-1"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Reporte del Sprint 1</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <div class="reporte">
+        <header class="reporte-encabezado">
+          <h1>Reporte del Sprint 1 de Sistema de Métricas</h1>
+          <dl class="detalle">
+            <dt>Sprint Goal</dt>
+            <dd>Entregar el núcleo del sistema</dd>
+            <dt>Fecha de inicio</dt>
+            <dd>2026-02-02</dd>
+            <dt>Fecha de fin</dt>
+            <dd>2026-02-27</dd>
+            <dt>Estado</dt>
+            <dd>Cerrado</dd>
+            <dt>Story Points planificados</dt>
+            <dd>88</dd>
+            <dt>Story Points completados</dt>
+            <dd>34</dd>
+            <dt>Velocidad</dt>
+            <dd>13</dd>
+          </dl>
+          <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+          <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint.</p>
+        </header>
+        
+        <section aria-labelledby="titulo-historias-asignadas">
+          <h2 id="titulo-historias-asignadas">Historias asignadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr><tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>—</td><td>0.00 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-horas">
+          <h2 id="titulo-horas">Horas estimadas vs reales (horas)</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (horas)</th>
+                <th scope="col">Desviación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>111.11 h</td>
+                <td>222.22 h</td>
+                <td>-12.50%</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-detectados">
+          <h2 id="titulo-defectos-detectados">Defectos detectados en el Sprint</h2>
+          
+          <dl class="detalle">
+            <dt>Detectados</dt>
+            <dd>61</dd>
+            <dt>Resueltos</dt>
+            <dd>57</dd>
+            <dt>Total detectados en el Sprint</dt>
+            <dd>24</dd>
+            <dt>Severidad alta</dt>
+            <dd>9</dd>
+            <dt>Severidad media</dt>
+            <dd>8</dd>
+            <dt>Severidad baja</dt>
+            <dd>7</dd>
+            <dt>Abiertos</dt>
+            <dd>5</dd>
+            <dt>En curso</dt>
+            <dd>4</dd>
+            <dt>Resueltos por estado</dt>
+            <dd>3</dd>
+          </dl>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de detección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>Resuelto</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-resueltos">
+          <h2 id="titulo-defectos-resueltos">Defectos resueltos en el Sprint</h2>
+          
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de resolución</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <p class="acciones">
+          <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+          <a class="boton-imprimir" href="/proyectos/PRJ-001/sprints/1/reporte.pdf">Descargar PDF</a>
+        </p>
+        </div>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_EditarItem422MuestraMismasMigas (0.00s)
+    t15_test.go:349: código = 303, se esperaba 422; cuerpo:
+--- FAIL: TestT15_Estimar422MuestraMigasDelBacklog (0.00s)
+    t15_test.go:369: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Backlog</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Backlog</h1>
+        <p>Proyecto: PRJ-001</p>
+        <p><a href="/proyectos/PRJ-001/backlog/nuevo">Nuevo ítem</a></p>
+        <p class="error">Los story points deben ser un número entero</p>
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Prioridad</th>
+              <th>Estado</th>
+              <th>Story Points</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>HU-01</td>
+              <td>Iniciar sesión</td>
+              <td>Media</td>
+              <td>Pendiente</td>
+              <td>3</td>
+              <td>
+                <a href="/proyectos/PRJ-001/backlog/HU-01/editar">Editar</a>
+                <a href="/proyectos/PRJ-001/backlog/HU-01/poker">Planning Poker</a>
+                <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/estimar" class="en-linea">
+                  <input type="number" name="storyPoints" value="3" min="0" step="1">
+                  <button type="submit">Estimar</button>
+                </form>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_FormularioProyecto422MuestraMigas (0.00s)
+    t15_test.go:388: código = 303, se esperaba 422; cuerpo:
+2026/11/16 06:21:15 web: operar el backlog: detalle-t15-postgres-caida
+--- FAIL: TestT15_MigasEscapadas (0.00s)
+    t15_test.go:481: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>&lt;script&gt;alert(1)&lt;/script&gt;</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-002/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-002/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-002/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>&lt;script&gt;alert(1)&lt;/script&gt;</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-002</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-01-05</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-12-31</dd>
+          <dt>Estado</dt>
+          <dd>En curso</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-002/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-002/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-002/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-002/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-002/reporte">Ver reporte</a>
+          <a href="/proyectos/PRJ-002/integrantes">Ver integrantes</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_NombreVacioMuestraProyecto (0.00s)
+    t15_test.go:497: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title></title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-003/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-003/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-003/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1></h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-003</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-01-05</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-12-31</dd>
+          <dt>Estado</dt>
+          <dd>En curso</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-003/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-003/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-003/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-003/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-003/reporte">Ver reporte</a>
+          <a href="/proyectos/PRJ-003/integrantes">Ver integrantes</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_NombreMuyLargoSeMuestraCompleto (0.00s)
+    t15_test.go:512: la página no contiene el bloque "<nav class=\"migas\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de métricas y estimación para equipos distribuidos en múltiples zonas horarias con reportes semanales consolidados</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-004/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-004/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-004/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de métricas y estimación para equipos distribuidos en múltiples zonas horarias con reportes semanales consolidados</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-004</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-01-05</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-12-31</dd>
+          <dt>Estado</dt>
+          <dd>En curso</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-004/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-004/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-004/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-004/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-004/reporte">Ver reporte</a>
+          <a href="/proyectos/PRJ-004/integrantes">Ver integrantes</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT15_ImprimirReporteOcultaMigas (0.00s)
+    t15_test.go:535: estilos.css no contiene el bloque delimitado T-15 (/* === T-15 … */)
+2026/11/16 06:21:15 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 06:21:15 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 06:21:15 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 06:21:15 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+2026/11/16 06:21:15 web: operar defectos del proyecto: fallo de conexión
+2026/11/16 06:21:15 web: obtener dashboard del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 06:21:15 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 06:21:15 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+2026/11/16 06:21:15 web: generar el reporte del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 06:21:15 web: generar el reporte del sprint PRJ-001: falla interna: timeout al leer la base
+2026/11/16 06:21:15 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 06:21:15 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+2026/11/16 06:21:16 web: generar el reporte del proyecto PRJ-001: detalle-secreto-bd
+2026/11/16 06:21:16 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 06:21:16 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 06:21:16 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 06:21:16 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 06:21:16 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	3.268s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.007s
+FAIL
+Exit code: 1
