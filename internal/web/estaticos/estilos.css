@@ -167,6 +167,10 @@ body {
     display: none;
   }
 
+  .reporte .boton-imprimir {
+    display: none;
+  }
+
   .reporte .tabla tr {
     page-break-inside: avoid;
   }
