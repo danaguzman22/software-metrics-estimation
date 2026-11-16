@@ -2,11 +2,9 @@ package web
 
 import (
 	"fmt"
-	"html/template"
 	"math"
 	"strings"
 
-	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
 	"github.com/danaguzman22/software-metrics-estimation/internal/service"
 )
 
@@ -110,7 +108,10 @@ func puntosHoras(puntos []service.PuntoHorasSprint, escala float64) []dashboardP
 			GrupoX:              grupoX,
 			EstTexto:            fmt.Sprintf("%.2f", punto.HorasEstimadas),
 			RealTexto:           fmt.Sprintf("%.2f", punto.HorasReales),
-			DesvTexto:           desviacionTextoPunto(punto),
+		}
+		if punto.Desviacion != nil {
+			v.DesvDisponible = true
+			v.Desv = *punto.Desviacion
 		}
 		if punto.MetricasDisponibles {
 			v.EstAlto = alturaBarra(punto.HorasEstimadas, escala, graficoHorasAlto)
@@ -123,17 +124,4 @@ func puntosHoras(puntos []service.PuntoHorasSprint, escala float64) []dashboardP
 		vista = append(vista, v)
 	}
 	return vista
-}
-
-// desviacionTextoPunto formatea la desviación de un Sprint para la tabla;
-// nil se muestra como "—" (D12, R14).
-func desviacionTextoPunto(punto service.PuntoHorasSprint) template.HTML {
-	if !punto.MetricasDisponibles || !punto.EstimacionesCompletas {
-		return "—"
-	}
-	desviacion := domain.CalcularDesviacion(punto.HorasEstimadas, punto.HorasReales)
-	if desviacion == nil {
-		return "—"
-	}
-	return template.HTML(fmt.Sprintf("%+.2f%%", *desviacion))
 }

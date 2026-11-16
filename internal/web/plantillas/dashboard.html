@@ -18,7 +18,7 @@
     <dt>Horas reales</dt>
     <dd>{{printf "%.2f" .HorasRealesTotal}} h</dd>
     <dt>Desviación de horas</dt>
-    <dd>{{if .DesviacionHorasTotal}}{{.DesviacionTexto}}{{else}}—{{end}}</dd>
+    <dd>{{if .DesviacionTotalDisponible}}{{if ge .DesviacionHorasTotal 0.0}}+{{end}}{{printf "%.2f" .DesviacionHorasTotal}}%{{else}}—{{end}}</dd>
     <dt>Sprints cerrados</dt>
     <dd>{{.SprintsCerrados}}</dd>
   </dl>
@@ -79,7 +79,7 @@
       </tr>
     </thead>
     <tbody>
-      {{range .Horas}}<tr><td>{{.Sprint}}</td>{{if .MetricasDisponibles}}<td>{{.EstTexto}}</td><td>{{.RealTexto}}</td><td>{{.DesvTexto}}</td>{{else}}<td colspan="3">métricas no disponibles</td>{{end}}</tr>{{else}}<tr><td colspan="4">Sin datos</td></tr>{{end}}
+      {{range .Horas}}<tr><td>{{.Sprint}}</td>{{if .MetricasDisponibles}}<td>{{.EstTexto}}</td><td>{{.RealTexto}}</td><td>{{if .DesvDisponible}}{{if ge .Desv 0.0}}+{{end}}{{printf "%.2f" .Desv}}%{{else}}—{{end}}</td>{{else}}<td colspan="3">métricas no disponibles</td>{{end}}</tr>{{else}}<tr><td colspan="4">Sin datos</td></tr>{{end}}
     </tbody>
   </table>
   {{if .HayMetricasNoDisponibles}}<p class="grafico-nota">Los Sprints cerrados antes de que existiera el registro del esfuerzo aparecen como métricas no disponibles; el resto del dashboard funciona con normalidad.</p>{{end}}

@@ -2,8 +2,6 @@ package web
 
 import (
 	"errors"
-	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/danaguzman22/software-metrics-estimation/internal/domain"
@@ -50,7 +48,7 @@ func (a *aplicacion) dashboardProyecto(w http.ResponseWriter, r *http.Request) {
 }
 
 // dashboardVistaDesde copia los valores del servicio sin recalcularlos; solo
-// formatea la desviación con signo explícito (D16, R18).
+// formatea la desviación con signo explícito (D16, R18, R23).
 func dashboardVistaDesde(datos service.DashboardProyecto, registro service.ProyectoRegistrado, estado domain.Estado) *dashboardVista {
 	vista := &dashboardVista{
 		ProyectoID:                    registro.ID,
@@ -63,11 +61,11 @@ func dashboardVistaDesde(datos service.DashboardProyecto, registro service.Proye
 		HorasEstimadasTotal:           datos.HorasEstimadasTotal,
 		HorasRealesTotal:              datos.HorasRealesTotal,
 		EstimacionesCompletas:         datos.EstimacionesCompletas,
-		DesviacionHorasTotal:          datos.DesviacionHorasTotal,
 		SprintsCerrados:               datos.SprintsCerrados,
 	}
 	if datos.DesviacionHorasTotal != nil {
-		vista.DesviacionTexto = template.HTML(fmt.Sprintf("%+.2f%%", *datos.DesviacionHorasTotal))
+		vista.DesviacionTotalDisponible = true
+		vista.DesviacionHorasTotal = *datos.DesviacionHorasTotal
 	}
 
 	valoresVelocidad := make([]float64, 0, len(datos.VelocidadPorSprint))

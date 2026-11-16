@@ -152,8 +152,20 @@ func (s *ServicioDashboard) ObtenerDashboard(proyectoID string) (DashboardProyec
 			HorasReales:           m.HorasReales,
 			EstimacionesCompletas: m.EstimacionesCompletas,
 			MetricasDisponibles:   true,
+			Desviacion:            desviacionSprint(m),
 		})
 	}
 
 	return dashboard, nil
+}
+
+// desviacionSprint calcula la desviación del Sprint con la misma política de
+// nil que R4 (R23): nil si las estimaciones están incompletas; en otro caso,
+// domain.CalcularDesviacion (que devuelve nil cuando la suma de estimaciones
+// del Sprint es cero).
+func desviacionSprint(m domain.MetricasEsfuerzo) *float64 {
+	if !m.EstimacionesCompletas {
+		return nil
+	}
+	return domain.CalcularDesviacion(m.HorasEstimadas, m.HorasReales)
 }

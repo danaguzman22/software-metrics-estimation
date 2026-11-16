@@ -97,12 +97,16 @@ type dashboardPuntoVelocidad struct {
 
 // dashboardPuntoHoras son las dos barras agrupadas de un Sprint en el gráfico
 // de horas estimadas vs reales (D15). MetricasDisponibles=false no dibuja
-// barras (D12). DesvTexto es solo para la tabla; nil se muestra como "—".
+// barras (D12). La desviación se copia del servicio (R23): DesvDisponible es
+// false cuando el servicio informa nil y la plantilla muestra "—"; Desv es el
+// valor tal como lo devuelve el servicio (con signo), válido si DesvDisponible.
 type dashboardPuntoHoras struct {
 	Sprint              int
 	HorasEstimadas      float64
 	HorasReales         float64
 	MetricasDisponibles bool
+	DesvDisponible      bool
+	Desv                float64
 	EstX                int
 	EstY                int
 	EstAlto             int
@@ -117,7 +121,6 @@ type dashboardPuntoHoras struct {
 	GrupoX              int
 	EstTexto            string
 	RealTexto           string
-	DesvTexto           template.HTML
 }
 
 // dashboardVista es la representación del dashboard lista para renderizar:
@@ -133,8 +136,8 @@ type dashboardVista struct {
 	HorasEstimadasTotal           float64
 	HorasRealesTotal              float64
 	EstimacionesCompletas         bool
-	DesviacionHorasTotal          *float64
-	DesviacionTexto               template.HTML
+	DesviacionTotalDisponible     bool    // false cuando el servicio informa nil; la plantilla muestra "—"
+	DesviacionHorasTotal          float64 // valor tal como lo devuelve el servicio (con signo); válida si DesviacionTotalDisponible
 	SprintsCerrados               int
 	Velocidad                     []dashboardPuntoVelocidad
 	Horas                         []dashboardPuntoHoras

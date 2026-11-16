@@ -573,8 +573,22 @@ func TestUS19_Fase1_ServicioDashboard_CerradosEnOrdenAscendente(t *testing.T) {
 			dashboard.VelocidadPorSprint, esperadoVelocidad)
 	}
 	esperadoHoras := []PuntoHorasSprint{
-		{SprintNumero: 1, HorasEstimadas: 10, HorasReales: 12, EstimacionesCompletas: true, MetricasDisponibles: true},
-		{SprintNumero: 3, HorasEstimadas: 20, HorasReales: 25, EstimacionesCompletas: true, MetricasDisponibles: true},
+		{
+			SprintNumero:          1,
+			HorasEstimadas:        10,
+			HorasReales:           12,
+			EstimacionesCompletas: true,
+			MetricasDisponibles:   true,
+			Desviacion:            horasPuntero(20),
+		},
+		{
+			SprintNumero:          3,
+			HorasEstimadas:        20,
+			HorasReales:           25,
+			EstimacionesCompletas: true,
+			MetricasDisponibles:   true,
+			Desviacion:            horasPuntero(25),
+		},
 	}
 	if !reflect.DeepEqual(dashboard.HorasPorSprint, esperadoHoras) {
 		t.Errorf("HorasPorSprint = %+v, se esperaba %+v (solo cerrados, orden ascendente)",
@@ -880,7 +894,7 @@ func TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones(t *testing.T) {
 // estimaciones del Sprint es cero.
 func TestUS19_Fase2b_ServicioDashboard_DesviacionPorSprint(t *testing.T) {
 	casos := []struct {
-		descripcion string
+		descripcion  string
 		snapshot     *snapshotEsfuerzoFake
 		horasReales  float64
 		desvEsperada *float64
@@ -897,7 +911,7 @@ func TestUS19_Fase2b_ServicioDashboard_DesviacionPorSprint(t *testing.T) {
 			desvEsperada: horasPuntero(-12.5),
 		},
 		{
-			descripcion: "sprint sin snapshot de esfuerzo (cerrado antes de US-17) devuelve nil",
+			descripcion:  "sprint sin snapshot de esfuerzo (cerrado antes de US-17) devuelve nil",
 			snapshot:     nil,
 			horasReales:  35,
 			desvEsperada: nil,
