@@ -94,12 +94,15 @@ El siguiente `docker compose up` arranca con la base vacía y las migraciones se
 Desde la página de inicio se accede a los proyectos. Por cada proyecto se puede:
 
 1. **Crear el proyecto** con nombre y fechas de inicio y fin; el estado se calcula por fechas.
-2. **Administrar el Product Backlog**: alta de historias con título, descripción, prioridad, Story Points y criterios de aceptación; edición y priorización.
-3. **Registrar y seguir defectos** asociados a historias y Sprints.
-4. **Gestionar Sprints**: crear un Sprint con su objetivo y fechas (un solo Sprint activo a la vez), asignarle historias, marcar historias como completadas y cerrar el Sprint. Las historias no completadas vuelven al backlog.
-5. **Ver métricas**: Story Points planificados, completados y velocidad de cada Sprint; velocidad promedio, porcentaje de historias completadas y horas estimadas vs. reales.
-6. **Ver el dashboard** del proyecto, con gráficos de velocidad y horas por Sprint.
-7. **Generar reportes imprimibles** del proyecto completo o de un Sprint.
+2. **Cargar los integrantes** con su rol (necesarios para Planning Poker).
+3. **Administrar el Product Backlog**: alta de historias con título, descripción, prioridad, Story Points y criterios de aceptación; edición y priorización.
+4. **Registrar y seguir defectos** asociados a historias y Sprints.
+5. **Gestionar Sprints**: crear un Sprint con su objetivo y fechas (un solo Sprint activo a la vez), asignarle historias, marcar historias como completadas y cerrar el Sprint. Las historias no completadas vuelven al backlog.
+6. **Ver métricas**: Story Points planificados, completados y velocidad de cada Sprint; velocidad promedio, porcentaje de historias completadas y horas estimadas vs. reales.
+7. **Ver el dashboard** del proyecto, con tarjetas de métricas y gráficos de velocidad y horas por Sprint.
+8. **Generar reportes** del proyecto completo o de un Sprint, para imprimir o descargar en PDF.
+
+La barra superior muestra solo **Proyectos** fuera de un proyecto y, dentro de uno, las secciones de ese proyecto. Las migas de pan y el botón **Volver** indican dónde está la persona.
 
 ---
 
@@ -163,7 +166,7 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 | Sprint 1 — El MVP | Versión funcional básica del sistema (dominio, servicios y persistencia PostgreSQL) | Cerrado. Retrospectiva en `docs/retrospectivas/sprint-1.md` |
 | Sprint 2 — La Interfaz | Dotar al software de una interfaz usable | Cerrado. Retrospectiva en docs/retrospectivas/sprint-2.md |
 | Sprint 3 — Funcionalidad y Calidad | Funcionalidades clave, robustez y visualización | Cerrado. Retrospectiva en docs/retrospectivas/sprint-3.md. |
-| Sprint 4 — El Cierre y la Entrega Final | Pulido, documentación y exportación de informe en PDF | En curso. |
+| Sprint 4 — El Cierre y la Entrega Final | Pulido, documentación y exportación de informe en PDF | Cerrado. Retrospectiva en `docs/retrospectivas/sprint-4.md`. |
 
 ---
 
@@ -171,23 +174,30 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 
 | Funcionalidad | Estado |
 |---|---|
-| Gestión de proyectos (crear, listar, consultar estado por fechas) | Implementada en la interfaz web |
-| Integrantes del proyecto | Implementada en el servicio |
-| Product Backlog (alta, edición, priorización) | Implementado, con interfaz web |
+| Gestión de proyectos (crear, listar, consultar estado calculado por fechas) | Implementada, con interfaz web |
+| Integrantes del proyecto (alta y listado con rol) | Implementada, con interfaz web (T-14) |
+| Product Backlog (alta, edición, priorización, estimación) | Implementado, con interfaz web |
 | Sprints: crear, asignar historias, completar, cerrar, consultar anteriores | Implementados, con interfaz web (incluye histórico) |
-| Métricas: SP planificados y completados, velocidad, velocidad promedio, % de historias completadas | Implementadas y visibles en la interfaz |
-| Planning Poker: votos ocultos, revelación, diferencias, nuevas rondas y estimación acordada | Implementado con interfaz web por historia (US-12 y US-13) |
-| Registro de esfuerzo (integrante, fecha, actividad, horas) | Implementado en servicio y persistencia (US-14); falta interfaz |
-| Gestión de defectos | Parcial |
-| Métricas de horas y desviación estimado vs. real | Implementadas en servicio y persistencia (US-17); falta interfaz |
-| Dashboard con gráficos | Pendiente (Sprint 3) |
-| Reportes y exportación a PDF | Pendiente (Sprint 4) |
+| Métricas de Sprint y de proyecto: SP planificados y completados, velocidad, velocidad promedio, % de historias completadas | Implementadas y visibles en la interfaz |
+| Planning Poker: votos ocultos, revelación, diferencias, nuevas rondas y estimación acordada | Implementado, con interfaz web por historia (US-12 y US-13) |
+| Registro de esfuerzo (integrante, fecha, actividad, horas) | Implementado en servicio y persistencia (US-14); sin pantalla de carga |
+| Métricas de horas y desviación estimado vs. real | Implementadas (US-17); se muestran en el dashboard y los reportes; las horas se cargan por SQL |
 | Gestión de defectos (registro, listado, cambio de estado y Sprint de resolución) | Implementada, con interfaz web (US-15) |
 | Métricas de defectos (detectados y resueltos por Sprint y por proyecto) | Implementadas (US-18) |
-| Métricas de horas y desviación estimado vs. real | Implementadas en servicio y persistencia (US-17); se muestran en el dashboard y los reportes; falta pantalla de carga |
-| Dashboard con gráficos | Implementado, con interfaz web (US-19) |
+| Dashboard con gráficos (velocidad y horas por Sprint) | Implementado, con interfaz web (US-19); diseño compacto en T-17 |
 | Reportes de proyecto y de Sprint (imprimibles) | Implementados, con interfaz web (US-20) |
-| Exportación a PDF | Pendiente (Sprint 4); los reportes se pueden guardar como PDF desde el navegador |
+| Exportación de los reportes a PDF, generada en el servidor | Implementada (US-21) |
+| Navegación: migas de pan y botón Volver en todas las pantallas | Implementada (T-15) |
+| Barra de navegación contextual (solo Proyectos fuera de un proyecto; secciones del proyecto dentro) | Implementada (T-17) |
+| Mejora visual de la interfaz (solo CSS) | Implementada (T-16) |
+
+### Limitaciones conocidas
+
+- No hay inicio de sesión ni usuarios, ni protección CSRF.
+- Las horas estimadas y los registros de esfuerzo no tienen pantalla de carga; se cargan por SQL.
+- Un proyecto en estado Finalizado todavía puede modificarse (issue #96, registrada como trabajo futuro).
+- No hay filtros por período ni búsqueda dentro del proyecto.
+- La ruta global `/defectos` se conserva solo por compatibilidad; los defectos se consultan dentro de cada proyecto.
 
 ---
 
@@ -203,7 +213,7 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 8. Evidencias de aplicación de TDD (`docs/evidencias/`).
 9. Software funcional (Docker Compose).
 10. Informe de métricas y cobertura de pruebas (`docs/metricas-y-cobertura.md`).
-11. Actas de retrospectivas (`docs/retrospectivas/sprint-1.md` y `docs/retrospectivas/sprint-2.md`) y trazabilidad con evidencias de TDD (`docs/trazabilidad-y-evidencias.md`).
+11. Actas de retrospectivas (`docs/retrospectivas/sprint-1.md` a `docs/retrospectivas/sprint-4.md`) y trazabilidad con evidencias de TDD (`docs/trazabilidad-y-evidencias.md`).
 12. Documentación técnica (`docs/documentacion-tecnica.md`, ADR y specs) y manual breve de usuario (`docs/manual-usuario.md`).
 13. Presentación y demostración final.
 

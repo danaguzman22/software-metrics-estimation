@@ -14,8 +14,18 @@ Abrí <http://localhost:8080>. Para detenerla: `docker compose down` (conserva l
 
 1. En **Proyectos** elegí **Nuevo proyecto**.
 2. Completá nombre, fecha de inicio y fecha de fin (la de fin no puede ser anterior a la de inicio).
-3. Guardá. El proyecto aparece en el listado con su estado (se calcula por las fechas: por comenzar, en curso o finalizado).
-4. Entrá al proyecto para ver su detalle y acceder al Backlog y a los Sprints.
+3. Guardá. El proyecto aparece en el listado con su estado (se calcula por las fechas: Planificado, En curso o Finalizado).
+4. Entrá al proyecto para ver su detalle y acceder a Backlog, Sprints, Defectos, Dashboard, Reporte e Integrantes.
+
+## Navegación
+
+La barra superior cambia según dónde estés: fuera de un proyecto muestra solo **Proyectos**; dentro de un proyecto muestra **Backlog, Sprints, Dashboard, Defectos, Reporte e Integrantes** de ese proyecto. Debajo aparecen las migas de pan (por ejemplo Proyectos › Mi proyecto › Backlog) y el botón **← Volver**, que lleva a la pantalla anterior de la jerarquía.
+
+## Integrantes
+
+1. En el proyecto elegí **Integrantes** (en la barra o con el botón **Ver integrantes**).
+2. Completá **Nombre** y **Rol** y elegí **Registrar integrante**. No se admiten nombres repetidos dentro del mismo proyecto.
+3. El listado muestra a todos los integrantes. Se necesitan para votar en Planning Poker: si el proyecto no tiene integrantes, la pantalla de Planning Poker lo avisa.
 
 ## 3. Product Backlog
 
@@ -54,13 +64,14 @@ En la pantalla de Sprints se ven, por cada Sprint, los **Story Points planificad
 
 ## 7. Dashboard
 
-Desde el detalle del proyecto o desde la navegación, elegí **Dashboard**. Muestra el estado del proyecto, los Story Points planificados y completados, la velocidad promedio, el porcentaje de historias completadas, las horas estimadas y reales con su desviación y dos gráficos: **velocidad por Sprint** y **horas estimadas vs. reales por Sprint** (solo Sprints cerrados), cada uno con su tabla de datos. Si el proyecto todavía no tiene Sprints cerrados, los gráficos lo indican.
+Desde el detalle del proyecto o desde la barra superior, elegí **Dashboard**. Muestra, en tarjetas compactas, el estado del proyecto, los Story Points planificados y completados, la velocidad promedio, el porcentaje de historias completadas, las horas estimadas y reales con su desviación y, en paneles lado a lado, dos gráficos: **velocidad por Sprint** y **horas estimadas vs. reales por Sprint** (solo Sprints cerrados), cada uno con su tabla de datos. Si el proyecto todavía no tiene Sprints cerrados, los gráficos lo indican.
 
 ## 8. Reportes
 
 1. **Reporte del proyecto**: en el detalle del proyecto elegí **Ver reporte**. Incluye historias planificadas y completadas, estimaciones, esfuerzo, métricas y defectos.
 2. **Reporte de un Sprint**: en la pantalla de Sprints, en la fila del Sprint, elegí **Ver reporte del Sprint**.
-3. Para llevarlo al cliente, usá el botón **Imprimir** (o Ctrl+P): la impresión oculta la navegación. Desde el cuadro de impresión podés guardarlo como PDF.
+3. **Descargar PDF**: en cada reporte, el botón **Descargar PDF** baja el informe en formato PDF, generado por el servidor.
+4. También podés usar **Imprimir** (o Ctrl+P): la impresión oculta la navegación y los botones.
 
 ## 9. Mensajes de error frecuentes
 
@@ -71,6 +82,9 @@ Desde el detalle del proyecto o desde la navegación, elegí **Dashboard**. Mues
 | El ítem no existe en el proyecto | La historia elegida no pertenece a este proyecto |
 | Ocurrió un error inesperado | Error interno; reintentá y avisá al equipo (el detalle queda en el log) |
 
-## 10. Qué viene
+## 10. Limitaciones y qué viene
 
-Pantallas para cargar integrantes, horas y esfuerzo, exportación a PDF y mejoras visuales (Sprint 4).
+- Las horas estimadas y los registros de esfuerzo todavía no tienen pantalla de carga: el dashboard y los reportes muestran las horas solo si los datos ya existen.
+- No hay inicio de sesión: cualquier persona con acceso a la aplicación puede modificar sus datos.
+- Un proyecto Finalizado todavía permite modificaciones (queda como trabajo futuro).
+- Trabajo futuro: pantallas de esfuerzo y horas, autenticación, bloqueo de proyectos finalizados y filtros por período.

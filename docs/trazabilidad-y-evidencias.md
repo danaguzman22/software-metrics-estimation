@@ -42,8 +42,18 @@ Las evidencias GREEN se generan con PostgreSQL 16 en Docker y la variable `TEST_
 | US-18 (métricas de defectos) | `specs/US-18.md` | `features/US-18.feature` | `US-18-red.txt`, `US-18-green.txt`, `US-18-refactor.txt` |
 | US-19 (dashboard) | `specs/US-19.md` | `features/US-19.feature` | Fase 1: `US-19-red/green/refactor.txt`; Fase 2: `US-19-fase2-red/green/refactor.txt`; ajuste tras revisión: `US-19-fase2b-red/green.txt` |
 | US-20 (reporte de proyecto o Sprint) | `specs/US-20.md` | `features/US-20.feature` | `US-20-red.txt`, `US-20-green.txt`, `US-20-refactor.txt` |
+| US-21 (exportar informe a PDF) | `specs/US-21.md` | `features/US-21.feature` | `US-21-red.txt`, `US-21-green.txt`, `US-21-refactor.txt` |
 
 Tareas técnicas (migración a PostgreSQL, Docker, CI y documentación de agentes): specs `T-02` a `T-13` en `specs/` y evidencias `T-XX-red/green/refactor.txt` en `docs/evidencias/`.
+
+Tareas técnicas del Sprint 4:
+
+| Tarea | Spec | Escenarios | Evidencias (`docs/evidencias/`) |
+|---|---|---|---|
+| T-14 (pantalla de integrantes) | `specs/T-14.md` | `features/T-14.feature` | `T-14-red.txt`, `T-14-green.txt`, `T-14-refactor.txt` |
+| T-15 (migas de pan y Volver) | `specs/T-15.md` | `features/T-15.feature` | `T-15-red.txt`, `T-15-green.txt`, `T-15-refactor.txt` |
+| T-16 (mejora visual, solo CSS) | `specs/T-16.md` | `features/T-16.feature` | Sin ciclo RED por ser presentación sin comportamiento nuevo; la verificación está en la spec y en el recorrido visual del PR #93 |
+| T-17 (barra contextual y dashboard compacto) | `specs/T-17.md` | Cubierto por `internal/web/t17_test.go` | Tests escritos antes del código (RED real); GREEN con la suite completa y PostgreSQL real al mergear |
 
 ## 4. Retrospectivas
 
@@ -52,11 +62,14 @@ Tareas técnicas (migración a PostgreSQL, Docker, CI y documentación de agente
 | Sprint 1 — El MVP | [`retrospectivas/sprint-1.md`](retrospectivas/sprint-1.md) |
 | Sprint 2 — La Interfaz | [`retrospectivas/sprint-2.md`](retrospectivas/sprint-2.md) |
 | Sprint 3 — Funcionalidad y Calidad | [`retrospectivas/sprint-3.md`](retrospectivas/sprint-3.md) |
+| Sprint 4 — El Cierre y la Entrega Final | [`retrospectivas/sprint-4.md`](retrospectivas/sprint-4.md) |
 
 Aprendizajes del Sprint 1 aplicados en el Sprint 2: definir fechas y Sprint Goal en el planning, exigir CI en verde y evidencias sin tests omitidos antes de mergear, y documentar en el momento.
 Aprendizajes del Sprint 2 aplicados en el Sprint 3: revisar el primer push de cada historia contra el orden de commits, confirmar el plazo y la rama de entrega al inicio y regenerar la cobertura al cierre del Sprint. En el Sprint 3 se sumó una regla nueva a partir de la revisión de la US-19: la capa web no recalcula ni deriva ninguna cifra, la entrega el servicio.
+Aprendizajes del Sprint 3 aplicados en el Sprint 4: se mantuvieron el orden de commits y el GREEN con PostgreSQL real, y se agregó un chequeo de BOM antes de cada commit tras un error que solo apareció en el CI.
 
 ## 5. Revisión por pares y por agente
 
 Cada historia pasa por `@revisor` antes del Pull Request y por revisión cruzada entre las integrantes. Los hallazgos relevantes (por ejemplo, velocidad del Sprint sin dos decimales en US-22 Fase 3 o la comprobación de errores en los tests de concurrencia de US-12) se corrigieron con commits propios (`test:`, `feat:` o `fix:`) antes del merge.
 En el Sprint 3, la revisión encontró la desviación por Sprint calculada en la web (US-19) y las reglas de impresión sin acotar (US-20); ambas se corrigieron con commits propios antes del merge.
+En el Sprint 4, la revisión encontró la validación faltante del formato HU-NN en la edición de historias y el error de ruta al asignar con un Sprint inválido (T-15), corregidos con commits propios; y la verificación manual del último día detectó que un proyecto Finalizado puede seguir modificándose (issue #96, trabajo futuro).
