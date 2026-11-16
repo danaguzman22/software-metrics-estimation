@@ -1,0 +1,17 @@
+US-19 FASE 2 REFACTOR
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.160s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.018s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.123s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.053s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.303s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	11.124s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.816s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.010s
+Exit code: 0
