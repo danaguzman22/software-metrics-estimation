@@ -1,6 +1,6 @@
 # language: es
 # T-14 implementada: pendiente. Pantalla de integrantes en internal/web y aviso
-# en Planning Poker. Fuente: issue #87 y decisiones DECIDIDAS 1–5 de specs/T-14.md.
+# en Planning Poker. Fuente: issue #87 y decisiones DECIDIDAS 1–5 y D9 de specs/T-14.md.
 # Los escenarios describen CA1–CA6 y las decisiones confirmadas: una página por
 # proyecto con listado y formulario; enlace "Ver integrantes" en el detalle sin
 # quitar los existentes; alta con POST-Redirect-GET 303; errores de dominio 422
@@ -8,7 +8,8 @@
 # permitido 405; error de infraestructura 500 genérico; aviso en Poker cuando no
 # hay integrantes; sin reglas duplicadas y con salida escapada. Las reglas de
 # negocio (nombre, rol, duplicado) siguen en el dominio de US-03.
-# Los detalles de rutas, plantilla, textos y tests son DERIVADAS 6–13 de la spec.
+# Los detalles de rutas, plantilla, textos y tests son DERIVADAS 6–8 y 10–13 de
+# la spec; D9 (nombre del proyecto con ObtenerProyecto) está confirmada.
 # No se escenifican cosas fuera de alcance: modificar o eliminar integrantes,
 # catálogo de roles, autenticación, paginación, JavaScript, cambios en el
 # servicio, repositorios, migraciones o reglas de Poker.
@@ -20,11 +21,12 @@ Característica: Pantalla para registrar integrantes del proyecto
   Para no cargarlos por SQL y poder usar Planning Poker
 
   @CA1
-  Escenario: La página del proyecto muestra sus integrantes y el formulario de alta
-    Dado un proyecto existente identificado por su ID
+  Escenario: La página del proyecto muestra su nombre, sus integrantes y el formulario de alta
+    Dado un proyecto existente identificado por su ID y con nombre "Sistema de Métricas"
     Y que el proyecto tiene registrados a "Dana Guzmán" con rol "Desarrollador" y a "Victoria Caro" con rol "Tester"
     Cuando se abre la página de integrantes del proyecto
     Entonces la página responde con éxito
+    Y muestra el nombre del proyecto "Sistema de Métricas"
     Y muestra a "Dana Guzmán" con rol "Desarrollador"
     Y muestra a "Victoria Caro" con rol "Tester"
     Y muestra un formulario con los campos "Nombre" y "Rol"
