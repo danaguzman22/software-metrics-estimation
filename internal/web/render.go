@@ -20,9 +20,13 @@ const mensajeErrorInfraestructura = "Ocurrió un error inesperado. Intentá nuev
 // navContexto indica a dónde apuntan los enlaces de Backlog y Sprints según si
 // la página pertenece a un proyecto.
 type navContexto struct {
+	EnProyecto     bool
 	Backlog        string
 	Sprints        string
 	Dashboard      string
+	Defectos       string
+	Reporte        string
+	Integrantes    string
 	MostrarLeyenda bool
 }
 
@@ -322,10 +326,15 @@ func navSinProyecto(conLeyenda bool) navContexto {
 // navConProyecto arma la navegación apuntando al backlog y a los sprints del
 // proyecto indicado.
 func navConProyecto(id string) navContexto {
+	base := "/proyectos/" + id
 	return navContexto{
-		Backlog:   "/proyectos/" + id + "/backlog",
-		Sprints:   "/proyectos/" + id + "/sprints",
-		Dashboard: "/proyectos/" + id + "/dashboard",
+		EnProyecto:  true,
+		Backlog:     base + "/backlog",
+		Sprints:     base + "/sprints",
+		Dashboard:   base + "/dashboard",
+		Defectos:    base + "/defectos",
+		Reporte:     base + "/reporte",
+		Integrantes: base + "/integrantes",
 	}
 }
 

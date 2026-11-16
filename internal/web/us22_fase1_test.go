@@ -449,7 +449,12 @@ func TestUS22_Fase1_NavegacionEnTodasLasPaginas(t *testing.T) {
 			// D18 (US-19): la navegación gana el enlace Dashboard; los cuatro
 			// enlaces preexistentes de US-22 (Proyectos/Backlog/Sprints/Defectos)
 			// siguen presentes (R1 de US-22).
-			exigirCuerpoContieneUS22(t, rec, "Proyectos", "Backlog", "Sprints", "Defectos", "Dashboard")
+			// T-17: la barra es contextual. Siempre muestra Proyectos; las
+			// secciones solo aparecen dentro de un proyecto existente.
+			exigirCuerpoContieneUS22(t, rec, "Proyectos")
+			if strings.HasPrefix(caso.ruta, "/proyectos/PRJ-001") {
+				exigirCuerpoContieneUS22(t, rec, "Backlog", "Sprints", "Defectos", "Dashboard")
+			}
 
 			cuerpo := rec.Body.String()
 			tieneLeyenda := strings.Contains(cuerpo, "Elegí un proyecto para ver su backlog y sus sprints")

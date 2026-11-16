@@ -735,3 +735,59 @@ body {
   }
 }
 /* === T-16 · Mejora visual de la interfaz (fin) === */
+
+/* === T-17 · Dashboard compacto (inicio) === */
+.tarjetas-kpi {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.tarjeta-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.kpi-etiqueta {
+  color: var(--color-texto-secundario);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.kpi-valor {
+  color: var(--color-texto);
+  font-size: 1.15rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.paneles-graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.paneles-graficos > .grafico {
+  min-width: 0;
+  margin: 0;
+}
+
+.paneles-graficos .tabla {
+  min-width: 0;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 40rem) {
+  .paneles-graficos {
+    grid-template-columns: 1fr;
+  }
+}
+/* === T-17 · Dashboard compacto (fin) === */
