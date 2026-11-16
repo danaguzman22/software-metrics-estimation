@@ -3,6 +3,7 @@ module github.com/danaguzman22/software-metrics-estimation
 go 1.24
 
 require (
+	github.com/go-pdf/fpdf v0.9.0
 	github.com/jackc/pgx/v5 v5.7.4
 	github.com/pressly/goose/v3 v3.24.3
 )
