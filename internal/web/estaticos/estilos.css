@@ -221,3 +221,521 @@ body {
   }
 }
 /* === T-15 · Migas de pan y "← Volver" (fin) === */
+
+/* === T-16 · Mejora visual de la interfaz (inicio) === */
+:root {
+  --color-fondo: #f5f7fb;
+  --color-superficie: #ffffff;
+  --color-borde: #e5e9f2;
+  --color-texto: #172033;
+  --color-texto-secundario: #536079;
+  --color-marino: #0f1f4b;
+  --color-azul: #2563eb;
+  --color-indigo: #4f46e5;
+  --color-verde: #10b981;
+  --color-violeta: #7c3aed;
+  --color-naranja: #f59e0b;
+  --color-rojo: #b42332;
+  --color-foco: #f59e0b;
+  --radio-tarjeta: 12px;
+  --sombra-tarjeta: 0 8px 24px rgb(15 31 75 / 7%);
+  --espaciado-pagina: 1.5rem;
+}
+
+@media screen {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  a {
+    color: var(--color-azul);
+    text-underline-offset: 0.18em;
+  }
+
+  a:hover {
+    color: var(--color-indigo);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-foco);
+    outline-offset: 3px;
+  }
+
+  .encabezado {
+    background: var(--color-marino);
+    box-shadow: 0 3px 14px rgb(15 31 75 / 16%);
+  }
+
+  .navegacion {
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .navegacion a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: 8px;
+    color: #f8faff;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .navegacion a:hover {
+    background: rgb(255 255 255 / 12%);
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .contenido {
+    width: min(100%, 1200px);
+    padding: var(--espaciado-pagina);
+    overflow-x: auto;
+  }
+
+  .contenido h1 {
+    margin: 0 0 1.25rem;
+    color: var(--color-marino);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .contenido h2 {
+    color: var(--color-marino);
+    line-height: 1.3;
+  }
+
+  .contenido h3 {
+    color: var(--color-texto);
+  }
+
+  .contenido > section,
+  .contenido > form.formulario,
+  .contenido > .detalle,
+  .contenido > table,
+  .contenido > .metricas {
+    margin: 1rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-tarjeta);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-tarjeta);
+  }
+
+  .contenido > .reporte {
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .contenido > .reporte > section {
+    margin: 1.25rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-borde);
+  }
+
+  .migas {
+    padding: 0.75rem var(--espaciado-pagina) 0.25rem;
+    color: var(--color-texto-secundario);
+  }
+
+  .migas a,
+  .volver a {
+    color: var(--color-azul);
+    text-decoration: none;
+  }
+
+  .migas a:hover,
+  .volver a:hover {
+    color: var(--color-indigo);
+    text-decoration: underline;
+  }
+
+  .migas a[aria-current="page"] {
+    color: var(--color-marino);
+  }
+
+  .migas-sep {
+    color: #7a8499;
+  }
+
+  .volver {
+    margin: 0.35rem auto 0;
+    max-width: 1200px;
+    padding: 0 var(--espaciado-pagina);
+  }
+
+  .leyenda {
+    border: 1px solid #cbd9ff;
+    border-left: 4px solid var(--color-azul);
+    border-radius: 8px;
+    background: #eef3ff;
+    color: #193b80;
+  }
+
+  .error {
+    border: 1px solid #f3c4c8;
+    border-left: 4px solid var(--color-rojo);
+    border-radius: 8px;
+    background: #fff1f2;
+    color: #84212b;
+  }
+
+  .tabla,
+  .contenido table {
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    background: var(--color-superficie);
+    color: var(--color-texto);
+  }
+
+  .tabla th,
+  .tabla td,
+  .contenido table th,
+  .contenido table td {
+    border-color: var(--color-borde);
+    padding: 0.7rem 0.85rem;
+    vertical-align: top;
+  }
+
+  .tabla th,
+  .contenido table th {
+    background: #eef2fa;
+    color: var(--color-marino);
+    font-weight: 700;
+  }
+
+  .tabla tbody tr:nth-child(even),
+  .contenido table tbody tr:nth-child(even) {
+    background: #f8faff;
+  }
+
+  .tabla tbody tr:hover,
+  .contenido table tbody tr:hover {
+    background: #edf3ff;
+  }
+
+  .contenido:has(> p > a[href="/proyectos/nuevo"]) > table tbody td:nth-child(5),
+  .contenido:has(> p > a[href$="/backlog/nuevo"]) > table tbody td:nth-child(4),
+  .contenido:has(> p > a[href$="/sprints/nuevo"]) > table tbody td:nth-child(5),
+  .contenido h2[id^="sprint-"] + p + table tbody td:nth-child(3) {
+    border-radius: 999px;
+    background: #eef2ff;
+    box-shadow: inset 0 0 0 1px var(--color-borde);
+    color: #303e69;
+    font-weight: 650;
+    text-align: center;
+  }
+
+  .tabla caption,
+  .contenido table caption {
+    padding: 0.65rem;
+    color: var(--color-texto-secundario);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .detalle dt {
+    margin-top: 0.65rem;
+    color: var(--color-texto-secundario);
+    font-size: 0.92rem;
+  }
+
+  .detalle dd {
+    margin-bottom: 0.8rem;
+    color: var(--color-texto);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .formulario {
+    width: 100%;
+    max-width: 560px;
+    gap: 1.1rem;
+  }
+
+  .formulario label {
+    color: var(--color-texto);
+    gap: 0.45rem;
+  }
+
+  input,
+  textarea,
+  select {
+    min-width: 0;
+    max-width: 100%;
+    border: 1px solid #c7cfdd;
+    border-radius: 7px;
+    background: #ffffff;
+    color: var(--color-texto);
+    font: inherit;
+  }
+
+  .formulario input,
+  .formulario textarea,
+  .formulario select,
+  .formulario button,
+  form:not(.en-linea) input,
+  form:not(.en-linea) textarea,
+  form:not(.en-linea) select,
+  form:not(.en-linea) button {
+    min-height: 2.75rem;
+    padding: 0.65rem 0.8rem;
+    font: inherit;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:hover,
+  textarea:hover,
+  select:hover {
+    border-color: #8796b3;
+  }
+
+  button,
+  .contenido button,
+  .contenido .boton-imprimir {
+    min-height: 2.65rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--color-azul);
+    border-radius: 8px;
+    background: var(--color-azul);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  }
+
+  button:hover,
+  .contenido button:hover,
+  .contenido .boton-imprimir:hover {
+    border-color: var(--color-indigo);
+    background: var(--color-indigo);
+    color: #ffffff;
+  }
+
+  button:active,
+  .contenido .boton-imprimir:active {
+    transform: translateY(1px);
+  }
+
+  .acciones {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .acciones a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.65rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    background: #ffffff;
+    text-decoration: none;
+  }
+
+  .acciones a:hover {
+    border-color: #b9c9ed;
+    background: #f1f5ff;
+  }
+
+  .contenido a[href$="/sprints/historico"] {
+    border-color: #f3d19c;
+    background: #fff8eb;
+    color: #854d0e;
+  }
+
+  .contenido a[href$="/sprints/historico"]:hover {
+    border-color: var(--color-naranja);
+    background: #fff1d6;
+  }
+
+  .contenido a[href$="/reporte.pdf"] {
+    border-color: #d7cdfb;
+    background: #f5f1ff;
+    color: #5b21b6;
+  }
+
+  .contenido a[href$="/reporte.pdf"]:hover {
+    border-color: var(--color-violeta);
+    background: #eee7ff;
+  }
+
+  form[action$="/integrantes"] button,
+  form[action*="/completar"] button {
+    border-color: #059669;
+    background: var(--color-verde);
+  }
+
+  form[action$="/integrantes"] button:hover,
+  form[action*="/completar"] button:hover {
+    border-color: #047857;
+    background: #059669;
+  }
+
+  form[action*="/cerrar"] button {
+    border-color: #d97706;
+    background: var(--color-naranja);
+    color: #422006;
+  }
+
+  form[action*="/cerrar"] button:hover {
+    border-color: #b45309;
+    background: #fbbf24;
+    color: #422006;
+  }
+
+  form[action*="/defectos"] button {
+    border-color: var(--color-rojo);
+    background: var(--color-rojo);
+  }
+
+  form[action*="/defectos"] button:hover {
+    border-color: #84212b;
+    background: #84212b;
+  }
+
+  .en-linea {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .en-linea select,
+  .en-linea input {
+    flex: 1 1 10rem;
+  }
+
+  .grafico {
+    padding: 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-tarjeta);
+    background: #ffffff;
+    box-shadow: var(--sombra-tarjeta);
+  }
+
+  .grafico-svg {
+    display: block;
+    width: 100%;
+  }
+
+  .grafico-mensaje,
+  .grafico-nota,
+  .reporte-nota {
+    color: var(--color-texto-secundario);
+  }
+
+  .contenido li:has(form[action*="/defectos/"]) {
+    margin: 0.75rem 0;
+    padding: 1rem;
+    border: 1px solid #f3c4c8;
+    border-left: 4px solid var(--color-rojo);
+    border-radius: 9px;
+    background: #fffafa;
+  }
+
+  .reporte-encabezado {
+    border-bottom-color: var(--color-borde);
+  }
+
+  .reporte .tabla tbody tr:hover,
+  .reporte table tbody tr:hover {
+    background: inherit;
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --espaciado-pagina: 1rem;
+    }
+
+    .encabezado {
+      padding: 0.65rem 0.75rem;
+    }
+
+    .navegacion {
+      gap: 0.25rem;
+    }
+
+    .navegacion a {
+      min-height: 2.5rem;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.92rem;
+    }
+
+    .contenido {
+      padding: 1rem;
+    }
+
+    .contenido > section,
+    .contenido > form.formulario,
+    .contenido > .detalle,
+    .contenido > table,
+    .contenido > .metricas {
+      padding: 1rem;
+    }
+
+    .contenido table,
+    .tabla {
+      min-width: 38rem;
+    }
+
+    .contenido > .reporte table {
+      min-width: 42rem;
+    }
+
+    .migas {
+      padding: 0.65rem 1rem 0.2rem;
+      font-size: 0.9rem;
+    }
+
+    .volver {
+      padding: 0 1rem;
+    }
+
+    .formulario {
+      max-width: none;
+    }
+
+    .formulario button,
+    form:not(.en-linea) button {
+      width: 100%;
+    }
+
+    .acciones {
+      align-items: stretch;
+    }
+
+    .acciones a,
+    .acciones button {
+      flex: 1 1 10rem;
+      justify-content: center;
+    }
+
+    .grafico {
+      padding: 0.75rem;
+    }
+  }
+}
+/* === T-16 · Mejora visual de la interfaz (fin) === */
