@@ -339,6 +339,7 @@ func TestT15_ReporteSprintVolverAncladoAlSprint(t *testing.T) {
 // migas y el mismo "← Volver" que la pantalla en GET (escenario @CA1 @CA6).
 func TestT15_EditarItem422MuestraMismasMigas(t *testing.T) {
 	entorno := nuevoEntornoT15()
+	entorno.backlog.editarErr = domain.ErrTituloItemVacio
 	handler := entorno.handler(t)
 
 	rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/backlog/HU-01/editar", url.Values{
@@ -378,6 +379,7 @@ func TestT15_Estimar422MuestraMigasDelBacklog(t *testing.T) {
 // Proyectos › Nuevo proyecto y Volver a /proyectos.
 func TestT15_FormularioProyecto422MuestraMigas(t *testing.T) {
 	entorno := nuevoEntornoT15()
+	entorno.proyectos.crearErr = domain.ErrNombreVacio
 	handler := entorno.handler(t)
 
 	rec := solicitarUS22(handler, http.MethodPost, "/proyectos", url.Values{

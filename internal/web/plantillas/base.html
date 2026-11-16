@@ -16,6 +16,14 @@
       <a href="/defectos">Defectos</a>
     </nav>
   </header>
+  {{if .Migas}}
+  <nav class="migas" aria-label="Migas de pan">
+    {{range $i, $miga := .Migas}}{{if $i}}<span class="migas-sep">›</span>{{end}}<a href="{{$miga.URL}}"{{if $miga.Actual}} aria-current="page"{{end}}>{{$miga.Texto}}</a>{{end}}
+  </nav>
+  {{end}}
+  {{if .Volver}}
+  <p class="volver"><a href="{{.Volver}}">← Volver</a></p>
+  {{end}}
   <main class="contenido">
     {{if .Nav.MostrarLeyenda}}
     <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>

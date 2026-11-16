@@ -55,7 +55,7 @@
   </tbody>
 </table>
 {{range .Sprints}}
-<h2>Sprint {{.Numero}}: historias asignadas</h2>
+<h2 id="sprint-{{.Numero}}">Sprint {{.Numero}}: historias asignadas</h2>
 <p><a href="/proyectos/{{$.Proyecto.ID}}/sprints/{{.Numero}}/reporte">Ver reporte del Sprint</a></p>
 {{if .Items}}
 <table class="tabla">

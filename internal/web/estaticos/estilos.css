@@ -179,3 +179,45 @@ body {
     display: table-header-group;
   }
 }
+
+/* === T-15 · Migas de pan y "← Volver" (inicio) === */
+.migas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+}
+
+.migas a {
+  color: #1f4fd8;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.migas a[aria-current="page"] {
+  font-weight: 700;
+}
+
+.migas-sep {
+  color: #57606a;
+}
+
+.volver {
+  margin: 0.25rem 0 0;
+  padding: 0 1rem;
+}
+
+.volver a {
+  color: #1f4fd8;
+  text-decoration: none;
+}
+
+@media print {
+  body:has(.reporte) .migas,
+  body:has(.reporte) .volver {
+    display: none;
+  }
+}
+/* === T-15 · Migas de pan y "← Volver" (fin) === */
