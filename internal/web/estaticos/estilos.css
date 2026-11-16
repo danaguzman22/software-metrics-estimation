@@ -435,12 +435,8 @@ body {
   .contenido:has(> p > a[href$="/backlog/nuevo"]) > table tbody td:nth-child(4),
   .contenido:has(> p > a[href$="/sprints/nuevo"]) > table tbody td:nth-child(5),
   .contenido h2[id^="sprint-"] + p + table tbody td:nth-child(3) {
-    border-radius: 999px;
-    background: #eef2ff;
-    box-shadow: inset 0 0 0 1px var(--color-borde);
     color: #303e69;
     font-weight: 650;
-    text-align: center;
   }
 
   .tabla caption,
