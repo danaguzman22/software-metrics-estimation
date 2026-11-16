@@ -447,6 +447,62 @@ func TestT15_ErrorSprintNumeroInvalidoSinMigas(t *testing.T) {
 	}
 }
 
+// CA4 / R7 / D15 / E5: un {itemID} con formato inválido en el GET de editar
+// muestra el error de formato sin migas ni "← Volver", igual que poker.
+func TestT15_EditarItemFormatoInvalidoSinMigas(t *testing.T) {
+	entorno := nuevoEntornoT15()
+	handler := entorno.handler(t)
+
+	for _, itemID := range []string{"hu-01", "HU-", "HU-abc", "HU-01x"} {
+		t.Run(itemID, func(t *testing.T) {
+			rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/backlog/"+itemID+"/editar", nil)
+			exigirEstadoUS22(t, rec, http.StatusUnprocessableEntity)
+			exigirCuerpoContieneUS22(t, rec, "El ID de la historia debe tener el formato HU-NN")
+			exigirCuerpoNoContieneUS22(t, rec, `<nav class="migas"`, "← Volver")
+		})
+	}
+}
+
+// CA4 / R7 / D15 / E5: un {itemID} con formato inválido en el POST de editar
+// muestra el error de formato sin migas ni "← Volver", igual que poker.
+func TestT15_EditarItemPostFormatoInvalidoSinMigas(t *testing.T) {
+	entorno := nuevoEntornoT15()
+	handler := entorno.handler(t)
+
+	rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-001/backlog/hu-01/editar", url.Values{
+		"titulo":    {"Título"},
+		"prioridad": {"Media"},
+	})
+	exigirEstadoUS22(t, rec, http.StatusUnprocessableEntity)
+	exigirCuerpoContieneUS22(t, rec, "El ID de la historia debe tener el formato HU-NN")
+	exigirCuerpoNoContieneUS22(t, rec, `<nav class="migas"`, "← Volver")
+}
+
+// CA4 / R7 / D15 / E4: un {numero} de Sprint no numerico en la ruta de
+// completar/cerrar es un error de formato de ruta: error.html 422 sin migas ni
+// "← Volver" (R12 alcanza solo a los 422 de dominio que re-renderizan Sprints).
+func TestT15_SprintNumeroRutaInvalidoSinMigas(t *testing.T) {
+	casos := []struct {
+		nombre string
+		ruta   string
+	}{
+		{nombre: "completar", ruta: "/proyectos/PRJ-001/sprints/abc/items/HU-01/completar"},
+		{nombre: "cerrar", ruta: "/proyectos/PRJ-001/sprints/abc/cerrar"},
+		{nombre: "asignar", ruta: "/proyectos/PRJ-001/sprints/abc/asignar"},
+	}
+	for _, caso := range casos {
+		t.Run(caso.nombre, func(t *testing.T) {
+			entorno := nuevoEntornoT15()
+			handler := entorno.handler(t)
+
+			rec := solicitarUS22(handler, http.MethodPost, caso.ruta, url.Values{"itemID": {"HU-01"}})
+			exigirEstadoUS22(t, rec, http.StatusUnprocessableEntity)
+			exigirCuerpoContieneUS22(t, rec, "El número del sprint debe ser un número entero")
+			exigirCuerpoNoContieneUS22(t, rec, `<nav class="migas"`, "← Volver")
+		})
+	}
+}
+
 // CA4 / R7 / D15 / E5: un {itemID} con formato inválido muestra el error de
 // formato sin migas ni "← Volver".
 func TestT15_ErrorItemFormatoInvalidoSinMigas(t *testing.T) {
