@@ -112,6 +112,7 @@ var paginas = []string{
 	"formulario-sprint",
 	"sprints-historicos",
 	"poker",
+	"dashboard",
 	"error",
 }
 

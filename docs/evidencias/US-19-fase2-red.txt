@@ -1,0 +1,1253 @@
+US-19 FASE 2 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.164s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.019s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.128s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.048s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.263s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	10.957s
+--- FAIL: TestUS19_Fase2_EscalaConMinimoUno_TodoEnCero (0.00s)
+    us19_escala_test.go:9: escalaConMinimoUno() = 0, se esperaba 1 (sin barras, eje mínimo 1)
+    us19_escala_test.go:12: escalaConMinimoUno(0, 0, 0) = 0, se esperaba 1 (todo en cero, eje mínimo 1)
+--- FAIL: TestUS19_Fase2_EscalaConMinimoUno_MaximoPositivo (0.00s)
+    us19_escala_test.go:30: un valor: escalaConMinimoUno([13]) = 0, se esperaba 13
+    us19_escala_test.go:30: varios valores enteros: escalaConMinimoUno([8 13]) = 0, se esperaba 13
+    us19_escala_test.go:30: valores con decimales: escalaConMinimoUno([40.5 35 0]) = 0, se esperaba 40.5
+    us19_escala_test.go:30: máximo al final: escalaConMinimoUno([3 1 7]) = 0, se esperaba 7
+    us19_escala_test.go:30: horas estimadas y reales: escalaConMinimoUno([111.1 222.2 40 35]) = 0, se esperaba 222.2
+--- FAIL: TestUS19_Fase2_EscalaConMinimoUno_ValoresGrandes (0.00s)
+    us19_escala_test.go:37: escalaConMinimoUno(1000000, 2000000) = 0, se esperaba 2000000
+    us19_escala_test.go:40: escalaConMinimoUno(1e12) = 0, se esperaba 1e12
+2026/11/16 00:20:35 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 00:20:35 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 00:20:35 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 00:20:35 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+--- FAIL: TestUS19_Fase2_Dashboard_GraficoVelocidadSVG (0.00s)
+    us19_fase2_test.go:138: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_TablaVelocidad (0.00s)
+    us19_fase2_test.go:166: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_GraficoHorasSVG (0.00s)
+    us19_fase2_test.go:188: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_TablaHoras (0.00s)
+    us19_fase2_test.go:219: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_SprintSinMetricasDisponibles (0.00s)
+    us19_fase2_test.go:245: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_SinDatos200 (0.00s)
+    --- FAIL: TestUS19_Fase2_Dashboard_SinDatos200/listas_nil (0.00s)
+        us19_fase2_test.go:266: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2_Dashboard_SinDatos200/listas_vacías (0.00s)
+        us19_fase2_test.go:266: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS19_Fase2_Dashboard_SoloActivos200 (0.00s)
+    us19_fase2_test.go:304: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_SVGSinScriptNiCDN (0.00s)
+    us19_fase2_test.go:320: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_SinSeccionDefectos (0.00s)
+    us19_fase2_test.go:334: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_WebNoRecalculaMetricas (0.00s)
+    us19_fase2_test.go:346: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_DesviacionConSigno (0.00s)
+    --- FAIL: TestUS19_Fase2_Dashboard_DesviacionConSigno/positiva (0.00s)
+        us19_fase2_test.go:371: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2_Dashboard_DesviacionConSigno/negativa (0.00s)
+        us19_fase2_test.go:383: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS19_Fase2_Dashboard_DesviacionNilMuestraGuion (0.00s)
+    --- FAIL: TestUS19_Fase2_Dashboard_DesviacionNilMuestraGuion/estimaciones_completas_con_suma_cero (0.00s)
+        us19_fase2_test.go:399: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2_Dashboard_DesviacionNilMuestraGuion/estimaciones_incompletas (0.00s)
+        us19_fase2_test.go:412: código = 501, se esperaba 200; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS19_Fase2_Dashboard_EnlacesNavegacionYDetalle (0.00s)
+    --- FAIL: TestUS19_Fase2_Dashboard_EnlacesNavegacionYDetalle/detalle_del_proyecto (0.00s)
+        us19_fase2_test.go:426: el cuerpo no contiene "Ver dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Sistema de Métricas</h1>
+            <dl class="detalle">
+              <dt>ID</dt>
+              <dd>PRJ-001</dd>
+              <dt>Fecha de inicio</dt>
+              <dd>2026-01-05</dd>
+              <dt>Fecha de fin</dt>
+              <dd>2026-12-31</dd>
+              <dt>Estado</dt>
+              <dd>En curso</dd>
+            </dl>
+            <p class="acciones">
+              <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+              <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+            </p>
+            
+            
+              </main>
+            </body>
+            </html>
+        us19_fase2_test.go:426: el cuerpo no contiene "href=\"/proyectos/PRJ-001/dashboard\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Sistema de Métricas</h1>
+            <dl class="detalle">
+              <dt>ID</dt>
+              <dd>PRJ-001</dd>
+              <dt>Fecha de inicio</dt>
+              <dd>2026-01-05</dd>
+              <dt>Fecha de fin</dt>
+              <dd>2026-12-31</dd>
+              <dt>Estado</dt>
+              <dd>En curso</dd>
+            </dl>
+            <p class="acciones">
+              <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+              <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+            </p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2_Dashboard_EnlacesNavegacionYDetalle/navegación_en_una_página_del_proyecto (0.00s)
+        us19_fase2_test.go:432: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+            <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+            
+            
+            <p>No hay sprints registrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+        us19_fase2_test.go:432: el cuerpo no contiene "href=\"/proyectos/PRJ-001/dashboard\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+            <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+            
+            
+            <p>No hay sprints registrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS19_Fase2_Dashboard_EnlaceDashboardSinProyecto (0.00s)
+    --- FAIL: TestUS19_Fase2_Dashboard_EnlaceDashboardSinProyecto// (0.00s)
+        us19_fase2_test.go:452: el cuerpo no contiene "href=\"/proyectos\">Dashboard</a>"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Software Metrics &amp; Estimation</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+                
+                
+            <h1>Software Metrics & Estimation</h1>
+            <p>Gestión de proyectos y su backlog.</p>
+            <ul class="acciones">
+              <li><a href="/proyectos">Ver proyectos</a></li>
+              <li><a href="/proyectos/nuevo">Crear proyecto</a></li>
+            </ul>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2_Dashboard_EnlaceDashboardSinProyecto//proyectos (0.00s)
+        us19_fase2_test.go:452: el cuerpo no contiene "href=\"/proyectos\">Dashboard</a>"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Proyectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+                
+                
+            <h1>Proyectos</h1>
+            <p><a href="/proyectos/nuevo">Crear proyecto</a></p>
+            
+            <p>No hay proyectos registrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestUS19_Fase2_Dashboard_RenderOK (0.00s)
+    us19_fase2_test.go:464: código = 501, se esperaba 200; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_ProyectoInexistente404 (0.00s)
+    us19_fase2_test.go:489: código = 501, se esperaba 404; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_IdInvalido404 (0.00s)
+    us19_fase2_test.go:504: código = 501, se esperaba 404; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_ErrorDeInfraestructura500 (0.00s)
+    us19_fase2_test.go:540: código = 501, se esperaba 500; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_ErrorDeInfraestructuraAlObtenerProyecto500 (0.00s)
+    us19_fase2_test.go:560: código = 501, se esperaba 500; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS19_Fase2_Dashboard_EstadoConError500 (0.00s)
+    us19_fase2_test.go:584: código = 501, se esperaba 500; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Dashboard</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos">Backlog</a>
+              <a href="/proyectos">Sprints</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas (0.00s)
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas// (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Software Metrics &amp; Estimation</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+                
+                
+            <h1>Software Metrics & Estimation</h1>
+            <p>Gestión de proyectos y su backlog.</p>
+            <ul class="acciones">
+              <li><a href="/proyectos">Ver proyectos</a></li>
+              <li><a href="/proyectos/nuevo">Crear proyecto</a></li>
+            </ul>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Proyectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+                
+                
+            <h1>Proyectos</h1>
+            <p><a href="/proyectos/nuevo">Crear proyecto</a></p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de fin</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>PRJ-001</td>
+                  <td><a href="/proyectos/PRJ-001">Sistema de Métricas</a></td>
+                  <td>2026-03-01</td>
+                  <td>2026-06-30</td>
+                  <td>Planificado</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/nuevo (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo proyecto</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo proyecto</h1>
+            
+            <form method="post" action="/proyectos" class="formulario">
+              <label>Nombre
+                <input type="text" name="nombre" value="">
+              </label>
+              <label>Fecha de inicio
+                <input type="date" name="fechaInicio" value="">
+              </label>
+              <label>Fecha de fin
+                <input type="date" name="fechaFin" value="">
+              </label>
+              <button type="submit">Crear proyecto</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-001 (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sistema de Métricas</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Sistema de Métricas</h1>
+            <dl class="detalle">
+              <dt>ID</dt>
+              <dd>PRJ-001</dd>
+              <dt>Fecha de inicio</dt>
+              <dd>2026-03-01</dd>
+              <dt>Fecha de fin</dt>
+              <dd>2026-06-30</dd>
+              <dt>Estado</dt>
+              <dd>Planificado</dd>
+            </dl>
+            <p class="acciones">
+              <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+              <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+            </p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-001/backlog (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Backlog</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Backlog</h1>
+            <p>Proyecto: PRJ-001</p>
+            <p><a href="/proyectos/PRJ-001/backlog/nuevo">Nuevo ítem</a></p>
+            
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Prioridad</th>
+                  <th>Estado</th>
+                  <th>Story Points</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>HU-01</td>
+                  <td>Iniciar sesión</td>
+                  <td>Media</td>
+                  <td>Pendiente</td>
+                  <td>3</td>
+                  <td>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/editar">Editar</a>
+                    <a href="/proyectos/PRJ-001/backlog/HU-01/poker">Planning Poker</a>
+                    <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/estimar" class="en-linea">
+                      <input type="number" name="storyPoints" value="3" min="0" step="1">
+                      <button type="submit">Estimar</button>
+                    </form>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-001/backlog/nuevo (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Nuevo ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Nuevo ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3"></textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <button type="submit">Crear ítem</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-001/backlog/HU-01/editar (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Editar ítem</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Editar ítem</h1>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/editar" class="formulario">
+              <label>Título
+                <input type="text" name="titulo" value="Iniciar sesión">
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3">Descripción de Iniciar sesión</textarea>
+              </label>
+              <label>Prioridad
+                <select name="prioridad">
+                  <option value="Alta">Alta</option>
+                  <option value="Media" selected>Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </label>
+              <label>Criterios de aceptación (uno por línea)
+                <textarea name="criterios" rows="4"></textarea>
+              </label>
+              
+              <label>Story Points
+                <input type="number" name="storyPoints" value="3" min="0" step="1">
+              </label>
+              
+              <button type="submit">Guardar cambios</button>
+            </form>
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-001/sprints (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Sprints</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Sprints</h1>
+            <p>Proyecto: Sistema de Métricas</p>
+            <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+            <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+            <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+            <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+            
+            
+            <p>No hay sprints registrados</p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//defectos (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Defectos</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Defectos</h1>
+            <p>La sección de defectos todavía no está implementada.</p>
+            <p>Disponible próximamente</p>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS22_Fase1_NavegacionEnTodasLasPaginas//proyectos/PRJ-999 (0.00s)
+        us22_fase1_test.go:447: el cuerpo no contiene "Dashboard"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Proyecto no encontrado</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos">Backlog</a>
+                  <a href="/proyectos">Sprints</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>No se pudo completar la operación</h1>
+            <p class="error">no se encontró el proyecto</p>
+            <p><a href="/proyectos">Volver a proyectos</a></p>
+            
+              </main>
+            </body>
+            </html>
+2026/11/16 00:20:35 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 00:20:35 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 00:20:35 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 00:20:35 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 00:20:35 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	2.856s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.009s
+FAIL
+Exit code: 1

@@ -317,6 +317,7 @@ func nuevoHandlerUS22(t *testing.T, proyectos *servicioProyectosFalso, backlog *
 		Proyectos: proyectos,
 		Backlog:   backlog,
 		Sprints:   sprints,
+		Dashboard: &servicioDashboardFalso{},
 		Ahora: func() time.Time {
 			return fechaUS22(2026, time.February, 1)
 		},
@@ -440,7 +441,10 @@ func TestUS22_Fase1_NavegacionEnTodasLasPaginas(t *testing.T) {
 		t.Run(caso.ruta, func(t *testing.T) {
 			rec := solicitarUS22(handler, http.MethodGet, caso.ruta, nil)
 			exigirEstadoUS22(t, rec, caso.estado)
-			exigirCuerpoContieneUS22(t, rec, "Proyectos", "Backlog", "Sprints", "Defectos")
+			// D18 (US-19): la navegación gana el enlace Dashboard; los cuatro
+			// enlaces preexistentes de US-22 (Proyectos/Backlog/Sprints/Defectos)
+			// siguen presentes (R1 de US-22).
+			exigirCuerpoContieneUS22(t, rec, "Proyectos", "Backlog", "Sprints", "Defectos", "Dashboard")
 
 			cuerpo := rec.Body.String()
 			tieneLeyenda := strings.Contains(cuerpo, "Elegí un proyecto para ver su backlog y sus sprints")
