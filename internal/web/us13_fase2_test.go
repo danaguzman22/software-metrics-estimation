@@ -162,6 +162,7 @@ func nuevoHandlerPokerUS13(t *testing.T, proyectos *servicioProyectosPokerFalso,
 		Sprints:   sprints,
 		Dashboard: &servicioDashboardFalso{},
 		Poker:     poker,
+		Reportes:  &servicioReportesFalso{},
 		Ahora: func() time.Time {
 			return fechaUS22(2026, time.February, 1)
 		},

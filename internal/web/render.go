@@ -199,6 +199,8 @@ var paginas = []string{
 	"poker",
 	"dashboard",
 	"error",
+	"reporte",
+	"reporte-sprint",
 }
 
 // nuevasVistas parsea las plantillas embebidas. Un fallo de parseo es un error
