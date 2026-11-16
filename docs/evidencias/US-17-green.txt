@@ -1,0 +1,9 @@
+US-17 GREEN
+
+$ go test ./... -count=1
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada para esta ejecución.
+Exit code: 0; no se omitieron pruebas.
+
+Pasaron los paquetes cmd/server, internal/domain, internal/service,
+internal/storage, internal/storage/jsonrepo, internal/storage/postgres,
+internal/web y migrations.

@@ -1,0 +1,112 @@
+US-08 RED
+
+$ go test ./internal/domain ./internal/service ./internal/storage/postgres -gcflags=-e -count=1
+go : # github.com/danaguzman22/software-metrics-estimation/internal/domain_test 
+[github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+En línea: 4 Carácter: 12
++ $salida = (go test ./internal/domain ./internal/service ./internal/st ...
++            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (# github.com/da...al/domain.test]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+internal\domain\sprint_item_test.go:32:47: undefined: domain.EstadoItemPendiente
+internal\domain\sprint_item_test.go:36:47: undefined: domain.EstadoItemPendiente
+internal\domain\sprint_item_test.go:46:18: undefined: domain.ValidarItemAsignable
+internal\domain\sprint_item_test.go:47:30: undefined: domain.ErrItemNoEstimado
+internal\domain\sprint_item_test.go:48:54: undefined: domain.ErrItemNoEstimado
+internal\domain\sprint_item_test.go:50:29: undefined: domain.ErrItemNoPendiente
+internal\domain\sprint_item_test.go:70:18: undefined: domain.ValidarItemAsignable
+internal\domain\sprint_item_test.go:71:30: undefined: domain.ErrItemNoPendiente
+internal\domain\sprint_item_test.go:72:54: undefined: domain.ErrItemNoPendiente
+internal\domain\sprint_item_test.go:74:29: undefined: domain.ErrItemNoEstimado
+internal\domain\sprint_item_test.go:85:37: undefined: domain.EstadoItemPendiente
+internal\domain\sprint_item_test.go:86:38: undefined: domain.EstadoItemPendiente
+internal\domain\sprint_item_test.go:87:37: undefined: domain.EstadoItemPendiente
+internal\domain\sprint_item_test.go:90:18: undefined: domain.StoryPointsPlanificados
+internal\domain\sprint_item_test.go:108:23: undefined: domain.StoryPointsPlanificados
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/service 
+[github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal\service\sprint_items_test.go:43:18: undefined: domain.ErrItemYaAsignado
+internal\service\sprint_items_test.go:148:54: too many arguments in call to NuevoServicioSprints
+	have (*fakeRepositorioProyectos, *fakeRepositorioSprints, *fakeBacklogUS08, *fakeRepositorioAsignaciones)
+	want (RepositorioProyectos, RepositorioSprints)
+internal\service\sprint_items_test.go:213:10: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:225:85: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:227:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:256:56: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:259:20: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:260:30: undefined: domain.ErrItemNoEstimado
+internal\service\sprint_items_test.go:261:54: undefined: domain.ErrItemNoEstimado
+internal\service\sprint_items_test.go:263:29: undefined: domain.ErrItemNoPendiente
+internal\service\sprint_items_test.go:280:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:281:28: undefined: domain.ErrItemNoPendiente
+internal\service\sprint_items_test.go:282:52: undefined: domain.ErrItemNoPendiente
+internal\service\sprint_items_test.go:284:27: undefined: domain.ErrItemNoEstimado
+internal\service\sprint_items_test.go:301:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:328:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:331:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:332:28: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:333:52: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:354:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:357:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:381:74: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:384:20: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:406:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:410:27: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:431:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:432:28: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:433:52: undefined: domain.ErrSprintNoEncontrado
+internal\service\sprint_items_test.go:466:89: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:470:20: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:471:30: undefined: domain.ErrItemYaAsignado
+internal\service\sprint_items_test.go:472:54: undefined: domain.ErrItemYaAsignado
+internal\service\sprint_items_test.go:474:29: undefined: domain.ErrItemNoEstimado
+internal\service\sprint_items_test.go:496:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:500:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:501:28: undefined: domain.ErrItemYaAsignado
+internal\service\sprint_items_test.go:502:52: undefined: domain.ErrItemYaAsignado
+internal\service\sprint_items_test.go:524:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:525:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:529:18: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:556:71: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:557:72: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:561:21: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:565:25: servicio.StoryPointsPlanificados undefined (type *ServicioSprints has no 
+field or method StoryPointsPlanificados)
+internal\service\sprint_items_test.go:587:25: servicio.StoryPointsPlanificados undefined (type *ServicioSprints has no 
+field or method StoryPointsPlanificados)
+internal\service\sprint_items_test.go:638:75: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:648:75: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:660:20: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:708:75: undefined: domain.EstadoItemPendiente
+internal\service\sprint_items_test.go:720:20: servicio.AsignarItem undefined (type *ServicioSprints has no field or method 
+AsignarItem)
+internal\service\sprint_items_test.go:783:27: servicio.StoryPointsPlanificados undefined (type *ServicioSprints has no 
+field or method StoryPointsPlanificados)
+internal\service\sprints_test.go:86:3: too many arguments in call to NuevoServicioSprints
+	have (*fakeRepositorioProyectos, *fakeRepositorioSprints, *fakeBacklogUS08, *fakeRepositorioAsignaciones)
+	want (RepositorioProyectos, RepositorioSprints)
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+# github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres_test 
+[github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres.test]
+internal\storage\postgres\sprint_items_test.go:60:67: undefined: service.RepositorioAsignaciones
+internal\storage\postgres\sprint_items_test.go:61:18: undefined: postgres.NuevoAsignaciones
+internal\storage\postgres\sprint_items_test.go:127:43: undefined: domain.ErrItemYaAsignado
+internal\storage\postgres\sprint_items_test.go:182:43: undefined: domain.ErrSprintNoEncontrado
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+FAIL

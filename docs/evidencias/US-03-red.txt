@@ -1,0 +1,70 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+--- FAIL: TestUS03_NombreVacio (0.00s)
+    --- FAIL: TestUS03_NombreVacio/nombre_vacío (0.00s)
+        integrante_test.go:44: err = no implementado, se esperaba el nombre del integrante no puede estar vacío
+    --- FAIL: TestUS03_NombreVacio/nombre_compuesto_solo_por_espacios (0.00s)
+        integrante_test.go:44: err = no implementado, se esperaba el nombre del integrante no puede estar vacío
+--- FAIL: TestUS03_RolVacio (0.00s)
+    --- FAIL: TestUS03_RolVacio/rol_vacío (0.00s)
+        integrante_test.go:76: err = no implementado, se esperaba el rol del integrante no puede estar vacío
+    --- FAIL: TestUS03_RolVacio/rol_compuesto_solo_por_espacios (0.00s)
+        integrante_test.go:76: err = no implementado, se esperaba el rol del integrante no puede estar vacío
+--- FAIL: TestUS03_NuevoIntegrante_RecortaEspaciosExternos (0.00s)
+    --- FAIL: TestUS03_NuevoIntegrante_RecortaEspaciosExternos/nombre_y_rol_con_espacios_externos (0.00s)
+        integrante_test.go:113: NuevoIntegrante() devolvió un error inesperado: no implementado
+    --- FAIL: TestUS03_NuevoIntegrante_RecortaEspaciosExternos/mayúsculas_respetadas_tras_el_recorte (0.00s)
+        integrante_test.go:113: NuevoIntegrante() devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_Duplicado_IgnoraMayusculas (0.00s)
+    --- FAIL: TestUS03_Duplicado_IgnoraMayusculas/candidato_en_minúsculas (0.00s)
+        integrante_test.go:148: EsDuplicado(existentes, "dana guzmán") = false, se esperaba true
+    --- FAIL: TestUS03_Duplicado_IgnoraMayusculas/candidato_en_mayúsculas (0.00s)
+        integrante_test.go:148: EsDuplicado(existentes, "DANA GUZMÁN") = false, se esperaba true
+--- FAIL: TestUS03_Duplicado_IgnoraEspaciosExtremos (0.00s)
+    --- FAIL: TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_al_inicio_y_al_final (0.00s)
+        integrante_test.go:178: EsDuplicado(existentes, "  Dana Guzmán  ") = false, se esperaba true
+    --- FAIL: TestUS03_Duplicado_IgnoraEspaciosExtremos/candidato_con_espacios_externos_y_mayúsculas_distintas (0.00s)
+        integrante_test.go:178: EsDuplicado(existentes, "  dana guzmán  ") = false, se esperaba true
+--- FAIL: TestUS03_Duplicado_IgnoraRol (0.00s)
+    --- FAIL: TestUS03_Duplicado_IgnoraRol/nombre_ya_registrado (0.00s)
+        integrante_test.go:213: EsDuplicado(existentes, "Dana Guzmán") = false, se esperaba true
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain	1.099s
+--- FAIL: TestUS03_AgregarIntegrante_Exitoso (0.00s)
+    integrantes_test.go:76: AgregarIntegrante() devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_AgregarIntegrante_SegundoIntegrante (0.00s)
+    integrantes_test.go:105: AgregarIntegrante() devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_AgregarIntegrante_NombreConEspaciosExternos (0.00s)
+    integrantes_test.go:130: AgregarIntegrante() devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_AgregarIntegrante_PrimerAltaSinArchivoIntegrantes (0.00s)
+    integrantes_test.go:156: AgregarIntegrante() devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_AgregarIntegrante_MismoNombreEnOtroProyecto (0.00s)
+    integrantes_test.go:180: AgregarIntegrante(p1) devolvió un error inesperado: no implementado
+--- FAIL: TestUS03_AgregarIntegrante_DuplicadoExacto (0.00s)
+    integrantes_test.go:218: err = no implementado, se esperaba el integrante ya está registrado en el proyecto
+--- FAIL: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste (0.01s)
+    --- FAIL: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_vacío (0.01s)
+        integrantes_test.go:258: err = no implementado, se esperaba el rol del integrante no puede estar vacío
+    --- FAIL: TestUS03_AgregarIntegrante_RolVacioNoAgregaNiPersiste/rol_compuesto_solo_por_espacios (0.01s)
+        integrantes_test.go:258: err = no implementado, se esperaba el rol del integrante no puede estar vacío
+--- FAIL: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste (0.02s)
+    --- FAIL: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/nombre_vacío (0.00s)
+        integrantes_test.go:322: err = no implementado, se esperaba el nombre del integrante no puede estar vacío
+    --- FAIL: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/rol_vacío (0.01s)
+        integrantes_test.go:322: err = no implementado, se esperaba el rol del integrante no puede estar vacío
+    --- FAIL: TestUS03_AgregarIntegrante_ErrorNoAgregaNiPersiste/duplicado_exacto (0.01s)
+        integrantes_test.go:322: err = no implementado, se esperaba el integrante ya está registrado en el proyecto
+--- FAIL: TestUS03_AgregarIntegrante_ProyectoNoEncontrado (0.00s)
+    integrantes_test.go:356: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS03_AgregarIntegrante_ProyectoInexistenteAntesQueNombreVacio (0.00s)
+    integrantes_test.go:382: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS03_AgregarIntegrante_ArchivoProyectosInexistente (0.00s)
+    integrantes_test.go:401: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS03_AgregarIntegrante_JSONCorruptoNoEsNoEncontrado (0.00s)
+    integrantes_test.go:428: err = no implementado, se esperaba un error que envuelva contenido JSON inválido
+--- FAIL: TestUS03_AgregarIntegrante_FalloDeEscrituraNoInformaExito (0.00s)
+    integrantes_test.go:452: err = no implementado, se esperaba un error que envuelva fallo simulado de escritura
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	1.179s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+FAIL

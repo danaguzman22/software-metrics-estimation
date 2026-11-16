@@ -1,0 +1,31 @@
+{{define "contenido"}}
+<h1>Histórico de Sprints</h1>
+<p>Proyecto: {{.Proyecto.Nombre}}</p>
+<p><a href="/proyectos/{{.Proyecto.ID}}/sprints">Volver a Sprints</a></p>
+{{if .Sprints}}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Sprint</th>
+      <th>Sprint Goal</th>
+      <th>SP planificados</th>
+      <th>SP completados</th>
+      <th>Velocidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Sprints}}
+    <tr>
+      <td>{{.Numero}}</td>
+      <td>{{.Objetivo}}</td>
+      <td>{{.SPPlanificados}}</td>
+      <td>{{.SPCompletados}}</td>
+      <td>{{printf "%.2f" .Velocidad}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{else}}
+<p>No hay Sprints cerrados</p>
+{{end}}
+{{end}}

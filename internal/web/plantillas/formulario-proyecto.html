@@ -1,0 +1,16 @@
+{{define "contenido"}}
+<h1>Nuevo proyecto</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post" action="/proyectos" class="formulario">
+  <label>Nombre
+    <input type="text" name="nombre" value="{{.Formulario.Nombre}}">
+  </label>
+  <label>Fecha de inicio
+    <input type="date" name="fechaInicio" value="{{.Formulario.FechaInicio}}">
+  </label>
+  <label>Fecha de fin
+    <input type="date" name="fechaFin" value="{{.Formulario.FechaFin}}">
+  </label>
+  <button type="submit">Crear proyecto</button>
+</form>
+{{end}}

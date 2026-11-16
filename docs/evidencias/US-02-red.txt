@@ -1,0 +1,18 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	(cached)
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal\service\proyectos_test.go:44:77: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:53:66: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:55:18: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:63:47: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:71:9: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:122:35: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:125:16: undefined: NuevoServicioProyectos
+internal\service\proyectos_test.go:171:35: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:174:16: undefined: NuevoServicioProyectos
+internal\service\proyectos_test.go:218:33: undefined: proyectoRegistrado
+internal\service\proyectos_test.go:218:33: too many errors
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+FAIL

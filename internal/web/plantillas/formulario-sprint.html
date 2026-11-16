@@ -1,0 +1,19 @@
+{{define "contenido"}}
+<h1>{{.Titulo}}</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post" action="/proyectos/{{.Proyecto.ID}}/sprints" class="formulario">
+  <label>Número
+    <input type="number" name="numero" value="{{.FormularioSprint.Numero}}" min="1" step="1">
+  </label>
+  <label>Objetivo
+    <input type="text" name="objetivo" value="{{.FormularioSprint.Objetivo}}">
+  </label>
+  <label>Fecha de inicio
+    <input type="date" name="fechaInicio" value="{{.FormularioSprint.FechaInicio}}">
+  </label>
+  <label>Fecha de fin
+    <input type="date" name="fechaFin" value="{{.FormularioSprint.FechaFin}}">
+  </label>
+  <button type="submit">Crear Sprint</button>
+</form>
+{{end}}

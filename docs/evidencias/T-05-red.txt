@@ -1,0 +1,54 @@
+--- FAIL: TestT05_NumeroDeItem_TablaDeCasos (0.00s)
+    --- FAIL: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU01 (0.00s)
+        numeracion_item_test.go:44: NumeroDeItem("HU-01") número = 0, se esperaba 1
+        numeracion_item_test.go:47: NumeroDeItem("HU-01") ok = false, se esperaba true
+    --- FAIL: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU04 (0.00s)
+        numeracion_item_test.go:44: NumeroDeItem("HU-04") número = 0, se esperaba 4
+        numeracion_item_test.go:47: NumeroDeItem("HU-04") ok = false, se esperaba true
+    --- FAIL: TestT05_NumeroDeItem_TablaDeCasos/id_valido_HU100 (0.00s)
+        numeracion_item_test.go:44: NumeroDeItem("HU-100") número = 0, se esperaba 100
+        numeracion_item_test.go:47: NumeroDeItem("HU-100") ok = false, se esperaba true
+    --- FAIL: TestT05_NumeroDeItem_TablaDeCasos/sin_cero_a_la_izquierda (0.00s)
+        numeracion_item_test.go:44: NumeroDeItem("HU-9") número = 0, se esperaba 9
+        numeracion_item_test.go:47: NumeroDeItem("HU-9") ok = false, se esperaba true
+    --- FAIL: TestT05_NumeroDeItem_TablaDeCasos/ceros_a_la_izquierda (0.00s)
+        numeracion_item_test.go:44: NumeroDeItem("HU-001") número = 0, se esperaba 1
+        numeracion_item_test.go:47: NumeroDeItem("HU-001") ok = false, se esperaba true
+--- FAIL: TestT05_SiguienteIDItem_TablaDeCasos (0.00s)
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/lista_vacia (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([]) = "", se esperaba "HU-01"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/lista_nil (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([]) = "", se esperaba "HU-01"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/solo_malformados (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([XX-01 HU-abc ]) = "", se esperaba "HU-01"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/un_solo_id (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01]) = "", se esperaba "HU-02"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/secuencia (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01 HU-02 HU-03]) = "", se esperaba "HU-04"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/formato_dos_digitos (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-03]) = "", se esperaba "HU-04"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/hueco (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01 HU-03]) = "", se esperaba "HU-04"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/orden_irrelevante (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-03 HU-01]) = "", se esperaba "HU-04"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/ids_duplicados (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01 HU-01]) = "", se esperaba "HU-02"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/comparacion_numerica (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-9 HU-10]) = "", se esperaba "HU-11"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/malformados_ignorados (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01 XX-99 HU-abc  HU-03]) = "", se esperaba "HU-04"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/overflow_ignorado (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-01 HU-123456789012345678901234567890]) = "", se esperaba "HU-02"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99 (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-99]) = "", se esperaba "HU-100"
+    --- FAIL: TestT05_SiguienteIDItem_TablaDeCasos/mas_de_99_siguiente (0.00s)
+        numeracion_item_test.go:80: SiguienteIDItem([HU-100]) = "", se esperaba "HU-101"
+--- FAIL: TestT05_SiguienteIDItem_HuecoNoRellena (0.00s)
+    numeracion_item_test.go:89: SiguienteIDItem(hueco) = "", se esperaba "HU-04"
+--- FAIL: TestT05_SiguienteIDItem_ComparacionNumericaNoTextual (0.00s)
+    numeracion_item_test.go:99: SiguienteIDItem([HU-9 HU-10]) = "", se esperaba "HU-11"
+--- FAIL: TestT05_SiguienteIDItem_FormatoDosDigitos (0.00s)
+    numeracion_item_test.go:109: SiguienteIDItem([HU-03]) = "", se esperaba "HU-04"
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.650s
+FAIL

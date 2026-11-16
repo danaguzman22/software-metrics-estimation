@@ -1,0 +1,8 @@
+# github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres_test [github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres.test]
+internal\storage\postgres\repos_test.go:75:19: undefined: postgres.NuevoIntegrantes
+internal\storage\postgres\repos_test.go:118:19: undefined: postgres.NuevoBacklog
+internal\storage\postgres\repos_test.go:178:25: undefined: postgres.NuevoProyectos
+internal\storage\postgres\repos_test.go:179:25: undefined: postgres.NuevoIntegrantes
+internal\storage\postgres\repos_test.go:180:25: undefined: postgres.NuevoBacklog
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+FAIL

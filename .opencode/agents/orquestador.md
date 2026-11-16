@@ -15,3 +15,5 @@ Reglas:
 - No hagas commit, push ni merge; sugerí el mensaje.
 - Pasale a cada agente solo el ID y los archivos que necesita. No leas el repo.
 - Si falla algo o se agotan los tokens, decilo y proponé retomar desde esa etapa.
+
+Persistencia vigente: ADR-001. Las historias nuevas que agreguen un agregado traen su propia migración (D11).

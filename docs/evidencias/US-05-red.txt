@@ -1,0 +1,97 @@
+?   	github.com/danaguzman22/software-metrics-estimation/cmd/server	[no test files]
+--- FAIL: TestUS05_TituloVacio (0.00s)
+    --- FAIL: TestUS05_TituloVacio/título_vacío (0.00s)
+        item_backlog_test.go:46: err = no implementado, se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestUS05_TituloVacio/título_compuesto_solo_por_espacios (0.00s)
+        item_backlog_test.go:46: err = no implementado, se esperaba el título del ítem no puede estar vacío
+--- FAIL: TestUS05_NuevoItemBacklog_RecortaTitulo (0.00s)
+    item_backlog_test.go:62: NuevoItemBacklog() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_PrioridadInvalida (0.00s)
+    --- FAIL: TestUS05_PrioridadInvalida/prioridad_no_permitida (0.00s)
+        item_backlog_test.go:103: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_PrioridadInvalida/prioridad_en_minúsculas (0.00s)
+        item_backlog_test.go:103: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_PrioridadInvalida/prioridad_en_mayúsculas (0.00s)
+        item_backlog_test.go:103: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_PrioridadInvalida/prioridad_compuesta_solo_por_espacios (0.00s)
+        item_backlog_test.go:103: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_NuevoItemBacklog_PrioridadRecortada (0.00s)
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadRecortada/Alta_con_espacios_externos (0.00s)
+        item_backlog_test.go:138: NuevoItemBacklog() devolvió un error inesperado: no implementado
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadRecortada/Media_con_espacios_externos (0.00s)
+        item_backlog_test.go:138: NuevoItemBacklog() devolvió un error inesperado: no implementado
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadRecortada/Baja_con_espacios_externos (0.00s)
+        item_backlog_test.go:138: NuevoItemBacklog() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_NuevoItemBacklog_PrioridadesValidas (0.00s)
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Alta (0.00s)
+        item_backlog_test.go:162: NuevoItemBacklog() devolvió un error inesperado: no implementado
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Media (0.00s)
+        item_backlog_test.go:162: NuevoItemBacklog() devolvió un error inesperado: no implementado
+    --- FAIL: TestUS05_NuevoItemBacklog_PrioridadesValidas/prioridad_Baja (0.00s)
+        item_backlog_test.go:162: NuevoItemBacklog() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_NuevoItemBacklog_EstadoInicialPendiente (0.00s)
+    item_backlog_test.go:175: NuevoItemBacklog() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_NuevoItemBacklog_StoryPointsCero (0.00s)
+    item_backlog_test.go:186: NuevoItemBacklog() devolvió un error inesperado: no implementado
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.931s
+--- FAIL: TestUS05_CrearItem_Exitoso (0.00s)
+    backlog_test.go:110: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_SegundoItemEnMismoProyecto (0.00s)
+    backlog_test.go:160: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_PrimerAltaSinArchivoBacklog (0.00s)
+    backlog_test.go:198: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_PrimerItemIDHU01 (0.00s)
+    backlog_test.go:223: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_IDConsecutivoAlMayor (0.00s)
+    backlog_test.go:244: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_IDUnicoEnProyecto (0.00s)
+    backlog_test.go:269: CrearItem() del primer ítem devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_MismoIDEnOtroProyecto (0.00s)
+    backlog_test.go:303: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste (0.01s)
+    --- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_vacío (0.01s)
+        backlog_test.go:348: err = no implementado, se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestUS05_CrearItem_TituloVacioNoAgregaNiPersiste/título_compuesto_solo_por_espacios (0.01s)
+        backlog_test.go:348: err = no implementado, se esperaba el título del ítem no puede estar vacío
+--- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste (0.02s)
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_no_permitida (0.00s)
+        backlog_test.go:396: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_minúsculas (0.01s)
+        backlog_test.go:396: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_en_mayúsculas (0.01s)
+        backlog_test.go:396: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+    --- FAIL: TestUS05_CrearItem_PrioridadInvalidaNoAgregaNiPersiste/prioridad_compuesta_solo_por_espacios (0.01s)
+        backlog_test.go:396: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_CrearItem_EstadoInicialPendiente (0.00s)
+    backlog_test.go:423: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_StoryPointsCero (0.00s)
+    backlog_test.go:446: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_DescripcionYCriteriosOpcionales (0.00s)
+    backlog_test.go:469: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_DescripcionYCriteriosSinValidar (0.00s)
+    backlog_test.go:501: CrearItem() devolvió un error inesperado: no implementado
+--- FAIL: TestUS05_CrearItem_ProyectoNoEncontrado (0.00s)
+    backlog_test.go:534: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_ArchivoProyectosInexistente (0.00s)
+    backlog_test.go:557: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_ProyectoInexistenteAntesQueTituloVacio (0.00s)
+    backlog_test.go:584: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS05_CrearItem_TituloVacioAntesQuePrioridadInvalida (0.00s)
+    backlog_test.go:606: err = no implementado, se esperaba el título del ítem no puede estar vacío
+--- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste (0.02s)
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/proyecto_inexistente (0.01s)
+        backlog_test.go:665: err = no implementado, se esperaba no se encontró el proyecto
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/título_vacío (0.00s)
+        backlog_test.go:665: err = no implementado, se esperaba el título del ítem no puede estar vacío
+    --- FAIL: TestUS05_CrearItem_ErrorNoAgregaNiPersiste/prioridad_inválida (0.00s)
+        backlog_test.go:665: err = no implementado, se esperaba la prioridad del ítem no es válida: debe ser Alta, Media o Baja
+--- FAIL: TestUS05_CrearItem_JSONCorruptoNoEsNoEncontrado (0.00s)
+    backlog_test.go:696: err = no implementado, se esperaba un error que envuelva contenido JSON inválido
+--- FAIL: TestUS05_CrearItem_FalloDeEscrituraNoInformaExito (0.00s)
+    backlog_test.go:720: err = no implementado, se esperaba un error que envuelva fallo simulado de escritura
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	1.434s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	(cached)
+?   	github.com/danaguzman22/software-metrics-estimation/internal/web	[no test files]
+FAIL

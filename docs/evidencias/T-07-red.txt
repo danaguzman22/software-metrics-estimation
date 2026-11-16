@@ -1,0 +1,28 @@
+﻿Comando ejecutado: go test ./internal/storage/jsonrepo -count=1
+Fase: RED (esperado). No se implementó código de producción; los tests de T-07 se agregaron y fallan porque aún no existe la implementación en internal/storage/jsonrepo.
+Resumen: fallos de compilación por símbolos/tipos no implementados (constructores NuevoProyectos/NuevoIntegrantes/NuevoBacklog y adaptadores Proyectos/Integrantes/Backlog). Sin código de producción.
+Código de salida: 1
+
+--- salida real ---
+go.exe : # github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo 
+[github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo.test]
+En línea: 1 Carácter: 43
++ ... ue'; $out = & go test ./internal/storage/jsonrepo -count=1 2>&1 | Out ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (# github.com/da.../jsonrepo.test]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+internal\storage\jsonrepo\repos_test.go:17:40: undefined: Proyectos
+internal\storage\jsonrepo\repos_test.go:18:42: undefined: Integrantes
+internal\storage\jsonrepo\repos_test.go:19:38: undefined: Backlog
+internal\storage\jsonrepo\repos_test.go:81:10: undefined: NuevoProyectos
+internal\storage\jsonrepo\repos_test.go:110:10: undefined: NuevoIntegrantes
+internal\storage\jsonrepo\repos_test.go:145:10: undefined: NuevoBacklog
+internal\storage\jsonrepo\repos_test.go:158:10: undefined: NuevoProyectos
+internal\storage\jsonrepo\repos_test.go:177:11: undefined: NuevoProyectos
+internal\storage\jsonrepo\repos_test.go:190:10: undefined: NuevoIntegrantes
+internal\storage\jsonrepo\repos_test.go:201:11: undefined: NuevoIntegrantes
+internal\storage\jsonrepo\repos_test.go:201:11: too many errors
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo [build failed]
+FAIL
+

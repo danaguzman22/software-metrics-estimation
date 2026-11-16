@@ -1,0 +1,23 @@
+{{define "contenido"}}
+{{with .Proyecto}}
+<h1>{{.Nombre}}</h1>
+<dl class="detalle">
+  <dt>ID</dt>
+  <dd>{{.ID}}</dd>
+  <dt>Fecha de inicio</dt>
+  <dd>{{.FechaInicio}}</dd>
+  <dt>Fecha de fin</dt>
+  <dd>{{.FechaFin}}</dd>
+  <dt>Estado</dt>
+  <dd>{{.Estado}}</dd>
+</dl>
+<p class="acciones">
+  <a href="/proyectos/{{.ID}}/backlog">Ver backlog</a>
+  <a href="/proyectos/{{.ID}}/sprints">Ver sprints</a>
+  <a href="/proyectos/{{.ID}}/defectos">Ver defectos</a>
+  <a href="/proyectos/{{.ID}}/dashboard">Ver dashboard</a>
+  <a href="/proyectos/{{.ID}}/reporte">Ver reporte</a>
+  <a href="/proyectos/{{.ID}}/integrantes">Ver integrantes</a>
+</p>
+{{end}}
+{{end}}

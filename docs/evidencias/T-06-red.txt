@@ -1,0 +1,22 @@
+--- FAIL: TestT06_RepositorioProyectos_FirmasExactas (0.00s)
+    repositorios_test.go:38: RepositorioProyectos tiene 0 métodos, se esperaban 4
+    repositorios_test.go:41: RepositorioProyectos no declara el método "Obtener"
+    repositorios_test.go:41: RepositorioProyectos no declara el método "Existe"
+    repositorios_test.go:41: RepositorioProyectos no declara el método "Listar"
+    repositorios_test.go:41: RepositorioProyectos no declara el método "Actualizar"
+--- FAIL: TestT06_RepositorioIntegrantes_FirmasExactas (0.00s)
+    repositorios_test.go:57: RepositorioIntegrantes tiene 0 métodos, se esperaban 2
+    repositorios_test.go:60: RepositorioIntegrantes no declara el método "ListarPorProyecto"
+    repositorios_test.go:60: RepositorioIntegrantes no declara el método "Agregar"
+--- FAIL: TestT06_RepositorioBacklog_FirmasExactas (0.00s)
+    repositorios_test.go:78: RepositorioBacklog tiene 0 métodos, se esperaban 4
+    repositorios_test.go:81: RepositorioBacklog no declara el método "ListarPorProyecto"
+    repositorios_test.go:81: RepositorioBacklog no declara el método "ActualizarItem"
+    repositorios_test.go:81: RepositorioBacklog no declara el método "AgregarItem"
+    repositorios_test.go:81: RepositorioBacklog no declara el método "ObtenerItem"
+--- FAIL: TestT06_ProyectoRegistrado_CamposYTagsJSON (0.00s)
+    repositorios_test.go:101: el JSON de ProyectoRegistrado no tiene la clave "id": {"ID":"p1","Proyecto":{"Nombre":"Demo","FechaInicio":"0001-01-01T00:00:00Z","FechaFin":"0001-01-01T00:00:00Z","Estado":""}}
+    repositorios_test.go:104: el JSON de ProyectoRegistrado no tiene la clave "proyecto": {"ID":"p1","Proyecto":{"Nombre":"Demo","FechaInicio":"0001-01-01T00:00:00Z","FechaFin":"0001-01-01T00:00:00Z","Estado":""}}
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	1.499s
+FAIL

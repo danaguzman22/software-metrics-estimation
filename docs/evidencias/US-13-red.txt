@@ -1,0 +1,116 @@
+US-13 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/domain_test]
+vet: internal/domain/us13_test.go:11:61: undefined: domain.DiferenciaPoker
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us13_test.go:40:55: undefined: EstimadorStoryPoints
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test [github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+internal/domain/us13_test.go:11:61: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:33:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:34:28: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:35:52: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:37:19: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:38:77: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:40:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:42:27: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:43:28: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:44:52: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:46:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:54:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:58:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:76:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:80:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:98:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:102:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:121:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:125:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:181:30: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:209:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:213:49: undefined: domain.DiferenciaPoker
+internal/domain/us13_test.go:232:28: undefined: domain.DiferenciaDeVotos
+internal/domain/us13_test.go:246:12: undefined: domain.ErrRondaNoRevelada
+internal/domain/us13_test.go:249:12: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:252:12: undefined: domain.ErrRondaNoRevelada
+internal/domain/us13_test.go:252:41: undefined: domain.ErrRondaSinVotos
+internal/domain/us13_test.go:255:22: undefined: domain.ErrRondaNoRevelada
+internal/domain/us13_test.go:255:49: undefined: domain.ErrRondaSinVotos
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us13_test.go:40:55: undefined: EstimadorStoryPoints
+internal/service/us13_test.go:41:9: undefined: NuevoServicioPlanningPokerConEstimador
+internal/service/us13_test.go:51:9: undefined: NuevoServicioPlanningPokerConEstimador
+internal/service/us13_test.go:88:29: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:134:29: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:154:29: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:171:29: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:192:29: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:227:31: servicio.HistorialRondas undefined (type *ServicioPlanningPoker has no field or method HistorialRondas)
+internal/service/us13_test.go:256:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:287:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:312:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:340:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:341:28: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:342:52: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:344:19: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:345:77: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:347:27: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:362:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:363:28: undefined: domain.ErrRondaSinVotos
+internal/service/us13_test.go:364:52: undefined: domain.ErrRondaSinVotos
+internal/service/us13_test.go:366:19: undefined: domain.ErrRondaSinVotos
+internal/service/us13_test.go:367:77: undefined: domain.ErrRondaSinVotos
+internal/service/us13_test.go:369:27: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:379:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:386:27: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:400:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:407:27: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:423:32: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:430:29: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:445:30: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:452:27: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:477:32: servicio.DiferenciasRonda undefined (type *ServicioPlanningPoker has no field or method DiferenciasRonda)
+internal/service/us13_test.go:487:29: undefined: domain.DiferenciaPoker
+internal/service/us13_test.go:507:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:530:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:560:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:580:24: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:586:24: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:605:24: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:621:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:625:27: undefined: domain.ErrRondaSinVotos
+internal/service/us13_test.go:645:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:646:28: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:647:52: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:649:19: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:650:77: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:674:30: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:702:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:727:23: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:750:23: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:774:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:920:21: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:928:21: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:938:23: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:970:30: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:1000:29: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:1017:29: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:1035:28: servicio.AcordarEstimacion undefined (type *ServicioPlanningPoker has no field or method AcordarEstimacion)
+internal/service/us13_test.go:1039:27: undefined: domain.ErrRondaNoRevelada
+internal/service/us13_test.go:1040:25: undefined: domain.ErrRondaSinVotos
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.177s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.065s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.262s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	8.556s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.606s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
+FAIL
+Exit code: 1

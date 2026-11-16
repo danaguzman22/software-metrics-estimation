@@ -1,0 +1,9 @@
+US-14 GREEN
+
+$ go test ./... -count=1 -v
+PostgreSQL 16.15 en Docker; TEST_DATABASE_URL configurada para esta ejecución.
+
+Resultado: exit code 0; la ejecución verbose no reportó pruebas omitidas (SKIP).
+Pasaron los paquetes cmd/server, internal/domain, internal/service,
+internal/storage, internal/storage/jsonrepo, internal/storage/postgres,
+internal/web y migrations.

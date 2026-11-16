@@ -1,0 +1,643 @@
+US-20 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.168s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.014s
+--- FAIL: TestUS20_Fase1_ServicioReportes_ProyectoInexistente (0.00s)
+    us20_test.go:170: err = no implementado, se esperaba no se encontró el proyecto
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintInexistente (0.00s)
+    us20_test.go:200: err = no implementado, se esperaba el sprint no existe en el proyecto
+--- FAIL: TestUS20_Fase1_ServicioReportes_PrecedenciaValidaciones (0.00s)
+    --- FAIL: TestUS20_Fase1_ServicioReportes_PrecedenciaValidaciones/proyecto_inexistente_prevalece_en_el_reporte_del_proyecto (0.00s)
+        us20_test.go:227: err = no implementado, se esperaba exactamente no se encontró el proyecto sin envolver
+    --- FAIL: TestUS20_Fase1_ServicioReportes_PrecedenciaValidaciones/proyecto_inexistente_prevalece_en_el_reporte_del_sprint (0.00s)
+        us20_test.go:238: err = no implementado, se esperaba exactamente no se encontró el proyecto sin envolver
+--- FAIL: TestUS20_Fase1_ServicioReportes_ProyectoCompleto (0.00s)
+    us20_test.go:293: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_DefectosPorSeveridadYEstado (0.00s)
+    us20_test.go:429: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SinDefectos (0.00s)
+    us20_test.go:458: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SinHistorias (0.00s)
+    us20_test.go:475: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_HistoriaSinEstimarEnHoras (0.00s)
+    us20_test.go:509: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SinSprintsCerrados (0.00s)
+    us20_test.go:536: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SoloActivos (0.00s)
+    us20_test.go:564: ReporteProyecto() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintCompleto (0.00s)
+    us20_test.go:624: ReporteSprint() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintSinHistorias (0.00s)
+    us20_test.go:738: ReporteSprint() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintSinDefectos (0.00s)
+    us20_test.go:762: ReporteSprint() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintCerradoSinSnapshot (0.00s)
+    us20_test.go:785: ReporteSprint() devolvió un error inesperado: no implementado (el Sprint sin snapshot no debe fallar)
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintEstimacionesIncompletas (0.00s)
+    us20_test.go:833: ReporteSprint() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintEstimacionesSumaCero (0.00s)
+    us20_test.go:870: ReporteSprint() devolvió un error inesperado: no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_SprintSPPlanificadosFaltante (0.00s)
+    us20_test.go:906: err = "no implementado", se esperaba el detalle del SPPlanificados faltante
+--- FAIL: TestUS20_Fase1_ServicioReportes_ProyectoSPPlanificadosFaltante (0.00s)
+    us20_test.go:936: err = "no implementado", se esperaba el detalle del SPPlanificados faltante
+--- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto (0.00s)
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_verificar_el_proyecto (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_listar_los_Sprints_del_proyecto (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_listar_las_historias_del_backlog (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_sumar_horas_reales_del_proyecto (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_sumar_horas_reales_de_una_historia (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_consultar_las_métricas_de_defectos_del_proyecto (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvuelto/error_al_listar_los_defectos_del_proyecto (0.00s)
+        us20_test.go:1010: errors.Is(err, causa) = false; err = no implementado
+--- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint (0.00s)
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_listar_los_Sprints_del_proyecto (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_listar_las_historias_asignadas_al_Sprint (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_obtener_el_Sprint_al_sumar_los_planificados (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_obtener_el_snapshot_del_Sprint (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_sumar_horas_reales_del_Sprint (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_sumar_horas_reales_de_una_historia_asignada (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_consultar_las_métricas_de_defectos_del_Sprint (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+    --- FAIL: TestUS20_Fase1_ServicioReportes_ErrorDeRepositorioEnvueltoEnSprint/error_al_listar_los_defectos_del_proyecto (0.00s)
+        us20_test.go:1130: errors.Is(err, causa) = false; err = no implementado
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	0.143s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.056s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.251s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	10.948s
+2026/11/16 02:12:03 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 02:12:03 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 02:12:03 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 02:12:03 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+2026/11/16 02:12:03 web: operar defectos del proyecto: fallo de conexión
+2026/11/16 02:12:03 web: obtener dashboard del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 02:12:03 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 02:12:03 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+--- FAIL: TestUS20_ReporteProyecto_RenderOK (0.00s)
+    us20_test.go:225: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_RenderOK (0.00s)
+    us20_test.go:258: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_DesviacionConSigno (0.00s)
+    --- FAIL: TestUS20_ReporteProyecto_DesviacionConSigno/positiva (0.00s)
+        us20_test.go:290: código = 501, se esperaba 200; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_ReporteProyecto_DesviacionConSigno/negativa (0.00s)
+        us20_test.go:302: código = 501, se esperaba 200; cuerpo:
+            no implementado
+--- FAIL: TestUS20_ReporteProyecto_DesviacionNilMuestraGuion (0.00s)
+    us20_test.go:315: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_PorcentajeCeroMuestraCero (0.00s)
+    us20_test.go:329: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_ProyectoInexistente404 (0.00s)
+    us20_test.go:341: código = 501, se esperaba 404; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_SprintInexistente404 (0.00s)
+    us20_test.go:355: código = 501, se esperaba 404; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_ProyectoInexistente404 (0.00s)
+    us20_test.go:367: código = 501, se esperaba 404; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_NumeroInvalido404 (0.01s)
+    --- FAIL: TestUS20_ReporteSprint_NumeroInvalido404/abc (0.00s)
+        us20_test.go:383: código = 501, se esperaba 404; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_ReporteSprint_NumeroInvalido404/0 (0.00s)
+        us20_test.go:383: código = 501, se esperaba 404; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_ReporteSprint_NumeroInvalido404/-1 (0.00s)
+        us20_test.go:383: código = 501, se esperaba 404; cuerpo:
+            no implementado
+--- FAIL: TestUS20_ReporteProyecto_ErrorInfraestructura500 (0.00s)
+    us20_test.go:399: código = 501, se esperaba 500; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_ErrorInfraestructura500 (0.00s)
+    us20_test.go:412: código = 501, se esperaba 500; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_ErrorProyectoInfraestructura500 (0.00s)
+    us20_test.go:435: código = 501, se esperaba 500; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_EstadoConError500 (0.00s)
+    us20_test.go:459: código = 501, se esperaba 500; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_SinHistorias200 (0.00s)
+    us20_test.go:474: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_SinDefectos200 (0.00s)
+    us20_test.go:492: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_SinSprintsCerrados200 (0.00s)
+    us20_test.go:506: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_SinHistorias200 (0.00s)
+    us20_test.go:518: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_SinDefectos200 (0.00s)
+    us20_test.go:532: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_SinSnapshot200 (0.00s)
+    us20_test.go:550: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_BotonImprimirYMediaPrint (0.00s)
+    --- FAIL: TestUS20_ReporteProyecto_BotonImprimirYMediaPrint/reporte_del_proyecto (0.00s)
+        us20_test.go:571: código = 501, se esperaba 200; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_ReporteProyecto_BotonImprimirYMediaPrint/reporte_del_Sprint (0.00s)
+        us20_test.go:580: código = 501, se esperaba 200; cuerpo:
+            no implementado
+--- FAIL: TestUS20_ReporteEstilosMediaPrintPresentes (0.00s)
+    us20_test.go:603: estilos.css no contiene un bloque @media print
+--- FAIL: TestUS20_ReporteProyecto_SinScriptObligatorio (0.00s)
+    --- FAIL: TestUS20_ReporteProyecto_SinScriptObligatorio//proyectos/PRJ-001/reporte (0.00s)
+        us20_test.go:636: código = 501, se esperaba 200; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_ReporteProyecto_SinScriptObligatorio//proyectos/PRJ-001/sprints/1/reporte (0.00s)
+        us20_test.go:636: código = 501, se esperaba 200; cuerpo:
+            no implementado
+--- FAIL: TestUS20_ReporteProyecto_NombreEscapado (0.00s)
+    us20_test.go:660: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_WebReporteNoDerivaCifras (0.00s)
+    --- FAIL: TestUS20_WebReporteNoDerivaCifras/proyecto (0.00s)
+        us20_test.go:681: código = 501, se esperaba 200; cuerpo:
+            no implementado
+    --- FAIL: TestUS20_WebReporteNoDerivaCifras/sprint (0.00s)
+        us20_test.go:705: código = 501, se esperaba 200; cuerpo:
+            no implementado
+--- FAIL: TestUS20_ReporteProyecto_ListasNil200 (0.00s)
+    us20_test.go:766: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteSprint_ListasNil200 (0.00s)
+    us20_test.go:779: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_HistoriaSinEstimarMuestraGuion (0.00s)
+    us20_test.go:791: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS20_ReporteProyecto_EnlaceEnDetalle (0.00s)
+    us20_test.go:810: el cuerpo no contiene "Ver reporte"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-01-05</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-12-31</dd>
+          <dt>Estado</dt>
+          <dd>En curso</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+    us20_test.go:810: el cuerpo no contiene "href=\"/proyectos/PRJ-001/reporte\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-01-05</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-12-31</dd>
+          <dt>Estado</dt>
+          <dd>En curso</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestUS20_ReporteSprint_EnlaceEnListado (0.00s)
+    us20_test.go:858: el cuerpo no contiene "Ver reporte del Sprint"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+        <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Story Points completados</th>
+              <th>Velocidad</th>
+              <th>Asignar historia</th>
+              <th>Cerrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-02-02</td>
+              <td>2026-02-27</td>
+              <td>Cerrado</td>
+              <td>8</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>Segunda entrega</td>
+              <td>2026-03-02</td>
+              <td>2026-03-27</td>
+              <td>Activo</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/cerrar" class="en-linea">
+                  <button type="submit">Cerrar Sprint</button>
+                </form>
+                
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        <h2>Sprint 1: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        <h2>Sprint 2: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us20_test.go:858: el cuerpo no contiene "href=\"/proyectos/PRJ-001/sprints/1/reporte\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+        <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Story Points completados</th>
+              <th>Velocidad</th>
+              <th>Asignar historia</th>
+              <th>Cerrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-02-02</td>
+              <td>2026-02-27</td>
+              <td>Cerrado</td>
+              <td>8</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>Segunda entrega</td>
+              <td>2026-03-02</td>
+              <td>2026-03-27</td>
+              <td>Activo</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/cerrar" class="en-linea">
+                  <button type="submit">Cerrar Sprint</button>
+                </form>
+                
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        <h2>Sprint 1: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        <h2>Sprint 2: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+    us20_test.go:858: el cuerpo no contiene "href=\"/proyectos/PRJ-001/sprints/2/reporte\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sprints</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        <h1>Sprints</h1>
+        <p>Proyecto: Sistema de Métricas</p>
+        <p>Velocidad promedio: 0.00 · Porcentaje de historias completadas: 0.00%</p>
+        <p><a href="/proyectos/PRJ-001/sprints/nuevo">Nuevo Sprint</a></p>
+        <p><a href="/proyectos/PRJ-001/sprints/historico">Histórico de Sprints</a></p>
+        <p class="leyenda">Al cerrar el Sprint, las historias no completadas vuelven al backlog</p>
+        
+        
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Objetivo</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Estado</th>
+              <th>Story Points planificados</th>
+              <th>Story Points completados</th>
+              <th>Velocidad</th>
+              <th>Asignar historia</th>
+              <th>Cerrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>Primera entrega</td>
+              <td>2026-02-02</td>
+              <td>2026-02-27</td>
+              <td>Cerrado</td>
+              <td>8</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/1/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>Segunda entrega</td>
+              <td>2026-03-02</td>
+              <td>2026-03-27</td>
+              <td>Activo</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0.00</td>
+              <td>
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/asignar" class="en-linea">
+                  <select name="itemID">
+                    
+                  </select>
+                  <button type="submit">Asignar</button>
+                </form>
+              </td>
+              <td>
+                
+                <form method="post" action="/proyectos/PRJ-001/sprints/2/cerrar" class="en-linea">
+                  <button type="submit">Cerrar Sprint</button>
+                </form>
+                
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+        <h2>Sprint 1: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        <h2>Sprint 2: historias asignadas</h2>
+        
+        <p>No hay historias asignadas</p>
+        
+        
+        
+        
+          </main>
+        </body>
+        </html>
+2026/11/16 02:12:03 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 02:12:03 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 02:12:04 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 02:12:04 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 02:12:04 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	3.034s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.006s
+FAIL
+Exit code: 1

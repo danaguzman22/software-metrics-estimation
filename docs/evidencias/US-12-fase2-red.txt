@@ -1,0 +1,36 @@
+US-12 FASE 2 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us12_fase2_test.go:16:33: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/web_test]
+vet: internal/web/us12_fase2_test.go:67:11: undefined: web.ServicioPokerWeb
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us12_fase2_test.go:16:33: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+internal/service/us12_fase2_test.go:37:33: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+internal/service/us12_fase2_test.go:58:33: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+internal/service/us12_fase2_test.go:85:33: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+internal/service/us12_fase2_test.go:126:35: servicio.RondaActual undefined (type *ServicioPlanningPoker has no field or method RondaActual)
+internal/service/us12_fase2_test.go:158:29: servicio.ListarIntegrantes undefined (type *ServicioProyectos has no field or method ListarIntegrantes)
+internal/service/us12_fase2_test.go:184:29: servicio.ListarIntegrantes undefined (type *ServicioProyectos has no field or method ListarIntegrantes)
+internal/service/us12_fase2_test.go:223:31: servicio.ListarIntegrantes undefined (type *ServicioProyectos has no field or method ListarIntegrantes)
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test [github.com/danaguzman22/software-metrics-estimation/internal/web.test]
+internal/web/us12_fase2_test.go:67:11: undefined: web.ServicioPokerWeb
+internal/web/us12_fase2_test.go:198:3: unknown field Poker in struct literal of type web.Dependencias
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.165s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.018s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.056s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.246s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	7.677s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.017s
+FAIL
+Exit code: 1

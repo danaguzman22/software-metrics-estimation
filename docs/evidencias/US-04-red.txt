@@ -1,0 +1,26 @@
+# github.com/danaguzman22/software-metrics-estimation/internal/domain_test [github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+internal\domain\estado_test.go:26:26: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:64:26: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:72:24: undefined: domain.EstadoEnCurso
+internal\domain\estado_test.go:73:60: undefined: domain.EstadoEnCurso
+internal\domain\estado_test.go:93:26: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:101:24: undefined: domain.EstadoFinalizado
+internal\domain\estado_test.go:102:60: undefined: domain.EstadoFinalizado
+internal\domain\estado_test.go:129:26: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:133:24: undefined: domain.EstadoEnCurso
+internal\domain\estado_test.go:134:60: undefined: domain.EstadoEnCurso
+internal\domain\estado_test.go:157:21: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:177:24: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:185:22: undefined: domain.EstadoFinalizado
+internal\domain\estado_test.go:186:58: undefined: domain.EstadoFinalizado
+internal\domain\estado_test.go:240:28: undefined: domain.PorcentajeCompletadas
+internal\domain\estado_test.go:253:26: undefined: domain.PorcentajeCompletadas
+internal\domain\estado_test.go:294:21: undefined: domain.PorcentajeCompletadas
+internal\domain\estado_test.go:298:30: undefined: domain.ErrHistoriasInvalidas
+internal\domain\estado_test.go:299:54: undefined: domain.ErrHistoriasInvalidas
+internal\domain\estado_test.go:308:24: undefined: domain.EstadoPorFechas
+internal\domain\estado_test.go:316:22: undefined: domain.EstadoEnCurso
+internal\domain\estado_test.go:317:58: undefined: domain.EstadoEnCurso
+note: module requires Go 1.24
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+FAIL

@@ -11,3 +11,9 @@ GREEN: implementá lo mínimo para pasar. No cambies los tests; si uno está mal
 REFACTOR (si se pide): mejorá sin cambiar comportamiento y volvé a correr los tests. Commit refactor:.
 
 No hagas commit, push ni merge. Al final: qué debe revisar la persona.
+
+Persistencia (ADR-001):
+- Los tests de `internal/service` usan los dobles en memoria de `repos_fake_test.go` (mismo paquete); no importan `jsonrepo`, `postgres` ni `storage`.
+- El comportamiento de un repositorio nuevo o modificado se prueba en la suite de contrato `internal/service/repotest` (`Entorno` y `Ejecutar`), que ejecutan `jsonrepo` y `postgres`. Fechas por año, mes y día; criterios `nil` equivalen a lista vacía (D6).
+- Los tests de integración y de contrato PostgreSQL leen `TEST_DATABASE_URL` y se saltean si no está definida.
+- RED primero: los tests nuevos de adaptador o de contrato se escriben antes de implementar.

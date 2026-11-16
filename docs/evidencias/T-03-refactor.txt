@@ -1,0 +1,29 @@
+Evidencia de la fase REFACTOR - Historia T-03 (servidor web / healthz)
+
+Fecha de validación: 2026-11-12
+Rama: feature/T-03-servidor-web
+Commit REFACTOR: 300edb4
+Corrección posterior: 4123660
+Go: go version go1.27.3 windows/amd64
+
+Cambios de REFACTOR:
+- Se eliminó código redundante del arranque.
+- Se extrajo el manejador de /healthz.
+- Se mantuvo el comportamiento y la interfaz usada por los tests T-03.
+
+================================================================================
+Comando: go vet ./...
+Resultado: PASS (sin salida; exit code 0)
+
+================================================================================
+Comando: go test ./cmd/server ./internal/web -run '^TestT03_' -count=1 -cover
+Resultado: PASS
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.403s	coverage: 75.0% of statements
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.923s	coverage: 100.0% of statements
+
+================================================================================
+Comando: go test ./... -count=1
+Resultado: PASS (todos los paquetes)
+
+Conclusión: la refactorización conservó el comportamiento; la corrección posterior
+agregó el cableado exigido por R1 y el saneamiento del error de conexión.

@@ -1,0 +1,145 @@
+{{define "contenido"}}
+{{with .Reporte}}
+<div class="reporte">
+<header class="reporte-encabezado">
+  <h1>Reporte de {{.ProyectoNombre}}</h1>
+  <dl class="detalle">
+    <dt>Estado</dt>
+    <dd>{{.Estado}}</dd>
+    <dt>Story Points planificados</dt>
+    <dd>{{.SPPlanificadosTotal}}</dd>
+    <dt>Story Points completados</dt>
+    <dd>{{.SPCompletadosTotal}}</dd>
+    <dt>Velocidad promedio</dt>
+    <dd>{{printf "%.2f" .VelocidadPromedio}}</dd>
+    <dt>Historias completadas</dt>
+    <dd>{{printf "%.2f%%" .PorcentajeHistoriasCompletadas}}</dd>
+    <dt>Horas estimadas</dt>
+    <dd>{{printf "%.2f" .HorasEstimadasTotal}} h</dd>
+    <dt>Horas reales</dt>
+    <dd>{{printf "%.2f" .HorasRealesTotal}} h</dd>
+    <dt>Desviación de horas</dt>
+    <dd>{{if .DesviacionDisponible}}{{if ge .DesviacionHorasTotal 0.0}}+{{end}}{{printf "%.2f" .DesviacionHorasTotal}}%{{else}}—{{end}}</dd>
+    <dt>Sprints cerrados</dt>
+    <dd>{{.SprintsCerrados}}</dd>
+  </dl>
+  {{if not .EstimacionesCompletas}}<p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>{{end}}
+  <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+</header>
+
+<section aria-labelledby="titulo-historias-planificadas">
+  <h2 id="titulo-historias-planificadas">Historias planificadas</h2>
+  {{if .Planificadas}}
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Título</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Story Points</th>
+        <th scope="col">Horas estimadas</th>
+        <th scope="col">Horas reales (acumuladas)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Planificadas}}<tr><td>{{.ID}}</td><td>{{.Titulo}}</td><td>{{.Estado}}</td><td>{{.StoryPoints}}</td><td>{{if .HorasEstimadasDisp}}{{printf "%.2f" .HorasEstimadas}} h{{else}}—{{end}}</td><td>{{printf "%.2f" .HorasReales}} h</td></tr>{{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <p>No hay historias</p>
+  {{end}}
+</section>
+
+<section aria-labelledby="titulo-historias-completadas">
+  <h2 id="titulo-historias-completadas">Historias completadas</h2>
+  {{if .Completadas}}
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Título</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Story Points</th>
+        <th scope="col">Horas estimadas</th>
+        <th scope="col">Horas reales (acumuladas)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Completadas}}<tr><td>{{.ID}}</td><td>{{.Titulo}}</td><td>{{.Estado}}</td><td>{{.StoryPoints}}</td><td>{{if .HorasEstimadasDisp}}{{printf "%.2f" .HorasEstimadas}} h{{else}}—{{end}}</td><td>{{printf "%.2f" .HorasReales}} h</td></tr>{{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <p>No hay historias</p>
+  {{end}}
+</section>
+
+<section aria-labelledby="titulo-sprints-cerrados">
+  <h2 id="titulo-sprints-cerrados">Sprints cerrados</h2>
+  {{if .VelocidadPorSprint}}
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">Sprint</th>
+        <th scope="col">Velocidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .VelocidadPorSprint}}<tr><td>{{.SprintNumero}}</td><td>{{.Velocidad}}</td></tr>{{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <p>Todavía no hay Sprints cerrados</p>
+  {{end}}
+</section>
+
+<section aria-labelledby="titulo-defectos">
+  <h2 id="titulo-defectos">Defectos</h2>
+  {{with .Defectos}}
+  <dl class="detalle">
+    <dt>Detectados</dt>
+    <dd>{{.Detectados}}</dd>
+    <dt>Resueltos</dt>
+    <dd>{{.Resueltos}}</dd>
+    <dt>Total</dt>
+    <dd>{{.Total}}</dd>
+    <dt>Severidad alta</dt>
+    <dd>{{.Alta}}</dd>
+    <dt>Severidad media</dt>
+    <dd>{{.Media}}</dd>
+    <dt>Severidad baja</dt>
+    <dd>{{.Baja}}</dd>
+    <dt>Abiertos</dt>
+    <dd>{{.Abierto}}</dd>
+    <dt>En curso</dt>
+    <dd>{{.EnCurso}}</dd>
+    <dt>Resueltos por estado</dt>
+    <dd>{{.Resuelto}}</dd>
+  </dl>
+  {{if .Defectos}}
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">Descripción</th>
+        <th scope="col">Severidad</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Historia</th>
+        <th scope="col">Sprint de detección</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Defectos}}<tr><td>{{.Descripcion}}</td><td>{{.Severidad}}</td><td>{{.Estado}}</td><td>{{.ItemID}}</td><td>{{.SprintDeteccion}}</td></tr>{{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <p>No hay defectos</p>
+  {{end}}
+  {{end}}
+</section>
+
+<p class="acciones">
+  <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+  <a class="boton-imprimir" href="/proyectos/{{.ProyectoID}}/reporte.pdf">Descargar PDF</a>
+</p>
+</div>
+{{end}}
+{{end}}

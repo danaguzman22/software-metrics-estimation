@@ -1,0 +1,34 @@
+﻿T-07 — Fase REFACTOR (adaptador JSON de repositorios, issue #41)
+
+Refactorizaciones realizadas:
+- Sí, refactorización segura y acotada en internal/storage/jsonrepo/repos.go.
+- Se normalizó la construcción de slices vacíos en ListarPorProyecto de Integrantes y Backlog usando make([]T, 0), eliminando el nil-check posterior y haciendo explícito el comportamiento de retorno vacío ya cubierto por los tests.
+
+Archivos modificados:
+- internal/storage/jsonrepo/repos.go
+- docs/evidencias/T-07-refactor.txt
+
+Tests RED no cambiados:
+- internal/storage/jsonrepo/repos_test.go: sin modificaciones.
+- specs/T-07.md: sin modificaciones.
+- No se modificaron internal/service, internal/storage/storage.go, internal/domain, web ni cmd.
+
+Comandos ejecutados y resultados:
+- gofmt -w internal/storage/jsonrepo/repos.go -> OK (sin salida)
+- go test ./internal/storage/jsonrepo -count=1 -> ok (0.994s)
+- go test ./... -count=1 -> ok (domain 0.908s, service 1.988s, storage 1.009s, jsonrepo 1.280s; paquetes sin tests: cmd/server, internal/web)
+- git diff --check -> sin errores de whitespace/conflicto (Git advirtió LF->CRLF en working copy de internal/storage/jsonrepo/repos.go por entorno Windows)
+- go test -race ./internal/storage/jsonrepo -count=1 -> no ejecutable: "go: -race requires cgo; enable cgo by setting CGO_ENABLED=1"
+
+Limitaciones del entorno:
+- -race no disponible por falta de CGO/gcc en el entorno (no es fallo de la implementación).
+
+Confirmaciones de revisión (sin cambio de comportamiento):
+- R3 formato JSON/tags y colecciones intactos; nombres públicos y firmas sin cambios.
+- R4/R5 conversión de storage.ErrNotFound a colección vacía y propagación de errores con %w preservadas.
+- R6/R7/R8 lógica de Obtener/Actualizar/Agregar/Listar, numeración por proyecto (domain.SiguienteIDItem), orden numérico (domain.NumeroDeItem) y persistencia sin cambios.
+- R9 sync.Mutex y operaciones lectura-modificación-escritura (Agregar, Actualizar, AgregarItem, ActualizarItem) preservadas.
+- No se agregaron features, comentarios innecesarios ni casts evitables.
+
+Conclusión:
+- GREEN ya era mayormente claro; se aplicó solo una limpieza mínima segura, sin forzar refactorizaciones mayores.

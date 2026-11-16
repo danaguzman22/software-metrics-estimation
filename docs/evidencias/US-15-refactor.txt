@@ -1,0 +1,13 @@
+US-15 REFACTOR
+
+$ go vet ./...
+Exit code: 0.
+
+$ go build ./...
+Exit code: 0.
+
+$ git diff --check
+Exit code: 0.
+
+La suite de dominio y servicio incluye pruebas de reapertura y confirma que el
+defecto resuelto original no se modifica al crear el estado reabierto.

@@ -1,0 +1,21 @@
+T-08 - evidencia de cierre REFACTOR
+Fecha: 2026-11-11
+
+Cambios solicitados:
+- Se eliminó la asignación de Estado = "Estimado" en el caso de round-trip.
+- Se eliminó la comparación reflexiva redundante de slices en la numeración.
+- Se eliminó internal/service/repotest/contrato_test.go.
+- Se eliminó la referencia sin uso a domain.NuevoProyecto del wiring JSON.
+- Se actualizó specs/T-08.md a estado Implementada.
+- La trazabilidad ahora usa los subtests bajo TestJSONRepo_Contrato.
+- Se documentó la nota sobre los placeholders RED y la lógica GREEN.
+
+Validación:
+- `go test ./... -count=1` — OK
+- `go vet ./...` — OK
+
+Resultado: ambas validaciones finalizaron correctamente.
+
+Alcance confirmado:
+- No se modificaron otros archivos fuera de los solicitados.
+- `internal/storage/jsonrepo/contrato_test.go` quedó sin BOM.

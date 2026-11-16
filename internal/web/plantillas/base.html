@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Titulo}}</title>
+  <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+  <header class="encabezado">
+    <nav class="navegacion" aria-label="Navegación principal">
+      <a href="/proyectos">Proyectos</a>
+      {{if .Nav.EnProyecto}}
+      <a href="{{.Nav.Backlog}}">Backlog</a>
+      <a href="{{.Nav.Sprints}}">Sprints</a>
+      <a href="{{.Nav.Dashboard}}">Dashboard</a>
+      <a href="{{.Nav.Defectos}}">Defectos</a>
+      <a href="{{.Nav.Reporte}}">Reporte</a>
+      <a href="{{.Nav.Integrantes}}">Integrantes</a>
+      {{end}}
+    </nav>
+  </header>
+  {{if .Migas}}
+  <nav class="migas" aria-label="Migas de pan">
+    {{range $i, $miga := .Migas}}{{if $i}}<span class="migas-sep">›</span>{{end}}<a href="{{$miga.URL}}"{{if $miga.Actual}} aria-current="page"{{end}}>{{$miga.Texto}}</a>{{end}}
+  </nav>
+  {{end}}
+  {{if .Volver}}
+  <p class="volver"><a href="{{.Volver}}">← Volver</a></p>
+  {{end}}
+  <main class="contenido">
+    {{if .Nav.MostrarLeyenda}}
+    <p class="leyenda">Elegí un proyecto para ver su backlog y sus sprints</p>
+    {{end}}
+    {{template "contenido" .}}
+  </main>
+</body>
+</html>

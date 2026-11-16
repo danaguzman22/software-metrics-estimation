@@ -1,0 +1,33 @@
+Evidencia RED - T-04 Dockerfile, Compose y despliegue
+
+Fecha de validación: 2026-11-12
+Rama: feature/T-04-docker
+Checkout de verificación: commit base 38d5f48
+Go: go version go1.27.3 windows/amd64
+Docker: 27.1.1
+Docker Compose: v2.29.1-desktop.1
+
+El checkout base no contiene Dockerfile ni compose.yml. Docker Desktop estaba
+encendido y no había un servidor ejecutándose en localhost:8080.
+
+================================================================================
+Comando: docker build -t software-metrics-estimation:dev .
+Resultado esperado: FAIL
+Salida relevante: failed to read dockerfile: open Dockerfile: no such file or directory
+
+================================================================================
+Comando: docker compose up --build -d --wait
+Resultado esperado: FAIL
+Salida: no configuration file provided: not found
+
+================================================================================
+Comando: docker image ls software-metrics-estimation
+Resultado: no hay imagen con ese repositorio
+
+================================================================================
+Comando: curl.exe -sS http://localhost:8080/healthz
+Resultado esperado: FAIL
+Salida: Failed to connect to localhost:8080
+
+Conclusión: en el commit base la aplicación no podía construirse ni levantarse
+en contenedor porque todavía no existían Dockerfile ni compose.yml.

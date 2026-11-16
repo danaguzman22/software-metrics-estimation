@@ -1,0 +1,81 @@
+{{define "contenido"}}
+{{with .Dashboard}}
+<h1>Dashboard de {{.ProyectoNombre}}</h1>
+<section class="metricas" aria-label="Métricas clave">
+  <div class="tarjetas-kpi">
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Estado</span><span class="kpi-valor">{{.Estado}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Story Points planificados</span><span class="kpi-valor">{{.SPPlanificadosTotal}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Story Points completados</span><span class="kpi-valor">{{.SPCompletadosTotal}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Velocidad promedio</span><span class="kpi-valor">{{printf "%.2f" .VelocidadPromedio}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Historias completadas</span><span class="kpi-valor">{{printf "%.2f%%" .PorcentajeHistoriasCompletadas}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Horas estimadas</span><span class="kpi-valor">{{printf "%.2f" .HorasEstimadasTotal}} h</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Horas reales</span><span class="kpi-valor">{{printf "%.2f" .HorasRealesTotal}} h</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Desviación de horas</span><span class="kpi-valor">{{if .DesviacionTotalDisponible}}{{if ge .DesviacionHorasTotal 0.0}}+{{end}}{{printf "%.2f" .DesviacionHorasTotal}}%{{else}}—{{end}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Sprints cerrados</span><span class="kpi-valor">{{.SprintsCerrados}}</span></div>
+  </div>
+  <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+  {{if not .EstimacionesCompletas}}<p class="leyenda">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>{{end}}
+</section>
+
+<div class="paneles-graficos">
+<section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+  <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+  {{if .Velocidad}}
+  <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+    <title>Velocidad por Sprint</title>
+    {{range .TicksVelocidad}}{{if ne .Y 200}}<line x1="48" y1="{{.Y}}" x2="624" y2="{{.Y}}" stroke="#d9d9d9" stroke-width="1"/>{{end}}<text x="42" y="{{.Y}}" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">{{.Etiqueta}}</text>{{end}}
+    <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+    <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+    {{range .Velocidad}}<rect x="{{.X}}" y="{{.Y}}" width="{{.Ancho}}" height="{{.Alto}}" fill="#1f4e79"/><text x="{{.TextoX}}" y="{{.TextoY}}" text-anchor="middle" fill="#1a1a1a" font-size="11">{{.Etiqueta}}</text><text x="{{.TextoX}}" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">{{.Sprint}}</text>{{end}}
+  </svg>
+  {{else}}
+  <p class="grafico-mensaje">Todavía no hay Sprints cerrados</p>
+  {{end}}
+  <table class="tabla">
+    <caption>Velocidad por Sprint</caption>
+    <thead>
+      <tr>
+        <th scope="col">Sprint</th>
+        <th scope="col">Story Points completados</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Velocidad}}<tr><td>{{.Sprint}}</td><td>{{.Velocidad}}</td></tr>{{else}}<tr><td colspan="2">Sin datos</td></tr>{{end}}
+    </tbody>
+  </table>
+</section>
+
+<section class="grafico" aria-labelledby="titulo-grafico-horas">
+  <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+  {{if .Horas}}
+  <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+    <title>Horas estimadas vs reales por Sprint</title>
+    <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+    <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+    {{range .TicksHoras}}{{if ne .Y 216}}<line x1="48" y1="{{.Y}}" x2="624" y2="{{.Y}}" stroke="#d9d9d9" stroke-width="1"/>{{end}}<text x="42" y="{{.Y}}" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">{{.Etiqueta}}</text>{{end}}
+    <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+    <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+    {{range .Horas}}{{if .MetricasDisponibles}}<rect x="{{.EstX}}" y="{{.EstY}}" width="{{.Ancho}}" height="{{.EstAlto}}" fill="#1f4e79"/><text x="{{.TextoEstX}}" y="{{.TextoEstY}}" text-anchor="middle" fill="#1a1a1a" font-size="11">{{.EstTexto}}</text><rect x="{{.RealX}}" y="{{.RealY}}" width="{{.Ancho}}" height="{{.RealAlto}}" fill="#b45309"/><text x="{{.TextoRealX}}" y="{{.TextoRealY}}" text-anchor="middle" fill="#1a1a1a" font-size="11">{{.RealTexto}}</text>{{end}}<text x="{{.GrupoX}}" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">{{.Sprint}}</text>{{end}}
+  </svg>
+  {{else}}
+  <p class="grafico-mensaje">Todavía no hay Sprints cerrados</p>
+  {{end}}
+  <table class="tabla">
+    <caption>Horas estimadas vs reales por Sprint</caption>
+    <thead>
+      <tr>
+        <th scope="col">Sprint</th>
+        <th scope="col">Horas estimadas</th>
+        <th scope="col">Horas reales</th>
+        <th scope="col">Desviación</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Horas}}<tr><td>{{.Sprint}}</td>{{if .MetricasDisponibles}}<td>{{.EstTexto}}</td><td>{{.RealTexto}}</td><td>{{if .DesvDisponible}}{{if ge .Desv 0.0}}+{{end}}{{printf "%.2f" .Desv}}%{{else}}—{{end}}</td>{{else}}<td colspan="3">métricas no disponibles</td>{{end}}</tr>{{else}}<tr><td colspan="4">Sin datos</td></tr>{{end}}
+    </tbody>
+  </table>
+  {{if .HayMetricasNoDisponibles}}<p class="grafico-nota">Los Sprints cerrados antes de que existiera el registro del esfuerzo aparecen como métricas no disponibles; el resto del dashboard funciona con normalidad.</p>{{end}}
+</section>
+</div>
+{{end}}
+{{end}}

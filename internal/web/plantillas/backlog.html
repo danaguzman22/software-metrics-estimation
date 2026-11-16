@@ -1,0 +1,41 @@
+{{define "contenido"}}
+<h1>Backlog</h1>
+<p>Proyecto: {{.Proyecto.ID}}</p>
+<p><a href="/proyectos/{{.Proyecto.ID}}/backlog/nuevo">Nuevo ítem</a></p>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{if .Items}}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Prioridad</th>
+      <th>Estado</th>
+      <th>Story Points</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Items}}
+    <tr id="item-{{.ID}}">
+      <td>{{.ID}}</td>
+      <td>{{.Titulo}}</td>
+      <td>{{.Prioridad}}</td>
+      <td>{{.Estado}}</td>
+      <td>{{.StoryPoints}}</td>
+      <td>
+        <a href="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/editar">Editar</a>
+        <a href="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/poker">Planning Poker</a>
+        <form method="post" action="/proyectos/{{$.Proyecto.ID}}/backlog/{{.ID}}/estimar" class="en-linea">
+          <input type="number" name="storyPoints" value="{{.StoryPoints}}" min="0" step="1">
+          <button type="submit">Estimar</button>
+        </form>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{else}}
+<p>El backlog está vacío</p>
+{{end}}
+{{end}}

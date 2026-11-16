@@ -1,0 +1,1115 @@
+T-14 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.176s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.019s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/reportepdf	0.058s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.092s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.038s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.250s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	12.360s
+--- FAIL: TestT14_PaginaIntegrantesMuestraNombreProyecto (0.00s)
+    t14_test.go:162: código = 501, se esperaba 200; cuerpo:
+--- FAIL: TestT14_PaginaIntegrantesMuestraListadoYFormulario (0.00s)
+    t14_test.go:188: código = 501, se esperaba 200; cuerpo:
+--- FAIL: TestT14_PaginaIntegrantesSinIntegrantesMuestraVacio (0.00s)
+    t14_test.go:209: código = 501, se esperaba 200; cuerpo:
+--- FAIL: TestT14_DetalleProyectoEnlaceIntegrantes (0.00s)
+    t14_test.go:227: el cuerpo no contiene "Ver integrantes"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-03-01</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-06-30</dd>
+          <dt>Estado</dt>
+          <dd>Planificado</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+    t14_test.go:227: el cuerpo no contiene "href=\"/proyectos/PRJ-001/integrantes\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-03-01</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-06-30</dd>
+          <dt>Estado</dt>
+          <dd>Planificado</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT14_DetalleProyectoConservaEnlacesExistentes (0.00s)
+    t14_test.go:243: el cuerpo no contiene "Ver integrantes"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-03-01</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-06-30</dd>
+          <dt>Estado</dt>
+          <dd>Planificado</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+    t14_test.go:243: el cuerpo no contiene "href=\"/proyectos/PRJ-001/integrantes\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <h1>Sistema de Métricas</h1>
+        <dl class="detalle">
+          <dt>ID</dt>
+          <dd>PRJ-001</dd>
+          <dt>Fecha de inicio</dt>
+          <dd>2026-03-01</dd>
+          <dt>Fecha de fin</dt>
+          <dd>2026-06-30</dd>
+          <dt>Estado</dt>
+          <dd>Planificado</dd>
+        </dl>
+        <p class="acciones">
+          <a href="/proyectos/PRJ-001/backlog">Ver backlog</a>
+          <a href="/proyectos/PRJ-001/sprints">Ver sprints</a>
+          <a href="/proyectos/PRJ-001/defectos">Ver defectos</a>
+          <a href="/proyectos/PRJ-001/dashboard">Ver dashboard</a>
+          <a href="/proyectos/PRJ-001/reporte">Ver reporte</a>
+        </p>
+        
+        
+          </main>
+        </body>
+        </html>
+--- FAIL: TestT14_AltaIntegranteValidaRedirige303 (0.00s)
+    t14_test.go:265: código = 501, se esperaba 303; cuerpo:
+--- FAIL: TestT14_AltaPrimerIntegrante (0.00s)
+    t14_test.go:299: código = 501, se esperaba 303; cuerpo:
+--- FAIL: TestT14_ListadoConservaOrdenDelServicio (0.00s)
+    t14_test.go:321: código = 501, se esperaba 200; cuerpo:
+--- FAIL: TestT14_AltaIntegranteNombreVacio422 (0.00s)
+    t14_test.go:341: código = 501, se esperaba 422; cuerpo:
+--- FAIL: TestT14_AltaIntegranteRolVacio422 (0.00s)
+    t14_test.go:360: código = 501, se esperaba 422; cuerpo:
+--- FAIL: TestT14_AltaIntegranteDuplicado422 (0.00s)
+    t14_test.go:382: código = 501, se esperaba 422; cuerpo:
+--- FAIL: TestT14_AltaConservaValoresIngresados (0.00s)
+    t14_test.go:404: código = 501, se esperaba 422; cuerpo:
+--- FAIL: TestT14_PaginaIntegrantesProyectoInexistente404 (0.00s)
+    t14_test.go:425: código = 501, se esperaba 404; cuerpo:
+--- FAIL: TestT14_AltaIntegranteProyectoInexistente404 (0.00s)
+    t14_test.go:442: código = 501, se esperaba 404; cuerpo:
+--- FAIL: TestT14_IntegrantesErrorInfraestructura500 (0.01s)
+    --- FAIL: TestT14_IntegrantesErrorInfraestructura500/obtener_proyecto (0.00s)
+        t14_test.go:520: código = 501, se esperaba 500; cuerpo:
+    --- FAIL: TestT14_IntegrantesErrorInfraestructura500/listar_integrantes (0.00s)
+        t14_test.go:520: código = 501, se esperaba 500; cuerpo:
+    --- FAIL: TestT14_IntegrantesErrorInfraestructura500/agregar_integrante (0.00s)
+        t14_test.go:520: código = 501, se esperaba 500; cuerpo:
+    --- FAIL: TestT14_IntegrantesErrorInfraestructura500/re-render_tras_error_de_validación (0.00s)
+        t14_test.go:520: código = 501, se esperaba 500; cuerpo:
+--- FAIL: TestT14_AltaFormularioIlegible422 (0.00s)
+    t14_test.go:546: código = 501, se esperaba 422
+--- FAIL: TestT14_IntegrantesEscapaNombre (0.00s)
+    t14_test.go:569: código = 501, se esperaba 200; cuerpo:
+--- FAIL: TestT14_PokerSinIntegrantesMuestraAvisoYEnlace (0.01s)
+    --- FAIL: TestT14_PokerSinIntegrantesMuestraAvisoYEnlace/sin_rondas (0.00s)
+        t14_test.go:660: el cuerpo no contiene "Este proyecto todavía no tiene integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>La historia todavía no tiene rondas</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Iniciar ronda</button>
+            </form>
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "Registrar integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>La historia todavía no tiene rondas</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Iniciar ronda</button>
+            </form>
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "href=\"/proyectos/PRJ-001/integrantes\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>La historia todavía no tiene rondas</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Iniciar ronda</button>
+            </form>
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:669: ListarIntegrantes se llamó 0 veces, se esperaba 1
+    --- FAIL: TestT14_PokerSinIntegrantesMuestraAvisoYEnlace/ronda_abierta (0.00s)
+        t14_test.go:660: el cuerpo no contiene "Este proyecto todavía no tiene integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "Registrar integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "href=\"/proyectos/PRJ-001/integrantes\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT14_PokerSinIntegrantesMuestraAvisoYEnlace/ronda_revelada (0.00s)
+        t14_test.go:660: el cuerpo no contiene "Este proyecto todavía no tiene integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <h2>Diferencias</h2>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            <h2>Acordar estimación</h2>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Acordar estimación</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "Registrar integrantes"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <h2>Diferencias</h2>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            <h2>Acordar estimación</h2>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Acordar estimación</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:660: el cuerpo no contiene "href=\"/proyectos/PRJ-001/integrantes\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <h2>Diferencias</h2>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            <h2>Acordar estimación</h2>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Acordar estimación</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+--- FAIL: TestT14_PokerSinIntegrantesNoMuestraSelectsVacios (0.01s)
+    --- FAIL: TestT14_PokerSinIntegrantesNoMuestraSelectsVacios/ronda_abierta (0.00s)
+        t14_test.go:714: el cuerpo no debería contener "name=\"integrante\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:714: el cuerpo no debería contener "/poker/rondas/1/votos"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:714: el cuerpo no debería contener "/poker/rondas/1/revelar"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Abierta</p>
+            
+            <p>Nadie votó todavía</p>
+            <p class="leyenda">Los valores permanecen ocultos hasta revelar</p>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/votos">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Votar</button>
+            </form>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/revelar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <button type="submit">Revelar</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestT14_PokerSinIntegrantesNoMuestraSelectsVacios/ronda_revelada (0.00s)
+        t14_test.go:714: el cuerpo no debería contener "name=\"integrante\""; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <h2>Diferencias</h2>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            <h2>Acordar estimación</h2>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Acordar estimación</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+        t14_test.go:714: el cuerpo no debería contener "/poker/rondas/1/acordar"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Planning Poker</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            <h1>Planning Poker</h1>
+            <p>Historia: HU-01</p>
+            
+            
+            <p>Sin estimar</p>
+            
+            <p>Ronda 1 — Revelada</p>
+            
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Integrante</th>
+                  <th>Voto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+            <h2>Diferencias</h2>
+            
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas" class="en-linea">
+              <button type="submit">Nueva ronda</button>
+            </form>
+            <h2>Acordar estimación</h2>
+            <form method="post" action="/proyectos/PRJ-001/backlog/HU-01/poker/rondas/1/acordar" class="en-linea">
+              <select name="integrante">
+                
+              </select>
+              <select name="valor">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21">21</option>
+                
+              </select>
+              <button type="submit">Acordar estimación</button>
+            </form>
+            
+            
+            
+            
+            
+              </main>
+            </body>
+            </html>
+2026/11/16 05:10:25 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 05:10:25 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 05:10:25 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 05:10:25 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+2026/11/16 05:10:25 web: operar defectos del proyecto: fallo de conexión
+2026/11/16 05:10:25 web: obtener dashboard del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 05:10:25 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 05:10:25 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+2026/11/16 05:10:25 web: generar el reporte del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 05:10:25 web: generar el reporte del sprint PRJ-001: falla interna: timeout al leer la base
+2026/11/16 05:10:25 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 05:10:25 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+2026/11/16 05:10:25 web: generar el reporte del proyecto PRJ-001: detalle-secreto-bd
+2026/11/16 05:10:25 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 05:10:25 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 05:10:26 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 05:10:26 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 05:10:26 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	3.173s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.007s
+FAIL
+Exit code: 1

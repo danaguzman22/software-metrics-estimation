@@ -1,0 +1,61 @@
+US-09 RED
+
+$ go test ./... -count=1 -gcflags=-e
+PostgreSQL 16.2 aislado en localhost:55432; TEST_DATABASE_URL configurada para esta ejecución.
+
+La compilación falla por los contratos y métodos de US-09 todavía ausentes en el commit test. Los tests PostgreSQL no llegan a ejecutarse porque el fallo ocurre durante la compilación, lo cual es el resultado RED esperado.
+
+# github.com/danaguzman22/software-metrics-estimation/internal/domain [github.com/danaguzman22/software-metrics-estimation/internal/domain.test]
+internal\domain\completar_item_test.go:19:30: original.MarcarComoCompletada undefined (type ItemBacklog has no field or method MarcarComoCompletada)
+internal\domain\completar_item_test.go:38:26: item.MarcarComoCompletada undefined (type ItemBacklog has no field or method MarcarComoCompletada)
+# github.com/danaguzman22/software-metrics-estimation/internal/service/repotest
+internal\service\repotest\repotest.go:214:30: estimado.MarcarComoCompletada undefined (type domain.ItemBacklog has no field or method MarcarComoCompletada)
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal\service\sprints_test.go:103:29: f.sprints[proyectoID][i].SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:107:16: undefined: domain.ErrSprintCerrado
+internal\service\sprints_test.go:179:15: obtenido.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:179:51: esperado.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:180:60: obtenido.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:180:85: esperado.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:181:21: obtenido.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:181:84: esperado.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:182:62: obtenido.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\sprints_test.go:182:88: esperado.SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\us09_test.go:17:21: servicio.MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:32:29: entorno.servicio().MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:44:29: entorno.servicio().MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:58:29: entorno.servicio().MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:59:29: undefined: domain.ErrSprintCerrado
+internal\service\us09_test.go:60:53: undefined: domain.ErrSprintCerrado
+internal\service\us09_test.go:74:19: servicio.MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:75:29: undefined: domain.ErrItemNoAsignadoAlSprint
+internal\service\us09_test.go:76:53: undefined: domain.ErrItemNoAsignadoAlSprint
+internal\service\us09_test.go:89:19: servicio.MarcarItemCompletada undefined (type *ServicioSprints has no field or method MarcarItemCompletada)
+internal\service\us09_test.go:109:29: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:121:29: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:133:29: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:147:29: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:148:29: undefined: domain.ErrSprintCerrado
+internal\service\us09_test.go:149:53: undefined: domain.ErrSprintCerrado
+internal\service\us09_test.go:161:32: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:178:32: entorno.servicio().CerrarSprint undefined (type *ServicioSprints has no field or method CerrarSprint)
+internal\service\us09_test.go:192:51: undefined: domain.EstadoSprintCerrado
+internal\service\us09_test.go:193:35: entorno.sprints.sprints["p1"][0].SPPlanificados undefined (type domain.Sprint has no field or method SPPlanificados)
+internal\service\us09_test.go:230:68: s.StoryPointsCompletados undefined (type *ServicioSprints has no field or method StoryPointsCompletados)
+internal\service\us09_test.go:231:68: s.VelocidadSprint undefined (type *ServicioSprints has no field or method VelocidadSprint)
+internal\service\us09_test.go:267:31: servicio.StoryPointsCompletados undefined (type *ServicioSprints has no field or method StoryPointsCompletados)
+internal\service\us09_test.go:274:29: servicio.VelocidadSprint undefined (type *ServicioSprints has no field or method VelocidadSprint)
+internal\service\us09_test.go:291:28: undefined: domain.ErrSprintCerrado
+internal\service\us09_test.go:292:52: undefined: domain.ErrSprintCerrado
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.526s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/domain [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.773s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo [build failed]
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.898s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.763s
+FAIL
+
+Exit code: 1

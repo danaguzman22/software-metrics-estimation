@@ -1,0 +1,721 @@
+US-21 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.175s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.019s
+--- FAIL: TestUS21_Generador_ReporteProyecto_PDFValido (0.00s)
+    generador_test.go:88: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteProyecto_ContenidoSinCompresion (0.00s)
+    generador_test.go:97: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteProyecto_SinDatos (0.00s)
+    generador_test.go:113: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteSprint_PDFValido (0.00s)
+    generador_test.go:123: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteSprint_ContenidoSinCompresion (0.00s)
+    generador_test.go:132: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteSprint_SinDatos (0.00s)
+    generador_test.go:142: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_ReporteSprint_SinMetricas (0.00s)
+    generador_test.go:154: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_NormalizacionCaracteres (0.00s)
+    generador_test.go:169: error al generar PDF: no implementado
+--- FAIL: TestUS21_Generador_MuchasHistoriasYDefectos_Paginacion (0.00s)
+    generador_test.go:196: error al generar PDF: no implementado
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/reportepdf	0.008s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.117s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.048s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.250s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	11.440s
+2026/11/16 04:03:41 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 04:03:41 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 04:03:41 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 04:03:41 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+2026/11/16 04:03:41 web: operar defectos del proyecto: fallo de conexión
+2026/11/16 04:03:41 web: obtener dashboard del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 04:03:41 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 04:03:41 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+2026/11/16 04:03:41 web: generar el reporte del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 04:03:41 web: generar el reporte del sprint PRJ-001: falla interna: timeout al leer la base
+2026/11/16 04:03:41 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 04:03:41 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+--- FAIL: TestUS21_WebReporteProyectoPDF_DescargaOK (0.00s)
+    us21_test.go:41: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS21_WebReporteSprintPDF_DescargaOK (0.00s)
+    us21_test.go:61: código = 501, se esperaba 200; cuerpo:
+        no implementado
+--- FAIL: TestUS21_WebReporteProyectoPDF_ProyectoInexistente404 (0.00s)
+    us21_test.go:81: código = 501, se esperaba 404; cuerpo:
+        no implementado
+--- FAIL: TestUS21_WebReporteSprintPDF_SprintInexistente404 (0.00s)
+    us21_test.go:91: código = 501, se esperaba 404; cuerpo:
+        no implementado
+--- FAIL: TestUS21_WebReporteSprintPDF_NumeroInvalido404SinInvocarServicio (0.00s)
+    us21_test.go:103: numero "abc": código=501, se esperaba 404
+--- FAIL: TestUS21_WebReporteProyectoPDF_ErrorInfraestructura500Generico (0.00s)
+    us21_test.go:133: código = 501, se esperaba 500; cuerpo:
+        no implementado
+--- FAIL: TestUS21_Web_EnlaceDescargaPDF_EnPaginasHTML (0.00s)
+    us21_test.go:145: el cuerpo no contiene "href=\"/proyectos/PRJ-001/reporte.pdf\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Reporte de Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <div class="reporte">
+        <header class="reporte-encabezado">
+          <h1>Reporte de Sistema de Métricas</h1>
+          <dl class="detalle">
+            <dt>Estado</dt>
+            <dd>En curso</dd>
+            <dt>Story Points planificados</dt>
+            <dd>88</dd>
+            <dt>Story Points completados</dt>
+            <dd>34</dd>
+            <dt>Velocidad promedio</dt>
+            <dd>77.25</dd>
+            <dt>Historias completadas</dt>
+            <dd>93.75%</dd>
+            <dt>Horas estimadas</dt>
+            <dd>111.11 h</dd>
+            <dt>Horas reales</dt>
+            <dd>222.22 h</dd>
+            <dt>Desviación de horas</dt>
+            <dd>+25.00%</dd>
+            <dt>Sprints cerrados</dt>
+            <dd>4</dd>
+          </dl>
+          <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>
+          <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+        </header>
+        
+        <section aria-labelledby="titulo-historias-planificadas">
+          <h2 id="titulo-historias-planificadas">Historias planificadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>10.00 h</td><td>9.50 h</td></tr><tr><td>HU-03</td><td>Cerrar sesión</td><td>Pendiente</td><td>8</td><td>—</td><td>0.00 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-historias-completadas">
+          <h2 id="titulo-historias-completadas">Historias completadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-sprints-cerrados">
+          <h2 id="titulo-sprints-cerrados">Sprints cerrados</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Sprint</th>
+                <th scope="col">Velocidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos">
+          <h2 id="titulo-defectos">Defectos</h2>
+          
+          <dl class="detalle">
+            <dt>Detectados</dt>
+            <dd>121</dd>
+            <dt>Resueltos</dt>
+            <dd>117</dd>
+            <dt>Total</dt>
+            <dd>121</dd>
+            <dt>Severidad alta</dt>
+            <dd>91</dd>
+            <dt>Severidad media</dt>
+            <dd>82</dd>
+            <dt>Severidad baja</dt>
+            <dd>73</dd>
+            <dt>Abiertos</dt>
+            <dd>51</dd>
+            <dt>En curso</dt>
+            <dd>42</dd>
+            <dt>Resueltos por estado</dt>
+            <dd>33</dd>
+          </dl>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de detección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Totales desalineados en la tabla</td><td>Media</td><td>En curso</td><td>HU-02</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <p class="acciones">
+          <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+        </p>
+        </div>
+        
+        
+          </main>
+        </body>
+        </html>
+    us21_test.go:145: el cuerpo no contiene "Descargar PDF"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Reporte de Sistema de Métricas</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <div class="reporte">
+        <header class="reporte-encabezado">
+          <h1>Reporte de Sistema de Métricas</h1>
+          <dl class="detalle">
+            <dt>Estado</dt>
+            <dd>En curso</dd>
+            <dt>Story Points planificados</dt>
+            <dd>88</dd>
+            <dt>Story Points completados</dt>
+            <dd>34</dd>
+            <dt>Velocidad promedio</dt>
+            <dd>77.25</dd>
+            <dt>Historias completadas</dt>
+            <dd>93.75%</dd>
+            <dt>Horas estimadas</dt>
+            <dd>111.11 h</dd>
+            <dt>Horas reales</dt>
+            <dd>222.22 h</dd>
+            <dt>Desviación de horas</dt>
+            <dd>+25.00%</dd>
+            <dt>Sprints cerrados</dt>
+            <dd>4</dd>
+          </dl>
+          <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>
+          <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+        </header>
+        
+        <section aria-labelledby="titulo-historias-planificadas">
+          <h2 id="titulo-historias-planificadas">Historias planificadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>10.00 h</td><td>9.50 h</td></tr><tr><td>HU-03</td><td>Cerrar sesión</td><td>Pendiente</td><td>8</td><td>—</td><td>0.00 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-historias-completadas">
+          <h2 id="titulo-historias-completadas">Historias completadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-sprints-cerrados">
+          <h2 id="titulo-sprints-cerrados">Sprints cerrados</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Sprint</th>
+                <th scope="col">Velocidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos">
+          <h2 id="titulo-defectos">Defectos</h2>
+          
+          <dl class="detalle">
+            <dt>Detectados</dt>
+            <dd>121</dd>
+            <dt>Resueltos</dt>
+            <dd>117</dd>
+            <dt>Total</dt>
+            <dd>121</dd>
+            <dt>Severidad alta</dt>
+            <dd>91</dd>
+            <dt>Severidad media</dt>
+            <dd>82</dd>
+            <dt>Severidad baja</dt>
+            <dd>73</dd>
+            <dt>Abiertos</dt>
+            <dd>51</dd>
+            <dt>En curso</dt>
+            <dd>42</dd>
+            <dt>Resueltos por estado</dt>
+            <dd>33</dd>
+          </dl>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de detección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Totales desalineados en la tabla</td><td>Media</td><td>En curso</td><td>HU-02</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <p class="acciones">
+          <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+        </p>
+        </div>
+        
+        
+          </main>
+        </body>
+        </html>
+    us21_test.go:154: el cuerpo no contiene "href=\"/proyectos/PRJ-001/sprints/1/reporte.pdf\""; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Reporte del Sprint 1</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <div class="reporte">
+        <header class="reporte-encabezado">
+          <h1>Reporte del Sprint 1 de Sistema de Métricas</h1>
+          <dl class="detalle">
+            <dt>Sprint Goal</dt>
+            <dd>Entregar el núcleo del sistema</dd>
+            <dt>Fecha de inicio</dt>
+            <dd>2026-02-02</dd>
+            <dt>Fecha de fin</dt>
+            <dd>2026-02-27</dd>
+            <dt>Estado</dt>
+            <dd>Cerrado</dd>
+            <dt>Story Points planificados</dt>
+            <dd>88</dd>
+            <dt>Story Points completados</dt>
+            <dd>34</dd>
+            <dt>Velocidad</dt>
+            <dd>13</dd>
+          </dl>
+          <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+          <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint.</p>
+        </header>
+        
+        <section aria-labelledby="titulo-historias-asignadas">
+          <h2 id="titulo-historias-asignadas">Historias asignadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr><tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>—</td><td>0.00 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-horas">
+          <h2 id="titulo-horas">Horas estimadas vs reales (horas)</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (horas)</th>
+                <th scope="col">Desviación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>111.11 h</td>
+                <td>222.22 h</td>
+                <td>-12.50%</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-detectados">
+          <h2 id="titulo-defectos-detectados">Defectos detectados en el Sprint</h2>
+          
+          <dl class="detalle">
+            <dt>Detectados</dt>
+            <dd>61</dd>
+            <dt>Resueltos</dt>
+            <dd>57</dd>
+            <dt>Total detectados en el Sprint</dt>
+            <dd>24</dd>
+            <dt>Severidad alta</dt>
+            <dd>9</dd>
+            <dt>Severidad media</dt>
+            <dd>8</dd>
+            <dt>Severidad baja</dt>
+            <dd>7</dd>
+            <dt>Abiertos</dt>
+            <dd>5</dd>
+            <dt>En curso</dt>
+            <dd>4</dd>
+            <dt>Resueltos por estado</dt>
+            <dd>3</dd>
+          </dl>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de detección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>Resuelto</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-resueltos">
+          <h2 id="titulo-defectos-resueltos">Defectos resueltos en el Sprint</h2>
+          
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de resolución</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <p class="acciones">
+          <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+        </p>
+        </div>
+        
+        
+          </main>
+        </body>
+        </html>
+    us21_test.go:154: el cuerpo no contiene "Descargar PDF"; cuerpo:
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Reporte del Sprint 1</title>
+          <link rel="stylesheet" href="/static/estilos.css">
+        </head>
+        <body>
+          <header class="encabezado">
+            <nav class="navegacion" aria-label="Navegación principal">
+              <a href="/proyectos">Proyectos</a>
+              <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+              <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+              <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+              <a href="/defectos">Defectos</a>
+            </nav>
+          </header>
+          <main class="contenido">
+            
+            
+        
+        <div class="reporte">
+        <header class="reporte-encabezado">
+          <h1>Reporte del Sprint 1 de Sistema de Métricas</h1>
+          <dl class="detalle">
+            <dt>Sprint Goal</dt>
+            <dd>Entregar el núcleo del sistema</dd>
+            <dt>Fecha de inicio</dt>
+            <dd>2026-02-02</dd>
+            <dt>Fecha de fin</dt>
+            <dd>2026-02-27</dd>
+            <dt>Estado</dt>
+            <dd>Cerrado</dd>
+            <dt>Story Points planificados</dt>
+            <dd>88</dd>
+            <dt>Story Points completados</dt>
+            <dd>34</dd>
+            <dt>Velocidad</dt>
+            <dd>13</dd>
+          </dl>
+          <p class="reporte-nota">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles. Una celda — en Horas estimadas significa que la historia no está estimada en horas (sin estimar).</p>
+          <p class="reporte-nota">Horas reales (acumuladas): suma histórica de esfuerzo de la historia en el proyecto; no está acotada al Sprint.</p>
+        </header>
+        
+        <section aria-labelledby="titulo-historias-asignadas">
+          <h2 id="titulo-historias-asignadas">Historias asignadas</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Story Points</th>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (acumuladas)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HU-01</td><td>Iniciar sesión</td><td>Completada</td><td>5</td><td>40.00 h</td><td>35.50 h</td></tr><tr><td>HU-02</td><td>Registrar horas</td><td>Pendiente</td><td>3</td><td>—</td><td>0.00 h</td></tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-horas">
+          <h2 id="titulo-horas">Horas estimadas vs reales (horas)</h2>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Horas estimadas (horas)</th>
+                <th scope="col">Horas reales (horas)</th>
+                <th scope="col">Desviación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>111.11 h</td>
+                <td>222.22 h</td>
+                <td>-12.50%</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-detectados">
+          <h2 id="titulo-defectos-detectados">Defectos detectados en el Sprint</h2>
+          
+          <dl class="detalle">
+            <dt>Detectados</dt>
+            <dd>61</dd>
+            <dt>Resueltos</dt>
+            <dd>57</dd>
+            <dt>Total detectados en el Sprint</dt>
+            <dd>24</dd>
+            <dt>Severidad alta</dt>
+            <dd>9</dd>
+            <dt>Severidad media</dt>
+            <dd>8</dd>
+            <dt>Severidad baja</dt>
+            <dd>7</dd>
+            <dt>Abiertos</dt>
+            <dd>5</dd>
+            <dt>En curso</dt>
+            <dd>4</dd>
+            <dt>Resueltos por estado</dt>
+            <dd>3</dd>
+          </dl>
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de detección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Falla de impresión del reporte</td><td>Alta</td><td>Abierto</td><td>HU-01</td><td>1</td></tr><tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>Resuelto</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <section aria-labelledby="titulo-defectos-resueltos">
+          <h2 id="titulo-defectos-resueltos">Defectos resueltos en el Sprint</h2>
+          
+          
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Severidad</th>
+                <th scope="col">Historia</th>
+                <th scope="col">Sprint de resolución</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Encabezado cortado entre páginas</td><td>Media</td><td>HU-01</td><td>1</td></tr>
+            </tbody>
+          </table>
+          
+          
+        </section>
+        
+        <p class="acciones">
+          <button type="button" class="boton-imprimir" onclick="window.print()">Imprimir</button>
+        </p>
+        </div>
+        
+        
+          </main>
+        </body>
+        </html>
+2026/11/16 04:03:42 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 04:03:42 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 04:03:42 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 04:03:42 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 04:03:42 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	2.853s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.008s
+FAIL
+Exit code: 1

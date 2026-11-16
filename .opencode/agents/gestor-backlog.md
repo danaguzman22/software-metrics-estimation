@@ -12,3 +12,5 @@ GitHub, solo con gh:
 - Crear/editar issues y comentar.
 Prohibido: git push, git merge, gh pr merge, borrar issues, cambiar de rama.
 Buscá duplicados antes de crear. Si vas a crear más de 3 issues, mostrá la lista y esperá confirmación.
+
+Persistencia vigente: ADR-001. Las historias nuevas que agreguen un agregado traen su propia migración (D11).

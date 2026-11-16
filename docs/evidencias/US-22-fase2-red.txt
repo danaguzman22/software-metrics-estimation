@@ -1,0 +1,30 @@
+US-22 FASE 2 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test
+# [github.com/danaguzman22/software-metrics-estimation/internal/web_test]
+vet: internal/web/us22_fase1_test.go:315:3: unknown field Sprints in struct literal of type web.Dependencias
+# github.com/danaguzman22/software-metrics-estimation/internal/service
+# [github.com/danaguzman22/software-metrics-estimation/internal/service]
+vet: internal/service/us22_fase2_test.go:24:27: servicio.ListarSprints undefined (type *ServicioSprints has no field or method ListarSprints)
+Exit code: 1
+
+$ go test ./... -count=1 -gcflags=-e
+# github.com/danaguzman22/software-metrics-estimation/internal/service [github.com/danaguzman22/software-metrics-estimation/internal/service.test]
+internal/service/us22_fase2_test.go:24:27: servicio.ListarSprints undefined (type *ServicioSprints has no field or method ListarSprints)
+internal/service/us22_fase2_test.go:53:27: servicio.ListarSprints undefined (type *ServicioSprints has no field or method ListarSprints)
+internal/service/us22_fase2_test.go:101:29: servicio.ListarSprints undefined (type *ServicioSprints has no field or method ListarSprints)
+# github.com/danaguzman22/software-metrics-estimation/internal/web_test [github.com/danaguzman22/software-metrics-estimation/internal/web.test]
+internal/web/us22_fase1_test.go:315:3: unknown field Sprints in struct literal of type web.Dependencias
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.159s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.016s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service [build failed]
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.037s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.225s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	4.209s
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web [build failed]
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.006s
+FAIL
+Exit code: 1

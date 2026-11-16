@@ -1,0 +1,18 @@
+US-16 RED
+
+$ go test ./... -count=1 -gcflags=-e
+PostgreSQL 16.15 en Docker (localhost:55434); TEST_DATABASE_URL configurada.
+La prueba se ejecutó en un worktree temporal del commit base 122ed7b, antes de
+implementar los métodos nuevos. Se agregó únicamente internal/service/us16_test.go.
+
+Resultado: exit code 1, esperado. La compilación falla porque aún no existen
+VelocidadPromedio ni PorcentajeHistoriasCompletadas en ServicioSprints:
+
+internal\service\us16_test.go:29:38: entorno.servicio().VelocidadPromedio undefined
+internal\service\us16_test.go:45:38: entorno.servicio().VelocidadPromedio undefined
+internal\service\us16_test.go:57:31: entorno.servicio().VelocidadPromedio undefined
+internal\service\us16_test.go:71:31: entorno.servicio().VelocidadPromedio undefined
+internal\service\us16_test.go:81:40: entorno.servicio().PorcentajeHistoriasCompletadas undefined
+internal\service\us16_test.go:98:40: entorno.servicio().PorcentajeHistoriasCompletadas undefined
+
+El worktree temporal fue eliminado después de la ejecución.
