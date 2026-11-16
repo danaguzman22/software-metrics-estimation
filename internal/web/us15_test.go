@@ -83,6 +83,7 @@ func TestUS15_WebListaDefectosDelProyecto(t *testing.T) {
 		Sprints:   sprints,
 		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
+		Reportes:  &servicioReportesFalso{},
 	})
 
 	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-015/defectos", nil)
@@ -105,6 +106,7 @@ func TestUS15_WebRegistraDefectoYActualizaResolucion(t *testing.T) {
 		Sprints:   sprints,
 		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
+		Reportes:  &servicioReportesFalso{},
 	})
 
 	formulario := url.Values{
@@ -140,6 +142,7 @@ func TestUS15_WebRechazaIdentificadorDefectoInvalido(t *testing.T) {
 		Sprints:   sprints,
 		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
+		Reportes:  &servicioReportesFalso{},
 	})
 
 	rec := solicitarUS22(handler, http.MethodPost, "/proyectos/PRJ-015/defectos/no-numero/estado", url.Values{"estado": {"Resuelto"}})

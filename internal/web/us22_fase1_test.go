@@ -318,6 +318,7 @@ func nuevoHandlerUS22(t *testing.T, proyectos *servicioProyectosFalso, backlog *
 		Backlog:   backlog,
 		Sprints:   sprints,
 		Dashboard: &servicioDashboardFalso{},
+		Reportes:  &servicioReportesFalso{},
 		Ahora: func() time.Time {
 			return fechaUS22(2026, time.February, 1)
 		},

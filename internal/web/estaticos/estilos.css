@@ -131,3 +131,47 @@ body {
   font-size: 0.9rem;
   color: #57606a;
 }
+
+.reporte {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.reporte-encabezado {
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #1f2937;
+  padding-bottom: 1rem;
+}
+
+.reporte-nota {
+  font-size: 0.9rem;
+  color: #57606a;
+}
+
+.boton-imprimir {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+@media print {
+  body:has(.reporte) {
+    background: #ffffff;
+  }
+
+  body:has(.reporte) .navegacion,
+  body:has(.reporte) .encabezado,
+  body:has(.reporte) .acciones,
+  body:has(.reporte) .boton-imprimir {
+    display: none;
+  }
+
+  .reporte .tabla tr {
+    page-break-inside: avoid;
+  }
+
+  .reporte .tabla thead {
+    display: table-header-group;
+  }
+}

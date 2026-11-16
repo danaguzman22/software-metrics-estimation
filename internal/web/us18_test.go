@@ -52,6 +52,7 @@ func TestUS18_WebMuestraTotalesYTodosLosSprintsEnOrden(t *testing.T) {
 		Backlog:   backlog,
 		Sprints:   sprints,
 		Defectos:  defectos,
+		Reportes:  &servicioReportesFalso{},
 	})
 
 	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-018/defectos", nil)
@@ -94,6 +95,7 @@ func TestUS18_WebNoMuestraMetricasParcialesSiFallaConsulta(t *testing.T) {
 		Backlog:   backlog,
 		Sprints:   sprints,
 		Defectos:  defectos,
+		Reportes:  &servicioReportesFalso{},
 	})
 
 	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-018/defectos", nil)

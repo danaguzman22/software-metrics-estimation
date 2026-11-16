@@ -94,6 +94,7 @@ func nuevoHandlerUS19(t *testing.T, dashboard *servicioDashboardFalso, registros
 		Backlog:   backlog,
 		Sprints:   sprints,
 		Dashboard: dashboard,
+		Reportes:  &servicioReportesFalso{},
 		Ahora:     hoyUS19(),
 	})
 }
@@ -556,6 +557,7 @@ func TestUS19_Fase2_Dashboard_ErrorDeInfraestructuraAlObtenerProyecto500(t *test
 		Backlog:   nuevoServicioBacklogFalso(),
 		Sprints:   sprints,
 		Dashboard: dashboard,
+		Reportes:  &servicioReportesFalso{},
 		Ahora:     hoyUS19(),
 	})
 
