@@ -2,30 +2,22 @@
 {{with .Dashboard}}
 <h1>Dashboard de {{.ProyectoNombre}}</h1>
 <section class="metricas" aria-label="Métricas clave">
-  <dl class="detalle">
-    <dt>Estado</dt>
-    <dd>{{.Estado}}</dd>
-    <dt>Story Points planificados</dt>
-    <dd>{{.SPPlanificadosTotal}}</dd>
-    <dt>Story Points completados</dt>
-    <dd>{{.SPCompletadosTotal}}</dd>
-    <dt>Velocidad promedio</dt>
-    <dd>{{printf "%.2f" .VelocidadPromedio}}</dd>
-    <dt>Historias completadas</dt>
-    <dd>{{printf "%.2f%%" .PorcentajeHistoriasCompletadas}}</dd>
-    <dt>Horas estimadas</dt>
-    <dd>{{printf "%.2f" .HorasEstimadasTotal}} h</dd>
-    <dt>Horas reales</dt>
-    <dd>{{printf "%.2f" .HorasRealesTotal}} h</dd>
-    <dt>Desviación de horas</dt>
-    <dd>{{if .DesviacionTotalDisponible}}{{if ge .DesviacionHorasTotal 0.0}}+{{end}}{{printf "%.2f" .DesviacionHorasTotal}}%{{else}}—{{end}}</dd>
-    <dt>Sprints cerrados</dt>
-    <dd>{{.SprintsCerrados}}</dd>
-  </dl>
+  <div class="tarjetas-kpi">
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Estado</span><span class="kpi-valor">{{.Estado}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Story Points planificados</span><span class="kpi-valor">{{.SPPlanificadosTotal}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Story Points completados</span><span class="kpi-valor">{{.SPCompletadosTotal}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Velocidad promedio</span><span class="kpi-valor">{{printf "%.2f" .VelocidadPromedio}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Historias completadas</span><span class="kpi-valor">{{printf "%.2f%%" .PorcentajeHistoriasCompletadas}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Horas estimadas</span><span class="kpi-valor">{{printf "%.2f" .HorasEstimadasTotal}} h</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Horas reales</span><span class="kpi-valor">{{printf "%.2f" .HorasRealesTotal}} h</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Desviación de horas</span><span class="kpi-valor">{{if .DesviacionTotalDisponible}}{{if ge .DesviacionHorasTotal 0.0}}+{{end}}{{printf "%.2f" .DesviacionHorasTotal}}%{{else}}—{{end}}</span></div>
+    <div class="tarjeta-kpi"><span class="kpi-etiqueta">Sprints cerrados</span><span class="kpi-valor">{{.SprintsCerrados}}</span></div>
+  </div>
   <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
   {{if not .EstimacionesCompletas}}<p class="leyenda">Hay historias sin estimar en horas; las horas estimadas suman solo las disponibles.</p>{{end}}
 </section>
 
+<div class="paneles-graficos">
 <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
   <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
   {{if .Velocidad}}
@@ -84,5 +76,6 @@
   </table>
   {{if .HayMetricasNoDisponibles}}<p class="grafico-nota">Los Sprints cerrados antes de que existiera el registro del esfuerzo aparecen como métricas no disponibles; el resto del dashboard funciona con normalidad.</p>{{end}}
 </section>
+</div>
 {{end}}
 {{end}}
