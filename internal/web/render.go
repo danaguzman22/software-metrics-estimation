@@ -263,6 +263,8 @@ type datosPagina struct {
 	PorcentajeCompletadas float64
 	Mensaje               string
 	Error                 string
+	Migas                 []Miga
+	Volver                string
 	Poker                 *pokerVista
 	Dashboard             *dashboardVista
 	Reporte               *reporteProyectoVista
