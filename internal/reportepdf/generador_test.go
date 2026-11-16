@@ -35,7 +35,7 @@ func requierePDFValido(t *testing.T, pdf []byte) {
 func requiereContenido(t *testing.T, pdf []byte, textos ...string) {
 	t.Helper()
 	for _, texto := range textos {
-		if !bytes.Contains(pdf, []byte(texto)) {
+		if !bytes.Contains(pdf, codificarCP1252(texto)) {
 			t.Fatalf("el PDF no contiene %q", texto)
 		}
 	}
@@ -199,5 +199,42 @@ func TestUS21_Generador_MuchasHistoriasYDefectos_Paginacion(t *testing.T) {
 	paginas := bytes.Count(pdf, []byte("/Type /Page")) + bytes.Count(pdf, []byte("/Type/Page"))
 	if paginas < 2 {
 		t.Fatalf("se esperaban múltiples páginas, se encontraron %d", paginas)
+	}
+}
+
+// codificarCP1252 devuelve el texto como lo guarda el PDF con fuentes estándar:
+// un byte por carácter para el rango Latin-1 (T-17, corrección de acentos).
+func codificarCP1252(texto string) []byte {
+	salida := make([]byte, 0, len(texto))
+	for _, r := range texto {
+		if r < 0x100 {
+			salida = append(salida, byte(r))
+		} else {
+			salida = append(salida, []byte(string(r))...)
+		}
+	}
+	return salida
+}
+
+// Corrección de acentos: los caracteres del español se guardan como un solo
+// byte (cp1252) y no como secuencias UTF-8, que se veían como "Ã³".
+func TestUS21_Generador_AcentosSeGuardanComoCP1252(t *testing.T) {
+	dto := service.ReporteProyecto{
+		HistoriasPlanificadas: []service.HistoriaReporte{{ID: "HU-01", Titulo: "Gestión de pacientes", Estado: "Pendiente"}},
+	}
+	pdf, err := GenerarReporteProyecto(dto, "Proyecto ñandú", time.Date(2026, 2, 1, 0, 0, 0, 0, time.UTC), SinCompresion())
+	if err != nil {
+		t.Fatalf("error al generar PDF: %v", err)
+	}
+	if !bytes.Contains(pdf, []byte("Gesti\xf3n de pacientes")) {
+		t.Fatalf("el PDF debe guardar la ó como el byte 0xF3")
+	}
+	if !bytes.Contains(pdf, []byte("P\xe1gina 1")) {
+		t.Fatalf("el pie de página debe guardar la á como el byte 0xE1")
+	}
+	for _, malo := range [][]byte{[]byte("\xc3\xb3"), []byte("\xc3\xa1"), []byte("\xc3\xb1")} {
+		if bytes.Contains(pdf, malo) {
+			t.Fatalf("el PDF contiene una secuencia UTF-8 %x que se vería como caracteres rotos", malo)
+		}
 	}
 }
