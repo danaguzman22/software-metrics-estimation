@@ -1,0 +1,478 @@
+US-19 FASE 2 RED
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1 -gcflags=-e
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.158s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.014s
+--- FAIL: TestUS19_Fase2b_ServicioDashboard_DesviacionPorSprint (0.00s)
+    --- FAIL: TestUS19_Fase2b_ServicioDashboard_DesviacionPorSprint/estimaciones_completas_y_mayores_que_cero_devuelve_la_desviación_con_signo (0.00s)
+        us19_test.go:960: Desviacion = nil, se esperaba -12.5
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/service	0.117s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.042s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.244s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	9.886s
+2026/11/16 01:05:29 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: operar el poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: iniciar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: votar en poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: revelar ronda de poker: fallo de conexión a postgres: timeout al listar rondas
+2026/11/16 01:05:29 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 01:05:29 web: operar el poker: detalle interno: conexión caída a postgres
+2026/11/16 01:05:29 web: acordar estimación en poker: detalle interno: conexión caída a postgres
+2026/11/16 01:05:29 web: obtener dashboard del proyecto PRJ-001: falla interna: connection reset by peer
+2026/11/16 01:05:29 web: obtener proyecto PRJ-001: falla interna: timeout al leer la base
+2026/11/16 01:05:29 web: calcular estado del proyecto PRJ-001: la fecha de fin no puede ser anterior a la fecha de inicio
+--- FAIL: TestUS19_Fase2b_Dashboard_DesviacionPorSprint (0.00s)
+    --- FAIL: TestUS19_Fase2b_Dashboard_DesviacionPorSprint/muestra_la_desviación_del_servicio_y_no_la_derivada (0.00s)
+        us19_fase2_test.go:621: el fragmento "-99.00%" no se encontró; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>-7.08%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+        us19_fase2_test.go:621: el fragmento "+42.50%" no se encontró; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>-7.08%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+        us19_fase2_test.go:622: el cuerpo no debería contener "-12.50%"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>-7.08%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+        us19_fase2_test.go:622: el cuerpo no debería contener "-7.08%"; cuerpo:
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Dashboard</title>
+              <link rel="stylesheet" href="/static/estilos.css">
+            </head>
+            <body>
+              <header class="encabezado">
+                <nav class="navegacion" aria-label="Navegación principal">
+                  <a href="/proyectos">Proyectos</a>
+                  <a href="/proyectos/PRJ-001/backlog">Backlog</a>
+                  <a href="/proyectos/PRJ-001/sprints">Sprints</a>
+                  <a href="/proyectos/PRJ-001/dashboard">Dashboard</a>
+                  <a href="/defectos">Defectos</a>
+                </nav>
+              </header>
+              <main class="contenido">
+                
+                
+            
+            <h1>Dashboard de Sistema de Métricas</h1>
+            <section class="metricas" aria-label="Métricas clave">
+              <dl class="detalle">
+                <dt>Estado</dt>
+                <dd>En curso</dd>
+                <dt>Story Points planificados</dt>
+                <dd>34</dd>
+                <dt>Story Points completados</dt>
+                <dd>26</dd>
+                <dt>Velocidad promedio</dt>
+                <dd>77.25</dd>
+                <dt>Historias completadas</dt>
+                <dd>12.34%</dd>
+                <dt>Horas estimadas</dt>
+                <dd>111.11 h</dd>
+                <dt>Horas reales</dt>
+                <dd>222.22 h</dd>
+                <dt>Desviación de horas</dt>
+                <dd>+25.00%</dd>
+                <dt>Sprints cerrados</dt>
+                <dd>4</dd>
+              </dl>
+              <p class="leyenda">Si la desviación aparece como —, significa que no está disponible porque las estimaciones están incompletas o suman cero.</p>
+              
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-velocidad">
+              <h2 id="titulo-grafico-velocidad">Velocidad por Sprint</h2>
+              
+              <svg viewBox="0 0 640 240" role="img" class="grafico-svg">
+                <title>Velocidad por Sprint</title>
+                <text x="42" y="200" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="158" x2="624" y2="158" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="158" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">3.25</text><line x1="48" y1="116" x2="624" y2="116" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="116" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">6.5</text><line x1="48" y1="74" x2="624" y2="74" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="74" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">9.75</text><line x1="48" y1="32" x2="624" y2="32" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="32" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">13</text>
+                <line x1="48" y1="32" x2="48" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="624" y2="200" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="168" y="97" width="48" height="103" fill="#1f4e79"/><text x="192" y="93" text-anchor="middle" fill="#1a1a1a" font-size="11">8</text><text x="192" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="456" y="32" width="48" height="168" fill="#1f4e79"/><text x="480" y="28" text-anchor="middle" fill="#1a1a1a" font-size="11">13</text><text x="480" y="216" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Velocidad por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Story Points completados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>8</td></tr><tr><td>2</td><td>13</td></tr>
+                </tbody>
+              </table>
+            </section>
+            
+            <section class="grafico" aria-labelledby="titulo-grafico-horas">
+              <h2 id="titulo-grafico-horas">Horas estimadas vs reales por Sprint</h2>
+              
+              <svg viewBox="0 0 640 260" role="img" class="grafico-svg">
+                <title>Horas estimadas vs reales por Sprint</title>
+                <circle cx="356" cy="13" r="6" fill="#1f4e79"/><text x="368" y="17" fill="#1a1a1a" font-size="11">Horas estimadas</text>
+                <circle cx="476" cy="13" r="6" fill="#b45309"/><text x="488" y="17" fill="#1a1a1a" font-size="11">Horas reales</text>
+                <text x="42" y="216" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">0</text><line x1="48" y1="172" x2="624" y2="172" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="172" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">15</text><line x1="48" y1="128" x2="624" y2="128" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="128" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">30</text><line x1="48" y1="84" x2="624" y2="84" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="84" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">45</text><line x1="48" y1="40" x2="624" y2="40" stroke="#d9d9d9" stroke-width="1"/><text x="42" y="40" text-anchor="end" dominant-baseline="middle" fill="#1a1a1a" font-size="11">60</text>
+                <line x1="48" y1="40" x2="48" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <line x1="48" y1="216" x2="624" y2="216" stroke="#1a1a1a" stroke-width="1.5"/>
+                <rect x="161" y="99" width="28" height="117" fill="#1f4e79"/><text x="175" y="95" text-anchor="middle" fill="#1a1a1a" font-size="11">40.00</text><rect x="195" y="113" width="28" height="103" fill="#b45309"/><text x="209" y="109" text-anchor="middle" fill="#1a1a1a" font-size="11">35.00</text><text x="192" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">1</text><rect x="449" y="40" width="28" height="176" fill="#1f4e79"/><text x="463" y="36" text-anchor="middle" fill="#1a1a1a" font-size="11">60.00</text><rect x="483" y="52" width="28" height="164" fill="#b45309"/><text x="497" y="48" text-anchor="middle" fill="#1a1a1a" font-size="11">55.75</text><text x="480" y="236" text-anchor="middle" fill="#1a1a1a" font-size="11">2</text>
+              </svg>
+              
+              <table class="tabla">
+                <caption>Horas estimadas vs reales por Sprint</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sprint</th>
+                    <th scope="col">Horas estimadas</th>
+                    <th scope="col">Horas reales</th>
+                    <th scope="col">Desviación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td></tr><tr><td>2</td><td>60.00</td><td>55.75</td><td>-7.08%</td></tr>
+                </tbody>
+              </table>
+              
+            </section>
+            
+            
+              </main>
+            </body>
+            </html>
+    --- FAIL: TestUS19_Fase2b_Dashboard_DesviacionPorSprint/nil_muestra_—_en_la_fila_del_Sprint (0.00s)
+        us19_fase2_test.go:637: la fila del Sprint 1 debería mostrar — para la desviación; fila: <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td>
+        us19_fase2_test.go:640: la fila del Sprint 1 no debería mostrar ningún porcentaje; fila: <tr><td>1</td><td>40.00</td><td>35.00</td><td>-12.50%</td>
+        us19_fase2_test.go:644: la fila del Sprint 2 debería mostrar +42.50%; fila: <tr><td>2</td><td>60.00</td><td>55.75</td><td>-7.08%</td>
+2026/11/16 01:05:29 web: listar proyectos: detalle interno: conexión caída
+2026/11/16 01:05:29 web: crear proyecto: detalle interno: conexión caída
+2026/11/16 01:05:30 web: operar los sprints: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 01:05:30 web: marcar ítem como completado: fallo de conexión a postgres: timeout al obtener el sprint
+2026/11/16 01:05:30 web: cerrar sprint: fallo de conexión a postgres: timeout al obtener el sprint
+FAIL
+FAIL	github.com/danaguzman22/software-metrics-estimation/internal/web	2.659s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.009s
+FAIL
+Exit code: 1

@@ -21,6 +21,7 @@ const mensajeErrorInfraestructura = "Ocurrió un error inesperado. Intentá nuev
 type navContexto struct {
 	Backlog        string
 	Sprints        string
+	Dashboard      string
 	MostrarLeyenda bool
 }
 
@@ -73,6 +74,80 @@ type sprintVista struct {
 	Items          []itemSprintVista
 }
 
+// dashboardTick es una división del eje Y de un gráfico: posición vertical y
+// etiqueta numérica.
+type dashboardTick struct {
+	Y        int
+	Etiqueta string
+}
+
+// dashboardPuntoVelocidad es una barra del gráfico de velocidad por Sprint con
+// la geometría ya calculada (D15).
+type dashboardPuntoVelocidad struct {
+	Sprint    int
+	Velocidad int
+	X         int
+	Y         int
+	Ancho     int
+	Alto      int
+	TextoX    int
+	TextoY    int
+	Etiqueta  string
+}
+
+// dashboardPuntoHoras son las dos barras agrupadas de un Sprint en el gráfico
+// de horas estimadas vs reales (D15). MetricasDisponibles=false no dibuja
+// barras (D12). La desviación se copia del servicio (R23): DesvDisponible es
+// false cuando el servicio informa nil y la plantilla muestra "—"; Desv es el
+// valor tal como lo devuelve el servicio (con signo), válido si DesvDisponible.
+type dashboardPuntoHoras struct {
+	Sprint              int
+	HorasEstimadas      float64
+	HorasReales         float64
+	MetricasDisponibles bool
+	DesvDisponible      bool
+	Desv                float64
+	EstX                int
+	EstY                int
+	EstAlto             int
+	RealX               int
+	RealY               int
+	RealAlto            int
+	Ancho               int
+	TextoEstX           int
+	TextoEstY           int
+	TextoRealX          int
+	TextoRealY          int
+	GrupoX              int
+	EstTexto            string
+	RealTexto           string
+}
+
+// dashboardVista es la representación del dashboard lista para renderizar:
+// copia los valores del servicio sin recalcularlos (D5, R19).
+type dashboardVista struct {
+	ProyectoID                     string
+	ProyectoNombre                 string
+	Estado                         domain.Estado
+	SPPlanificadosTotal            int
+	SPCompletadosTotal             int
+	VelocidadPromedio              float64
+	PorcentajeHistoriasCompletadas float64
+	HorasEstimadasTotal            float64
+	HorasRealesTotal               float64
+	EstimacionesCompletas          bool
+	DesviacionTotalDisponible      bool    // false cuando el servicio informa nil; la plantilla muestra "—"
+	DesviacionHorasTotal           float64 // valor tal como lo devuelve el servicio (con signo); válida si DesviacionTotalDisponible
+	SprintsCerrados                int
+	Velocidad                      []dashboardPuntoVelocidad
+	Horas                          []dashboardPuntoHoras
+	EscalaVelocidadMax             int
+	EscalaHorasMax                 float64
+	TicksVelocidad                 []dashboardTick
+	TicksHoras                     []dashboardTick
+	HayMetricasNoDisponibles       bool
+}
+
 type sprintMetricasDefectosVista struct {
 	Numero     int
 	Objetivo   string
@@ -102,6 +177,7 @@ type datosPagina struct {
 	Mensaje               string
 	Error                 string
 	Poker                 *pokerVista
+	Dashboard             *dashboardVista
 }
 
 // vistas contiene las plantillas embebidas ya parseadas por página.
@@ -121,6 +197,7 @@ var paginas = []string{
 	"formulario-sprint",
 	"sprints-historicos",
 	"poker",
+	"dashboard",
 	"error",
 }
 
@@ -143,6 +220,7 @@ func navSinProyecto(conLeyenda bool) navContexto {
 	return navContexto{
 		Backlog:        "/proyectos",
 		Sprints:        "/proyectos",
+		Dashboard:      "/proyectos",
 		MostrarLeyenda: conLeyenda,
 	}
 }
@@ -151,8 +229,9 @@ func navSinProyecto(conLeyenda bool) navContexto {
 // proyecto indicado.
 func navConProyecto(id string) navContexto {
 	return navContexto{
-		Backlog: "/proyectos/" + id + "/backlog",
-		Sprints: "/proyectos/" + id + "/sprints",
+		Backlog:   "/proyectos/" + id + "/backlog",
+		Sprints:   "/proyectos/" + id + "/sprints",
+		Dashboard: "/proyectos/" + id + "/dashboard",
 	}
 }
 

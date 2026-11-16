@@ -81,6 +81,7 @@ func TestUS15_WebListaDefectosDelProyecto(t *testing.T) {
 		Proyectos: proyectos,
 		Backlog:   backlog,
 		Sprints:   sprints,
+		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
 	})
 
@@ -102,6 +103,7 @@ func TestUS15_WebRegistraDefectoYActualizaResolucion(t *testing.T) {
 		Proyectos: proyectos,
 		Backlog:   backlog,
 		Sprints:   sprints,
+		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
 	})
 
@@ -136,6 +138,7 @@ func TestUS15_WebRechazaIdentificadorDefectoInvalido(t *testing.T) {
 		Proyectos: proyectos,
 		Backlog:   backlog,
 		Sprints:   sprints,
+		Dashboard: &servicioDashboardFalso{},
 		Defectos:  defectos,
 	})
 

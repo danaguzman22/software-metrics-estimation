@@ -74,6 +74,11 @@ type ServicioDefectosWeb interface {
 	MetricasDefectosPorProyecto(proyectoID string) (domain.MetricasDefectos, error)
 }
 
+// ServicioDashboardWeb es el contrato de consumidor del dashboard de la web.
+type ServicioDashboardWeb interface {
+	ObtenerDashboard(proyectoID string) (service.DashboardProyecto, error)
+}
+
 // Dependencias reúne los servicios y el reloj que usa la aplicación web.
 type Dependencias struct {
 	Proyectos ServicioProyectosWeb
@@ -81,6 +86,7 @@ type Dependencias struct {
 	Sprints   ServicioSprintsWeb
 	Poker     ServicioPokerWeb
 	Defectos  ServicioDefectosWeb
+	Dashboard ServicioDashboardWeb
 	// Ahora es el reloj inyectable usado para calcular el estado del proyecto
 	// con domain.EstadoPorFechas. Si es nil se usa time.Now.
 	Ahora func() time.Time
@@ -118,6 +124,7 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("GET /proyectos/nuevo", app.formularioAltaProyecto)
 	mux.HandleFunc("POST /proyectos", app.crearProyecto)
 	mux.HandleFunc("GET /proyectos/{id}", app.detalleProyecto)
+	mux.HandleFunc("GET /proyectos/{id}/dashboard", app.dashboardProyecto)
 	mux.HandleFunc("GET /proyectos/{id}/backlog", app.listarBacklog)
 	mux.HandleFunc("GET /proyectos/{id}/backlog/nuevo", app.formularioAltaItem)
 	mux.HandleFunc("POST /proyectos/{id}/backlog", app.crearItem)

@@ -111,3 +111,23 @@ body {
   gap: 0.5rem;
   align-items: center;
 }
+
+.grafico {
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+.grafico-svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.grafico-mensaje {
+  font-style: italic;
+  color: #57606a;
+}
+
+.grafico-nota {
+  font-size: 0.9rem;
+  color: #57606a;
+}

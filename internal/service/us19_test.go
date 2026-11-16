@@ -573,8 +573,22 @@ func TestUS19_Fase1_ServicioDashboard_CerradosEnOrdenAscendente(t *testing.T) {
 			dashboard.VelocidadPorSprint, esperadoVelocidad)
 	}
 	esperadoHoras := []PuntoHorasSprint{
-		{SprintNumero: 1, HorasEstimadas: 10, HorasReales: 12, EstimacionesCompletas: true, MetricasDisponibles: true},
-		{SprintNumero: 3, HorasEstimadas: 20, HorasReales: 25, EstimacionesCompletas: true, MetricasDisponibles: true},
+		{
+			SprintNumero:          1,
+			HorasEstimadas:        10,
+			HorasReales:           12,
+			EstimacionesCompletas: true,
+			MetricasDisponibles:   true,
+			Desviacion:            horasPuntero(20),
+		},
+		{
+			SprintNumero:          3,
+			HorasEstimadas:        20,
+			HorasReales:           25,
+			EstimacionesCompletas: true,
+			MetricasDisponibles:   true,
+			Desviacion:            horasPuntero(25),
+		},
 	}
 	if !reflect.DeepEqual(dashboard.HorasPorSprint, esperadoHoras) {
 		t.Errorf("HorasPorSprint = %+v, se esperaba %+v (solo cerrados, orden ascendente)",
@@ -868,6 +882,99 @@ func TestUS19_Fase1_ServicioDashboard_PrecedenciaValidaciones(t *testing.T) {
 			}
 			if !reflect.DeepEqual(dashboard, DashboardProyecto{}) {
 				t.Errorf("dashboard = %+v, se esperaba DashboardProyecto{} (nunca un éxito parcial)", dashboard)
+			}
+		})
+	}
+}
+
+// R23 / CA2 (US-19, FASE 2b): la desviación de horas por Sprint proviene del
+// servicio (PuntoHorasSprint.Desviacion), calculada con
+// domain.CalcularDesviacion y la misma política de nil que R4: nil si
+// MetricasDisponibles = false, si EstimacionesCompletas = false o si la suma de
+// estimaciones del Sprint es cero.
+func TestUS19_Fase2b_ServicioDashboard_DesviacionPorSprint(t *testing.T) {
+	casos := []struct {
+		descripcion  string
+		snapshot     *snapshotEsfuerzoFake
+		horasReales  float64
+		desvEsperada *float64
+	}{
+		{
+			descripcion: "estimaciones completas y mayores que cero devuelve la desviación con signo",
+			snapshot: &snapshotEsfuerzoFake{
+				disponible: true,
+				items: []domain.ItemSprintEsfuerzo{
+					{ItemNumero: 1, HorasEstimadas: horasPuntero(40)},
+				},
+			},
+			horasReales:  35,
+			desvEsperada: horasPuntero(-12.5),
+		},
+		{
+			descripcion:  "sprint sin snapshot de esfuerzo (cerrado antes de US-17) devuelve nil",
+			snapshot:     nil,
+			horasReales:  35,
+			desvEsperada: nil,
+		},
+		{
+			descripcion: "estimaciones incompletas en el snapshot devuelve nil",
+			snapshot: &snapshotEsfuerzoFake{
+				disponible: true,
+				items: []domain.ItemSprintEsfuerzo{
+					{ItemNumero: 1, HorasEstimadas: horasPuntero(40)},
+					{ItemNumero: 2, HorasEstimadas: nil},
+				},
+			},
+			horasReales:  35,
+			desvEsperada: nil,
+		},
+		{
+			descripcion: "suma de estimaciones del Sprint en cero devuelve nil",
+			snapshot: &snapshotEsfuerzoFake{
+				disponible: true,
+				items: []domain.ItemSprintEsfuerzo{
+					{ItemNumero: 1, HorasEstimadas: horasPuntero(0)},
+					{ItemNumero: 2, HorasEstimadas: horasPuntero(0)},
+				},
+			},
+			horasReales:  35,
+			desvEsperada: nil,
+		},
+	}
+	for _, caso := range casos {
+		t.Run(caso.descripcion, func(t *testing.T) {
+			entorno := nuevoEntornoDashboard()
+			sembrarProyectoDashboard(t, entorno, "p1")
+			sprinto := 8
+			sembrarSprintDashboard(t, entorno, "p1", 1, domain.EstadoSprintCerrado, &sprinto)
+			if caso.snapshot != nil {
+				entorno.esfuerzo.snapshots["p1:1"] = *caso.snapshot
+			}
+			registrarEsfuerzoDashboard(entorno, "p1", 1, intPuntero(1), caso.horasReales)
+
+			dashboard, err := entorno.servicio().ObtenerDashboard("p1")
+			if err != nil {
+				t.Fatalf("ObtenerDashboard() devolvió un error inesperado: %v", err)
+			}
+			if len(dashboard.HorasPorSprint) != 1 {
+				t.Fatalf("len(HorasPorSprint) = %d, se esperaba 1", len(dashboard.HorasPorSprint))
+			}
+			punto := dashboard.HorasPorSprint[0]
+
+			if caso.snapshot == nil && punto.MetricasDisponibles {
+				t.Errorf("MetricasDisponibles = true, se esperaba false (cerrado sin snapshot)")
+			}
+			if caso.desvEsperada == nil {
+				if punto.Desviacion != nil {
+					t.Errorf("Desviacion = %v, se esperaba nil (%s)", *punto.Desviacion, caso.descripcion)
+				}
+				return
+			}
+			if punto.Desviacion == nil {
+				t.Fatalf("Desviacion = nil, se esperaba %v", *caso.desvEsperada)
+			}
+			if *punto.Desviacion != *caso.desvEsperada {
+				t.Errorf("Desviacion = %v, se esperaba %v", *punto.Desviacion, *caso.desvEsperada)
 			}
 		})
 	}

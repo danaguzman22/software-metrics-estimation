@@ -1,5 +1,7 @@
 # language: es
-# Estado: Fase 1 implementada (GREEN)
+# Estado: Fase 2 implementada (GREEN); el ajuste Fase 2b (desviación por
+# Sprint calculada por el servicio, R23) está especificado y pendiente de
+# RED/GREEN.
 # Los escenarios describen el comportamiento acordado para CA1–CA3 y las
 # decisiones D1–D8 (una página por proyecto GET /proyectos/{id}/dashboard,
 # enlazada desde el detalle y desde la navegación del proyecto; contenido con
@@ -12,11 +14,14 @@
 # (ServicioDashboard.ObtenerDashboard), reutilizando los servicios existentes,
 # sin métodos nuevos de repositorio ni migraciones. FASE 2 incluye la página y
 # los gráficos; se implementa en un PR aparte, después de FASE 1.
+# FASE 2b (ajuste tras la revisión) calcula en el servicio la desviación de
+# horas por Sprint (PuntoHorasSprint.Desviacion) con la misma política de
+# nil que el total; la web solo la formatea con signo o muestra "—".
 # Los defectos (US-15 y US-18) quedan fuera de alcance.
 # Los errores se describen por su significado; sus identificadores y códigos
 # HTTP exactos están decididos en la spec (sección 8).
-# Los escenarios de FASE 1 están marcados con @Fase1 y los de FASE 2 con
-# @Fase2.
+# Los escenarios de FASE 1 están marcados con @Fase1, los de FASE 2 con
+# @Fase2 y los del ajuste tras la revisión con @Fase2b.
 # No se escenifican el HTTP 500/405, el patrón de composición, la
 # verificación estructural de imports (sin <script> ni recursos externos),
 # la no recalculación de métricas en la web ni la ausencia de sección de
@@ -149,6 +154,17 @@ Característica: Dashboard con gráficos
     Y la tabla de horas muestra "métricas no disponibles" para el Sprint 1
     Y la página responde sin error
 
+  @CA2 @Fase2b
+  Escenario: La desviación por Sprint se muestra con signo o como no disponible
+    Dado que hoy es "1 de febrero de 2026"
+    Y un proyecto existente identificado por "PRJ-001", con nombre "Sistema de Métricas", fecha de inicio "2026-01-05" y fecha de fin "2026-12-31"
+    Y que el proyecto "PRJ-001" tiene el Sprint 1 cerrado con 40 horas estimadas y 35 horas reales
+    Y que el proyecto "PRJ-001" tiene el Sprint 2 cerrado con al menos una historia sin estimar en horas
+    Cuando se visita el dashboard del proyecto "PRJ-001"
+    Entonces la tabla de horas muestra una desviación de "-12.50%" para el Sprint 1
+    Y la tabla de horas muestra la desviación del Sprint 2 como "—"
+    Y la página responde sin error
+
   @CA3 @Fase2
   Escenario: Un proyecto sin datos muestra el dashboard con ceros y los mensajes en los gráficos
     Dado que hoy es "1 de febrero de 2026"
@@ -159,7 +175,7 @@ Característica: Dashboard con gráficos
     Entonces se muestran Story Points totales en cero
     Y se muestra la velocidad promedio en "0.00"
     Y se muestra el porcentaje de historias completadas en "0.00%"
-    Y se muestran las horas estimadas y reales en cero
+    Y se muestran las horas estimadas y reales en "0.00 h"
     Y se muestra la cantidad de Sprints cerrados en cero
     Y el gráfico de velocidad muestra el mensaje "Todavía no hay Sprints cerrados"
     Y el gráfico de horas muestra el mensaje "Todavía no hay Sprints cerrados"
