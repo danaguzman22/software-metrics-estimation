@@ -443,8 +443,8 @@ func TestUS19_Fase2_Dashboard_EnlacesNavegacionYDetalle(t *testing.T) {
 	})
 }
 
-// R17 / D18: sin proyecto en contexto (inicio y /proyectos), el enlace
-// Dashboard apunta a /proyectos.
+// R17 / D18 (reemplazado por T-17): sin proyecto en contexto (inicio y
+// /proyectos) la barra ya no muestra el enlace Dashboard.
 func TestUS19_Fase2_Dashboard_EnlaceDashboardSinProyecto(t *testing.T) {
 	dashboard := &servicioDashboardFalso{dashboard: dashboardConDatosUS19()}
 	handler := nuevoHandlerUS19(t, dashboard)
@@ -453,7 +453,7 @@ func TestUS19_Fase2_Dashboard_EnlaceDashboardSinProyecto(t *testing.T) {
 		t.Run(ruta, func(t *testing.T) {
 			rec := solicitarUS22(handler, http.MethodGet, ruta, nil)
 			exigirEstadoUS22(t, rec, http.StatusOK)
-			exigirCuerpoContieneUS22(t, rec, `href="/proyectos">Dashboard</a>`)
+			exigirCuerpoNoContieneUS22(t, rec, `>Dashboard</a>`)
 		})
 	}
 }
