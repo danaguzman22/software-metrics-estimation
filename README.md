@@ -60,6 +60,10 @@ curl.exe -s -o - -w "%{http_code}" http://localhost:8080/healthz
 
 Luego abrir <http://localhost:8080> en el navegador.
 
+### Despliegue de demostración
+
+La aplicación también está desplegada en Render (plan gratuito, con base PostgreSQL gestionada y datos de demostración): <https://software-metrics-estimation.onrender.com>. Si estuvo inactiva, la primera carga puede tardar cerca de un minuto.
+
 ### Configuración por entorno
 
 `compose.yml` funciona sin archivo `.env` porque usa valores por defecto de desarrollo
