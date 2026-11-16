@@ -2,6 +2,7 @@ package web_test
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 	"testing"
@@ -50,6 +51,8 @@ func proyectoEnCursoUS19() service.ProyectoRegistrado {
 // que la web muestra los valores del servicio sin recalcularlos (R19).
 func dashboardConDatosUS19() service.DashboardProyecto {
 	desv := 25.0
+	desvSprint1 := -99.0  // recalcular (40→35) daría -12.50%
+	desvSprint2 := 42.5   // recalcular (60→55.75) daría -7.08%
 	return service.DashboardProyecto{
 		SPPlanificadosTotal:            34,
 		SPCompletadosTotal:             26,
@@ -65,8 +68,8 @@ func dashboardConDatosUS19() service.DashboardProyecto {
 			{SprintNumero: 2, Velocidad: 13},
 		},
 		HorasPorSprint: []service.PuntoHorasSprint{
-			{SprintNumero: 1, HorasEstimadas: 40, HorasReales: 35, EstimacionesCompletas: true, MetricasDisponibles: true},
-			{SprintNumero: 2, HorasEstimadas: 60, HorasReales: 55.75, EstimacionesCompletas: true, MetricasDisponibles: true},
+			{SprintNumero: 1, HorasEstimadas: 40, HorasReales: 35, EstimacionesCompletas: true, MetricasDisponibles: true, Desviacion: &desvSprint1},
+			{SprintNumero: 2, HorasEstimadas: 60, HorasReales: 55.75, EstimacionesCompletas: true, MetricasDisponibles: true, Desviacion: &desvSprint2},
 		},
 	}
 }
@@ -584,4 +587,85 @@ func TestUS19_Fase2_Dashboard_EstadoConError500(t *testing.T) {
 	exigirEstadoUS22(t, rec, http.StatusInternalServerError)
 	exigirCuerpoContieneUS22(t, rec, "Ocurrió un error inesperado. Intentá nuevamente.")
 	exigirCuerpoNoContieneUS22(t, rec, domain.ErrFechaFinAnteriorAInicio.Error())
+}
+
+// filaTablaHorasUS19 devuelve la fila <tr>...</tr> del Sprint indicado en la
+// tabla del gráfico de horas (se identifica por Sprint y horas estimadas).
+func filaTablaHorasUS19(t *testing.T, cuerpo string, sprint int, horasEstimadas string) string {
+	t.Helper()
+	inicio := strings.Index(cuerpo, fmt.Sprintf("<tr><td>%d</td><td>%s</td>", sprint, horasEstimadas))
+	if inicio < 0 {
+		t.Fatalf("no se encontró la fila del Sprint %d en la tabla de horas; cuerpo:\n%s", sprint, cuerpo)
+	}
+	fin := strings.Index(cuerpo[inicio:], "</tr>")
+	if fin < 0 {
+		t.Fatalf("la fila del Sprint %d no está cerrada con </tr>; cuerpo:\n%s", sprint, cuerpo)
+	}
+	return cuerpo[inicio : inicio+fin]
+}
+
+// R23 / CA2 (US-19, FASE 2b): la desviación por Sprint se muestra tal como la
+// devuelve el servicio (dos decimales y sufijo %; el signo "+" lo escribe la
+// plantilla cuando corresponde). La web no la recalcula: los valores sembrados
+// no coinciden con los derivados de las horas (40→35 da -12.50% y 60→55.75 da
+// -7.08%). Cuando el servicio informa nil, la tabla muestra "—".
+func TestUS19_Fase2b_Dashboard_DesviacionPorSprint(t *testing.T) {
+	t.Run("muestra la desviación del servicio y no la derivada", func(t *testing.T) {
+		dashboard := &servicioDashboardFalso{dashboard: dashboardConDatosUS19()}
+		handler := nuevoHandlerUS19(t, dashboard, proyectoEnCursoUS19())
+
+		rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/dashboard", nil)
+		exigirEstadoUS22(t, rec, http.StatusOK)
+		cuerpo := rec.Body.String()
+
+		exigirContieneUS19(t, cuerpo, "-99.00%", "+42.50%")
+		exigirCuerpoNoContieneUS22(t, rec, "-12.50%", "-7.08%")
+	})
+
+	t.Run("nil muestra — en la fila del Sprint", func(t *testing.T) {
+		datos := dashboardConDatosUS19()
+		datos.HorasPorSprint[0].Desviacion = nil
+		dashboard := &servicioDashboardFalso{dashboard: datos}
+		handler := nuevoHandlerUS19(t, dashboard, proyectoEnCursoUS19())
+
+		rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/dashboard", nil)
+		exigirEstadoUS22(t, rec, http.StatusOK)
+		cuerpo := rec.Body.String()
+
+		fila := filaTablaHorasUS19(t, cuerpo, 1, "40.00")
+		if !strings.Contains(fila, "—") {
+			t.Errorf("la fila del Sprint 1 debería mostrar — para la desviación; fila: %s", fila)
+		}
+		if strings.Contains(fila, "%") {
+			t.Errorf("la fila del Sprint 1 no debería mostrar ningún porcentaje; fila: %s", fila)
+		}
+		fila2 := filaTablaHorasUS19(t, cuerpo, 2, "60.00")
+		if !strings.Contains(fila2, "+42.50%") {
+			t.Errorf("la fila del Sprint 2 debería mostrar +42.50%%; fila: %s", fila2)
+		}
+	})
+}
+
+// R23 / D16 (US-19, FASE 2b): el nombre del proyecto se renderiza escapado por
+// html/template; nunca se emite crudo en la página.
+func TestUS19_Fase2b_Dashboard_NombreProyectoEscapado(t *testing.T) {
+	registro := registroProyectoUS22(
+		"PRJ-001",
+		"<script>alert(1)</script>",
+		fechaUS22(2026, time.January, 5),
+		fechaUS22(2026, time.December, 31),
+	)
+	dashboard := &servicioDashboardFalso{dashboard: dashboardConDatosUS19()}
+	handler := nuevoHandlerUS19(t, dashboard, registro)
+
+	rec := solicitarUS22(handler, http.MethodGet, "/proyectos/PRJ-001/dashboard", nil)
+	exigirEstadoUS22(t, rec, http.StatusOK)
+	cuerpo := rec.Body.String()
+
+	if !strings.Contains(cuerpo, "&lt;script&gt;alert(1)&lt;/script&gt;") {
+		t.Errorf("el nombre del proyecto debería renderizarse escapado (&lt;script&gt;...); cuerpo:\n%s", cuerpo)
+	}
+	if strings.Contains(cuerpo, "<script>alert(1)</script>") {
+		t.Errorf("el nombre del proyecto no debería renderizarse crudo; cuerpo:\n%s", cuerpo)
+	}
 }

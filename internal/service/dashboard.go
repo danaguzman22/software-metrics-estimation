@@ -18,12 +18,18 @@ type PuntoVelocidadSprint struct {
 // MetricasDisponibles es false cuando el Sprint no tiene snapshot de esfuerzo
 // (cerrado antes de US-17): en ese caso HorasEstimadas y HorasReales son 0 y
 // el dashboard se muestra igualmente (D12).
+// Desviacion es el porcentaje de diferencia del Sprint, calculado por el
+// servicio con domain.CalcularDesviacion y con la misma política de nil que
+// R4 (nil si MetricasDisponibles = false, si EstimacionesCompletas = false o
+// si la suma de estimaciones del Sprint es cero — domain.CalcularDesviacion
+// devuelve nil en ese caso). La web no la calcula: solo la formatea (R23).
 type PuntoHorasSprint struct {
 	SprintNumero          int
 	HorasEstimadas        float64
 	HorasReales           float64
 	EstimacionesCompletas bool
 	MetricasDisponibles   bool
+	Desviacion            *float64
 }
 
 // DashboardProyecto es el "modelo de lectura" del dashboard: lo arma
