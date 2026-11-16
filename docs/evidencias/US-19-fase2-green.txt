@@ -1,0 +1,20 @@
+US-19 FASE 2 GREEN
+PostgreSQL 16 en Docker; TEST_DATABASE_URL configurada.
+
+$ go vet ./...
+Exit code: 0
+
+$ go test ./... -count=1
+ok  	github.com/danaguzman22/software-metrics-estimation/cmd/server	0.160s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/domain	0.019s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/service	0.124s
+?   	github.com/danaguzman22/software-metrics-estimation/internal/service/repotest	[no test files]
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage	0.041s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo	0.219s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres	9.825s
+ok  	github.com/danaguzman22/software-metrics-estimation/internal/web	2.638s
+ok  	github.com/danaguzman22/software-metrics-estimation/migrations	0.009s
+Exit code: 0
+
+$ tests omitidos (SKIP)
+0
