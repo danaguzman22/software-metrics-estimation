@@ -95,9 +95,11 @@ Desde la página de inicio se accede a los proyectos. Por cada proyecto se puede
 
 1. **Crear el proyecto** con nombre y fechas de inicio y fin; el estado se calcula por fechas.
 2. **Administrar el Product Backlog**: alta de historias con título, descripción, prioridad, Story Points y criterios de aceptación; edición y priorización.
-3. **Registrar defectos** asociados a historias.
+3. **Registrar y seguir defectos** asociados a historias y Sprints.
 4. **Gestionar Sprints**: crear un Sprint con su objetivo y fechas (un solo Sprint activo a la vez), asignarle historias, marcar historias como completadas y cerrar el Sprint. Las historias no completadas vuelven al backlog.
-5. **Ver métricas**: Story Points planificados, completados y velocidad de cada Sprint; velocidad promedio del proyecto y porcentaje de historias completadas.
+5. **Ver métricas**: Story Points planificados, completados y velocidad de cada Sprint; velocidad promedio, porcentaje de historias completadas y horas estimadas vs. reales.
+6. **Ver el dashboard** del proyecto, con gráficos de velocidad y horas por Sprint.
+7. **Generar reportes imprimibles** del proyecto completo o de un Sprint.
 
 ---
 
@@ -159,9 +161,9 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 |---|---|---|
 | Sprint 0 — La Preparación | Equipo, roles, entorno, repositorio, GitHub Projects y backlog inicial | Completado |
 | Sprint 1 — El MVP | Versión funcional básica del sistema (dominio, servicios y persistencia PostgreSQL) | Cerrado. Retrospectiva en `docs/retrospectivas/sprint-1.md` |
-| Sprint 2 — La Interfaz | Dotar al software de una interfaz usable | En curso |
-| Sprint 3 — Funcionalidad y Calidad | Funcionalidades clave, robustez y visualización | Pendiente |
-| Sprint 4 — El Cierre y la Entrega Final | Pulido, documentación y exportación de informe en PDF | Pendiente |
+| Sprint 2 — La Interfaz | Dotar al software de una interfaz usable | Cerrado. Retrospectiva en docs/retrospectivas/sprint-2.md |
+| Sprint 3 — Funcionalidad y Calidad | Funcionalidades clave, robustez y visualización | Cerrado. Retrospectiva en docs/retrospectivas/sprint-3.md. |
+| Sprint 4 — El Cierre y la Entrega Final | Pulido, documentación y exportación de informe en PDF | En curso. |
 
 ---
 
@@ -180,6 +182,12 @@ El proyecto se gestiona con **Scrum** sobre GitHub Projects. Cada historia de us
 | Métricas de horas y desviación estimado vs. real | Implementadas en servicio y persistencia (US-17); falta interfaz |
 | Dashboard con gráficos | Pendiente (Sprint 3) |
 | Reportes y exportación a PDF | Pendiente (Sprint 4) |
+| Gestión de defectos (registro, listado, cambio de estado y Sprint de resolución) | Implementada, con interfaz web (US-15) |
+| Métricas de defectos (detectados y resueltos por Sprint y por proyecto) | Implementadas (US-18) |
+| Métricas de horas y desviación estimado vs. real | Implementadas en servicio y persistencia (US-17); se muestran en el dashboard y los reportes; falta pantalla de carga |
+| Dashboard con gráficos | Implementado, con interfaz web (US-19) |
+| Reportes de proyecto y de Sprint (imprimibles) | Implementados, con interfaz web (US-20) |
+| Exportación a PDF | Pendiente (Sprint 4); los reportes se pueden guardar como PDF desde el navegador |
 
 ---
 

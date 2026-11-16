@@ -46,7 +46,23 @@ Abrí <http://localhost:8080>. Para detenerla: `docker compose down` (conserva l
 
 En la pantalla de Sprints se ven, por cada Sprint, los **Story Points planificados**, los **completados** y la **velocidad**. A nivel proyecto se muestran la **velocidad promedio** (solo Sprints cerrados; 0.00 si todavía no hay ninguno) y el **porcentaje de historias completadas**.
 
-## 6. Mensajes de error frecuentes
+## 6. Defectos
+
+1. En el proyecto, elegí **Ver defectos**.
+2. En el formulario completá la descripción, la severidad (Alta, Media o Baja), el estado, la historia relacionada y el Sprint donde se detectó. Si el defecto ya está resuelto, indicá también el Sprint de resolución, que no puede ser anterior al de detección.
+3. En el listado, cambiá el **estado** de un defecto y, al marcarlo como Resuelto, elegí el **Sprint de resolución**.
+
+## 7. Dashboard
+
+Desde el detalle del proyecto o desde la navegación, elegí **Dashboard**. Muestra el estado del proyecto, los Story Points planificados y completados, la velocidad promedio, el porcentaje de historias completadas, las horas estimadas y reales con su desviación y dos gráficos: **velocidad por Sprint** y **horas estimadas vs. reales por Sprint** (solo Sprints cerrados), cada uno con su tabla de datos. Si el proyecto todavía no tiene Sprints cerrados, los gráficos lo indican.
+
+## 8. Reportes
+
+1. **Reporte del proyecto**: en el detalle del proyecto elegí **Ver reporte**. Incluye historias planificadas y completadas, estimaciones, esfuerzo, métricas y defectos.
+2. **Reporte de un Sprint**: en la pantalla de Sprints, en la fila del Sprint, elegí **Ver reporte del Sprint**.
+3. Para llevarlo al cliente, usá el botón **Imprimir** (o Ctrl+P): la impresión oculta la navegación. Desde el cuadro de impresión podés guardarlo como PDF.
+
+## 9. Mensajes de error frecuentes
 
 | Mensaje | Qué significa |
 |---|---|
@@ -55,6 +71,6 @@ En la pantalla de Sprints se ven, por cada Sprint, los **Story Points planificad
 | El ítem no existe en el proyecto | La historia elegida no pertenece a este proyecto |
 | Ocurrió un error inesperado | Error interno; reintentá y avisá al equipo (el detalle queda en el log) |
 
-## 7. Qué viene
+## 10. Qué viene
 
-Registro de esfuerzo, gestión de defectos completa, dashboard con gráficos y exportación a PDF (Sprints 2 a 4).
+Pantallas para cargar integrantes, horas y esfuerzo, exportación a PDF y mejoras visuales (Sprint 4).
