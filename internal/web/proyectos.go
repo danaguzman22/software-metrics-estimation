@@ -44,6 +44,7 @@ func (a *aplicacion) listarProyectos(w http.ResponseWriter, r *http.Request) {
 		Titulo:    "Proyectos",
 		Nav:       navSinProyecto(true),
 		Proyectos: proyectos,
+		Migas:     []Miga{{Texto: "Proyectos", URL: "/proyectos", Actual: true}},
 	})
 }
 
@@ -119,6 +120,8 @@ func (a *aplicacion) detalleProyecto(w http.ResponseWriter, r *http.Request) {
 		Titulo:   vista.Nombre,
 		Nav:      navConProyecto(id),
 		Proyecto: &vista,
+		Migas:    migasDeProyecto(vista.Nombre, id),
+		Volver:   "/proyectos",
 	})
 }
 
@@ -130,6 +133,11 @@ func (a *aplicacion) renderizarFormularioProyecto(w http.ResponseWriter, estado 
 		Nav:        navSinProyecto(false),
 		Formulario: formulario,
 		Error:      mensaje,
+		Migas: []Miga{
+			{Texto: "Proyectos", URL: "/proyectos"},
+			{Texto: "Nuevo proyecto", URL: "/proyectos/nuevo", Actual: true},
+		},
+		Volver: "/proyectos",
 	})
 }
 

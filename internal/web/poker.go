@@ -234,13 +234,24 @@ func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID s
 		}
 	}
 
+	proyecto, err := a.deps.Proyectos.ObtenerProyecto(proyectoID)
+	if err != nil {
+		a.responderErrorPoker(w, proyectoID, err)
+		return
+	}
+
 	a.renderizar(w, estado, "poker", datosPagina{
 		Titulo:   "Planning Poker",
 		Nav:      navConProyecto(proyectoID),
-		Proyecto: &proyectoVista{ID: proyectoID},
+		Proyecto: &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
 		ItemID:   itemID,
 		Poker:    &vista,
 		Error:    mensaje,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Backlog", URL: "/proyectos/" + proyectoID + "/backlog"},
+			Miga{Texto: "Planning Poker", URL: "/proyectos/" + proyectoID + "/backlog/" + itemID + "/poker"},
+		),
+		Volver: "/proyectos/" + proyectoID + "/backlog#item-" + itemID,
 	})
 }
 

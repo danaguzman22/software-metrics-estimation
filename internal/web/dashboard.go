@@ -44,6 +44,10 @@ func (a *aplicacion) dashboardProyecto(w http.ResponseWriter, r *http.Request) {
 		Titulo:    "Dashboard",
 		Nav:       navConProyecto(id),
 		Dashboard: dashboardVistaDesde(datos, registro, estado),
+		Migas: migasDeProyecto(registro.Proyecto.Nombre, id,
+			Miga{Texto: "Dashboard", URL: "/proyectos/" + id + "/dashboard"},
+		),
+		Volver: "/proyectos/" + id,
 	})
 }
 

@@ -44,6 +44,10 @@ func (a *aplicacion) reporteProyecto(w http.ResponseWriter, r *http.Request) {
 		Titulo:  "Reporte de " + registro.Proyecto.Nombre,
 		Nav:     navConProyecto(id),
 		Reporte: reporteProyectoVistaDesde(datos, registro, estado),
+		Migas: migasDeProyecto(registro.Proyecto.Nombre, id,
+			Miga{Texto: "Reporte del proyecto", URL: "/proyectos/" + id + "/reporte"},
+		),
+		Volver: "/proyectos/" + id,
 	})
 }
 
@@ -85,9 +89,15 @@ func (a *aplicacion) reporteSprint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	numeroTexto := strconv.Itoa(numero)
 	a.renderizar(w, http.StatusOK, "reporte-sprint", datosPagina{
-		Titulo:        "Reporte del Sprint " + strconv.Itoa(numero),
+		Titulo:        "Reporte del Sprint " + numeroTexto,
 		Nav:           navConProyecto(id),
 		ReporteSprint: reporteSprintVistaDesde(datos, registro),
+		Migas: migasDeProyecto(registro.Proyecto.Nombre, id,
+			Miga{Texto: "Sprints", URL: "/proyectos/" + id + "/sprints"},
+			Miga{Texto: "Reporte del Sprint " + numeroTexto, URL: "/proyectos/" + id + "/sprints/" + numeroTexto + "/reporte"},
+		),
+		Volver: "/proyectos/" + id + "/sprints#sprint-" + numeroTexto,
 	})
 }

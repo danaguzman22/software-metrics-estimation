@@ -63,6 +63,10 @@ func (a *aplicacion) renderizarDefectos(w http.ResponseWriter, proyectoID string
 		MetricasDefectos:  metricasProyecto,
 		MetricasPorSprint: metricasSprints,
 		Error:             mensaje,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Defectos", URL: "/proyectos/" + proyectoID + "/defectos"},
+		),
+		Volver: "/proyectos/" + proyectoID,
 	})
 }
 
