@@ -54,6 +54,11 @@ func (a *aplicacion) listarSprintsAnteriores(w http.ResponseWriter, r *http.Requ
 		Nav:      navConProyecto(id),
 		Proyecto: &proyectoVista{ID: id, Nombre: proyecto.Proyecto.Nombre},
 		Sprints:  vistas,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, id,
+			Miga{Texto: "Sprints", URL: "/proyectos/" + id + "/sprints"},
+			Miga{Texto: "Histórico", URL: "/proyectos/" + id + "/sprints/historico"},
+		),
+		Volver: "/proyectos/" + id + "/sprints",
 	})
 }
 
@@ -294,17 +299,32 @@ func (a *aplicacion) renderizarSprints(w http.ResponseWriter, proyectoID string,
 		VelocidadPromedio:     promedio,
 		PorcentajeCompletadas: porcentaje,
 		Error:                 mensaje,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Sprints", URL: "/proyectos/" + proyectoID + "/sprints"},
+		),
+		Volver: "/proyectos/" + proyectoID,
 	})
 }
 
 // renderizarFormularioSprint muestra el formulario de alta de Sprint.
 func (a *aplicacion) renderizarFormularioSprint(w http.ResponseWriter, estado int, proyectoID string, formulario formularioSprint, mensaje string) {
+	proyecto, err := a.deps.Proyectos.ObtenerProyecto(proyectoID)
+	if err != nil {
+		a.responderErrorSprints(w, proyectoID, err)
+		return
+	}
+
 	a.renderizar(w, estado, "formulario-sprint", datosPagina{
 		Titulo:           "Nuevo Sprint",
 		Nav:              navConProyecto(proyectoID),
-		Proyecto:         &proyectoVista{ID: proyectoID},
+		Proyecto:         &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
 		FormularioSprint: formulario,
 		Error:            mensaje,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Sprints", URL: "/proyectos/" + proyectoID + "/sprints"},
+			Miga{Texto: "Nuevo Sprint", URL: "/proyectos/" + proyectoID + "/sprints/nuevo"},
+		),
+		Volver: "/proyectos/" + proyectoID + "/sprints",
 	})
 }
 

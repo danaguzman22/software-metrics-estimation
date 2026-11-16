@@ -83,5 +83,9 @@ func (a *aplicacion) renderizarIntegrantes(w http.ResponseWriter, proyectoID str
 		Integrantes:          integrantes,
 		FormularioIntegrante: formulario,
 		Error:                mensaje,
+		Migas: migasDeProyecto(registro.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Integrantes", URL: "/proyectos/" + proyectoID + "/integrantes"},
+		),
+		Volver: "/proyectos/" + proyectoID,
 	})
 }

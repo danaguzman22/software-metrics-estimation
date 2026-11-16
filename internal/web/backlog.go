@@ -184,6 +184,12 @@ func (a *aplicacion) estimarItem(w http.ResponseWriter, r *http.Request) {
 
 // renderizarBacklog muestra el backlog del proyecto con un mensaje opcional.
 func (a *aplicacion) renderizarBacklog(w http.ResponseWriter, proyectoID string, estado int, mensaje string) {
+	proyecto, err := a.deps.Proyectos.ObtenerProyecto(proyectoID)
+	if err != nil {
+		a.responderErrorBacklog(w, proyectoID, err)
+		return
+	}
+
 	items, err := a.deps.Backlog.ListarBacklog(proyectoID)
 	if err != nil {
 		a.responderErrorBacklog(w, proyectoID, err)
@@ -193,27 +199,46 @@ func (a *aplicacion) renderizarBacklog(w http.ResponseWriter, proyectoID string,
 	a.renderizar(w, estado, "backlog", datosPagina{
 		Titulo:   "Backlog",
 		Nav:      navConProyecto(proyectoID),
-		Proyecto: &proyectoVista{ID: proyectoID},
+		Proyecto: &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
 		Items:    items,
 		Error:    mensaje,
+		Migas:    migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID, Miga{Texto: "Backlog", URL: "/proyectos/" + proyectoID + "/backlog"}),
+		Volver:   "/proyectos/" + proyectoID,
 	})
 }
 
 // renderizarFormularioItem muestra el formulario de alta o edición de un ítem.
 func (a *aplicacion) renderizarFormularioItem(w http.ResponseWriter, estado int, proyectoID, itemID string, formulario formularioItem, editando bool, mensaje string) {
 	titulo := "Nuevo ítem"
+	nivel := "Nuevo ítem"
+	enlace := "/proyectos/" + proyectoID + "/backlog/nuevo"
+	volver := "/proyectos/" + proyectoID + "/backlog"
 	if editando {
 		titulo = "Editar ítem"
+		nivel = "Editar ítem"
+		enlace = "/proyectos/" + proyectoID + "/backlog/" + itemID + "/editar"
+		volver = "/proyectos/" + proyectoID + "/backlog#item-" + itemID
+	}
+
+	proyecto, err := a.deps.Proyectos.ObtenerProyecto(proyectoID)
+	if err != nil {
+		a.responderErrorBacklog(w, proyectoID, err)
+		return
 	}
 
 	a.renderizar(w, estado, "formulario-item", datosPagina{
 		Titulo:         titulo,
 		Nav:            navConProyecto(proyectoID),
-		Proyecto:       &proyectoVista{ID: proyectoID},
+		Proyecto:       &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
 		ItemID:         itemID,
 		FormularioItem: formulario,
 		Editando:       editando,
 		Error:          mensaje,
+		Migas: migasDeProyecto(proyecto.Proyecto.Nombre, proyectoID,
+			Miga{Texto: "Backlog", URL: "/proyectos/" + proyectoID + "/backlog"},
+			Miga{Texto: nivel, URL: enlace},
+		),
+		Volver: volver,
 	})
 }
 
