@@ -1,4 +1,4 @@
-﻿package reportepdf
+package reportepdf
 
 import (
 	"bytes"
