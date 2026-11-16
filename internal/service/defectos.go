@@ -122,3 +122,46 @@ func (s *ServicioDefectos) CambiarEstadoDefecto(
 	}
 	return actualizado, nil
 }
+
+// MetricasDefectosPorSprint devuelve los conteos del Sprint luego de validar
+// primero el proyecto y luego el Sprint dentro de ese proyecto.
+func (s *ServicioDefectos) MetricasDefectosPorSprint(
+	proyectoID string,
+	sprintNumero int,
+) (domain.MetricasDefectos, error) {
+	if err := s.validarProyectoParaMetricas(proyectoID); err != nil {
+		return domain.MetricasDefectos{}, err
+	}
+	if _, err := s.sprints.Obtener(proyectoID, sprintNumero); err != nil {
+		return domain.MetricasDefectos{}, envolverErrorRepositorio("obtener sprint de métricas de defectos", err)
+	}
+	metricas, err := s.defectos.MetricasPorSprint(proyectoID, sprintNumero)
+	if err != nil {
+		return domain.MetricasDefectos{}, envolverErrorRepositorio("consultar métricas de defectos del sprint", err)
+	}
+	return metricas, nil
+}
+
+// MetricasDefectosPorProyecto devuelve los conteos agregados de defectos del
+// proyecto.
+func (s *ServicioDefectos) MetricasDefectosPorProyecto(proyectoID string) (domain.MetricasDefectos, error) {
+	if err := s.validarProyectoParaMetricas(proyectoID); err != nil {
+		return domain.MetricasDefectos{}, err
+	}
+	metricas, err := s.defectos.MetricasPorProyecto(proyectoID)
+	if err != nil {
+		return domain.MetricasDefectos{}, envolverErrorRepositorio("consultar métricas de defectos del proyecto", err)
+	}
+	return metricas, nil
+}
+
+func (s *ServicioDefectos) validarProyectoParaMetricas(proyectoID string) error {
+	existe, err := s.proyectos.Existe(proyectoID)
+	if err != nil {
+		return envolverErrorRepositorio("verificar proyecto de métricas de defectos", err)
+	}
+	if !existe {
+		return domain.ErrProyectoNoEncontrado
+	}
+	return nil
+}

@@ -73,6 +73,13 @@ type sprintVista struct {
 	Items          []itemSprintVista
 }
 
+type sprintMetricasDefectosVista struct {
+	Numero     int
+	Objetivo   string
+	Detectados int
+	Resueltos  int
+}
+
 // datosPagina reúne los datos que consumen las plantillas.
 type datosPagina struct {
 	Titulo                string
@@ -87,6 +94,8 @@ type datosPagina struct {
 	Sprints               []sprintVista
 	SprintsOpciones       []domain.Sprint
 	Defectos              []domain.Defecto
+	MetricasDefectos      domain.MetricasDefectos
+	MetricasPorSprint     []sprintMetricasDefectosVista
 	FormularioSprint      formularioSprint
 	VelocidadPromedio     float64
 	PorcentajeCompletadas float64

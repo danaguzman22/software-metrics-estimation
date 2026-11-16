@@ -1,0 +1,37 @@
+US-18 REFACTOR
+
+Refactorización realizada:
+- Se extrajo la validación compartida de existencia del proyecto usada por
+  MetricasDefectosPorSprint y MetricasDefectosPorProyecto a
+  validarProyectoParaMetricas.
+- Se mantiene el orden de validación, los errores de dominio y el envoltorio
+  de errores de repositorio.
+- No se agregaron capacidades ni cambios de alcance.
+
+Validación posterior a la refactorización con PostgreSQL 16 temporal y
+TEST_DATABASE_URL configurada:
+
+$ go test ./internal/storage/postgres -run 'TestUS18_RepositorioDefectosMetricas(PorSprintYProyecto|ProyectoVacioDevuelveCeros)$' -v -count=1
+=== RUN   TestUS18_RepositorioDefectosMetricasPorSprintYProyecto
+--- PASS: TestUS18_RepositorioDefectosMetricasPorSprintYProyecto (0.50s)
+=== RUN   TestUS18_RepositorioDefectosMetricasProyectoVacioDevuelveCeros
+--- PASS: TestUS18_RepositorioDefectosMetricasProyectoVacioDevuelveCeros (0.33s)
+PASS
+ok   github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres 1.071s
+
+$ go test -json ./... -count=1
+Resultado: exit code 0. Todos los paquetes con pruebas pasaron:
+cmd/server, internal/domain, internal/storage, internal/service,
+internal/storage/jsonrepo, migrations, internal/web e
+internal/storage/postgres.
+No se omitió ningún test. El único evento de tipo skip corresponde a
+internal/service/repotest, que no contiene archivos de test.
+
+$ go vet ./...
+Resultado: exit code 0.
+
+$ go build ./...
+Resultado: exit code 0.
+
+$ git diff --check
+Resultado: exit code 0.

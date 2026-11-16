@@ -74,4 +74,6 @@ type RepositorioDefectos interface {
 	ListarPorProyecto(proyectoID string) ([]domain.Defecto, error)
 	Obtener(proyectoID string, defectoID int64) (domain.Defecto, error)
 	Actualizar(proyectoID string, defecto domain.Defecto) error
+	MetricasPorSprint(proyectoID string, sprintNumero int) (domain.MetricasDefectos, error)
+	MetricasPorProyecto(proyectoID string) (domain.MetricasDefectos, error)
 }
