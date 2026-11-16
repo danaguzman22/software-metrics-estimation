@@ -1,4 +1,4 @@
-﻿package service
+package service
 
 import (
 	"errors"
@@ -327,8 +327,8 @@ func TestUS20_Fase1_ServicioReportes_ProyectoCompleto(t *testing.T) {
 	}
 
 	// Verificación de los datos sembrados (no del dashboard, que tiene sus propios tests).
-	if reporte.SPPlanificadosTotal != 29 {
-		t.Errorf("SPPlanificadosTotal = %d, se esperaba 29 (8 + 13 guardados de cerrados + 8 del activo)", reporte.SPPlanificadosTotal)
+	if reporte.SPPlanificadosTotal != 21 {
+		t.Errorf("SPPlanificadosTotal = %d, se esperaba 21 (8 + 13 guardados de los cerrados; el Sprint activo no tiene historias asignadas)", reporte.SPPlanificadosTotal)
 	}
 	if reporte.SPCompletadosTotal != 5 {
 		t.Errorf("SPCompletadosTotal = %d, se esperaba 5 (HU-01)", reporte.SPCompletadosTotal)
@@ -515,7 +515,7 @@ func TestUS20_Fase1_ServicioReportes_HistoriaSinEstimarEnHoras(t *testing.T) {
 		t.Errorf("HorasEstimadas = %v, se esperaba nil (historia sin estimar en horas)",
 			*reporte.HistoriasPlanificadas[0].HorasEstimadas)
 	}
-	if !reporte.EstimacionesCompletas {
+	if reporte.EstimacionesCompletas {
 		t.Errorf("EstimacionesCompletas = true, se esperaba false (hay una historia sin estimar)")
 	}
 	if reporte.DesviacionHorasTotal != nil {
