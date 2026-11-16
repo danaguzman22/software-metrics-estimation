@@ -12,3 +12,9 @@ La compilación falló porque todavía no existen:
 Los tests fueron agregados después del commit docs de SDD/BDD y antes de
 cualquier cambio de código de producción de US-18. Por eso las pruebas no
 llegaron a ejecutarse: la falla RED es de compilación por contratos faltantes.
+
+Al revisar esta evidencia después de GREEN, se confirma que es una falla RED
+real, pero no una falla de comportamiento: el compilador impidió ejecutar las
+aserciones. No se reemplaza ni se presenta como un resultado distinto. No se
+reconstruye ahora una ejecución conductual porque requeriría modificar
+artificialmente el estado de código previo; no sería evidencia histórica auténtica.
