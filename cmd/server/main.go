@@ -103,6 +103,7 @@ func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.S
 	servicioDashboard := service.NuevoServicioDashboard(proyectos, servicioSprints, servicioEsfuerzo)
 	servicioPoker := service.NuevoServicioPlanningPokerConEstimador(proyectos, integrantes, backlog, rondasPoker, servicioBacklog)
 	servicioDefectos := service.NuevoServicioDefectos(proyectos, backlog, sprints, defectos)
+	servicioReportes := service.NuevoServicioReportes(proyectos, servicioBacklog, servicioSprints, servicioEsfuerzo, servicioDashboard, servicioDefectos)
 
 	handler := web.NuevoHandlerAplicacion(ping, web.Dependencias{
 		Proyectos: servicioProyectos,
@@ -111,6 +112,7 @@ func construirServidor(pool *pgxpool.Pool, ping web.Pinger, addr string) *http.S
 		Poker:     servicioPoker,
 		Defectos:  servicioDefectos,
 		Dashboard: servicioDashboard,
+		Reportes:  servicioReportes,
 		Ahora:     time.Now,
 	})
 	return web.NuevoServidor(addr, handler)
