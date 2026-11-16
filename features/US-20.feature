@@ -1,5 +1,5 @@
 # language: es
-# Estado: Propuesta (pendiente de revisión de la persona; nada se implementa aún).
+# Estado: Implementada 
 # Los escenarios describen el comportamiento acordado para CA1–CA2 y las
 # decisiones D1–D7 del enunciado (dos páginas HTML imprimibles, sin PDF ni
 # librerías: GET /proyectos/{id}/reporte y GET /proyectos/{id}/sprints/{numero}/reporte;
