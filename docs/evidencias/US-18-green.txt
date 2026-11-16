@@ -1,0 +1,22 @@
+US-18 GREEN
+
+Validación posterior a la implementación y anterior a la refactorización.
+La suite se ejecutó con TEST_DATABASE_URL configurada contra PostgreSQL 16
+temporal en localhost:55432.
+
+$ go test ./... -count=1
+ok   github.com/danaguzman22/software-metrics-estimation/cmd/server 1.073s
+ok   github.com/danaguzman22/software-metrics-estimation/internal/domain 1.017s
+ok   github.com/danaguzman22/software-metrics-estimation/internal/service 1.426s
+?    github.com/danaguzman22/software-metrics-estimation/internal/service/repotest [no test files]
+ok   github.com/danaguzman22/software-metrics-estimation/internal/storage 1.147s
+ok   github.com/danaguzman22/software-metrics-estimation/internal/storage/jsonrepo 3.735s
+ok   github.com/danaguzman22/software-metrics-estimation/internal/storage/postgres 21.667s
+ok   github.com/danaguzman22/software-metrics-estimation/internal/web 5.708s
+ok   github.com/danaguzman22/software-metrics-estimation/migrations 0.966s
+
+Resultado: exit code 0. La base temporal PostgreSQL 16 estaba disponible y
+TEST_DATABASE_URL estaba configurada durante esta ejecución.
+
+La comprobación focalizada posterior a la refactorización de las dos pruebas
+de integración de US-18 se registra en US-18-refactor.txt.

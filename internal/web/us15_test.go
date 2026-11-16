@@ -61,6 +61,14 @@ func (f *servicioDefectosFalsoUS15) CambiarEstadoDefecto(proyectoID string, defe
 	return defecto, nil
 }
 
+func (f *servicioDefectosFalsoUS15) MetricasDefectosPorSprint(string, int) (domain.MetricasDefectos, error) {
+	return domain.MetricasDefectos{}, nil
+}
+
+func (f *servicioDefectosFalsoUS15) MetricasDefectosPorProyecto(string) (domain.MetricasDefectos, error) {
+	return domain.MetricasDefectos{}, nil
+}
+
 func TestUS15_WebListaDefectosDelProyecto(t *testing.T) {
 	proyectos, backlog := nuevoEntornoUS22(registroProyectoUS22("PRJ-015", "Proyecto de prueba", fechaUS22(2026, 1, 1), fechaUS22(2026, 12, 31)))
 	backlog.proyectosExistentes["PRJ-015"] = true

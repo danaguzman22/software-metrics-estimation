@@ -70,6 +70,8 @@ type ServicioDefectosWeb interface {
 	ListarDefectos(proyectoID string) ([]domain.Defecto, error)
 	RegistrarDefecto(proyectoID string, defecto domain.Defecto) (domain.Defecto, error)
 	CambiarEstadoDefecto(proyectoID string, defectoID int64, estado string, sprintResolucion *int) (domain.Defecto, error)
+	MetricasDefectosPorSprint(proyectoID string, sprintNumero int) (domain.MetricasDefectos, error)
+	MetricasDefectosPorProyecto(proyectoID string) (domain.MetricasDefectos, error)
 }
 
 // ServicioDashboardWeb es el contrato de consumidor del dashboard de la web.

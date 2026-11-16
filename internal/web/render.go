@@ -126,26 +126,33 @@ type dashboardPuntoHoras struct {
 // dashboardVista es la representación del dashboard lista para renderizar:
 // copia los valores del servicio sin recalcularlos (D5, R19).
 type dashboardVista struct {
-	ProyectoID                    string
-	ProyectoNombre                string
-	Estado                        domain.Estado
-	SPPlanificadosTotal           int
-	SPCompletadosTotal            int
-	VelocidadPromedio             float64
+	ProyectoID                     string
+	ProyectoNombre                 string
+	Estado                         domain.Estado
+	SPPlanificadosTotal            int
+	SPCompletadosTotal             int
+	VelocidadPromedio              float64
 	PorcentajeHistoriasCompletadas float64
-	HorasEstimadasTotal           float64
-	HorasRealesTotal              float64
-	EstimacionesCompletas         bool
-	DesviacionTotalDisponible     bool    // false cuando el servicio informa nil; la plantilla muestra "—"
-	DesviacionHorasTotal          float64 // valor tal como lo devuelve el servicio (con signo); válida si DesviacionTotalDisponible
-	SprintsCerrados               int
-	Velocidad                     []dashboardPuntoVelocidad
-	Horas                         []dashboardPuntoHoras
-	EscalaVelocidadMax            int
-	EscalaHorasMax                float64
-	TicksVelocidad                []dashboardTick
-	TicksHoras                    []dashboardTick
-	HayMetricasNoDisponibles      bool
+	HorasEstimadasTotal            float64
+	HorasRealesTotal               float64
+	EstimacionesCompletas          bool
+	DesviacionTotalDisponible      bool    // false cuando el servicio informa nil; la plantilla muestra "—"
+	DesviacionHorasTotal           float64 // valor tal como lo devuelve el servicio (con signo); válida si DesviacionTotalDisponible
+	SprintsCerrados                int
+	Velocidad                      []dashboardPuntoVelocidad
+	Horas                          []dashboardPuntoHoras
+	EscalaVelocidadMax             int
+	EscalaHorasMax                 float64
+	TicksVelocidad                 []dashboardTick
+	TicksHoras                     []dashboardTick
+	HayMetricasNoDisponibles       bool
+}
+
+type sprintMetricasDefectosVista struct {
+	Numero     int
+	Objetivo   string
+	Detectados int
+	Resueltos  int
 }
 
 // datosPagina reúne los datos que consumen las plantillas.
@@ -162,6 +169,8 @@ type datosPagina struct {
 	Sprints               []sprintVista
 	SprintsOpciones       []domain.Sprint
 	Defectos              []domain.Defecto
+	MetricasDefectos      domain.MetricasDefectos
+	MetricasPorSprint     []sprintMetricasDefectosVista
 	FormularioSprint      formularioSprint
 	VelocidadPromedio     float64
 	PorcentajeCompletadas float64

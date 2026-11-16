@@ -133,6 +133,49 @@ func (r *Defectos) Actualizar(proyectoID string, defecto domain.Defecto) error {
 	return nil
 }
 
+// MetricasPorSprint cuenta los defectos detectados en el Sprint y los
+// resueltos en él. Un defecto solo cuenta como resuelto en estado Resuelto.
+func (r *Defectos) MetricasPorSprint(proyectoID string, sprintNumero int) (domain.MetricasDefectos, error) {
+	var metricas domain.MetricasDefectos
+	err := r.pool.QueryRow(context.Background(), `
+		SELECT
+			count(*) FILTER (WHERE sprint_deteccion_numero = $2),
+			count(*) FILTER (
+				WHERE estado = $3 AND sprint_resolucion_numero = $2
+			)
+		FROM defectos
+		WHERE proyecto_id = $1
+	`, proyectoID, sprintNumero, domain.EstadoDefectoResuelto).Scan(
+		&metricas.Detectados,
+		&metricas.Resueltos,
+	)
+	if err != nil {
+		return domain.MetricasDefectos{}, fmt.Errorf("consultar métricas de defectos del sprint: %w", err)
+	}
+	return metricas, nil
+}
+
+// MetricasPorProyecto cuenta defectos detectados y resueltos del proyecto.
+func (r *Defectos) MetricasPorProyecto(proyectoID string) (domain.MetricasDefectos, error) {
+	var metricas domain.MetricasDefectos
+	err := r.pool.QueryRow(context.Background(), `
+		SELECT
+			count(*),
+			count(*) FILTER (
+				WHERE estado = $2 AND sprint_resolucion_numero IS NOT NULL
+			)
+		FROM defectos
+		WHERE proyecto_id = $1
+	`, proyectoID, domain.EstadoDefectoResuelto).Scan(
+		&metricas.Detectados,
+		&metricas.Resueltos,
+	)
+	if err != nil {
+		return domain.MetricasDefectos{}, fmt.Errorf("consultar métricas de defectos del proyecto: %w", err)
+	}
+	return metricas, nil
+}
+
 type filaDefecto interface {
 	Scan(dest ...any) error
 }

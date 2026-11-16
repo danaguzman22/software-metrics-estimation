@@ -34,14 +34,35 @@ func (a *aplicacion) renderizarDefectos(w http.ResponseWriter, proyectoID string
 		a.responderErrorDefectos(w, proyectoID, err)
 		return
 	}
+	metricasProyecto, err := a.deps.Defectos.MetricasDefectosPorProyecto(proyectoID)
+	if err != nil {
+		a.responderErrorDefectos(w, proyectoID, err)
+		return
+	}
+	metricasSprints := make([]sprintMetricasDefectosVista, 0, len(sprints))
+	for _, sprint := range sprints {
+		metricas, err := a.deps.Defectos.MetricasDefectosPorSprint(proyectoID, sprint.Numero)
+		if err != nil {
+			a.responderErrorDefectos(w, proyectoID, err)
+			return
+		}
+		metricasSprints = append(metricasSprints, sprintMetricasDefectosVista{
+			Numero:     sprint.Numero,
+			Objetivo:   sprint.Objetivo,
+			Detectados: metricas.Detectados,
+			Resueltos:  metricas.Resueltos,
+		})
+	}
 	a.renderizar(w, codigo, "defectos", datosPagina{
-		Titulo:          "Defectos",
-		Nav:             navConProyecto(proyectoID),
-		Proyecto:        &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
-		Defectos:        defectos,
-		Items:           items,
-		SprintsOpciones: sprints,
-		Error:           mensaje,
+		Titulo:            "Defectos",
+		Nav:               navConProyecto(proyectoID),
+		Proyecto:          &proyectoVista{ID: proyectoID, Nombre: proyecto.Proyecto.Nombre},
+		Defectos:          defectos,
+		Items:             items,
+		SprintsOpciones:   sprints,
+		MetricasDefectos:  metricasProyecto,
+		MetricasPorSprint: metricasSprints,
+		Error:             mensaje,
 	})
 }
 

@@ -1,0 +1,20 @@
+US-18 RED
+
+$ go test ./internal/service ./internal/storage/postgres ./internal/web -run US18 -count=1
+Resultado: exit code 1, esperado antes de implementar.
+
+La compilación falló porque todavía no existen:
+- domain.MetricasDefectos;
+- ServicioDefectos.MetricasDefectosPorSprint y
+  ServicioDefectos.MetricasDefectosPorProyecto;
+- consultas de métricas en postgres.Defectos.
+
+Los tests fueron agregados después del commit docs de SDD/BDD y antes de
+cualquier cambio de código de producción de US-18. Por eso las pruebas no
+llegaron a ejecutarse: la falla RED es de compilación por contratos faltantes.
+
+Al revisar esta evidencia después de GREEN, se confirma que es una falla RED
+real, pero no una falla de comportamiento: el compilador impidió ejecutar las
+aserciones. No se reemplaza ni se presenta como un resultado distinto. No se
+reconstruye ahora una ejecución conductual porque requeriría modificar
+artificialmente el estado de código previo; no sería evidencia histórica auténtica.

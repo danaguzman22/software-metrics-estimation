@@ -3,6 +3,35 @@
 <h1>Defectos de {{.Proyecto.Nombre}}</h1>
 {{if .Error}}<p class="error" role="alert">{{.Error}}</p>{{end}}
 
+<section aria-labelledby="metricas-proyecto">
+  <h2 id="metricas-proyecto">Métricas del proyecto</h2>
+  <p>Defectos detectados: {{.MetricasDefectos.Detectados}}</p>
+  <p>Defectos resueltos: {{.MetricasDefectos.Resueltos}}</p>
+</section>
+
+<section aria-labelledby="metricas-sprints">
+  <h2 id="metricas-sprints">Métricas por Sprint</h2>
+  {{if .MetricasPorSprint}}
+    <table>
+      <thead>
+        <tr><th>Sprint</th><th>Objetivo</th><th>Detectados</th><th>Resueltos</th></tr>
+      </thead>
+      <tbody>
+        {{range .MetricasPorSprint}}
+        <tr>
+          <td>Sprint {{.Numero}}</td>
+          <td>{{.Objetivo}}</td>
+          <td>Detectados: {{.Detectados}}</td>
+          <td>Resueltos: {{.Resueltos}}</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>El proyecto todavía no tiene Sprints.</p>
+  {{end}}
+</section>
+
 <section>
   <h2>Registrar defecto</h2>
   <form method="post" action="/proyectos/{{.Proyecto.ID}}/defectos" class="formulario">
