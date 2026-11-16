@@ -11,7 +11,7 @@ Sprint 4 — El Cierre y la Entrega Final. Fechas del Sprint: 16 de noviembre de
 | T-15 Navegación jerárquica: migas de pan y botón Volver en todas las pantallas | Dana | Entregada |
 | T-16 Mejora visual de la interfaz (solo CSS) | Victoria | Entregada (PR #93, con una corrección posterior de las celdas de Estado) |
 | T-17 Barra de navegación contextual y dashboard compacto | Dana | Entregada (issue #95) |
-| Despliegue de la aplicación | Dana y Victoria | (completar: URL y plataforma, o "no realizado") |
+| Despliegue de la aplicación | Dana | Realizado en Render: https://software-metrics-estimation.onrender.com (plan gratuito).|
 | D-01 Documentación técnica y manual de usuario | Dana | Entregada (actualizados al cierre) |
 | D-02 Informe de métricas y cobertura de pruebas | Dana | Entregada (cobertura regenerada al cierre) |
 | D-03 Retrospectivas, trazabilidad y evidencias de TDD | Dana | Entregada |
