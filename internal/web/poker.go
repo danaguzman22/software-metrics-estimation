@@ -188,7 +188,17 @@ func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID s
 		return
 	}
 
-	vista := pokerVista{StoryPointsActuales: historia.StoryPoints}
+	integrantes, err := a.deps.Proyectos.ListarIntegrantes(proyectoID)
+	if err != nil {
+		a.responderErrorPoker(w, proyectoID, err)
+		return
+	}
+
+	vista := pokerVista{
+		StoryPointsActuales: historia.StoryPoints,
+		Integrantes:         integrantes,
+		Valores:             valoresPokerVoto,
+	}
 	if existe {
 		consulta, err := a.deps.Poker.ConsultarRonda(proyectoID, itemID, ronda.Numero)
 		if err != nil {
@@ -205,14 +215,6 @@ func (a *aplicacion) renderizarPoker(w http.ResponseWriter, proyectoID, itemID s
 			return
 		}
 		vista.Historial = historial
-
-		integrantes, err := a.deps.Proyectos.ListarIntegrantes(proyectoID)
-		if err != nil {
-			a.responderErrorPoker(w, proyectoID, err)
-			return
-		}
-		vista.Integrantes = integrantes
-		vista.Valores = valoresPokerVoto
 
 		if ronda.Estado == domain.EstadoRondaRevelada {
 			vista.Votos = consulta.Votos

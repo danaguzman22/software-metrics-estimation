@@ -176,6 +176,10 @@ func (f *servicioProyectosPokerFalso) ListarIntegrantes(proyectoID string) ([]do
 	return append([]domain.Integrante(nil), f.listarIntegrantes...), nil
 }
 
+func (f *servicioProyectosPokerFalso) AgregarIntegrante(proyectoID, nombre, rol string) (domain.Integrante, error) {
+	return domain.Integrante{}, nil
+}
+
 func integraPUS12(nombre, rol string) domain.Integrante {
 	return domain.Integrante{Nombre: nombre, Rol: rol}
 }

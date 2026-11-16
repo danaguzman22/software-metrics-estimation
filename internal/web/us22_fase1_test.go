@@ -107,6 +107,10 @@ func (f *servicioProyectosFalso) ListarIntegrantes(proyectoID string) ([]domain.
 	return nil, nil
 }
 
+func (f *servicioProyectosFalso) AgregarIntegrante(proyectoID, nombre, rol string) (domain.Integrante, error) {
+	return domain.Integrante{}, nil
+}
+
 type llamadaCrearItemUS22 struct {
 	proyectoID  string
 	titulo      string

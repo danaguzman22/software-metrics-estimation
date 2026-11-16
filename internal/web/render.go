@@ -42,6 +42,12 @@ type formularioProyecto struct {
 	FechaFin    string
 }
 
+// formularioIntegrante conserva los datos ingresados en el alta de integrante.
+type formularioIntegrante struct {
+	Nombre string
+	Rol    string
+}
+
 // formularioSprint conserva los datos ingresados en el alta de Sprint.
 type formularioSprint struct {
 	Numero      string
@@ -248,6 +254,8 @@ type datosPagina struct {
 	Sprints               []sprintVista
 	SprintsOpciones       []domain.Sprint
 	Defectos              []domain.Defecto
+	Integrantes           []domain.Integrante
+	FormularioIntegrante  formularioIntegrante
 	MetricasDefectos      domain.MetricasDefectos
 	MetricasPorSprint     []sprintMetricasDefectosVista
 	FormularioSprint      formularioSprint
@@ -270,6 +278,7 @@ var paginas = []string{
 	"inicio",
 	"proyectos",
 	"proyecto",
+	"integrantes",
 	"formulario-proyecto",
 	"backlog",
 	"formulario-item",

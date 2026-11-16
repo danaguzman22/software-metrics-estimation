@@ -21,6 +21,7 @@ type ServicioProyectosWeb interface {
 	ListarProyectos() ([]service.ProyectoRegistrado, error)
 	ObtenerProyecto(id string) (service.ProyectoRegistrado, error)
 	ListarIntegrantes(proyectoID string) ([]domain.Integrante, error)
+	AgregarIntegrante(proyectoID, nombre, rol string) (domain.Integrante, error)
 }
 
 // ServicioBacklogWeb es el contrato de consumidor del backlog de la web.
@@ -131,6 +132,8 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("GET /proyectos/nuevo", app.formularioAltaProyecto)
 	mux.HandleFunc("POST /proyectos", app.crearProyecto)
 	mux.HandleFunc("GET /proyectos/{id}", app.detalleProyecto)
+	mux.HandleFunc("GET /proyectos/{id}/integrantes", app.paginaIntegrantes)
+	mux.HandleFunc("POST /proyectos/{id}/integrantes", app.crearIntegrante)
 	mux.HandleFunc("GET /proyectos/{id}/dashboard", app.dashboardProyecto)
 	mux.HandleFunc("GET /proyectos/{id}/reporte", app.reporteProyecto)
 	mux.HandleFunc("GET /proyectos/{id}/reporte.pdf", app.reporteProyectoPDF)
