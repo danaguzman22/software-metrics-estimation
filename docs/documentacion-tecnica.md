@@ -22,7 +22,7 @@ docs/                  ADR, evidencias TDD, retrospectivas y documentación
 Reglas de dependencia, verificadas por tests de arquitectura:
 
 - `internal/domain` no importa nada del resto del proyecto.
-- `internal/service` define las interfaces de repositorio (`RepositorioProyectos`, `RepositorioBacklog`, `RepositorioSprints`, `RepositorioAsignaciones`, `RepositorioIntegrantes`, `RepositorioEsfuerzo`, `RepositorioRondas`) y orquesta el dominio. No importa `pgx`.
+- `internal/service` define las interfaces de repositorio (`RepositorioProyectos`, `RepositorioBacklog`, `RepositorioSprints`, `RepositorioAsignaciones`, `RepositorioIntegrantes`, `RepositorioEsfuerzo`, `RepositorioRondas`,`RepositorioDefectos`) y orquesta el dominio. No importa `pgx`.
 - `internal/web` no importa `internal/storage` ni `pgx` y no contiene reglas de negocio: solo traduce HTTP a llamadas de servicio y errores de dominio a códigos de estado.
 - `cmd/server` es el único lugar que conoce a la vez servicios y adaptadores.
 
@@ -39,6 +39,7 @@ Decisión registrada en [`adr/ADR-001-persistencia-postgresql.md`](adr/ADR-001-p
 | `00006_planning_poker.sql` | Rondas y votos de Planning Poker (una ronda abierta por historia) |
 | `00007_esfuerzo.sql` | Registros de esfuerzo (horas por integrante, fecha y actividad) |
 | `00008_metricas_esfuerzo.sql` | Horas estimadas por historia, Sprint de cada registro de esfuerzo y fotos de esfuerzo al cierre del Sprint |
+| `00009_defectos.sql` | Defectos del proyecto (severidad, estado, historia relacionada, Sprint de detección y de resolución) con restricciones de integridad |
 
 Los agregados de Sprint, asignaciones, esfuerzo y Planning Poker se persisten solo en PostgreSQL, como excepción documentada en las enmiendas (d) a (g) del ADR-001. Los tests de integración con PostgreSQL se omiten si no hay `TEST_DATABASE_URL`; en la evidencia GREEN de cada historia se ejecutan con una base real y sin tests omitidos.
 
@@ -64,6 +65,10 @@ Rutas principales:
 | `POST .../sprints/{numero}/cerrar` | Cerrar el Sprint |
 | `GET /proyectos/{id}/sprints/historico` | Histórico de Sprints cerrados con Sprint Goal, SP planificados y completados y velocidad |
 | `GET /proyectos/{id}/backlog/{itemID}/poker` (+ `POST .../poker/rondas`, `.../rondas/{n}/votos`, `.../rondas/{n}/revelar`, `.../rondas/{n}/acordar`) | Planning Poker: rondas, votos ocultos, revelación, diferencias, historial y estimación acordada |
+| `GET/POST /proyectos/{id}/defectos` (+ `POST .../defectos/{defectoID}/estado`) | Registrar defectos, listarlos y cambiar su estado y Sprint de resolución |
+| `GET /proyectos/{id}/dashboard` | Dashboard del proyecto: métricas clave y dos gráficos SVG (velocidad por Sprint y horas estimadas vs. reales) con tablas de datos |
+| `GET /proyectos/{id}/reporte` | Reporte imprimible del proyecto completo |
+| `GET /proyectos/{id}/sprints/{numero}/reporte` | Reporte imprimible de un Sprint |
 
 ## 5. Reglas de negocio destacadas
 
@@ -73,6 +78,8 @@ Rutas principales:
 - **Planning Poker**: un voto por integrante por ronda, cambiable mientras la ronda está abierta; con la ronda abierta solo se informa quiénes votaron, nunca los valores; revelar es irreversible. Con la ronda revelada se calculan las diferencias (mínimo, máximo y quién votó cada valor), se conserva el historial y se puede acordar una estimación, que se guarda como Story Points de la historia. Una nueva ronda solo se abre si la anterior fue revelada.
 - **Métricas de esfuerzo**: horas estimadas por historia, horas reales (suma de registros de esfuerzo) y desviación porcentual, sin división por cero; calculadas por historia, por Sprint y por proyecto.
 - **Esfuerzo**: horas de 0 a 24 con dos decimales, fecha no futura, integrante del proyecto e historia que no pertenezca a un Sprint cerrado.
+- **Defectos**: severidad Alta, Media o Baja; estado Abierto, En curso o Resuelto; un defecto referencia una historia y un Sprint de detección del mismo proyecto; resolverlo exige informar un Sprint de resolución existente y no anterior al de detección.
+- **Dashboard y reportes**: un servicio arma todas las cifras reutilizando los servicios de Sprints, métricas de horas y defectos (`ServicioDashboard`, `ServicioReportes`); la capa web solo las formatea y no recalcula nada. Los gráficos son SVG dibujados en el servidor, sin librerías JavaScript ni CDN. El único JavaScript es el botón de imprimir del reporte (`window.print()`).
 
 ## 6. Proceso de desarrollo y trazabilidad
 
@@ -97,3 +104,8 @@ Para los tests de integración completos ver la sección "Pruebas automatizadas"
 - Registro de esfuerzo y métricas de horas: servicio y persistencia implementados (US-14 y US-17), sin interfaz web todavía.
 - La interfaz web no permite cargar integrantes; para Planning Poker se cargan en la base (US-03 existe en el servicio).
 - Dashboard con gráficos, reportes y exportación a PDF: Sprints 3 y 4.
+- Registro de esfuerzo y horas estimadas: servicio y persistencia implementados (US-14 y US-17), sin pantalla de carga; el dashboard y los reportes los muestran si los datos existen.
+- No hay pantalla para cargar integrantes; para Planning Poker se cargan en la base (US-03 existe en el servicio).
+- No hay autenticación ni usuarios (trabajo futuro).
+- Exportación a PDF: pendiente (Sprint 4); por ahora los reportes se imprimen o guardan como PDF desde el navegador.
+- El aspecto visual de la interfaz es básico.

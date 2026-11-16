@@ -4,7 +4,7 @@ Software Metrics & Estimation. Estado al 15/11/2026 (Sprint 2 en curso).
 
 ## 1. Cobertura de pruebas
 
-**Cobertura total de sentencias: 75.9 %** (`go test ./... -coverprofile`), medida con PostgreSQL 16 real y la variable `TEST_DATABASE_URL`, de modo que los tests de integración se ejecutan y no se omiten. El detalle por función está en [`evidencias/cobertura-actual.txt`](evidencias/cobertura-actual.txt).
+**Cobertura total de sentencias: 79.5 %** (`go test ./... -coverprofile`), medida con PostgreSQL 16 real y la variable `TEST_DATABASE_URL`, de modo que los tests de integración se ejecutan y no se omiten. El detalle por función está en [`evidencias/cobertura-actual.txt`](evidencias/cobertura-actual.txt).
 
 Cómo se reproduce:
 
@@ -35,6 +35,7 @@ Integración continua: cada push y Pull Request ejecuta `go vet` y `go test` con
 | Historias con spec, escenarios BDD y evidencias RED/GREEN | Todas las implementadas | [`trazabilidad-y-evidencias.md`](trazabilidad-y-evidencias.md) |
 | Evidencias GREEN con tests omitidos | 0 (PostgreSQL real en cada evidencia) | `docs/evidencias/*-green.txt` |
 | Pull Requests integrados | Con CI en verde antes de mergear (regla del equipo desde el Sprint 2) | GitHub |
+| Historias del Sprint 3 | 21 Story Points (US-19: 8, US-20: 5, US-15: 5, US-18: 3), todas entregadas | docs/retrospectivas/sprint-3.md |
 
 ## 3. Métricas del producto (calculadas por la aplicación)
 
@@ -44,10 +45,16 @@ La aplicación calcula y muestra, por Sprint y por proyecto:
 - Velocidad del Sprint (Story Points completados) y velocidad promedio de los Sprints cerrados.
 - Porcentaje de historias completadas sobre el backlog del proyecto.
 
-Pendientes para los próximos Sprints: Las horas estimadas, reales y la desviación (por historia, Sprint y proyecto) están calculadas en servicio y persistencia (US-17); falta su pantalla.
+Desde el Sprint 3 la aplicación también calcula y muestra:
+
+- Horas estimadas, horas reales y desviación porcentual entre ambas, por historia, por Sprint y por proyecto (US-17), en el dashboard y en los reportes. La carga de horas todavía no tiene pantalla.
+- Defectos detectados y resueltos por Sprint y por proyecto, con su distribución por severidad y estado (US-15 y US-18).
+- Dashboard del proyecto con velocidad por Sprint y horas estimadas vs. reales (US-19) y reportes imprimibles de proyecto y de Sprint (US-20).
+
+Pendientes: pantalla de carga de integrantes, horas y esfuerzo, y exportación a PDF (Sprint 4).
 
 ## 4. Lectura y acciones
 
-- La cobertura total de 77.1 % es razonable para el estado del proyecto. El detalle por función está en `evidencias/cobertura-sprint-2.txt` y permite identificar los puntos con menor cobertura.
+- La cobertura total de 77.1 % es razonable para el estado del proyecto. El detalle por función está en `evidencias/cobertura-sprint-3.txt` y permite identificar los puntos con menor cobertura.
 - Acción: revisar las funciones con menor cobertura (típicamente rutas de error de infraestructura y arranque) y reforzarlas en el Sprint 3.
 - Acción: calcular y mostrar la cobertura por paquete en cada cierre de Sprint (el reporte del Sprint 1 había quedado sin datos por un error de montaje de Docker y se regeneró).
