@@ -1,4 +1,4 @@
-package web
+﻿package web
 
 import (
 	"embed"
@@ -33,9 +33,9 @@ type ServicioBacklogWeb interface {
 }
 
 // ServicioPokerWeb es el contrato de consumidor de Planning Poker de la web.
-// Errores exactos: domain.Err*; la web los muestra con HTTP 422 o 404 según la
-// sección 8 de specs/US-12.md; el resto se registra en el log y responde HTTP
-// 500 genérico.
+// Errores exactos: domain.Err*; la web los muestra con HTTP 422 o 404 segÃºn la
+// secciÃ³n 8 de specs/US-12.md; el resto se registra en el log y responde HTTP
+// 500 genÃ©rico.
 type ServicioPokerWeb interface {
 	IniciarRonda(proyectoID, itemID string) (domain.RondaPoker, error)
 	Votar(proyectoID, itemID string, rondaNumero int, integranteNombre string, valor int) error
@@ -85,7 +85,7 @@ type ServicioReportesWeb interface {
 	ReporteSprint(proyectoID string, sprintNumero int) (service.ReporteSprint, error)
 }
 
-// Dependencias reúne los servicios y el reloj que usa la aplicación web.
+// Dependencias reÃºne los servicios y el reloj que usa la aplicaciÃ³n web.
 type Dependencias struct {
 	Proyectos ServicioProyectosWeb
 	Backlog   ServicioBacklogWeb
@@ -105,8 +105,8 @@ type aplicacion struct {
 	vistas *vistas
 }
 
-// NuevoHandlerAplicacion arma la aplicación web completa y conserva /healthz.
-// Usa plantillas embebidas; un fallo de parseo es un error de programación y
+// NuevoHandlerAplicacion arma la aplicaciÃ³n web completa y conserva /healthz.
+// Usa plantillas embebidas; un fallo de parseo es un error de programaciÃ³n y
 // se detecta al arrancar.
 func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	if deps.Ahora == nil {
@@ -120,7 +120,7 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 
 	estaticos, err := fs.Sub(archivosEstaticos, "estaticos")
 	if err != nil {
-		panic("web: no se pudieron preparar los archivos estáticos: " + err.Error())
+		panic("web: no se pudieron preparar los archivos estÃ¡ticos: " + err.Error())
 	}
 
 	mux := http.NewServeMux()
@@ -133,7 +133,9 @@ func NuevoHandlerAplicacion(ping Pinger, deps Dependencias) http.Handler {
 	mux.HandleFunc("GET /proyectos/{id}", app.detalleProyecto)
 	mux.HandleFunc("GET /proyectos/{id}/dashboard", app.dashboardProyecto)
 	mux.HandleFunc("GET /proyectos/{id}/reporte", app.reporteProyecto)
+	mux.HandleFunc("GET /proyectos/{id}/reporte.pdf", app.reporteProyectoPDF)
 	mux.HandleFunc("GET /proyectos/{id}/sprints/{numero}/reporte", app.reporteSprint)
+	mux.HandleFunc("GET /proyectos/{id}/sprints/{numero}/reporte.pdf", app.reporteSprintPDF)
 	mux.HandleFunc("GET /proyectos/{id}/backlog", app.listarBacklog)
 	mux.HandleFunc("GET /proyectos/{id}/backlog/nuevo", app.formularioAltaItem)
 	mux.HandleFunc("POST /proyectos/{id}/backlog", app.crearItem)
@@ -166,7 +168,7 @@ func (a *aplicacion) renderizar(w http.ResponseWriter, estado int, nombre string
 }
 
 // responderErrorInfraestructura registra el detalle y muestra un mensaje
-// genérico con HTTP 500.
+// genÃ©rico con HTTP 500.
 func (a *aplicacion) responderErrorInfraestructura(w http.ResponseWriter, contexto string, err error) {
 	log.Printf("web: %s: %v", contexto, err)
 	a.renderizar(w, http.StatusInternalServerError, "error", datosPagina{
@@ -177,7 +179,7 @@ func (a *aplicacion) responderErrorInfraestructura(w http.ResponseWriter, contex
 }
 
 // responderErrorProyecto muestra el mensaje del dominio con HTTP 404 cuando el
-// proyecto no existe y delega el resto de los errores en el manejador genérico.
+// proyecto no existe y delega el resto de los errores en el manejador genÃ©rico.
 func (a *aplicacion) responderErrorProyecto(w http.ResponseWriter, id string, err error) {
 	if errors.Is(err, domain.ErrProyectoNoEncontrado) {
 		a.renderizar(w, http.StatusNotFound, "error", datosPagina{
