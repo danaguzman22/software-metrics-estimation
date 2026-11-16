@@ -1,1 +1,38 @@
-{{define "contenido"}}{{end}}
+{{define "contenido"}}
+{{with .Proyecto}}
+<h1>Integrantes</h1>
+<h2>Proyecto: {{.Nombre}}</h2>
+{{end}}
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{if len .Integrantes}}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Integrantes}}
+    <tr>
+      <td>{{.Nombre}}</td>
+      <td>{{.Rol}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{else}}
+<p>El proyecto no tiene integrantes</p>
+{{end}}
+<form method="post" action="/proyectos/{{.Proyecto.ID}}/integrantes" class="formulario">
+  <label>
+    Nombre
+    <input type="text" name="nombre" value="{{.FormularioIntegrante.Nombre}}">
+  </label>
+  <label>
+    Rol
+    <input type="text" name="rol" value="{{.FormularioIntegrante.Rol}}">
+  </label>
+  <button type="submit">Registrar integrante</button>
+</form>
+{{end}}
