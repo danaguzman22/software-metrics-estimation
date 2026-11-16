@@ -35,7 +35,9 @@ const (
 
 // normalizar reemplaza los caracteres tipográficos fuera de cp1252 por
 // equivalentes seguros y descarta cualquier rune no representable (D8, R12).
-// Los caracteres del español (áéíóúñÁÉÍÓÚÑ¿¡) se conservan.
+// Los caracteres del español (áéíóúñÁÉÍÓÚÑ¿¡) se conservan y se devuelven
+// codificados en cp1252 (un byte por carácter), como esperan las fuentes
+// estándar de fpdf.
 func normalizar(texto string) string {
 	var b strings.Builder
 	for _, r := range texto {
@@ -51,8 +53,12 @@ func normalizar(texto string) string {
 		case '\u00A0', '\u202F', '\u2007':
 			b.WriteByte(' ')
 		default:
-			if r < 0x80 || (r >= 0xA0 && r <= 0xFF) {
+			if r < 0x80 {
 				b.WriteRune(r)
+			} else if r >= 0xA0 && r <= 0xFF {
+				// Las fuentes estándar del PDF usan cp1252: en el rango Latin-1
+				// cada carácter es un solo byte, no una secuencia UTF-8.
+				b.WriteByte(byte(r))
 			} else {
 				b.WriteByte('?')
 			}
@@ -108,7 +114,7 @@ func nuevoGenerador(titulo string, fechaGeneracion time.Time, cfg configuracion)
 	pdf.SetFooterFunc(func() {
 		pdf.SetY(-15)
 		pdf.SetFont("Helvetica", "I", 8)
-		pdf.CellFormat(0, 10, fmt.Sprintf("Página %d", pdf.PageNo()), "", 0, "C", false, 0, "")
+		pdf.CellFormat(0, 10, normalizar(fmt.Sprintf("Página %d", pdf.PageNo())), "", 0, "C", false, 0, "")
 	})
 
 	return &generador{pdf: pdf}
@@ -197,7 +203,9 @@ func (g *generador) dibujarFila(columnas []columna, fila []string) {
 	x := pdf.GetX()
 	y := pdf.GetY()
 	desplazamiento := 0.0
-	altoMax := 0.0
+	// Todas las celdas de la fila comparten el alto de la más alta, así los
+	// bordes quedan alineados cuando un texto ocupa más de una línea.
+	alto := g.altoFila(columnas, fila)
 	for i, c := range columnas {
 		valor := ""
 		if i < len(fila) {
@@ -207,14 +215,12 @@ func (g *generador) dibujarFila(columnas []columna, fila []string) {
 		if c.derecha {
 			alineacion = "R"
 		}
+		pdf.Rect(x+desplazamiento, y, c.ancho, alto, "D")
 		pdf.SetXY(x+desplazamiento, y)
-		pdf.MultiCell(c.ancho, altoLinea, normalizar(valor), "1", alineacion, false)
-		if alto := pdf.GetY() - y; alto > altoMax {
-			altoMax = alto
-		}
+		pdf.MultiCell(c.ancho, altoLinea, normalizar(valor), "", alineacion, false)
 		desplazamiento += c.ancho
 	}
-	pdf.SetXY(x, y+altoMax)
+	pdf.SetXY(x, y+alto)
 }
 
 func (g *generador) altoFila(columnas []columna, fila []string) float64 {
@@ -234,12 +240,12 @@ func (g *generador) altoFila(columnas []columna, fila []string) float64 {
 }
 
 var columnasHistorias = []columna{
-	{titulo: "ID", ancho: 18},
-	{titulo: "Título", ancho: 55},
-	{titulo: "Estado", ancho: 25},
+	{titulo: "ID", ancho: 14},
+	{titulo: "Título", ancho: 42},
+	{titulo: "Estado", ancho: 22},
 	{titulo: "Story Points", ancho: 22, derecha: true},
 	{titulo: "Horas estimadas", ancho: 28, derecha: true},
-	{titulo: "Horas reales (acumuladas)", ancho: 32, derecha: true},
+	{titulo: "Horas reales (acumuladas)", ancho: 52, derecha: true},
 }
 
 var columnasDefectos = []columna{
@@ -247,14 +253,14 @@ var columnasDefectos = []columna{
 	{titulo: "Severidad", ancho: 22},
 	{titulo: "Estado", ancho: 25},
 	{titulo: "Historia", ancho: 25},
-	{titulo: "Sprint de detección", ancho: 23},
+	{titulo: "Sprint de detección", ancho: 38},
 }
 
 var columnasDefectosResueltos = []columna{
 	{titulo: "Descripción", ancho: 65},
 	{titulo: "Severidad", ancho: 25},
 	{titulo: "Historia", ancho: 30},
-	{titulo: "Sprint de resolución", ancho: 35},
+	{titulo: "Sprint de resolución", ancho: 40},
 }
 
 func filasHistorias(historias []service.HistoriaReporte) [][]string {
