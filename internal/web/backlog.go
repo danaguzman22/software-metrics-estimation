@@ -81,6 +81,10 @@ func (a *aplicacion) crearItem(w http.ResponseWriter, r *http.Request) {
 func (a *aplicacion) formularioEditarItem(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	itemID := r.PathValue("itemID")
+	if _, ok := domain.NumeroDeItem(itemID); !ok {
+		a.responderErrorRuta(w, id, "El ID de la historia debe tener el formato HU-NN")
+		return
+	}
 
 	item, err := a.deps.Backlog.ObtenerItem(id, itemID)
 	if err != nil {
@@ -96,6 +100,10 @@ func (a *aplicacion) formularioEditarItem(w http.ResponseWriter, r *http.Request
 func (a *aplicacion) editarItem(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	itemID := r.PathValue("itemID")
+	if _, ok := domain.NumeroDeItem(itemID); !ok {
+		a.responderErrorRuta(w, id, "El ID de la historia debe tener el formato HU-NN")
+		return
+	}
 
 	if err := r.ParseForm(); err != nil {
 		a.renderizarFormularioItem(w, http.StatusUnprocessableEntity, id, itemID, formularioItem{}, true, "No se pudo leer el formulario.")

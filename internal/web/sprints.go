@@ -203,7 +203,7 @@ func (a *aplicacion) asignarItemSprint(w http.ResponseWriter, r *http.Request) {
 
 	numero, err := parsearEntero(strings.TrimSpace(r.PathValue("numero")), "El número del sprint debe ser un número entero")
 	if err != nil {
-		a.renderizarSprints(w, id, http.StatusUnprocessableEntity, err.Error())
+		a.responderErrorRuta(w, id, err.Error())
 		return
 	}
 
